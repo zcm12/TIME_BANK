@@ -29,7 +29,7 @@ public class cummunityController {
     @Autowired
     private UsersMapper usersMapper;
 
-
+//test测试
     @RequestMapping(value = "/createCommunityView")
     public String createCommunityView(Model model){
 
