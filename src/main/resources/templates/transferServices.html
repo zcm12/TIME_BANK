@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="basepage :: common_header(~{::title},~{::script})">
+    <title>汇款服务</title>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#TRANSFERInputForm').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating:'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    transToUserGuid:{
+                        message: '对方账户名验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'对方账户名不能为空'
+                            }
+                        }
+                    },
+                    transCurrency:{
+                        message: '转账货币验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'转账货币不能为空'
+                            },
+                            regexp:{
+                                regexp: /^[0-9]*$/,
+                                message:'转账货币只能包含数字'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-2 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-10 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        汇款服务
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form id="TRANSFERInputForm" name="TRANSFERInputForm" method="post" class="form-horizontal"
+                          action="/transferSubmit"  role="form"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                        <div class="row" >
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="transGuid" >转账ID：</label>
+                                <div class="col-lg-9">
+                                    <input id="transGuid" name="transGuid" type="text" class="form-control" placeholder="录入转账ID"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="transToUserGuid" >对方账户名：</label>
+                                <div class="col-lg-9">
+                                    <input id="transToUserGuid" name="transToUserGuid" type="text" class="form-control" placeholder="对方账户名"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="transCurrency" >转账货币：</label>
+                                <div class="col-lg-9">
+                                    <input id="transCurrency" name="transCurrency" type="text" class="form-control" placeholder="录入转账货币"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="transDesp" >备注：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="transDesp" name="transDesp" class="form-control" placeholder="备注信息" onmousedown="s(event,this)">
+                                    </textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-actions">
+                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="确 认"/>&nbsp;
+                            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function s(e,a)
+        {
+            if ( e && e.preventDefault )
+                e.preventDefault();
+            else
+                window.event.returnValue=false;
+            a.focus();
+
+        }
+    </script>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

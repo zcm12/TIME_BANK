@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" >
+<head th:include="basepage :: common_header(~{::title},~{::script})">
+    <title> Project </title>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#inputForm').bootstrapValidator({
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-3 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-9 bg-danger">
+            <div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            最后结果
+                        </h3>
+                        <!--<label class="control-label" th:text="${result}" text="教师还没有分配题目"></label>-->
+                    </div>
+                    <div class="panel-body">
+                        <form id="inputForm" name="inputForm" method="post" class="form-horizontal"
+                              action="/updateProject"  role="form"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                            <!--<div class="row" th:object="${project}" >
+                                &lt;!&ndash;<div class="form-group  col-lg-6">&ndash;&gt;
+                                    &lt;!&ndash;<label class="control-label col-lg-3" for="projectid" >题目ID：</label>&ndash;&gt;
+                                    &lt;!&ndash;<div class="col-lg-9">&ndash;&gt;
+                                        &lt;!&ndash;<input id="projectid" name="projectid" type="text" class="form-control" placeholder="录入题目ID"&ndash;&gt;
+                                               &lt;!&ndash;data-bv-notempty th:value="*{projectid}" maxlength="50" minlength="5"/>&ndash;&gt;
+                                    &lt;!&ndash;</div>&ndash;&gt;
+                                &lt;!&ndash;</div>&ndash;&gt;
+                                <div class="form-group  col-lg-6">
+                                    <label class="control-label col-lg-3" for="projecttitle" >题目标题：</label>
+                                    <div class="col-lg-9">
+                                        <input id="projecttitle" name="projecttitle" type="text" class="form-control"
+                                               data-bv-notempty th:value="*{projecttitle}" maxlength="50" minlength="5" readonly="true"/>
+                                    </div>
+                                </div>
+                                <div class="form-group  col-lg-6">
+                                    <label class="control-label col-lg-3" for="projectteacherid" >教师名称：</label>
+                                    <div class="col-lg-9">
+                                        <input id="projectteacherid" name="projectteacherid" type="text" class="form-control"
+                                               data-bv-notempty th:value="*{projectteacherid}" maxlength="50" minlength="5" readonly="true"/>
+                                    </div>
+                                </div>
+                                <div class="form-group  col-lg-6">
+                                    <label class="control-label col-lg-3" for="projectrequirement" >题目要求：</label>
+                                    <div class="col-lg-9">
+                                        <input id="projectrequirement" name="projectrequirement" type="text" class="form-control"
+                                               data-bv-notempty th:value="*{projectrequirement}" maxlength="50" minlength="5"readonly="true"/>
+                                    </div>
+                                </div>
+                                <div class="form-group  col-lg-6">
+                                    <label class="control-label col-lg-3" for="projectdescription" >题目描述：</label>
+                                    <div class="col-lg-9">
+                                        <input id="projectdescription" name="projectdescription" type="text" class="form-control"
+                                               data-bv-notempty th:value="*{projectdescription}" maxlength="50" minlength="5" readonly="true"/>
+                                    </div>
+                                </div>
+                                &lt;!&ndash;<div class="form-group  col-lg-6">&ndash;&gt;
+                                    &lt;!&ndash;<label class="control-label col-lg-3" for="projectstudentid" >学生学号：</label>&ndash;&gt;
+                                    &lt;!&ndash;<div class="col-lg-9">&ndash;&gt;
+                                        &lt;!&ndash;<input id="projectstudentid" name="projectstudentid" type="text" class="form-control" placeholder="录入学生学号"&ndash;&gt;
+                                               &lt;!&ndash;data-bv-notempty th:value="*{projectstudentid}" maxlength="50" minlength="5"/>&ndash;&gt;
+                                    &lt;!&ndash;</div>&ndash;&gt;
+                                &lt;!&ndash;</div>&ndash;&gt;
+                                &lt;!&ndash;<div class="form-group  col-lg-6">&ndash;&gt;
+                                    &lt;!&ndash;<label class="control-label col-lg-3" for="projectacked" >是否已被学生确认：</label>&ndash;&gt;
+                                    &lt;!&ndash;<div class="col-lg-9">&ndash;&gt;
+                                        &lt;!&ndash;<input id="projectacked" name="projectacked" type="text" class="form-control" placeholder="录入是否已被学生确认"&ndash;&gt;
+                                               &lt;!&ndash;data-bv-notempty th:value="*{projectacked}" maxlength="50" minlength="5"/>&ndash;&gt;
+                                    &lt;!&ndash;</div>&ndash;&gt;
+                                &lt;!&ndash;</div>&ndash;&gt;
+                            </div>-->
+                            <div class="form-actions">
+                                <input id="btnSubmit" class="btn btn-primary"  type="button" value="确 定"/>&nbsp;
+                                <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

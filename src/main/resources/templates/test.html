@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <title>ACTIVITY</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>-->
+    <!--<script type="text/javascript" src="/typehead.js"></script>-->
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/cssCerulean/bootstrap.css" />
+    <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="/jquery-rank-score/js/jquery-1.5.1.js"></script>
+    <script type="text/javascript" src="/jquery-rank-score/js/jquery.raty.js"></script>
+
+</head>
+<body>
+    This is a test.
+    <!--<div class="well">-->
+        <!--<input type="text" class="span3" id="search" data-provide="typeahead" data-items="4" />-->
+    <!--</div>-->
+    <!--<script>-->
+        <!--var subjects = ['PHP', 'MySQL', 'SQL', 'PostgreSQL', 'HTML', 'CSS', 'HTML5', 'CSS3', 'JSON'];-->
+        <!--$('#search').typeahead({source: subjects})-->
+    <!--</script>-->
+
+    <div style="width:400px;margin:50px auto;">
+        <p style="font-size:20px">请给出你的评分(百分制)：</p>
+        <div id="star1"></div>
+        <div id="result1"></div>
+        <p style="font-size:20px">请给出你的评分(十分制)：</p>
+        <div id="star2"></div>
+        <div id="result2"></div>
+    </div>
+
+    <input id="getScore" name="getScore" value="" />
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#Mymodel">
+        确定评分
+    </button>
+
+    <div class="modal fade" id="Mymodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">
+        <div class="modal-dialog" style="top: 150px; width: 500px">
+            <iframe frameborder=0 scrolling=no style="background-color:transparent; position: absolute; z-index: -1; width: 100%; height: 100%; top: 0;left:0;"></iframe>
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabelautoalert">
+                        提示
+                    </h4>
+                </div>
+                <div class="modal-body" >
+                    <h3 class="modal-title" id="areyousure" style="text-align:center">
+                    </h3>
+                </div>
+                <div class="modal-footer">
+                    <input  id="autoCurrentId"  type="text"  style="display: none" />
+                    <button type="button" class="btn  btn-primary" onclick="auto()" data-dismiss="modal">确定</button>
+                    <button type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script type="text/javascript">
+        rat('star1','result1',10);
+        rat('star2','result2',1);
+        function rat(star,result,m){
+
+            star= '#' + star;
+            result= '#' + result;
+            $(result).hide();//将结果DIV隐藏
+
+            $(star).raty({
+                hints: ['10','20', '30', '40', '50','60', '70', '80', '90', '100'],
+                path: "/jquery-rank-score/css/img",
+                starOff: 'star-off-big.png',
+                starOn: 'star-on-big.png',
+                size: 40,
+                start: 40,
+                showHalf: true,
+                target: result,
+                targetKeep : true,//targetKeep 属性设置为true，用户的选择值才会被保持在目标DIV中，否则只是鼠标悬停时有值，而鼠标离开后这个值就会消失
+                click: function (score, evt) {
+                    //第一种方式：直接取值
+                    document.getElementById("areyousure").textContent='你的评分是'+score*m+'分';
+
+    //                $("#Mymodel").modal("toggle");
+             //      alert('你的评分是'+score*m+'分');
+                }
+            });
+
+            /*第二种方式可以设置一个隐蔽的HTML元素来保存用户的选择值，然后可以在脚本里面通过jQuery选中这个元素来处理该值。 弹出结果
+            var text = $(result).text();
+            $('img').click(function () {
+                if ($(result).text() != text) {
+                    alert('你的评分是'+$(result).text()/m+'分');
+                    alert(result);
+                    return;
+                }
+            });*/
+        }
+        function auto(){
+            var surescore = document.getElementById("areyousure").textContent;
+            var num= surescore.replace(/[^0-9]/ig,"");
+            document.getElementById("getScore").value=num;
+        }
+
+    </script>
+
+</body>
+</html>

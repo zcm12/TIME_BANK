@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="basepage :: common_header(~{::title},~{::script})">
+    <title>USERS</title>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            function changeDateFormat(cellval) {
+                var dateVal = cellval + "";
+                if (cellval != null) {
+                    var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+                    var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                    var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                    var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+                    var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+                    var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+                    return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
+                }
+            };
+       //     var set=[];
+            var set=new Array();
+            var $table = $('#USERS');
+            $('#USERS').bootstrapTable({
+                columns:[
+                    {
+                        field : 'checked',
+                        checkbox : true,
+                        formatter : stateFormatter
+
+                    },
+                    {
+                        title:'用户ID',
+                        field:'userGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户姓名',
+                        field:'userName',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户账号',
+                        field:'userAccount',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户密码',
+                        field:'userPassword',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户角色',
+                        field:'userFromRoleGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户性别',
+                        field:'userTypeGuidGender',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户状态',
+                        field:'userTypeAccountStatus',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'密码盐值',
+                        field:'userSalt',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'持有时间',
+                        field:'userOwnCurrency',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'预支付时间',
+                        field:'userPreConsumeCurrency',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户住址',
+                        field:'userAddress',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户坐标',
+                        field:'userCoordinate',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'所属小区',
+                        field:'userCommGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        field: 'userGuid',
+                        title: '操作',
+                        align: 'center',
+                        sortable: true,
+                        formatter: operateFormatter
+                    }
+                ],
+                url: "/getUSERSListJsonData", //请求后台的URL（*）
+                method: "get",
+                striped: true,     //是否显示行间隔色
+                cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,  //是否显示分页（*）
+                sortable: true,    //是否启用排序
+                sortOrder: "asc",  //排序方式
+                queryParams:function(params){
+                    var limitApply={
+                        limit:params.limit,
+                        offset:params.offset,
+                        sortName:this.sortName,
+                        sortOrder:this.sortOrder,
+                    };
+                    return limitApply;
+                },//传递参数
+                sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber:1,  //初始化加载第一页，默认第一页
+                pageSize: 20,  //每页的记录行数（*）
+                pageList:[5,10,20,30,40,50],
+                sortName:"userGuid",
+                showColumns: true,  //是否显示所有的列
+                showRefresh: true,  //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true,//是否启用点击选中行
+                toolbar:"#toolbar",
+
+                onCheck:function (row) {
+                    set.push(row.userGuid);
+                    // alert(set);
+                    document.getElementById("reqTargetsUserGuid").value=JSON.stringify(set);
+
+
+                    //alert('获取的ID: ' + JSON.stringify($table.bootstrapTable('getSelections')));
+                },
+                onUncheck: function (row) {
+                    //alert(document.getElementById("checkData").value);
+                    //遍历历史数组
+                    for(var i=0;i<set.length;i++){
+                        //判断数组中第i个id是否跟取消选择的id相等
+                        if (set[i]==row.userGuid){
+                            //删除第i个id
+                            set.splice(i,1);
+                            //跳出for循环
+                            break;
+                        }
+                    }
+                    //给文本框设置值
+                    document.getElementById("reqTargetsUserGuid").value=JSON.stringify(set);
+                }
+            });
+            setTimeout(function () {
+                $table.bootstrapTable('resetView');
+            }, 200);
+
+            function GetRequest() {
+                var url = location.search; //获取url中"?"符后的字串
+                var theRequest = new Object();
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    theRequest[str.split("=")[0]] = decodeURIComponent(str.split("=")[1]);
+                }
+          //      alert(theRequest.id);
+          //      document.getElementById("reqGuid").value= JSON.stringify(theRequest);
+                document.getElementById("reqGuid").value= theRequest.id;
+                return theRequest;
+            }
+            var id=GetRequest();//子页面获得的id
+
+
+            function operateFormatter1(value, row, index) {
+                var ti=new Date(value);
+                var val=ti.toLocaleString() ;
+                return val;
+            }
+
+            function stateFormatter(value, row, index) {
+                if (row.state == true)
+                    return {
+                        disabled : true,//设置是否可用
+                        checked : true//设置选中
+                    };
+                return value;
+            }
+
+            function operateFormatter(value, row, index) {
+                return [
+                    '<div class="row">',
+                    '<a class="btn btn-default" href="/volunteer/'+
+                    String(row.userGuid) +
+                    '" title="查看详情">查看详情',
+                    '</a>  '+
+                    '</div>'
+                ].join('');
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-3 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-9 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        USERS表
+                    </h3>
+                </div>
+                <div class="panel-body" >
+                    <table id="USERS" name="USERS" class="table table-bordered table-hover table-striped"
+                           data-toolbar="#toolbar"
+                           data-show-refresh="true"
+                           data-show-toggle="true"
+                           data-show-columns="true"
+                           data-detail-view="false"
+                           data-minimum-count-columns="2"
+                           data-show-pagination-switch="true"
+                           data-pagination="true"
+                           data-id-field="applyId"
+                           data-page-list="[5, 10, 25, 50, 100, ALL]"
+                           data-show-footer="false"
+                           data-side-pagination="server">
+                    </table>
+                </div>
+
+                <div>
+                    <div>
+                        <form action="/setId" method="post">
+                            <input id="reqGuid" name="reqGuid" type="text"  placeholder="录入请求ID" value="" />
+                            <input type="text"  name="reqTargetsUserGuid"  id="reqTargetsUserGuid"  value=""/>
+                            <input type="submit" name="submit"  />
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

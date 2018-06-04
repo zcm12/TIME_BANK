@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="basepage :: common_header(~{::title},~{::script})">
+    <title>志愿者列表</title>
+    <script th:inline="javascript">
+        var message = [[${message}]];
+        console.log(message);
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            function changeDateFormat(cellval) {
+                var dateVal = cellval + "";
+                if (cellval != null) {
+                    var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+                    var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                    var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                    var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+                    var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+                    var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+                    return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
+                }
+            };
+
+            var $table = $('#RESPOND');
+            $('#RESPOND').bootstrapTable({
+                columns:[
+                    {
+                        title:'响应ID',
+                        field:'resGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'请求响应ID',
+                        field:'resReqGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'志愿者姓名',
+                        field:'resUserGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'响应服务时间',
+                        field:'resAcceptTime',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true ,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+
+                    },
+                    {
+                        title:'响应接受地址',
+                        field:'resAcceptAddress',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'响应服务开始时间',
+                        field:'resServiceStartTime',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true ,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+
+                    },
+                    {
+                        title:'响应服务结束时间',
+                        field:'resServiceEndTime',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true ,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+
+                    },
+                    {
+                        title:'响应处理状态',
+                        field:'resTypeGuidProcessStatus',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'给服务打分',
+                        field:'resEvaluate',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        field: 'resGuid',
+                        title: '操作',
+                        align: 'center',
+                        sortable: true,
+                        formatter: operateFormatter
+                    }
+                ],
+                url: "/getVolunteerListJsonData", //请求后台的URL（*）
+                method: "get",
+                striped: true,     //是否显示行间隔色
+                cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,  //是否显示分页（*）
+                sortable: true,    //是否启用排序
+                sortOrder: "asc",  //排序方式
+                queryParams:function(params){
+                    var limitApply={
+                        limit:params.limit,
+                        offset:params.offset,
+                        sortName:this.sortName,
+                        sortOrder:this.sortOrder,
+                        reqGuid:message
+                    };
+                    return limitApply;
+                },//传递参数
+                sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber:1,  //初始化加载第一页，默认第一页
+                pageSize: 20,  //每页的记录行数（*）
+                pageList:[5,10,20,30,40,50],
+                sortName:"resGuid",
+                showColumns: true,  //是否显示所有的列
+                showRefresh: true,  //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true,//是否启用点击选中行
+                toolbar:"#toolbar"
+            });
+            setTimeout(function () {
+                $table.bootstrapTable('resetView');
+            }, 200);
+            function operateFormatter1(value, row, index) {
+                var ti=new Date(value);
+                var val=ti.toLocaleString() ;
+                return val;
+            };
+            function operateFormatter(value, row, index) {
+                return [
+                    '<div class="row">',
+                    '<a class="btn btn-default" href="/RESPOND/'+
+                    String(row.resGuid) +
+                    '" title="查看详情">查看详情',
+                    '</a>  '+
+                    '</div>'
+                ].join('');
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-3 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-9 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        志愿者列表
+                    </h3>
+                </div>
+                <div class="panel-body" >
+                    <table id="RESPOND" name="RESPOND" class="table table-bordered table-hover table-striped"
+                           data-toolbar="#toolbar"
+                           data-show-refresh="true"
+                           data-show-toggle="true"
+                           data-show-columns="true"
+                           data-detail-view="false"
+                           data-minimum-count-columns="2"
+                           data-show-pagination-switch="true"
+                           data-pagination="true"
+                           data-id-field="applyId"
+                           data-page-list="[5, 10, 25, 50, 100, ALL]"
+                           data-show-footer="false"
+                           data-side-pagination="server">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

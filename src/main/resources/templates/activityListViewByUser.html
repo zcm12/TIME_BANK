@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="basepage :: common_header(~{::title},~{::script})">
+    <title>活动申请</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-2 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-10 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        活动详情
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form id="ACTIVITY" name="ACTIVITY" method="post" class="form-horizontal"
+                          action="/ActivitySaveByUser"  role="form"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                        <div class="row" >
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="activityGuid"  >活动ID：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityGuid" name="activityGuid" type="text" class="form-control"  th:value="${activity.activityGuid}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityTitle" >活动标题：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityTitle" name="activityTitle" type="text" class="form-control" disabled="disabled" th:value="${activity.activityTitle}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityDesp" >活动描述：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="activityDesp" name="activityDesp" class="form-control" disabled="disabled" th:text="${activity.activityDesp}">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityComment" >活动备注：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="activityComment" name="activityComment" class="form-control" disabled="disabled" th:text="${activity.activityComment}">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityStartTime" >活动开始时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityStartTime" name="activityStartTime" class="form_datetime form-control" type="text" disabled="disabled"
+                                           th:value="${#calendars.format(activity.activityStartTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityEndTime" >活动结束时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityEndTime" name="activityEndTime" class="form_datetime form-control" type="text" disabled="disabled"
+                                           th:value="${#calendars.format(activity.activityEndTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityAddress" >活动地点：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityAddress" name="activityAddress" type="text" class="form-control" disabled="disabled"
+                                           th:value="${activity.activityAddress}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityFromCommGuid" >活动社区：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityFromCommGuid" name="activityFromCommGuid" type="text" class="form-control" disabled="disabled"
+                                           th:value="${activity.activityFromCommGuid}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityFromCommGuid" >已参加人数：</label>
+                                <div class="col-lg-9">
+                                    <input id="amount" name="amount" type="text" class="form-control" disabled="disabled"
+                                           th:value="${amountMessage}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="申 请" />&nbsp;
+                            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        laydate.render({
+            elem: '#activityStartTime' //指定元素
+            ,type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#activityEndTime' //指定元素
+            ,type: 'datetime'
+        });
+        var message = [[${message}]];
+        if(message==1) {
+            $('#btnSubmit').attr("disabled", true);//添加disabled 属性
+       }else{
+        $('#btnSubmit').attr("disabled",false);// 删除disabled属性
+        }
+
+    </script>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

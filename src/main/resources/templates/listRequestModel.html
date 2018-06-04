@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="basepage :: common_header(~{::title},~{::script})">
+    <title>服务详情</title>
+
+    <!--<script th:inline="javascript">-->
+        <!--var reqGuid = [[${reqGuid}]];-->
+<!--//        alert(reqGuid)-->
+<!--//        console.log(message);-->
+    <!--</script>-->
+
+    <!--<script type="text/javascript">-->
+        <!--$(document).ready(function() {-->
+        <!--})-->
+
+    <!--</script>-->
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-2 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-10 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        服务详情
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form id="REQESTInputForm" name="REQESTInputForm" method="post" class="form-horizontal" role="form"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                        <div class="row" >
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqGuid" >请求ID：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqGuid" name="reqGuid" type="select" class="form-control" th:value="${reqest.reqGuid}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAddress" >请求提出时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqIssueTime" name="reqIssueTime" type="select" class="form-control" th:value="${#calendars.format(reqest.reqIssueTime , 'yyyy-MM-dd HH:mm:ss')}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAddress" >请求提出地址：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAddress" name="reqAddress" type="select" class="form-control" th:value="${reqest.reqAddress}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTitle" >请求标题：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqTitle" name="reqTitle" type="select" class="form-control" th:value="${reqest.reqTitle}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqDesp" >请求描述：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="reqDesp" name="reqDesp" class="form-control" th:text="${reqest.reqDesp}" disabled="disabled">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqComment" >请求补充：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="reqComment" name="reqComment" class="form-control" th:text="${reqest.reqComment}" disabled="disabled">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeGuidClass" >请求分类：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqTypeGuidClass" name="reqTypeGuidClass" type="text" class="form-control" th:value="${reqest.reqTypeGuidClass}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAvailableStartTime" >请求可用开始时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAvailableStartTime" name="reqAvailableStartTime" class="form_datetime form-control" type="text"
+                                           th:value="${#calendars.format(reqest.reqAvailableStartTime , 'yyyy-MM-dd HH:mm:ss')}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAvailableEndTime" >请求可用结束时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAvailableEndTime" name="reqAvailableEndTime" class="form_datetime form-control" type="text"
+                                           th:value="${#calendars.format(reqest.reqAvailableEndTime , 'yyyy-MM-dd HH:mm:ss')}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqRreDurationTime" >预计持续时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqRreDurationTime" name="reqRreDurationTime" type="text" class="form-control" th:value="${reqest.reqRreDurationTime}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqPersonNum" >请求需要人数：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqPersonNum" name="reqPersonNum" type="text" class="form-control" th:value="${reqest.reqPersonNum}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeGuidUrgency" >请求紧急程度：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqTypeGuidUrgency" name="reqTypeGuidUrgency" type="text" class="form-control" th:value="${reqest.reqTypeGuidUrgency}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeGuidUrgency" >请求批准状态：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqTypeApproveStatus" name="reqTypeApproveStatus" type="text" class="form-control" th:value="${reqest.reqTypeApproveStatus}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeGuidUrgency" >请求处理状态：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqTypeGuidProcessStatus" name="reqTypeGuidProcessStatus" type="text" class="form-control" th:value="${reqest.reqTypeGuidProcessStatus}" disabled="disabled"/>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!--<div class="form-group  col-lg-12">-->
+                        <!--<a th:href="@{/updateREQEST}"><input id="updateRequest" class="btn btn-primary" type="button" value="更 新 请 求"/></a>-->
+                        <!--&lt;!&ndash;<input id="updateRequestValue" name="updateRequestValue" type="text" class="form-control" th:value="${updateList.updateId}" disabled="disabled"/>&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--<div class="form-group  col-lg-12">-->
+                        <!--<a th:href="@{/deleteREQEST}"> <input id="deleteRequest" class="btn btn-primary" type="button" value="撤 销" onclick="deleteRequest()"/></a>-->
+                        <!--&lt;!&ndash;<input id="deleteRequestValue" name="deleteRequestValue" type="text" class="form-control" th:value="${updateList.deletaId}" disabled="disabled"/>&ndash;&gt;-->
+
+                    <!--</div>-->
+                    <!--<div class="form-group  col-lg-12">-->
+                        <!--<input id="startRequest" class="btn btn-primary" type="button" value="启 动" data-toggle="modal" data-target="#Mymodel"/>-->
+                        <!--<input id="startRequestValue" name="startRequestValue" type="text" class="form-control" th:value="${updateList.startId}" disabled="disabled"/>-->
+
+                        <!--<a th:href="@{/volunteerListOfApply}"><input id="viewVolRequest" class="btn btn-primary" type="button" value="查 看 志 愿 者" onclick="viewVolRequest()" /></a>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  col-lg-12">-->
+                        <!--<input id="finishRequest" class="btn btn-primary" type="button" value="已 完 成" data-toggle="modal" data-target="#endmodel"  />-->
+                        <!--<input id="unFinishRequest" class="btn btn-primary" type="button" value="未 完 成" data-toggle="modal" data-target="#unEndmodel"/>-->
+                    <!--</div>-->
+                <!----------------------------查看志愿者表格---------------------------------->
+                <form id="REQESTInputForm6" name="REQESTInputForm6" method="post" class="form-horizontal" role="form" action="/volunteerListOfApply"
+                      data-bv-message="This value is not valid"
+                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                    <div class="form-group  col-lg-6" hidden="hidden">
+                        <label class="control-label col-lg-3" for="reqGuid6"  >请求ID：</label>
+                        <div class="col-lg-9">
+                            <input id="reqGuid6" name="reqGuid6" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <input id="Submit6" class="btn btn-primary" type="submit" value="查看志愿者" />&nbsp;
+                    </div>
+                </form>
+                <!----------------------------未完成请求表格---------------------------------->
+                <form id="REQESTInputForm5" name="REQESTInputForm5" method="post" class="form-horizontal" role="form" action="/unEndRequest"
+                      data-bv-message="This value is not valid"
+                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                    <div class="form-group  col-lg-6" hidden="hidden">
+                        <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
+                        <div class="col-lg-9">
+                            <input id="reqGuid5" name="reqGuid5" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <input id="Submit5" class="btn btn-primary" type="submit" value="未完成请求" />&nbsp;
+                    </div>
+                </form>
+                                            <!----------------------------已完成请求表格---------------------------------->
+                <form id="REQESTInputForm4" name="REQESTInputForm4" method="post" class="form-horizontal" role="form" action="/endRequest"
+                      data-bv-message="This value is not valid"
+                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                    <div class="form-group  col-lg-6" hidden="hidden">
+                        <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
+                        <div class="col-lg-9">
+                            <input id="reqGuid4" name="reqGuid4" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <input id="Submit4" class="btn btn-primary" type="submit" value="已完成请求" />&nbsp;
+                    </div>
+                </form>
+                                                        <!----------------------------启动请求表格---------------------------------->
+                    <form id="REQESTInputForm3" name="REQESTInputForm3" method="post" class="form-horizontal" role="form" action="/startRequest"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                        <div class="form-group  col-lg-6" hidden="hidden">
+                            <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
+                            <div class="col-lg-9">
+                                <input id="reqGuid3" name="reqGuid3" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <input id="Submit3" class="btn btn-primary" type="submit" value="启动请求" />&nbsp;
+                        </div>
+                    </form>
+                                                <!----------------------------撤销请求表格---------------------------------->
+                    <form id="REQESTInputForm2" name="REQESTInputForm2" method="post" class="form-horizontal" role="form" action="/deleteREQEST"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                        <div class="form-group  col-lg-6" hidden="hidden">
+                            <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
+                            <div class="col-lg-9">
+                                <input id="reqGuid2" name="reqGuid2" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <input id="Submit2" class="btn btn-primary" type="submit" value="撤销请求" />&nbsp;
+                            </div>
+                    </form>
+                                                <!----------------------------更新请求表格---------------------------------->
+                    <form id="REQESTInputForm1" name="REQESTInputForm1" method="post" class="form-horizontal" role="form" action="/updateREQEST"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                        <div class="form-group  col-lg-6" hidden="hidden">
+                            <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
+                            <div class="col-lg-9">
+                                <input id="reqGuid1" name="reqGuid1" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <input id="Submit1" class="btn btn-primary" type="submit" value="更新请求" />&nbsp;
+                        </div>
+                    </form>
+
+                    <!--启动按钮模态框-->
+                    <!--<div class="modal fade" id="Mymodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">-->
+                        <!--<div class="modal-dialog" style="top: 150px; width: 500px">-->
+                            <!--<div class="modal-content">-->
+                                <!--<div class="modal-header">-->
+                                    <!--<h4 class="modal-title" id="myModalLabelautoalert">-->
+                                        <!--提示-->
+                                    <!--</h4>-->
+                                <!--</div>-->
+                                <!--<div class="modal-body" >-->
+                                    <!--<a th:href="@{/startRequest}"><button type="button" class="btn  btn-primary" onclick="startRequest()" data-dismiss="modal">确定</button></a>-->
+                                    <!--<button type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash;已完成按钮模态框&ndash;&gt;-->
+                    <!--<div class="modal fade" id="endmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">-->
+                        <!--<div class="modal-dialog" style="top: 150px; width: 500px">-->
+                            <!--<div class="modal-content">-->
+                                <!--<div class="modal-header">-->
+                                    <!--<h4 class="modal-title" id="endModalLabelautoalert">-->
+                                        <!--提示-->
+                                    <!--</h4>-->
+                                <!--</div>-->
+                                <!--<div class="modal-body" >-->
+                                    <!--<a th:href="@{/endRequest}"><button type="button" class="btn  btn-primary"  data-dismiss="modal">确定</button></a>-->
+                                    <!--<button type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash;未完成按钮模态框&ndash;&gt;-->
+                    <!--<div class="modal fade" id="unEndmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">-->
+                        <!--<div class="modal-dialog" style="top: 150px; width: 500px">-->
+                            <!--<div class="modal-content">-->
+                                <!--<div class="modal-header">-->
+                                    <!--<h4 class="modal-title" id="unEndModalLabelautoalert">-->
+                                        <!--提示-->
+                                    <!--</h4>-->
+                                <!--</div>-->
+                                <!--<div class="modal-body" >-->
+                                    <!--<a th:href="@{/unEndRequest}"> <button type="button" class="btn  btn-primary"  data-dismiss="modal">确定</button></a>-->
+                                    <!--<button type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+                <input id="updateId"   style="display:none"  type="text" th:value="${updateList.updateId}" />
+                <input id="deletaId"   style="display:none"  type="text" th:value="${updateList.deletaId}" />
+                <input id="startId"    style="display:none"  type="text" th:value="${updateList.startId}" />
+                <input id="viewVolId"  style="display:none"  type="text" th:value="${updateList.viewVolId}" />
+                <input id="finishId"   style="display:none"  type="text" th:value="${updateList.finishId}" />
+                <input id="unFinishId" style="display:none" type="text" th:value="${updateList.unFinishId}" />
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+
+    if (document.getElementById("updateId").value==1){
+        document.getElementById("updateRequest").disabled=false;
+    }else {
+        document.getElementById("updateRequest").disabled=true;
+    }
+
+    if (document.getElementById("deletaId").value==1){
+        document.getElementById("deleteRequest").disabled=false;
+    }else {
+        document.getElementById("deleteRequest").disabled=true;
+    }
+
+    if (document.getElementById("startId").value==1){
+        document.getElementById("startRequest").disabled=false;
+    }else {
+        document.getElementById("startRequest").disabled=true;
+    }
+    if(document.getElementById("viewVolId".value==1)){
+        document.getElementById("viewVolRequest").disabled=false;
+    }else {
+        document.getElementById("viewVolRequest").disabled=true;
+    }
+    if(document.getElementById("finishId".value==1)){
+        document.getElementById("finishRequest").disabled=false;
+    }else {
+        document.getElementById("finishRequest").disabled = true;
+    }
+    if(document.getElementById("unFinishId".value==1)){
+        document.getElementById("unFinishRequest").disabled=false;
+    }else {
+        document.getElementById("unFinishRequest").disabled = true;
+    }
+</script>
+</html>
+
+

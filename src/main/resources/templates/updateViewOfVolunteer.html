@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="basepage :: common_header(~{::title},~{::script})">
+    <title>服务详情</title>
+    <script type="text/javascript">
+        $(document).ready(function() {
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-2 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-10 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        服务详情
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form id="REQESTInputForm" name="REQESTInputForm" method="post" class="form-horizontal"
+                          action="/applyRespondOfVolunteer"  role="form"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                        <div class="row" >
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="resGuid" >响应ID：</label>
+                                <div class="col-lg-9">
+                                    <input id="resGuid" name="resGuid" type="text" class="form-control" placeholder="录入响应ID"
+                                           th:value="${respond.resGuid}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAddress" >请求提出地址：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAddress" name="reqAddress" type="select" class="form-control" th:value="${reqest.reqAddress}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTitle" >请求标题：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqTitle" name="reqTitle" type="select" class="form-control" th:value="${reqest.reqTitle}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqDesp" >请求描述：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="reqDesp" name="reqDesp" class="form-control" th:text="${reqest.reqDesp}" disabled="disabled">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqComment" >请求补充：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="reqComment" name="reqComment" class="form-control" th:text="${reqest.reqComment}" disabled="disabled">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeGuidClass" >请求分类：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqTypeGuidClass" name="reqTypeGuidClass" type="text" class="form-control" th:value="${reqest.reqTypeGuidClass}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAvailableStartTime" >请求可用开始时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAvailableStartTime" name="reqAvailableStartTime" class="form_datetime form-control" type="text"
+                                           th:value="${#calendars.format(reqest.reqAvailableStartTime , 'yyyy-MM-dd HH:mm:ss')}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAvailableEndTime" >请求可用结束时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAvailableEndTime" name="reqAvailableEndTime" class="form_datetime form-control" type="text"
+                                           th:value="${#calendars.format(reqest.reqAvailableEndTime , 'yyyy-MM-dd HH:mm:ss')}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqRreDurationTime" >预计持续时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqRreDurationTime" name="reqRreDurationTime" type="text" class="form-control" th:value="${reqest.reqRreDurationTime}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqPersonNum" >请求需要人数：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqPersonNum" name="reqPersonNum" type="text" class="form-control" th:value="${reqest.reqPersonNum}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeGuidUrgency" >请求紧急程度：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqTypeGuidUrgency" name="reqTypeGuidUrgency" type="text" class="form-control" th:value="${reqest.reqTypeGuidUrgency}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqPreCunsumeCurrency" >估计货币：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqPreCunsumeCurrency" name="reqPreCunsumeCurrency" type="text" class="form-control" th:value="${reqest.reqPreCunsumeCurrency}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="resAcceptAddress" >您的当前地址：</label>
+                                <div class="col-lg-9">
+                                    <input id="resAcceptAddress" name="resAcceptAddress" type="text" class="form-control" th:value="${respond.resAcceptAddress}"
+                                    />
+                                </div>
+                            </div>
+
+                        <div class="form-actions">
+                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="更 新 请 求"/>&nbsp;
+                            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+                        </div>
+                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

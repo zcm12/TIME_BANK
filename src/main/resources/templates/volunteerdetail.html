@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="basepage :: common_header(~{::title},~{::script})">
+    <title>USERS</title>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#USERSInputForm').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating:'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    userGuid:{
+                        message: '用户ID验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'用户ID不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '用户ID长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'用户ID只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userName:{
+                        message: '验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userAccount:{
+                        message: '用户账号验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'用户账号不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '用户账号长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'用户账号只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userPassword:{
+                        message: '用户密码验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'用户密码不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '用户密码长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'用户密码只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userFromRoleGuid:{
+                        message: '用户角色验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'用户角色不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '用户角色长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'用户角色只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userTypeGuidGender:{
+                        message: '用户性别验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'用户性别不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '用户性别长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'用户性别只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userTypeAccountStatus:{
+                        message: '用户状态验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'用户状态不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '用户状态长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'用户状态只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userSalt:{
+                        message: '密码盐值验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'密码盐值不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '密码盐值长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'密码盐值只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userOwnCurrency:{
+                        message: '持有时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'持有时间不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '持有时间长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'持有时间只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userPreConsumeCurrency:{
+                        message: '预支付时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'预支付时间不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '预支付时间长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'预支付时间只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userAddress:{
+                        message: '用户住址验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'用户住址不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '用户住址长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'用户住址只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userCoordinate:{
+                        message: '用户坐标验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'用户坐标不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '用户坐标长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'用户坐标只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    userCommGuid:{
+                        message: '所属小区验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'所属小区不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '所属小区长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'所属小区只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    }
+                },
+                submitHandler: function (validator, form, submitButton) {
+                    alert("submit");
+                }
+            });
+
+
+
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-2 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-10 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        录入users
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form id="USERSInputForm" name="USERSInputForm" method="post" class="form-horizontal"
+                          action=""  role="form"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                        <div class="row" >
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="userGuid" >用户ID：</label>
+                                <div class="col-lg-9">
+                                    <input id="userGuid" name="userGuid" type="text" class="form-control" placeholder="录入用户ID"
+                                           th:value="${users.userGuid}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6" >
+                                <label class="control-label col-lg-3" for="userGuid" >用户姓名：</label>
+                                <div class="col-lg-9">
+                                    <input id="userName" name="userName" type="text" class="form-control" placeholder="录入用户姓名"
+                                           th:value="${users.userName}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userAccount" >用户账号：</label>
+                                <div class="col-lg-9">
+                                    <input id="userAccount" name="userAccount" type="select" class="form-control" placeholder="录入用户账号"
+                                           th:value="${users.userAccount}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userPassword" >用户密码：</label>
+                                <div class="col-lg-9">
+                                    <input id="userPassword" name="userPassword" type="select" class="form-control" placeholder="录入用户密码"
+                                           th:value="${users.userPassword}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userFromRoleGuid" >选择用户角色：</label>
+                                <div class="col-lg-9">
+                                    <input id="userFromRoleGuid" name="userFromRoleGuid" type="text" class="form-control" placeholder="用户角色"
+                                           th:value="${users.userFromRoleGuid}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userTypeGuidGender" >选择用户性别：</label>
+                                <div class="col-lg-9">
+                                    <input id="userTypeGuidGender" name="userTypeGuidGender" type="text" class="form-control" placeholder="用户性别"
+                                           th:value="${users.userTypeGuidGender}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userTypeAccountStatus" >选择用户状态：</label>
+                                <div class="col-lg-9">
+                                    <input id="userTypeAccountStatus" name="userTypeAccountStatus" type="text" class="form-control" placeholder="用户状态"
+                                           th:value="${users.userTypeAccountStatus}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="userSalt" >密码盐值：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="userSalt" name="userSalt" class="form-control" placeholder="录入密码盐值"
+                                              th:text="${users.userSalt}">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userOwnCurrency" >持有时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="userOwnCurrency" name="userOwnCurrency" type="text" class="form-control" placeholder="录入持有时间"
+                                           th:value="${users.userOwnCurrency}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userPreConsumeCurrency" >预支付时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="userPreConsumeCurrency" name="userPreConsumeCurrency" type="text" class="form-control" placeholder="录入预支付时间"
+                                           th:value="${users.userPreConsumeCurrency}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userAddress" >用户住址：</label>
+                                <div class="col-lg-9">
+                                    <input id="userAddress" name="userAddress" type="select" class="form-control" placeholder="录入用户住址"
+                                           th:value="${users.userAddress}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userCoordinate" >用户坐标：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="userCoordinate" name="userCoordinate" class="form-control" placeholder="录入用户坐标"
+                                              th:text="${users.userCoordinate}">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="userCommGuid" >所属小区：</label>
+                                <div class="col-lg-9">
+                                    <input id="userCommGuid" name="userCommGuid" type="text" class="form-control" placeholder="录入所属小区"
+                                           th:value="${users.userCommGuid}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <input id="btnSubmit" class="btn btn-primary" type="submit" style="display:none"  value="保 存"/>&nbsp;
+                            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    </script>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

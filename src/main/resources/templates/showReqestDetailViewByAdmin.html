@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="basepage :: common_header(~{::title},~{::script})">
+    <title>REQEST</title>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            /*
+                        $('#REQESTInputForm').bootstrapValidator({
+                          /*message: 'This value is not valid',
+                            feedbackIcons: {
+                                valid: 'glyphicon glyphicon-ok',
+                                invalid: 'glyphicon glyphicon-remove',
+                                validating:'glyphicon glyphicon-refresh'
+                            },
+                            fields: {
+                                reqGuid:{
+                                    message: '请求ID验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求ID不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求ID长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求ID只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqIssueUserGuid:{
+                                    message: '请求者ID验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求者ID不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求者ID长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求者ID只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqIssueTime:{
+                                    message: '提出请求的时间验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'提出请求的时间不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '提出请求的时间长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'提出请求的时间只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqAddress:{
+                                    message: '请求提出地址验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求提出地址不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求提出地址长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求提出地址只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqTitle:{
+                                    message: '请求的标题验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求的标题不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求的标题长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求的标题只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqDesp:{
+                                    message: '请求描述验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求描述不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求描述长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求描述只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqComment:{
+                                    message: '亲请求补充验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'亲请求补充不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '亲请求补充长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'亲请求补充只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqDispatchTime:{
+                                    message: '请求发布时间验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求发布时间不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求发布时间长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求发布时间只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqTypeGuidClass:{
+                                    message: '请求分类验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求分类不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求分类长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求分类只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqAvailableStartTime:{
+                                    message: '请求可用开始时间验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求可用开始时间不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求可用开始时间长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求可用开始时间只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqAvailableEndTime:{
+                                    message: '请求可用结束时间验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求可用结束时间不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求可用结束时间长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求可用结束时间只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqRreDurationTime:{
+                                    message: '预计持续时间验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'预计持续时间不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '预计持续时间长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'预计持续时间只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqPreCunsumeCurrency:{
+                                    message: '估计消耗货币验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'估计消耗货币不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '估计消耗货币长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'估计消耗货币只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqStartTime:{
+                                    message: '请求服务开始时间验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求服务开始时间不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求服务开始时间长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求服务开始时间只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqEndTime:{
+                                    message: '请求服务结束时间验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求服务结束时间不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求服务结束时间长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求服务结束时间只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqActualConsumeCurrency:{
+                                    message: '请求实际消耗货币验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求实际消耗货币不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求实际消耗货币长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求实际消耗货币只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqTypeApproveStatus:{
+                                    message: '请求批准状态验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求批准状态不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求批准状态长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求批准状态只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqTargetsUserGuid:{
+                                    message: '接收请求人的ID验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'接收请求人的ID不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '接收请求人的ID长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'接收请求人的ID只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqActualDurationTime:{
+                                    message: '请求持续时间长度验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求持续时间长度不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求持续时间长度长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求持续时间长度只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqPersonNum:{
+                                    message: '请求需要人数验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求需要人数不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求需要人数长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求需要人数只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqTypeGuidUrgency:{
+                                    message: '请求紧急程度验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求紧急程度不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求紧急程度长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求紧急程度只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqFromWeightGuid:{
+                                    message: '本请求权值验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'本请求权值不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '本请求权值长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'本请求权值只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqTypeGuidProcessStatus:{
+                                    message: '请求处理状态验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求处理状态不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求处理状态长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求处理状态只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                },
+                                reqProcessUserGuid:{
+                                    message: '请求处理人验证失败',
+                                    validators: {
+                                        notEmpty: {
+                                            message:'请求处理人不能为空'
+                                        },
+                                        stringLength: {
+                                            min: 6,
+                                            max: 18,
+                                            message: '请求处理人长度必须在6到18位之间'
+                                        },
+                                        regexp:{
+                                            regexp: /^[a-zA-Z0-9_]+$/,
+                                            message:'请求处理人只能包含大写、小写、数字和下划线'
+                                        }
+                                    }
+                                }
+                            },
+                submitHandler: function (validator, form, submitButton) {
+                    alert("submit");
+                }
+            });
+        */
+
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-2 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-10 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        录入reqest
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form id="REQESTInputForm" name="REQESTInputForm" method="post" class="form-horizontal"
+                          action="/updateReqestByAdmin" role="form"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                        <div class="row">
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="reqGuid">请求ID：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqGuid" name="reqGuid" type="text" class="form-control"
+                                           placeholder="录入请求ID"
+                                           th:value="${reqest.reqGuid}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="reqIssueUserGuid">请求者ID：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqIssueUserGuid" name="reqIssueUserGuid" type="text"
+                                           class="form-control" placeholder="录入请求者ID"
+                                           th:value="${reqest.reqIssueUserGuid}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqIssueTime">设定提出请求的时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqIssueTime" name="reqIssueTime" class="form_datetime form-control"
+                                           type="text" placeholder="录入提出请求的时间"
+                                           th:value="${#calendars.format(reqest.reqIssueTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAddress">请求提出地址：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAddress" name="reqAddress" type="select" class="form-control"
+                                           placeholder="录入请求提出地址"
+                                           th:value="${reqest.reqAddress}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTitle">请求的标题：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqTitle" name="reqTitle" type="select" class="form-control"
+                                           placeholder="录入请求的标题"
+                                           th:value="${reqest.reqTitle}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqDesp">请求描述：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="reqDesp" name="reqDesp" class="form-control"
+                                              placeholder="录入请求描述"
+                                              th:text="${reqest.reqDesp}">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqComment">请求补充：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="reqComment" name="reqComment" class="form-control"
+                                              placeholder="录入亲请求补充"
+                                              th:text="${reqest.reqComment}">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqDispatchTime">设定请求发布时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqDispatchTime" name="reqDispatchTime"
+                                           class="form_datetime form-control" type="text" placeholder="录入请求发布时间"
+                                           th:value="${#calendars.format(reqest.reqDispatchTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeGuidClass">选择请求分类：</label>
+                                <div class="col-lg-9">
+                                    <select name="reqTypeGuidClass" id="reqTypeGuidClass" class="form-control">
+                                        <option th:each="typex:${type2}" th:value="${typex.typeGuid}"
+                                                th:text="${typex.typeTitle}"
+                                                th:selected="${typex.typeGuid}==${reqest.reqTypeGuidClass}"></option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAvailableStartTime">设定请求可用开始时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAvailableStartTime" name="reqAvailableStartTime"
+                                           class="form_datetime form-control" type="text" placeholder="录入请求可用开始时间"
+                                           th:value="${#calendars.format(reqest.reqAvailableStartTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAvailableEndTime">设定请求可用结束时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAvailableEndTime" name="reqAvailableEndTime"
+                                           class="form_datetime form-control" type="text" placeholder="录入请求可用结束时间"
+                                           th:value="${#calendars.format(reqest.reqAvailableEndTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqRreDurationTime">预计持续时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqRreDurationTime" name="reqRreDurationTime" type="text"
+                                           class="form-control" placeholder="录入预计持续时间"
+                                           th:value="${reqest.reqRreDurationTime}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqPreCunsumeCurrency">估计消耗货币：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqPreCunsumeCurrency" name="reqPreCunsumeCurrency" type="text"
+                                           class="form-control" placeholder="录入估计消耗货币"
+                                           th:value="${reqest.reqPreCunsumeCurrency}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqStartTime">设定请求服务开始时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqStartTime" name="reqStartTime" class="form_datetime form-control"
+                                           type="text" placeholder="录入请求服务开始时间"
+                                           th:value="${#calendars.format(reqest.reqStartTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqEndTime">设定请求服务结束时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqEndTime" name="reqEndTime" class="form_datetime form-control"
+                                           type="text" placeholder="录入请求服务结束时间"
+                                           th:value="${#calendars.format(reqest.reqEndTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqActualConsumeCurrency">请求实际消耗货币：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqActualConsumeCurrency" name="reqActualConsumeCurrency" type="text"
+                                           class="form-control" placeholder="录入请求实际消耗货币"
+                                           th:value="${reqest.reqActualConsumeCurrency}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeApproveStatus" >选择请求批准状态：</label>
+                                <div class="col-lg-9">
+                                    <select name="reqTypeApproveStatus" id="reqTypeApproveStatus" class="form-control">
+                                        <option th:each="typex:${type4}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" th:selected="${typex.typeGuid}==${reqest.reqTypeApproveStatus}"></option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <!--<div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTargetsUserGuid" >接收请求人的ID：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="reqTargetsUserGuid" name="reqTargetsUserGuid" class="form-control" placeholder="录入接收请求人的ID"
+                                              th:text="${reqest.reqTargetsUserGuid}">
+                                    </textarea>
+                                </div>
+                            </div>-->
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqActualDurationTime">请求持续时间长度：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqActualDurationTime" name="reqActualDurationTime" type="text"
+                                           class="form-control" placeholder="录入请求持续时间长度"
+                                           th:value="${reqest.reqActualDurationTime}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqPersonNum">请求需要人数：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqPersonNum" name="reqPersonNum" type="text" class="form-control"
+                                           placeholder="录入请求需要人数"
+                                           th:value="${reqest.reqPersonNum}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeGuidUrgency">选择请求紧急程度：</label>
+                                <div class="col-lg-9">
+                                    <select name="reqTypeGuidUrgency" id="reqTypeGuidUrgency" class="form-control">
+                                        <option th:each="typex:${type3}" th:value="${typex.typeGuid}"
+                                                th:text="${typex.typeTitle}"
+                                                th:selected="${typex.typeGuid}==${reqest.reqTypeGuidUrgency}"></option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqFromWeightGuid">选择本请求权值：</label>
+                                <div class="col-lg-9">
+                                    <select name="reqFromWeightGuid" id="reqFromWeightGuid" class="form-control">
+                                        <option th:each="weightx:${weights}" th:value="${weightx.weightGuid}"
+                                                th:text="${weightx.weightTitle}"
+                                                th:selected="${weightx.weightGuid}==${reqest.reqFromWeightGuid}"></option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeGuidProcessStatus">选择请求处理状态：</label>
+                                <div class="col-lg-9">
+                                    <select name="reqTypeGuidProcessStatus" id="reqTypeGuidProcessStatus"
+                                            class="form-control">
+                                        <option th:each="typex:${type1}" th:value="${typex.typeGuid}"
+                                                th:text="${typex.typeTitle}"
+                                                th:selected="${typex.typeGuid}==${reqest.reqTypeGuidProcessStatus}"></option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="reqProcessUserGuid">请求处理人：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqProcessUserGuid" name="reqProcessUserGuid" type="text"
+                                           class="form-control" placeholder="录入请求处理人"
+                                           th:value="${reqest.reqProcessUserGuid}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div th:hidden="${isHidden}">
+                                <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+                            </div>
+                            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        laydate.render({
+            elem: '#reqIssueTime' //指定元素
+            , type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#reqDispatchTime' //指定元素
+            , type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#reqAvailableStartTime' //指定元素
+            , type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#reqAvailableEndTime' //指定元素
+            , type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#reqStartTime' //指定元素
+            , type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#reqEndTime' //指定元素
+            , type: 'datetime'
+        });
+
+
+    </script>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

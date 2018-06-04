@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="basepage :: common_header(~{::title},~{::script})">
+    <title>查看申请</title>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#REQESTInputForm').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating:'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    reqAddress:{
+                        message: '请求提出地址验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'请求提出地址不能为空'
+                            }
+                        }
+                    },
+                    reqTitle:{
+                        message: '请求的标题验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求的标题不能为空'
+                            }
+                        }
+                    },
+                    reqDesp:{
+                        message: '请求描述验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'请求描述不能为空'
+                            }
+                        }
+                    },
+                    reqComment:{
+                        message: '请求补充验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'亲请求补充不能为空'
+                            }
+                        }
+                    },
+                    reqTypeGuidClass:{
+                        message: '请求分类验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'请求分类不能为空'
+                            }
+                        }
+                    },
+                    reqAvailableStartTime:{
+                        message: '请求可用开始时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'请求可用开始时间不能为空'
+                            }
+                        }
+                    },
+                    reqAvailableEndTime:{
+                        message: '请求可用结束时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'请求可用结束时间不能为空'
+                            }
+                        }
+                    },
+                    reqRreDurationTime:{
+                        message: '预计持续时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'预计持续时间不能为空'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]*$/,
+                                message: '请求持续时间长度只能包含数字'
+                            }
+                        }
+                    },
+                    reqPersonNum:{
+                        message: '请求需要人数验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'请求需要人数不能为空'
+                            },
+                            regexp:{
+                                regexp: /^[0-9]*$/,
+                                message:'请求需要人数只能包含数字'
+                            }
+                        }
+                    },
+                    reqTypeGuidUrgency:{
+                        message: '请求紧急程度验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'请求紧急程度不能为空'
+                            }
+                        }
+                    }
+                    }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-2 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-10 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        查看申请
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form id="REQESTInputForm" name="REQESTInputForm" method="post" class="form-horizontal"
+                          action="/updateREQESTSave"  role="form"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                        <div class="row" >
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="reqGuid" >请求ID：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqGuid" name="reqGuid" type="text" class="form-control" placeholder="录入请求ID"
+                                           th:value="${reqest.reqGuid}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAddress" >请求提出地址：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAddress" name="reqAddress" type="select" class="form-control" placeholder="录入请求提出地址"
+                                           th:value="${reqest.reqAddress}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTitle" >请求的标题：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqTitle" name="reqTitle" type="select" class="form-control" placeholder="录入请求的标题"
+                                           th:value="${reqest.reqTitle}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqDesp" >请求描述：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="reqDesp" name="reqDesp" class="form-control" placeholder="录入请求描述"
+                                              th:text="${reqest.reqDesp}">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqComment" >请求补充：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="reqComment" name="reqComment" class="form-control" placeholder="录入请求补充" th:text="${reqest.reqComment}">
+
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeGuidClass" >选择请求分类：</label>
+                                <div class="col-lg-9">
+                                    <select name="reqTypeGuidClass" id="reqTypeGuidClass" class="form-control">
+                                        <option th:each="typex:${types1}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}"  th:selected="${typex.typeGuid}==${reqest.reqTypeGuidClass}"></option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAvailableStartTime" >设定请求可用开始时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAvailableStartTime" name="reqAvailableStartTime" class="form_datetime form-control" type="text"  placeholder="录入请求可用开始时间"
+                                           th:value="${#calendars.format(reqest.reqAvailableStartTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAvailableEndTime" >设定请求可用结束时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqAvailableEndTime" name="reqAvailableEndTime" class="form_datetime form-control" type="text"  placeholder="录入请求可用结束时间"
+                                           th:value="${#calendars.format(reqest.reqAvailableEndTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqRreDurationTime" >预计持续时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqRreDurationTime" name="reqRreDurationTime" type="text" class="form-control" placeholder="录入预计持续时间"
+                                           th:value="${reqest.reqRreDurationTime}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqPersonNum" >请求需要人数：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqPersonNum" name="reqPersonNum" type="text" class="form-control" placeholder="录入请求需要人数"
+                                           th:value="${reqest.reqPersonNum}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqTypeGuidUrgency" >选择请求紧急程度：</label>
+                                <div class="col-lg-9">
+                                    <select name="reqTypeGuidUrgency" id="reqTypeGuidUrgency" class="form-control">
+                                        <option th:each="typex:${types}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" th:selected="${typex.typeGuid}==${reqest.reqTypeGuidUrgency}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="更 新"/>&nbsp;
+                            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        laydate.render({
+            elem: '#reqIssueTime' //指定元素
+            ,type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#reqDispatchTime' //指定元素
+            ,type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#reqAvailableStartTime' //指定元素
+            ,type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#reqAvailableEndTime' //指定元素
+            ,type: 'datetime'
+        });
+    </script>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

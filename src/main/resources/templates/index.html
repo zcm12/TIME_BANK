@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>标题</title>
+    <script type="text/javascript" src="/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<!--<div >你的名字<p th:text="${name}"></p></div>-->
+<!--<button type="button" class="btn btn-success">（成功）Success</button>-->
+<form action="/loginUser" method="post">
+    <div class="form-group">
+        <label for="userAccount">用户名</label>
+        <input name="userAccount" type="text" class="form-control" id="userAccount" placeholder="userAccount"/>
+    </div>
+    <div class="form-group">
+        <label for="userPassword">密码</label>
+        <input type="password" name="userPassword" class="form-control" id="userPassword" placeholder="Password"/>
+    </div>
+    <button type="submit" class="btn btn-default">登录</button>
+</form>
+<div><a  class="btn btn-default" href="/register">注册</a></div>
+</body>
+</html>

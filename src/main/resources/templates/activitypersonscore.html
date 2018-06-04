@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="basepage :: common_header(~{::title},~{::script})">
+    <title>USERS</title>
+    <style type="text/css">
+        *{margin:0;padding:0;list-style-type:none;}
+        a,img{border:0;}
+        body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";}
+        p{margin:20px 0 10px 0;}
+    </style>
+    <meta charset="UTF-8">
+    <script th:inline="javascript">
+        var activityid = [[${activityid}]];
+
+
+    </script>
+
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+            function changeDateFormat(cellval) {
+                var dateVal = cellval + "";
+                if (cellval != null) {
+                    var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+                    var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                    var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                    var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+                    var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+                    var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+                    return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
+                }
+            }
+
+
+            //   var set=[];
+
+//        alert(activityid)
+        var $table = $('#USERS');
+
+            $('#USERS').bootstrapTable({
+                columns:[
+//                    {
+//                        field : 'checked',
+//                        checkbox : true,
+//                        formatter : stateFormatter
+//                    },
+//                    {
+//                        title:'活动ID',
+//                        field:'activityid',
+//                        align: 'center',
+//                        valign: 'middle',
+//                        sortable: true
+//                    },
+                    {
+                        title:'用户姓名',
+                        field:'userName',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户账号',
+                        field:'userAccount',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+//                    {
+//                        title:'用户密码',
+//                        field:'userPassword',
+//                        align: 'center',
+//                        valign: 'middle',
+//                        sortable: true
+//                    },
+                    {
+                        title:'用户角色',
+                        field:'userFromRoleGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户性别',
+                        field:'userTypeGuidGender',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户状态',
+                        field:'userTypeAccountStatus',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+//                    {
+//                        title:'密码盐值',
+//                        field:'userSalt',
+//                        align: 'center',
+//                        valign: 'middle',
+//                        sortable: true
+//                    },
+                    {
+                        title:'持有时间',
+                        field:'userOwnCurrency',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'预支付时间',
+                        field:'userPreConsumeCurrency',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户住址',
+                        field:'userAddress',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户坐标',
+                        field:'userCoordinate',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'所属小区',
+                        field:'userCommGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        //       field:'evaluate',
+                        field:'userGuid',
+                        title:'评分',
+                        align:'center',
+                        sortable:true,
+                        events : operateEvents1,
+                        formatter: scoreFormatter
+                    }
+                ],
+                url: "/getUSERSListScoreJsonData", //请求后台的URL（*）
+                method: "get",
+                striped: true,     //是否显示行间隔色
+                cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,  //是否显示分页（*）
+                sortable: true,    //是否启用排序
+                sortOrder: "asc",  //排序方式,
+                queryParams:function(params){
+                    var limitApply={
+                        limit:params.limit,
+                        offset:params.offset,
+                        sortName:this.sortName,
+                        sortOrder:this.sortOrder,
+                        activityid:activityid
+                    };
+                    return limitApply;
+                },//传递参数
+                sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber:1,  //初始化加载第一页，默认第一页
+                pageSize: 20,  //每页的记录行数（*）
+                pageList:[5,10,20,30,40,50],
+                sortName:"userGuid",
+                showColumns: true,  //是否显示所有的列
+                showRefresh: true,  //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true,//是否启用点击选中行
+                toolbar:"#toolbar"
+
+            });
+            setTimeout(function () {
+                $table.bootstrapTable('resetView');
+            }, 200);
+
+
+
+
+
+        });
+
+        function rat(star,result,m){
+            star= '#' + star;
+            result= '#' + result;
+            $(result).hide();//将结果DIV隐藏
+
+            $(star).raty({
+                hints: ['10','20', '30', '40', '50','60', '70', '80', '90', '100'],
+                path: "/jquery-rank-score/css/img",
+                starOff: 'star-off-big.png',
+                starOn: 'star-on-big.png',
+                size: 24,
+                start: 40,
+                showHalf: true,
+                target: result,
+                targetKeep : true,//targetKeep 属性设置为true，用户的选择值才会被保持在目标DIV中，否则只是鼠标悬停时有值，而鼠标离开后这个值就会消失
+                click: function (score, evt) {
+                    //第一种方式：直接取值
+                    //   alert('你的评分是'+score*m+'分');
+                    document.getElementById("scored").textContent = "您的评分为："+score*m+"分";
+                    document.getElementById("finalScore").value =score*m;
+
+                }
+            });
+        }
+
+        //点击每个人的按钮获取该人的GUID
+        window.operateEvents1 = {
+            'click .getPersonId' : function(e, value, row, index) {
+                document.getElementById("thisPerson1").value =row.userGuid;
+                document.getElementById("id").value=(activityid)
+            }
+        };
+        //出现评分按钮并弹出模态框
+        function scoreFormatter(value,row,index) {
+            rat('star1','result1',10);
+            return [
+                '<div class="row">',
+                '<a class="getPersonId btn btn-default" data-toggle="modal" data-target="#Mymodel"'+
+                ' title="打分">打分',
+                '</a> '+
+                '</div>'
+            ].join('');
+        }
+        //        var finalScore;
+        //        var thisPersonId;
+        //        function savescore(){
+        //          finalScore = document.getElementById("finalScore").value;
+        //            thisPersonId = document.getElementById("thisPerson1").value;
+        //
+        //       //   alert(finalscore)
+        //
+        //        }
+
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-3 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-9 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        USERS表
+                    </h3>
+                </div>
+                <div class="panel-body" >
+                    <table id="USERS" name="USERS" class="table table-bordered table-hover table-striped"
+                           data-toolbar="#toolbar"
+                           data-show-refresh="true"
+                           data-show-toggle="true"
+                           data-show-columns="true"
+                           data-detail-view="false"
+                           data-minimum-count-columns="2"
+                           data-show-pagination-switch="true"
+                           data-pagination="true"
+                           data-id-field="applyId"
+                           data-page-list="[5, 10, 25, 50, 100, ALL]"
+                           data-show-footer="false"
+                           data-side-pagination="server">
+
+                    </table>
+
+                    <!--<div id="star1"></div>-->
+
+
+
+                    <!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#Mymodel">-->
+                    <!--确定评分-->
+                    <!--</button>-->
+                    <div class="modal fade" id="Mymodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">
+                        <div class="modal-dialog" style="top: 150px; width: 500px">
+                            <!--<iframe frameborder=0 scrolling=no style="background-color:transparent; position: absolute; z-index: -1; width: 100%; height: 100%; top: 0;left:0;"></iframe>-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabelautoalert">
+                                        提示
+                                    </h4>
+                                </div>
+                                <form name="scoreForm" method="post" action="/scoreForPerson">
+                                    <div class="modal-body" >
+                                        <div  id="star1" style="text-align: center"></div>
+                                        <div id="result1"></div>
+                                        <div>
+                                            <h3  id="scored" style="text-align:left">您的评分为：</h3>
+                                        </div>
+                                        <input id="thisPerson1" name="thisPerson1" type="text" value="" />
+                                        <input id="finalScore" name="finalScore" type="text" value="" />
+                                        <input id="id" name="id" type="text" value="" />
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button id="buttonSubmit" type="submit" class="btn  btn-primary" >确定</button>
+                                        <button id="buttonCancel" type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!--<div>-->
+                <!--<form action="/setId" method="post">-->
+                <!--<input id="thisPerson" name="thisPerson" type="text"  value="" />-->
+                <!--<input type="text"  name="reqTargetsUserGuid"  id="reqTargetsUserGuid"  value=""/>-->
+                <!--<input type="submit" name="submit"  />-->
+                <!--</form>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

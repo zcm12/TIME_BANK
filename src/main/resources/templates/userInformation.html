@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="basepage :: common_header(~{::title},~{::script})">
+    <title>个人信息</title>
+    <script type="text/javascript">
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-2 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-10 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        个人信息
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form id="USERSInputForm" name="USERSInputForm" method="post" class="form-horizontal"
+                          role="form"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                        <div class="row" >
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="userGuid" >用户ID：</label>
+                                <div class="col-lg-9">
+                                    <input id="userGuid" name="userGuid" type="text" class="form-control" th:value="${users.userGuid}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userAccount" >账号名：</label>
+                                <div class="col-lg-9">
+                                    <input id="userAccount" name="userAccount" type="text" class="form-control" th:value="${users.userAccount}" disabled="disabled"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userFromRoleGuid" >角色：</label>
+                                <div class="col-lg-9">
+                                    <input id="userFromRoleGuid" name="userFromRoleGuid" type="text" class="form-control" th:value="${users.userRole}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userTypeGuidGender" >性别：</label>
+                                <div class="col-lg-9">
+                                    <input id="userTypeGuidGender" name="userTypeGuidGender" type="text" class="form-control" th:value="${users.userTypeGuidGender}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userTypeAccountStatus" >用户状态：</label>
+                                <div class="col-lg-9">
+                                    <input id="userTypeAccountStatus" name="userTypeAccountStatus" type="text" class="form-control" th:value="${users.userTypeAccountStatus}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userOwnCurrency" >持有时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="userOwnCurrency" name="userOwnCurrency" type="text" class="form-control" th:value="${users.userOwnCurrency}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userAddress" >住址：</label>
+                                <div class="col-lg-9">
+                                    <input id="userAddress" name="userAddress" type="text" class="form-control" th:value="${users.userAddress}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userCommGuid" >所属小区：</label>
+                                <div class="col-lg-9">
+                                    <input id="userCommGuid" name="userCommGuid" type="text" class="form-control" th:value="${users.userCommGuid}" disabled="disabled"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="form-actions">
+                            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+                        </div>-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    </script>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

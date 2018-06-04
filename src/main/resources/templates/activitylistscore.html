@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="basepage :: common_header(~{::title},~{::script})">
+    <title>ACTIVITY</title>
+
+    <!--<input id="buttonId" name="buttonId" th:value="${buttonId}" />-->
+    <!--<input id="buttonId33" name="buttonId33" value="" />-->
+    <script type="text/javascript">
+        //         if(document.getElementsByName("buttonId").value==null){
+        //             document.getElementsByName("buttonId").value=2;
+        //         }
+        //      buttonId1=document.getElementsByName("buttonId").value;
+
+        $(document).ready(function() {
+            function changeDateFormat(cellval) {
+                var dateVal = cellval + "";
+                if (cellval != null) {
+                    var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+                    var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                    var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                    var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+                    var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+                    var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+                    return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
+                }
+            };
+
+
+            var $table = $('#ACTIVITY');
+            $('#ACTIVITY').bootstrapTable({
+                columns:[
+                    {
+                        title:'活动ID',
+                        field:'activityGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        visible:false
+
+                    },
+                    {
+                        title:'活动标题',
+                        field:'activityTitle',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'活动描述',
+                        field:'activityDesp',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'活动备注',
+                        field:'activityComment',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'开始时间',
+                        field:'activityStartTime',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true ,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+
+                    },
+                    {
+                        title:'结束时间',
+                        field:'activityEndTime',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true ,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+
+                    },
+                    {
+                        title:'活动处理人',
+                        field:'activityProcessUserGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'活动地点',
+                        field:'activityAddress',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'活动社区ID',
+                        field:'activityFromCommGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'活动处理状态',
+                        field:'activityTypeProcessStatus',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'接收请求人的ID',
+                        field:'activityTargetsUserGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'需要人数',
+                        field:'activityPersonNum',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        field: 'activityGuid',
+                        title: '操作',
+                        align: 'center',
+                        sortable: true,
+                        formatter: operateFormatter
+                    }
+                ],
+                url: "/getActivityListScoreJsonData", //请求后台的URL（*）
+                method: "get",
+                striped: true,     //是否显示行间隔色
+                cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                search:true,
+                searchAlign: "left",
+                searchOnEnterKey: true, //回车查询
+                pagination: true,  //是否显示分页（*）
+                sortable: true,    //是否启用排序
+                sortOrder: "asc",  //排序方式
+                queryParams:function(params){
+                    var limitApply={
+                        limit:params.limit,
+                        offset:params.offset,
+                        searchText:params.search,
+                        sortName:this.sortName,
+                        sortOrder:this.sortOrder,
+                    };
+                    return limitApply;
+                },//传递参数
+                sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber:1,  //初始化加载第一页，默认第一页
+                pageSize: 20,  //每页的记录行数（*）
+                pageList:[5,10,20,30,40,50],
+                sortName:"activityGuid",
+                searchText: '',
+                showColumns: true,  //是否显示所有的列
+                showRefresh: true,  //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true,//是否启用点击选中行
+                toolbar:"#toolbar"
+            });
+            setTimeout(function () {
+                $table.bootstrapTable('resetView');
+            }, 200);
+            function operateFormatter1(value, row, index) {
+                var ti=new Date(value);
+                var val=ti.toLocaleString() ;
+                return val;
+            };
+
+            function operateFormatter(value, row, index) {
+                return [
+                    '<div class="row">',
+                    '<a class="btn btn-default" href="/activityscore/'+
+                    String(row.activityGuid) +
+                    '" title="评分">评分',
+                    '</a>  '+
+                    '</div>'
+                ].join('');
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-3 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-9 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        ACTIVITY表
+                    </h3>
+                </div>
+                <div class="panel-body" >
+                    <table id="ACTIVITY" name="ACTIVITY" class="table table-bordered table-hover table-striped"
+                           data-toolbar="#toolbar"
+                           data-show-refresh="true"
+                           data-show-toggle="true"
+                           data-show-columns="true"
+                           data-detail-view="false"
+                           data-minimum-count-columns="2"
+                           data-show-pagination-switch="true"
+                           data-pagination="true"
+                           data-id-field="applyId"
+                           data-page-list="[5, 10, 25, 50, 100, ALL]"
+                           data-show-footer="false"
+                           data-side-pagination="server">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
