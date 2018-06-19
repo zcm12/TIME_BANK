@@ -1,5 +1,6 @@
 package com.timebank.controller.sxq;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timebank.domain.*;
 import com.timebank.mapper.*;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class YluserController {
 
     @RequestMapping(value = "/getUSERSListJsonData")
     @ResponseBody
-    public String userList(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder){
+    public String userList(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder) {
 
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample100 = new UsersExample();
@@ -41,7 +41,7 @@ public class YluserController {
         List<Users> users10 = usersMapper.selectByExample(usersExample100);
         Users users100 = users10.get(0);
         String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
+        model.addAttribute("role", role100);
 
 
         UsersExample usersExample = new UsersExample();
@@ -49,16 +49,16 @@ public class YluserController {
         TypeExample typeExample = new TypeExample();
         CommunityExample communityExample = new CommunityExample();
         //处理排序信息
-        if(sortName!=null){
+        if (sortName != null) {
             //拼接字符串
-            String order= GetDatabaseFileName(sortName)+" "+sortOrder;
+            String order = GetDatabaseFileName(sortName) + " " + sortOrder;
             //将排序信息添加到example中
             usersExample.setOrderByClause(order);
         }
         List<Users> users = usersMapper.selectByExample(usersExample);
         List<Users> usersList = new ArrayList<Users>();
 
-        for(int i=offset;i<offset+limit&&i<users.size();i++){
+        for (int i = offset; i < offset + limit && i < users.size(); i++) {
             Users user = users.get(i);
 
             String userRole = user.getUserFromRoleGuid();
@@ -88,27 +88,25 @@ public class YluserController {
             usersList.add(user);
         }
 //全部符合要求的数据的数量
-        int total=users.size();
-        System.out.println("总数："+total);
+        int total = users.size();
+        System.out.println("总数：" + total);
         //将所得集合打包
         ObjectMapper mapper = new ObjectMapper();
-        TableRecordsJson tableRecordsJson=new TableRecordsJson(usersList,total);
+        TableRecordsJson tableRecordsJson = new TableRecordsJson(usersList, total);
         //将实体类转换成json数据并返回
         try {
             String json1 = mapper.writeValueAsString(tableRecordsJson);
-             System.out.println(json1);
+            System.out.println(json1);
             return json1;
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
-    private String GetDatabaseFileName(String str)
-    {
-        StringBuilder sb=new StringBuilder();
-        for(int i=0;i<str.length();++i)
-        {
-            if(str.charAt(i)>='A'&&str.charAt(i)<='Z')
-            {
+
+    private String GetDatabaseFileName(String str) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.length(); ++i) {
+            if (str.charAt(i) >= 'A' && str.charAt(i) <= 'Z') {
                 sb.append('_');
             }
             sb.append(str.charAt(i));
@@ -117,7 +115,7 @@ public class YluserController {
     }
 
     @RequestMapping(value = "volunteerchoose")
-    public String volchoose(Model model){
+    public String volchoose(Model model) {
 
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample100 = new UsersExample();
@@ -125,13 +123,13 @@ public class YluserController {
         List<Users> users10 = usersMapper.selectByExample(usersExample100);
         Users users100 = users10.get(0);
         String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
+        model.addAttribute("role", role100);
 
         return "volunteerchoose";
     }
 
     @RequestMapping(value = "/volunteer/{userid}")
-    public String volunteerdetail(Model model, @PathVariable String userid){
+    public String volunteerdetail(Model model, @PathVariable String userid) {
 
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample100 = new UsersExample();
@@ -139,15 +137,15 @@ public class YluserController {
         List<Users> users10 = usersMapper.selectByExample(usersExample100);
         Users users100 = users10.get(0);
         String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
+        model.addAttribute("role", role100);
 
 
         Users users = usersMapper.selectByPrimaryKey(userid);
-        model.addAttribute("users",users);
+        model.addAttribute("users", users);
 
-       TypeExample typeExample = new TypeExample();
-       UsersExample usersExample = new UsersExample();
-       RoleExample roleExample = new RoleExample();
+        TypeExample typeExample = new TypeExample();
+        UsersExample usersExample = new UsersExample();
+        RoleExample roleExample = new RoleExample();
 //        CommunityExample communityExample = new CommunityExample();
 
         roleExample.clear();
@@ -183,7 +181,7 @@ public class YluserController {
 
 
     @RequestMapping(value = "/setId")
-    public String setData(Reqest reqest, String reqTargetsUserGuid, Model model,String reqGuid){
+    public String setData(Reqest reqest, String reqTargetsUserGuid, Model model, String reqGuid) {
 
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample100 = new UsersExample();
@@ -191,20 +189,37 @@ public class YluserController {
         List<Users> users10 = usersMapper.selectByExample(usersExample100);
         Users users100 = users10.get(0);
         String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
+        model.addAttribute("role", role100);
 
         //后台接收前台的文本框内容
-        System.out.print("文本框内容："+reqGuid);
-        System.out.print("文本框内容："+reqTargetsUserGuid);
+        System.out.print("文本框内容：" + reqGuid);
+        System.out.print("文本框内容：" + reqTargetsUserGuid);
 
         //先设置一个给数据库，一开始内容为null，而数据库中不能为null
         //reqest.setReqTargetsUserGuid(reqest.getReqTargetsUserGuid());
 
-        Reqest  request=reqestMapper.selectByPrimaryKey(reqGuid);
+        Reqest request = reqestMapper.selectByPrimaryKey(reqGuid);
 //        //后台把内容保存到数据库字段里
         request.setReqTargetsUserGuid(reqTargetsUserGuid);
         reqestMapper.updateByPrimaryKeySelective(request);
         //跳转到checkProjectView.html页面
         return "reqlistprocess";
     }
+/*****************前端拾取坐标*******************************/
+    @RequestMapping(value = "/mybank")
+    public String demomapp(Model model) {
+
+        return "demo_map1";
+    }
+    //将经纬度提交到后台
+   @RequestMapping(value = "/aass")
+    public String SDAS(String jd,String wd){
+       System.out.println(11);
+        System.out.println(jd);
+       System.out.println(wd);
+       System.out.println(22);
+        return  "test";
+}
+
+
 }
