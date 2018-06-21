@@ -469,7 +469,7 @@ public class activitycontroller {
     }
 
 
-    //发布活动插入数据库请求
+    //发布活动插入数据库请求aa
     @RequestMapping(value = "/activityinsert")
     private String activityInsert(@ModelAttribute @Valid Activity activity, Errors errors, Model model) {
     System.out.println("222222222222");
