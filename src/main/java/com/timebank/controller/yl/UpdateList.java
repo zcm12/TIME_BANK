@@ -7,6 +7,24 @@ public class UpdateList {
     private int viewVolId;
     private int finishId;
     private int unFinishId;
+    private int waitId;
+    private int evaluateId;
+
+    public int getEvaluateId() {
+        return evaluateId;
+    }
+
+    public void setEvaluateId(int evaluateId) {
+        this.evaluateId = evaluateId;
+    }
+
+    public int getWaitId() {
+        return waitId;
+    }
+
+    public void setWaitId(int waitId) {
+        this.waitId = waitId;
+    }
 
     public int getUpdateId() {
         return updateId;

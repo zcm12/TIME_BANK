@@ -8,13 +8,12 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 // 修改和查看个人信息
 @Controller
@@ -108,29 +107,76 @@ public class userController {
         model.addAttribute("types",types);
         return "updateUserInformation";
     }
-    //用户个人信息更新提交
+    //修改用户个人信息界面中保存按钮
     @RequestMapping(value = "/updateUserInformationSubmit")
-    public String updateREQESTSave(Users users, Model model){
+    public String updateREQESTSave(@ModelAttribute @Valid Users users, Model model){
+//        System.out.println(0000000);
+//        System.out.println(users.getUserBirthdate());
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users0 = usersMapper.selectByExample(usersExample);
-        Users users1 = users0.get(0);
-        String role = users1.getUserRole();
+        List<Users> users1 = usersMapper.selectByExample(usersExample);
+        Users users2 = users1.get(0);
+        String role = users2.getUserRole();
         model.addAttribute("role",role);
-        usersMapper.updateByPrimaryKeySelective(users);
-        Users users2 = usersMapper.selectByPrimaryKey(users.getUserGuid());
 
-        //处理性别
-        Type type = typeMapper.selectByPrimaryKey(users2.getUserTypeGuidGender());
-        users2.setUserTypeGuidGender(type.getTypeTitle());
-//        //用户状态
-//        Type type1 = typeMapper.selectByPrimaryKey(users2.getUserTypeAccountStatus());
-//        users2.setUserTypeAccountStatus(type1.getTypeTitle());
-        //所属小区
-        Community community = communityMapper.selectByPrimaryKey(users2.getUserCommGuid());
-        users2.setUserCommGuid(community.getCommTitle());
-        model.addAttribute("users",users2);
+
+        usersMapper.updateByPrimaryKeySelective(users);
+
+        //从数据库中获取前台提交的字段
+        String GUID=users.getUserGuid();
+        UsersExample usersExample1=new UsersExample();
+        usersExample1.or().andUserGuidEqualTo(GUID);
+        List<Users> usersList=usersMapper.selectByExample(usersExample);
+        Users users3=usersList.get(0);
+        System.out.println("哈哈哈"+users3.getUserBirthdate());
+        if (users3.getUserTypeGuidGender()!= null)
+        {
+            //处理性别
+            Type type = typeMapper.selectByPrimaryKey(users3.getUserTypeGuidGender());
+            users3.setUserTypeGuidGender(type.getTypeTitle());
+        }
+        if (users3.getUserOwnCurrency()!=null)
+        {
+            //用户持有时间
+            users3.setUserOwnCurrency(users3.getUserOwnCurrency());
+        }
+        if (users3.getUserBirthdate()!=null){
+            //出生日期
+            String dateString = users.getUserBirthdate().toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
+            TimeZone tz = TimeZone.getTimeZone("GMT+8");
+            sdf.setTimeZone(tz);
+            String str = sdf.format(Calendar.getInstance().getTime());
+            System.out.println(str);
+            Date s;
+            try {
+                s = sdf.parse(dateString);
+                sdf = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.println(sdf.format(s));
+                users3.setUserBirthdate(sdf.format(s));
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+        if(users3.getUserTypeAccountStatus()!=null)
+        {
+            //用户状态
+
+            Type type1 = typeMapper.selectByPrimaryKey(users3.getUserTypeAccountStatus());
+            users3.setUserTypeAccountStatus(type1.getTypeTitle());
+        }
+        if (users3.getUserCommGuid()!=null)
+        {
+            //所属小区
+            Community community = communityMapper.selectByPrimaryKey(users3.getUserCommGuid());
+            users3.setUserCommGuid(community.getCommTitle());
+        }
+
+        model.addAttribute("users",users3);
+
 
         return "userInformation";
     }
@@ -255,7 +301,7 @@ public class userController {
 
 
     /*---------------app api------------------------*/
-    @RequestMapping(value = "/appGetCom")
+  /*  @RequestMapping(value = "/appGetCom")
     @ResponseBody
     public List<Community> appGetCom() {
         Subject account = SecurityUtils.getSubject();
@@ -302,5 +348,5 @@ public class userController {
         user.setUserAddress(userAddress);
         //更新数据库
         usersMapper.updateByPrimaryKey(user);
-    }
+    }*/
 }

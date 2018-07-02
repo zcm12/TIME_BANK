@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="basepage :: common_header(~{::title},~{::script})">
-    <title>更新用户信息</title>
-
+    <title>完善用户信息</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css"  />
+    <script type="text/javascript" src="/date/laydate.js"></script>
+    <link  type="text/css" rel="stylesheet" href="/date/need/laydate.css" />
+    <link  id="layDateSkin" type="text/css" rel="stylesheet" href="/skins/molv/laydate.css" />-->
+    <link rel="stylesheet" href="/date/skins/default/laydate.css"/>
+    <script type="text/javascript" src="/region/main.js"></script>
+    <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="/region/distpicker.data.js"></script>
+    <script type="text/javascript" src="/region/distpicker.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#USERSInputForm').bootstrapValidator({
@@ -19,16 +29,44 @@
                             notEmpty: {
                                 message:'用户ID不能为空'
                             },
-                            stringLength: {
-                                min: 6,
-                                max: 18,
-                                message: '用户ID长度必须在6到18位之间'
+//                            stringLength: {
+//                                min: 6,
+//                                max: 180,
+//                                message: '用户ID长度必须在6到18位之间'
+//                            },
+//                            regexp:{
+//                                regexp: /^[a-zA-Z0-9_]+$/,
+//                                message:'用户ID只能包含大写、小写、数字和下划线'
+//                            }
+                        }
+                    },
+                    userPhone: {
+                        validators: {
+                            notEmpty: {
+                                message: '您应该填写手机'
                             },
-                            regexp:{
-                                regexp: /^[a-zA-Z0-9_]+$/,
-                                message:'用户ID只能包含大写、小写、数字和下划线'
+                            stringLength: {
+                                min: 11,
+                                message: '联系方式应该不少于11位'
                             }
                         }
+                    },
+                    userName : {
+                        validators : {
+                            notEmpty : {
+                                message : '姓名值不能为空！'
+                            },
+                            stringLength: {
+                                min: 2,
+                                message: '用户名长度必须大于2！'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z\u4e00-\u9fa5]+$/,
+                                message: '用户名不能有数字和字符！'
+                            }
+
+
+                        },
                     },
                     userAccount:{
                         message: '用户账号名验证失败',
@@ -61,11 +99,125 @@
                                 message:'所属小区不能为空'
                             }
                         }
-                    }
-                }
+                    },
+                    userBirthdate:{
+                        message: '日期验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'日期不能为空'
+                            }
+                        }
+                    },
+                    userMail: {
+                        validators : {
+                            notEmpty : {
+                                message : '邮箱不能为空！'
+                            },
+                            regexp: {
+                                regexp: /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/,
+                                message: '请输入完整邮箱！'
+                            }
+                        }
+                    },
+                    userIdnum: {
+                        validators : {
+                            notEmpty : {
+                                message : '身份证号码不能为空！'
+                            },
+                            regexp: {
+                                regexp: /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/,
+                                message: '身份证号码格式不正确，为15位和18位身份证号码！'
+                            },
+                            callback: {/*自定义，可以在这里与其他输入项联动校验*/
+                                message: '身份证号码无效！',
+                                callback:function(value, validator,$field){
+                                    //15位和18位身份证号码的正则表达式
+                                    var regIdCard = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+                                    //如果通过该验证，说明身份证格式正确，但准确性还需计算
+                                    var idCard = value;
+                                    if (regIdCard.test(idCard)) {
+                                        if (idCard.length == 18) {
+                                            var idCardWi = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2); //将前17位加权因子保存在数组里
+                                            var idCardY = new Array(1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2); //这是除以11后，可能产生的11位余数、验证码，也保存成数组
+                                            var idCardWiSum = 0; //用来保存前17位各自乖以加权因子后的总和
+                                            for (var i = 0; i < 17; i++) {
+                                                idCardWiSum += idCard.substring(i, i + 1) * idCardWi[i];
+                                            }
+                                            var idCardMod = idCardWiSum % 11;//计算出校验码所在数组的位置
+                                            var idCardLast = idCard.substring(17);//得到最后一位身份证号码
+                                            //如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+                                            if (idCardMod == 2) {
+                                                if (idCardLast == "X" || idCardLast == "x") {
+                                                    return true;
+                                                    //alert("恭喜通过验证啦！");
+                                                } else {
+                                                    return false;
+                                                    //alert("身份证号码错误！");
+                                                }
+                                            } else {
+                                                //用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
+                                                if (idCardLast == idCardY[idCardMod]) {
+                                                    //alert("恭喜通过验证啦！");
+                                                    return true;
+                                                } else {
+                                                    return false;
+                                                    //alert("身份证号码错误！");
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        //alert("身份证格式不正确!");
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    userEmerperson: {
+                        validators : {
+                            notEmpty : {
+                                message : '紧急联系人不能为空！'
+                            },
+                            stringLength: {
+                                min: 2,
+                                message: '紧急联系人长度必须大于等于2！'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z\u4e00-\u9fa5]+$/,
+                                message: '紧急联系人不能有数字和字符！'
+                            }
+
+
+                        },
+                    },
+                    userEmercontact: {
+                        validators: {
+                            notEmpty: {
+                                message: '您应该填写紧急联系方式'
+                            },
+                            stringLength: {
+                                min: 11,
+                                message: '联系方式应该不少于11位'
+                            }
+                        }
+                    },
+                },
+//                submitHandler: function (validator, form, submitButton) {
+//                    alert("submit");
+//                }
             });
         });
     </script>
+    <style>
+        *{margin:0;padding:0;list-style:none;}
+        html{background-color:#E3E3E3; font-size:14px; color:#000; font-family:'微软雅黑'}
+        a,a:hover{ text-decoration:none;}
+        .box{width:970px; padding:10px 20px; background-color:#fff; margin:10px auto;}
+        .box a{padding-right:20px;}
+        .demo1{margin:25px 0;}
+        h3{margin:10px 0;}
+        .layinput{height: 22px;line-height: 22px;width: 150px;margin: 0;}
+    </style>
 </head>
 <body>
 <div class="container">
@@ -82,7 +234,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        更新用户信息
+                        完善用户信息
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -93,30 +245,60 @@
                           data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
                           data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
                         <div class="row" >
-                            <div class="form-group  col-lg-6" hidden="hidden">
-                                <label class="control-label col-lg-3" for="userGuid" >用户ID：</label>
+                            <div class="form-group  col-lg-6"   hidden="hidden">
+                                <label class="control-label col-lg-3" for="userGuid"   >用户ID：</label>
                                 <div class="col-lg-9">
-                                    <input id="userGuid" name="userGuid" type="text" class="form-control" th:value="${users.userGuid}"/>
+                                    <input id="userGuid" name="userGuid" type="text" class="form-control" th:value="${users.userGuid}" />
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="userAccount" >用户账号名：</label>
+                                <label class="control-label col-lg-3" for="userAccount" >账号：</label>
                                 <div class="col-lg-9">
-                                    <input id="userAccount" name="userAccount" type="select" class="form-control" disabled="disabled" placeholder="录入用户账号名" th:value="${users.userAccount}"/>
+                                    <input id="userAccount" name="userAccount" type="text" class="form-control" th:value="${users.userAccount}" disabled="disabled"/>
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="userTypeGuidGender" >选择用户性别：</label>
+                                <label class="control-label col-lg-3" for="userName" >姓名：</label>
                                 <div class="col-lg-9">
+                                    <input id="userName" name="userName" type="text" class="form-control" placeholder="填写您的姓名"/><!--th:value="${users.userAccount}"-->
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6" >
+                                <label class="control-label col-lg-3" for="userRole" >角色：</label>
+                                <div class="col-lg-9">
+                                    <input id="userRole" name="userRole" type="text" class="form-control" th:value="${users.userRole}"disabled="disabled" />
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userMail" >电子邮箱：</label>
+                                <div class="col-lg-9">
+                                    <input id="userMail" name="userMail" type="email" class="form-control" placeholder="填写邮箱"  />
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-4" for="userTypeGuidGender" >选择用户性别：</label>
+                                <div class="col-lg-4">
                                     <select name="userTypeGuidGender" id="userTypeGuidGender" class="form-control">
                                         <option th:each="typex:${types}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" th:selected="${typex.typeGuid}==${users.userTypeGuidGender}"></option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="userAddress" >用户住址：</label>
+                                <label class="control-label col-lg-3" for="userIdnum" >身份证号：</label>
                                 <div class="col-lg-9">
-                                    <input id="userAddress" name="userAddress" type="text" class="form-control" placeholder="录入用户住址" th:value="${users.userAddress}"/>
+                                    <input id="userIdnum" name="userIdnum" type="text" class="form-control" placeholder="填写您的证件号"/> <!--onclick="IdentityCodeValid(userIdnum)"-->
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userPhone" >手机号：</label>
+                                <div class="col-lg-9">
+                                    <input id="userPhone" name="userPhone" type="tel" class="form-control" placeholder="填写您的手机号" />
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userBirthdate" >出生日期：</label>
+                                <div class="col-lg-6">
+                                    <input  class="form-control laydate-icon"  id="userBirthdate" name="userBirthdate"  type="text" placeholder="选择您的出生日期" />
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
@@ -125,22 +307,105 @@
                                     <select name="userCommGuid" id="userCommGuid" class="form-control">
                                         <option th:each="communities:${communities}" th:value="${communities.commGuid}" th:text="${communities.commTitle}" th:selected="${communities.commGuid}==${users.userCommGuid}"></option>
                                     </select>
-
                                 </div>
-
+                            </div><br>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-4" for="userEmerperson" >紧急联系人：</label>
+                                <div class="col-lg-6">
+                                    <input id="userEmerperson" name="userEmerperson" type="text" class="form-control" placeholder="填写紧急联系人" />
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-4" for="userEmercontact" >紧急联系方式：</label>
+                                <div class="col-lg-9">
+                                    <input id="userEmercontact" name="userEmercontact" type="tel" class="form-control" placeholder="填写紧急联系手机号" />
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-4"><!--for="userAddress"--> 居住区域：</label>
+                                <!--<form class="form-inline">-->
+                                <div class="form-group  col-lg-4" data-toggle="distpicker">
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-4">省：</label>
+                                        <!--<label class="sr-only" for="userProvince">Province</label>-->
+                                        <select class="form-control col-lg-4" id="userProvince"  name="userProvince" data-province="---- 选择省 ----"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-4" for="userCity">市：</label>
+                                        <select class="form-control col-lg-4" id="userCity"  name="userCity" data-city="---- 选择市 ----"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-4" for="userCity">区：</label>
+                                        <select class="form-control col-lg-4" id="userDistrict" name="userDistrict" data-district="---- 选择区 ----"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-4" for="userAddress">详细地址：</label>
+                                <div  class="col-lg-6">
+                                    <input id="userAddress" name="userAddress" type="text" placeholder="请输入详细地址"/>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/><br>
+                                <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
                             </div>
                         </div>
-                        <div class="form-actions">
-                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
-                            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-                        </div>
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript">
+    <script >
+        ;!function(){
+            laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
+            laydate({elem: '#userBirthdate',format: 'YYYY-MM-DD'});//绑定元素
+        }();
+        /*function IdentityCodeValid(code) {
+            var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};
+            var tip = "";
+            var pass= true;
 
+            if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)){
+                tip = "身份证号格式错误";
+                pass = false;
+            }
+
+            else if(!city[code.substr(0,2)]){
+                tip = "地址编码错误";
+                pass = false;
+            }
+            else{
+                //18位身份证需要验证最后一位校验位
+                if(code.length == 18){
+                    code = code.split('');
+                    //∑(ai×Wi)(mod 11)
+                    //加权因子
+                    var factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
+                    //校验位
+                    var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];
+                    var sum = 0;
+                    var ai = 0;
+                    var wi = 0;
+                    for (var i = 0; i < 17; i++)
+                    {
+                        ai = code[i];
+                        wi = factor[i];
+                        sum += ai * wi;
+                    }
+                    var last = parity[sum % 11];
+                    if(parity[sum % 11] != code[17]){
+                        tip = "校验位错误";
+                        pass =false;
+                    }
+                }
+            }
+            if(!pass) alert(tip);
+            return pass;
+        }*/
+        //        var c = '130981199312253466';
+        //        var res= IdentityCodeValid(c);
     </script>
     <div class="row clearfix">
         <div class="col-md-12 bg-primary">

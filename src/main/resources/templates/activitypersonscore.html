@@ -75,7 +75,7 @@
 //                    },
                     {
                         title:'用户角色',
-                        field:'userFromRoleGuid',
+                        field:'userRole',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
@@ -259,6 +259,7 @@
                     </h3>
                 </div>
                 <div class="panel-body" >
+                    <div class="table-responsive">
                     <table id="USERS" name="USERS" class="table table-bordered table-hover table-striped"
                            data-toolbar="#toolbar"
                            data-show-refresh="true"
@@ -272,8 +273,8 @@
                            data-page-list="[5, 10, 25, 50, 100, ALL]"
                            data-show-footer="false"
                            data-side-pagination="server">
-
                     </table>
+                    </div>
 
                     <!--<div id="star1"></div>-->
 

@@ -2,6 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="basepage :: common_header(~{::title},~{::script})">
     <title>活动列表</title>
+    <script th:inline="javascript">
+        var userguid = [[${userguid}]];
+        var usercommguid=[[${usercommguid}]];
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
             function changeDateFormat(cellval) {
@@ -112,6 +116,8 @@
                         offset:params.offset,
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
+                        userguid:userguid,
+                        usercommguid:usercommguid,
                     };
                     return limitApply;
                 },//传递参数
@@ -161,6 +167,7 @@
                     </h3>
                 </div>
                 <div class="panel-body" >
+                    <div class="table-responsive">
                     <table id="ACTIVITY" name="ACTIVITY" class="table table-bordered table-hover table-striped"
                            data-toolbar="#toolbar"
                            data-show-refresh="true"
@@ -175,6 +182,7 @@
                            data-show-footer="false"
                            data-side-pagination="server">
                     </table>
+                    </div>
                 </div>
             </div>
         </div>

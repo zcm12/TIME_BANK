@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="basepage :: common_header(~{::title},~{::script})">
+    <title>ACTIVITY</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ACTIVITYInputForm').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    activity_guid: {
+                        message: '活动ID验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '活动ID不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '活动ID长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '活动ID只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    activity_title: {
+                        message: '活动标题验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '活动标题不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '活动标题长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '活动标题只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    activity_desp: {
+                        message: '活动描述验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '活动描述不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '活动描述长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '活动描述只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    activity_comment: {
+                        message: '活动备注验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '活动备注不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '活动备注长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '活动备注只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    activity_start_time: {
+                        message: '开始时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '开始时间不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '开始时间长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '开始时间只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    activity_end_time: {
+                        message: '结束时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '结束时间不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '结束时间长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '结束时间只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    activity_process_user_guid: {
+                        message: '活动处理人验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '活动处理人不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '活动处理人长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '活动处理人只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    activity_address: {
+                        message: '活动地点验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '活动地点不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '活动地点长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '活动地点只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    activity_from_comm_guid: {
+                        message: '活动社区ID验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '活动社区ID不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '活动社区ID长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '活动社区ID只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    activity_type_process_status: {
+                        message: '活动处理状态验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '活动处理状态不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '活动处理状态长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '活动处理状态只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    activity_targets_user_guid: {
+                        message: '接收请求人的ID验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '接收请求人的ID不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '接收请求人的ID长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '接收请求人的ID只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    activity_person_num: {
+                        message: '需要人数验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '需要人数不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '需要人数长度必须在6到18位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '需要人数只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    }
+                },
+//                submitHandler: function (validator, form, submitButton) {
+//                    alert("submit");
+//                }
+            });
+
+
+        });
+    </script>
+</head>
+<body>
+<script th:inline="javascript">
+    var message = [[${message}]];
+    console.log(message);
+</script>
+<script type="text/javascript">
+    $(function () {
+        if (message == 0) {
+            $('#Submit').attr("disabled", true);//添加disabled 属性
+            $("#ACTIVITYInputForm input").attr("disabled", true);
+            $("#ACTIVITYInputForm textarea").attr("disabled", true);
+        } else {
+            $('#Submit').attr("disabled", false);// 删除disabled属性
+            $("#ACTIVITYInputForm input").attr("disabled", false);
+            $("#ACTIVITYInputForm textarea").attr("disabled", false);
+        }
+
+    })
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-2 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-10 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        活动详情
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form id="ACTIVITYInputForm" name="ACTIVITYInputForm" method="post" class="form-horizontal"
+                          action="/updateactivity" role="form"
+                          data-bv-message="This value is not valid"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                        <div class="row">
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityGuid" name="activityGuid" type="text" class="form-control"
+                                           placeholder="录入活动ID"
+                                           th:value="${activity.activityGuid}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityTitle">活动标题：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityTitle" name="activityTitle" type="text" class="form-control"
+                                           placeholder="录入活动标题"
+                                           th:value="${activity.activityTitle}" maxlength="50" minlength="5"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityDesp">活动描述：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="activityDesp" name="activityDesp" class="form-control"
+                                              placeholder="录入活动描述"
+                                              th:text="${activity.activityDesp}">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityComment">活动备注：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="activityComment" name="activityComment" class="form-control"
+                                              placeholder="录入活动备注"
+                                              th:text="${activity.activityComment}">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityStartTime">设定开始时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityStartTime" name="activityStartTime"
+                                           class="form_datetime form-control" type="text" placeholder="录入开始时间"
+                                           th:value="${#calendars.format(activity.activityStartTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityEndTime">设定结束时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityEndTime" name="activityEndTime"
+                                           class="form_datetime form-control" type="text" placeholder="录入结束时间"
+                                           th:value="${#calendars.format(activity.activityEndTime , 'yyyy-MM-dd HH:mm:ss')}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="activityProcessUserGuid">活动处理人：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityProcessUserGuid" name="activityProcessUserGuid" type="text"
+
+                                           class="form-control" placeholder="录入活动处理人"
+                                           th:value="${activity.activityProcessUserGuid}"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityAddress">活动地点：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityAddress" name="activityAddress" type="text" class="form-control"
+
+                                           placeholder="录入活动地点"
+                                           th:value="${activity.activityAddress}" maxlength="50" minlength="5"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityTypeProcessStatus">活动处理状态：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityTypeProcessStatus" name="activityTypeProcessStatus"
+                                           class="form-control"
+                                           th:value="${activity.activityTypeProcessStatus}">
+                                    </input>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="activityTargetsUserGuid">接收请求人的ID：</label>
+                                <div class="col-lg-9">
+									<textarea rows="5" id="activityTargetsUserGuid" name="activityTargetsUserGuid"
+                                              class="form-control" placeholder="录入接收请求人的ID"
+                                              th:text="${activity.activityTargetsUserGuid}">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="activityPersonNum">需要人数：</label>
+                                <div class="col-lg-9">
+                                    <input id="activityPersonNum" name="activityPersonNum" type="text"
+                                           class="form-control" placeholder="录入需要人数"
+                                           th:value="${activity.activityPersonNum}"/>
+                                </div>
+                                <div class="form-actions">
+                                    <input id="Submit" class="btn btn-primary" type="submit" value="保存"/>&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var startTime = laydate.render({
+            elem:  '#activityStartTime',//指定元素
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            min: 0, //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59',
+            done: function (value,dates) {
+                console.log(dates);
+                endTime.config.min={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.endMin = value; //开始时间等于结束时间的最小值
+//                endStart = value;//将结束日的初始值设定为开始日
+            }
+        });
+        var endTime = laydate.render({
+            elem: '#activityEndTime' , //指定元素
+            type: 'datetime',
+            format: "yyyy-MM-dd HH:mm:ss",
+            min: '1900-06-16 23:59:59',
+            max: '2099-06-16 23:59:59',
+            istime: true,
+            istoday: false,
+            done: function (value,dates) {
+                startTime.config.max={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.startMax = value; //开始时间的最大值等于选定的结束时间
+            }
+        });
+//        $('#activityTypeProcessStatus').attr("disabled", "disable");// 删除disabled属性
+
+
+    </script>
+
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+

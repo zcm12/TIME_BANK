@@ -4,14 +4,14 @@
     <title>服务详情</title>
 
     <!--<script th:inline="javascript">-->
-        <!--var reqGuid = [[${reqGuid}]];-->
-<!--//        alert(reqGuid)-->
-<!--//        console.log(message);-->
+    <!--var reqGuid = [[${reqGuid}]];-->
+    <!--//        alert(reqGuid)-->
+    <!--//        console.log(message);-->
     <!--</script>-->
 
     <!--<script type="text/javascript">-->
-        <!--$(document).ready(function() {-->
-        <!--})-->
+    <!--$(document).ready(function() {-->
+    <!--})-->
 
     <!--</script>-->
 
@@ -132,172 +132,213 @@
                         </div>
                     </form>
 
-                    <!--<div class="form-group  col-lg-12">-->
-                        <!--<a th:href="@{/updateREQEST}"><input id="updateRequest" class="btn btn-primary" type="button" value="更 新 请 求"/></a>-->
-                        <!--&lt;!&ndash;<input id="updateRequestValue" name="updateRequestValue" type="text" class="form-control" th:value="${updateList.updateId}" disabled="disabled"/>&ndash;&gt;-->
-                    <!--</div>-->
-                    <!--<div class="form-group  col-lg-12">-->
-                        <!--<a th:href="@{/deleteREQEST}"> <input id="deleteRequest" class="btn btn-primary" type="button" value="撤 销" onclick="deleteRequest()"/></a>-->
-                        <!--&lt;!&ndash;<input id="deleteRequestValue" name="deleteRequestValue" type="text" class="form-control" th:value="${updateList.deletaId}" disabled="disabled"/>&ndash;&gt;-->
+                    <div class="form-group  col-lg-12">
+                        <a th:href="@{/updateREQEST}"><input id="updateRequest" class="btn btn-primary"type="button" value="更 新 请 求"/></a>
+                        <!--<input id="updateRequestValue" name="updateRequestValue" type="text" class="form-control" th:value="${updateList.updateId}" disabled="disabled"/>-->
+                        <a th:href="@{/volunteerListOfApply}"><input id="viewVolRequest" class="btn btn-primary" type="button" value="查 看 志 愿 者" onclick="viewVolRequest()" /></a>
+                    </div>
 
-                    <!--</div>-->
-                    <!--<div class="form-group  col-lg-12">-->
-                        <!--<input id="startRequest" class="btn btn-primary" type="button" value="启 动" data-toggle="modal" data-target="#Mymodel"/>-->
-                        <!--<input id="startRequestValue" name="startRequestValue" type="text" class="form-control" th:value="${updateList.startId}" disabled="disabled"/>-->
+                    <div class="form-group  col-lg-12">
+                        <input id="deleteRequest" class="btn btn-primary" type="button" value="撤 销" data-toggle="modal" data-target="#deletemodel"  />
+                        <!-- <a th:href="@{/deleteREQEST}"> <input id="deleteRequest" class="btn btn-primary" type="button" value="撤 销" /></a>-->
+                        <!--<input id="deleteRequestValue" name="deleteRequestValue" type="text" class="form-control" th:value="${updateList.deletaId}" disabled="disabled"/>-->
+                        <!-- <a th:href="@{/unEvaluateRequest}"><input id="unEvaluateRequest" class="btn btn-primary" type="button" value="已完成未评价" /></a>-->
+                    </div>
 
-                        <!--<a th:href="@{/volunteerListOfApply}"><input id="viewVolRequest" class="btn btn-primary" type="button" value="查 看 志 愿 者" onclick="viewVolRequest()" /></a>-->
-                    <!--</div>-->
-                    <!--<div class="form-group  col-lg-12">-->
-                        <!--<input id="finishRequest" class="btn btn-primary" type="button" value="已 完 成" data-toggle="modal" data-target="#endmodel"  />-->
-                        <!--<input id="unFinishRequest" class="btn btn-primary" type="button" value="未 完 成" data-toggle="modal" data-target="#unEndmodel"/>-->
-                    <!--</div>-->
-                <!----------------------------查看志愿者表格---------------------------------->
-                <form id="REQESTInputForm6" name="REQESTInputForm6" method="post" class="form-horizontal" role="form" action="/volunteerListOfApply"
-                      data-bv-message="This value is not valid"
-                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
-                    <div class="form-group  col-lg-6" hidden="hidden">
-                        <label class="control-label col-lg-3" for="reqGuid6"  >请求ID：</label>
-                        <div class="col-lg-9">
-                            <input id="reqGuid6" name="reqGuid6" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
-                        </div>
+                    <div class="form-group  col-lg-12">
+                        <input id="startRequest" class="btn btn-primary" type="button" value="启 动" data-toggle="modal" data-target="#Mymodel"/>
+                        <!-- <input id="startRequestValue" name="startRequestValue" type="text" class="form-control" th:value="${updateList.startId}" disabled="disabled"/>-->
+                        <a th:href="@{/waitRequest}"><input id="waitRequest" class="btn btn-primary" type="button" value="待启动" /></a>
                     </div>
-                    <div class="form-actions">
-                        <input id="Submit6" class="btn btn-primary" type="submit" value="查看志愿者" />&nbsp;
+                    <div class="form-group  col-lg-12">
+                        <input id="finishRequest" class="btn btn-primary" type="button" value="已 完 成" data-toggle="modal" data-target="#endmodel"  />
+                        <input id="unFinishRequest" class="btn btn-primary" type="button" value="未 完 成" data-toggle="modal" data-target="#unEndmodel"/>
                     </div>
-                </form>
-                <!----------------------------未完成请求表格---------------------------------->
-                <form id="REQESTInputForm5" name="REQESTInputForm5" method="post" class="form-horizontal" role="form" action="/unEndRequest"
-                      data-bv-message="This value is not valid"
-                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
-                    <div class="form-group  col-lg-6" hidden="hidden">
-                        <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
-                        <div class="col-lg-9">
-                            <input id="reqGuid5" name="reqGuid5" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <input id="Submit5" class="btn btn-primary" type="submit" value="未完成请求" />&nbsp;
-                    </div>
-                </form>
-                                            <!----------------------------已完成请求表格---------------------------------->
-                <form id="REQESTInputForm4" name="REQESTInputForm4" method="post" class="form-horizontal" role="form" action="/endRequest"
-                      data-bv-message="This value is not valid"
-                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
-                    <div class="form-group  col-lg-6" hidden="hidden">
-                        <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
-                        <div class="col-lg-9">
-                            <input id="reqGuid4" name="reqGuid4" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <input id="Submit4" class="btn btn-primary" type="submit" value="已完成请求" />&nbsp;
-                    </div>
-                </form>
-                                                        <!----------------------------启动请求表格---------------------------------->
-                    <form id="REQESTInputForm3" name="REQESTInputForm3" method="post" class="form-horizontal" role="form" action="/startRequest"
-                          data-bv-message="This value is not valid"
-                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
-                        <div class="form-group  col-lg-6" hidden="hidden">
-                            <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
-                            <div class="col-lg-9">
-                                <input id="reqGuid3" name="reqGuid3" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                    <!--               &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;查看志愿者表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+                                   <form id="REQESTInputForm6" name="REQESTInputForm6" method="post" class="form-horizontal" role="form" action="/volunteerListOfApply">&lt;!&ndash;data-bv-message="This value is not valid"
+                                         data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                         data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                         data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" &ndash;&gt;
+                                       <div class="form-group  col-lg-6" hidden="hidden">
+                                           <label class="control-label col-lg-3" for="reqGuid6"  >请求ID：</label>
+                                           <div class="col-lg-9">
+                                               <input id="reqGuid6" name="reqGuid6" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                                           </div>
+                                       </div>
+                                       <div class="form-actions">
+                                           <input id="Submit6" class="btn btn-primary" type="submit" value="查看志愿者" />&nbsp;
+                                       </div>
+                                   </form>
+                                   &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;未完成请求表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
+
+                                                               &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;已完成请求表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
+                                   <form id="REQESTInputForm4" name="REQESTInputForm4" method="post" class="form-horizontal" role="form" action="/endRequest"
+                                      >
+                                       <div class="form-group  col-lg-6" hidden="hidden">
+                                           <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
+                                           <div class="col-lg-9">
+                                               <input id="reqGuid4" name="reqGuid4" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                                           </div>
+                                       </div>
+                                       <div class="form-actions">
+                                           <input id="Submit4" class="btn btn-primary" type="submit" value="已完成请求" />&nbsp;
+                                       </div>
+                                   </form>
+                                                                           &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;启动请求表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
+                                       <form id="REQESTInputForm3" name="REQESTInputForm3" method="post" class="form-horizontal" role="form" action="/startRequest" >
+
+                                           <div class="form-group  col-lg-6" hidden="hidden">
+                                               <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
+                                               <div class="col-lg-9">
+                                                   <input id="reqGuid3" name="reqGuid3" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                                               </div>
+                                           </div>
+                                           <div class="form-actions">
+                                               <input id="Submit3" class="btn btn-primary" type="submit" value="启动请求" />&nbsp;
+                                           </div>
+                                       </form>
+                                                                   &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;撤销请求表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
+                                       <form id="REQESTInputForm2" name="REQESTInputForm2" method="post" class="form-horizontal" role="form" action="/deleteREQEST"
+                                             data-bv-message="This value is not valid"
+                                             data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                             data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                             data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
+                                           <div class="form-group  col-lg-6" hidden="hidden">
+                                               <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
+                                               <div class="col-lg-9">
+                                                   <input id="reqGuid2" name="reqGuid2" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                                               </div>
+                                           </div>
+                                           <div class="form-actions">
+                                               <input id="Submit2" class="btn btn-primary" type="submit" value="撤销请求" />&nbsp;
+                                               </div>
+                                       </form>
+                                                                   &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;更新请求表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
+                                       <form id="REQESTInputForm1" name="REQESTInputForm1" method="post" class="form-horizontal" role="form" action="/updateREQEST">
+                                           <div class="form-group  col-lg-6" hidden="hidden">
+                                               <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
+                                               <div class="col-lg-9">
+                                                   <input id="reqGuid1" name="reqGuid1" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                                               </div>
+                                           </div>
+                                           <div class="form-actions">
+                                               <input id="Submit1" class="btn btn-primary" type="submit" value="更新请求" />&nbsp;
+                                           </div>
+                                       </form>-->
+
+
+                    <!--  启动按钮模态框-->
+                    <div class="modal fade" id="Mymodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">
+                        <div class="modal-dialog" style="top: 150px; width: 500px">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabelautoalert">
+                                        确定要启动服务请求吗？
+                                    </h4>
+                                </div>
+                                <div class="modal-body" >
+                                    <form id="REQESTInputForm1" name="REQESTInputForm1" method="post" class="form-horizontal" role="form" action="/startRequest" >
+
+                                        <div class="form-group  col-lg-6" hidden="hidden">
+                                            <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
+                                            <div class="col-lg-9">
+                                                <input id="reqGuid1" name="reqGuid1" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn  btn-primary" >确定</button>
+                                        </div>
+                                    </form>
+                                    <!--<a th:href="@{/startRequest}"><button type="button" class="btn  btn-primary" data-dismiss="modal">确定</button></a>-->
+                                    <button type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-actions">
-                            <input id="Submit3" class="btn btn-primary" type="submit" value="启动请求" />&nbsp;
-                        </div>
-                    </form>
-                                                <!----------------------------撤销请求表格---------------------------------->
-                    <form id="REQESTInputForm2" name="REQESTInputForm2" method="post" class="form-horizontal" role="form" action="/deleteREQEST"
-                          data-bv-message="This value is not valid"
-                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
-                        <div class="form-group  col-lg-6" hidden="hidden">
-                            <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
-                            <div class="col-lg-9">
-                                <input id="reqGuid2" name="reqGuid2" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                    </div>
+
+                    <!--已完成按钮模态框-->
+                    <div class="modal fade" id="endmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">
+                        <div class="modal-dialog" style="top: 150px; width: 500px">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="endModalLabelautoalert">
+                                        确定已经完成服务了吗？
+                                    </h4>
+                                </div>
+                                <div class="modal-body" >
+                                    <form id="REQESTInputForm2" name="REQESTInputForm2" method="post" class="form-horizontal" role="form" action="/endRequest"
+                                    >
+                                        <div class="form-group  col-lg-6" hidden="hidden">
+                                            <label class="control-label col-lg-3" for="reqGuid2"  >请求ID：</label>
+                                            <div class="col-lg-9">
+                                                <input id="reqGuid2" name="reqGuid2" type="text" class="form-control" th:value="${reqest.reqGuid}" />
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn  btn-primary"  >确定</button>
+                                        </div>
+                                    </form>
+                                    <!--<a th:href="@{/endRequest}"><button type="submit" class="btn  btn-primary"  >确定</button></a>-->
+                                    <button type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-actions">
-                            <input id="Submit2" class="btn btn-primary" type="submit" value="撤销请求" />&nbsp;
-                            </div>
-                    </form>
-                                                <!----------------------------更新请求表格---------------------------------->
-                    <form id="REQESTInputForm1" name="REQESTInputForm1" method="post" class="form-horizontal" role="form" action="/updateREQEST"
-                          data-bv-message="This value is not valid"
-                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
-                        <div class="form-group  col-lg-6" hidden="hidden">
-                            <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
-                            <div class="col-lg-9">
-                                <input id="reqGuid1" name="reqGuid1" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
+                    </div>
+
+                    <!--未完成按钮模态框-->
+                    <div class="modal fade" id="unEndmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">
+                        <div class="modal-dialog" style="top: 150px; width: 500px">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="unEndModalLabelautoalert">
+                                        提示
+                                    </h4>
+                                </div>
+                                <div class="modal-body" >
+                                    <form id="REQESTInputForm3" name="REQESTInputForm3" method="post" class="form-horizontal" role="form" action="/unEndRequest">
+                                        <div class="form-group  col-lg-6" hidden="hidden">
+                                            <label class="control-label col-lg-3" for="reqGuid3"  >请求ID：</label>
+                                            <div class="col-lg-9">
+                                                <input id="reqGuid3" name="reqGuid3" type="text" class="form-control" th:value="${reqest.reqGuid}" />
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn  btn-primary" >确定</button>&nbsp;
+                                        </div>
+                                    </form>
+                                    <!--     <a th:href="@{/unEndRequest}"> <button type="button" class="btn  btn-primary"  data-dismiss="modal">确定</button></a>-->
+                                    <button type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-actions">
-                            <input id="Submit1" class="btn btn-primary" type="submit" value="更新请求" />&nbsp;
+                    </div>
+                    <!--撤销按钮模态框-->
+                    <div class="modal fade" id="deletemodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">
+                        <div class="modal-dialog" style="top: 150px; width: 500px">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="deleteModalLabelautoalert">
+                                        确定要撤销请求吗？
+                                    </h4>
+                                </div>
+                                <div class="modal-body" >
+                                    <form id="REQESTInputForm4" name="REQESTInputForm4" method="post" class="form-horizontal" role="form" action="/deleteREQEST">
+                                        <div class="form-group  col-lg-6" hidden="hidden">
+                                            <label class="control-label col-lg-3" for="reqGuid4"  >请求ID：</label>
+                                            <div class="col-lg-9">
+                                                <input id="reqGuid4" name="reqGuid4" type="text" class="form-control" th:value="${reqest.reqGuid}" />
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn  btn-primary" >确定</button>&nbsp;
+                                        </div>
+                                    </form>
+                                    <!--     <a th:href="@{/unEndRequest}"> <button type="button" class="btn  btn-primary"  data-dismiss="modal">确定</button></a>-->
+                                    <button type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>
+                                </div>
+                            </div>
                         </div>
-                    </form>
-
-                    <!--启动按钮模态框-->
-                    <!--<div class="modal fade" id="Mymodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">-->
-                        <!--<div class="modal-dialog" style="top: 150px; width: 500px">-->
-                            <!--<div class="modal-content">-->
-                                <!--<div class="modal-header">-->
-                                    <!--<h4 class="modal-title" id="myModalLabelautoalert">-->
-                                        <!--提示-->
-                                    <!--</h4>-->
-                                <!--</div>-->
-                                <!--<div class="modal-body" >-->
-                                    <!--<a th:href="@{/startRequest}"><button type="button" class="btn  btn-primary" onclick="startRequest()" data-dismiss="modal">确定</button></a>-->
-                                    <!--<button type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                    <!--&lt;!&ndash;已完成按钮模态框&ndash;&gt;-->
-                    <!--<div class="modal fade" id="endmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">-->
-                        <!--<div class="modal-dialog" style="top: 150px; width: 500px">-->
-                            <!--<div class="modal-content">-->
-                                <!--<div class="modal-header">-->
-                                    <!--<h4 class="modal-title" id="endModalLabelautoalert">-->
-                                        <!--提示-->
-                                    <!--</h4>-->
-                                <!--</div>-->
-                                <!--<div class="modal-body" >-->
-                                    <!--<a th:href="@{/endRequest}"><button type="button" class="btn  btn-primary"  data-dismiss="modal">确定</button></a>-->
-                                    <!--<button type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                    <!--&lt;!&ndash;未完成按钮模态框&ndash;&gt;-->
-                    <!--<div class="modal fade" id="unEndmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">-->
-                        <!--<div class="modal-dialog" style="top: 150px; width: 500px">-->
-                            <!--<div class="modal-content">-->
-                                <!--<div class="modal-header">-->
-                                    <!--<h4 class="modal-title" id="unEndModalLabelautoalert">-->
-                                        <!--提示-->
-                                    <!--</h4>-->
-                                <!--</div>-->
-                                <!--<div class="modal-body" >-->
-                                    <!--<a th:href="@{/unEndRequest}"> <button type="button" class="btn  btn-primary"  data-dismiss="modal">确定</button></a>-->
-                                    <!--<button type="button" class="btn  btn-primary" data-dismiss="modal">取消</button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                    </div>
                 </div>
                 <input id="updateId"   style="display:none"  type="text" th:value="${updateList.updateId}" />
                 <input id="deletaId"   style="display:none"  type="text" th:value="${updateList.deletaId}" />
@@ -305,6 +346,8 @@
                 <input id="viewVolId"  style="display:none"  type="text" th:value="${updateList.viewVolId}" />
                 <input id="finishId"   style="display:none"  type="text" th:value="${updateList.finishId}" />
                 <input id="unFinishId" style="display:none" type="text" th:value="${updateList.unFinishId}" />
+                <input id="waitId"     style="display:none" type="text" th:value="${updateList.waitId}" />
+                <!--  <input id="evaluateId"     style="display:none" type="text" th:value="${updateList.evaluateId}" />-->
             </div>
         </div>
     </div>
@@ -334,21 +377,31 @@
     }else {
         document.getElementById("startRequest").disabled=true;
     }
-    if(document.getElementById("viewVolId".value==1)){
+    if(document.getElementById("viewVolId").value==1){
         document.getElementById("viewVolRequest").disabled=false;
     }else {
         document.getElementById("viewVolRequest").disabled=true;
     }
-    if(document.getElementById("finishId".value==1)){
+    if(document.getElementById("finishId").value==1){
         document.getElementById("finishRequest").disabled=false;
     }else {
         document.getElementById("finishRequest").disabled = true;
     }
-    if(document.getElementById("unFinishId".value==1)){
+    if(document.getElementById("unFinishId").value==1){
         document.getElementById("unFinishRequest").disabled=false;
     }else {
         document.getElementById("unFinishRequest").disabled = true;
     }
+    if(document.getElementById("waitId").value==1){
+        document.getElementById("waitRequest").disabled=false;
+    }else {
+        document.getElementById("waitRequest").disabled = true;
+    }
+    /*if(document.getElementById("evaluateId").value==1){
+        document.getElementById("unEvaluateRequest").disabled=false;
+    }else {
+        document.getElementById("unEvaluateRequest").disabled = true;
+    }*/
 </script>
 </html>
 

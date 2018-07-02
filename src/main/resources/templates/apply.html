@@ -13,7 +13,6 @@
                     validating: 'glyphicon glyphicon-refresh'
                 },
                 fields: {
-
                     reqAddress:{
                         message: '请求提出地址验证失败',
                         validators: {
@@ -36,6 +35,10 @@
                             notEmpty: {
                                 message: '请求描述不能为空'
                             }
+                        },
+                        stringLength: {
+                            min: 10,
+                            message: '描述长度必须在10位以上'
                         }
                     },
                     reqComment:{
@@ -52,22 +55,6 @@
                         validators: {
                             notEmpty: {
                                 message: '请求分类不能为空'
-                            }
-                        }
-                    },
-                    reqAvailableStartTime:{
-                        message: '请求可用开始时间验证失败',
-                        validators: {
-                            notEmpty: {
-                                message: '请求可用开始时间不能为空'
-                            }
-                        }
-                    },
-                    reqAvailableEndTime:{
-                        message: '请求可用结束时间验证失败',
-                        validators: {
-                            notEmpty: {
-                                message: '请求可用结束时间不能为空'
                             }
                         }
                     },
@@ -92,6 +79,11 @@
                             regexp: {
                                 regexp: /^[0-9]*$/,
                                 message: '请求需要人数只能包含数字'
+                            },
+                            stringLength: {
+                                min: 1,
+                                max:15,
+                                message: '请求人数不超过15人'
                             }
                         }
                     },
@@ -140,14 +132,14 @@
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqAddress" >服务地址：</label>
                                 <div class="col-lg-9">
-									<input rows="5" id="reqAddress" name="reqAddress" class="form-control" placeholder="请输入详细服务地址">
+                                    <input rows="5" id="reqAddress" name="reqAddress" class="form-control" placeholder="请输入详细服务地址">
                                     </input>
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqTitle" >请求标题：</label>
                                 <div class="col-lg-9">
-									<input rows="5" id="reqTitle" name="reqTitle" class="form-control" placeholder="录入请求标题">
+                                    <input rows="5" id="reqTitle" name="reqTitle" class="form-control" placeholder="录入请求标题">
                                     </input>
                                 </div>
                             </div>
@@ -187,13 +179,13 @@
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqAvailableStartTime" >设定请求可用开始时间：</label>
                                 <div class="col-lg-9">
-                                    <input id="reqAvailableStartTime" name="reqAvailableStartTime" class="form_datetime form-control" type="text"  placeholder="录入请求可用开始时间"/>
+                                    <input id="reqAvailableStartTime" name="reqAvailableStartTime" class="form_datetime form-control " type="text"  placeholder="录入请求可用开始时间" />
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqAvailableEndTime" >设定请求可用结束时间：</label>
                                 <div class="col-lg-9">
-                                    <input id="reqAvailableEndTime" name="reqAvailableEndTime" class="form_datetime form-control" type="text"  placeholder="录入请求可用结束时间"/>
+                                    <input id="reqAvailableEndTime" name="reqAvailableEndTime" class="form_datetime form-control " type="text"  placeholder="录入请求可用结束时间" />
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
@@ -219,23 +211,85 @@
         </div>
     </div>
     <script>
-        laydate.render({
-            elem: '#reqAvailableStartTime' //指定元素
-            ,type: 'datetime'
+        /*$(function(){
+            var startTime = {
+                elem: '#reqAvailableStartTime', //选择ID为START的input
+                format: 'yyyy-MM-dd HH:mm:ss', //自动生成的时间格式
+                /!*min: 0, //设定最小日期为当前日期
+                max: '2099-06-16 23:59:59', //最大日期*!/
+                istime: true, //必须填入时间
+                istoday: false,  //是否是当天
+                /!*start: 0,  //设置开始时间为当前时间*!/
+                done: function(value){
+                    endTime.min = value; //开始日选好后，重置结束日的最小日期
+                    /!*end.start = value //将结束日的初始值设定为开始日*!/
+                    console.log(value);
+                }
+            };
+            var endTime = {
+                elem: '#reqAvailableEndTime',
+                format: 'yyyy-MM-dd HH:mm:ss',
+                /!*min: 0,
+                max: '2099-06-16 23:59:59',*!/
+                istime: true,
+                istoday: false,
+                /!*start: 0,*!/
+                done: function(value){
+                    startTime.max = value; //结束日选好后，重置开始日的最大日期
+                    console.log(value);
+                }
+            };
+            laydate.render(startTime);
+            laydate.render(endTime);
+        })*/
+        //        var startMax = '2099-06-16 23:59:59';
+        //        var endMin = '1900-06-16 23:59:59';
+        var startTime = laydate.render({
+            elem: '#reqAvailableStartTime',//指定元素
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            min: 0, //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59',
+            done: function (value,dates) {
+                console.log(dates);
+                endTime.config.min={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.endMin = value; //开始时间等于结束时间的最小值
+//                endStart = value;//将结束日的初始值设定为开始日
+            }
+        });
+        var endTime = laydate.render({
+            elem: '#reqAvailableEndTime', //指定元素
+            type: 'datetime',
+            format: "yyyy-MM-dd HH:mm:ss",
+            min: '1900-06-16 23:59:59',
+            max: '2099-06-16 23:59:59',
+            istime: true,
+            istoday: false,
+            done: function (value,dates) {
+                startTime.config.max={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.startMax = value; //开始时间的最大值等于选定的结束时间
+            }
         });
 
-        laydate.render({
-            elem: '#reqAvailableEndTime' //指定元素
-            ,type: 'datetime'
-        });
-    </script>
-    <script>
-        function s(e,a)
-        {
-            if ( e && e.preventDefault )
+        function s(e, a) {
+            if (e && e.preventDefault)
                 e.preventDefault();
             else
-                window.event.returnValue=false;
+                window.event.returnValue = false;
             a.focus();
 
         }

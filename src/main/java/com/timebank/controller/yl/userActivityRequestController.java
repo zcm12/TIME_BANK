@@ -47,13 +47,17 @@ public class userActivityRequestController {
         Users users1 = users.get(0);
         String role = users1.getUserRole();
         model.addAttribute("role",role);
+        //获得该用户的guid和小区
+        model.addAttribute("userguid",users1.getUserGuid());
+        model.addAttribute("usercommguid",users1.getUserCommGuid());
         return "activityApplyByUser";
     }
     //活动列表页面后台请求数据
     @RequestMapping(value="/getACTIVITYListByUserJsonData",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getACTIVITYListJsonData(@RequestParam int offset, int limit, String sortName,String sortOrder,Model model){
+    public String getACTIVITYListJsonData(@RequestParam int offset, int limit, String sortName,String sortOrder,String usercommguid,String userguid){
         System.out.println("活动列表界面向后台请求数据");
+        System.out.println("此用户的guid:"+userguid+" 此用户的小区guid :"+usercommguid);
         ActivityExample activityExample=new ActivityExample();
         activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94e3-4eb7-aad3-222222222222");
 
@@ -66,7 +70,8 @@ public class userActivityRequestController {
     }
 
     List<Activity> activitys=activityMapper.selectByExample(activityExample);
-    List<Activity> activityRecordList=new ArrayList<>();//所有状态为待启动的记录
+        //所有状态为待启动的记录
+    List<Activity> activityRecordList=new ArrayList<>();
     for(int i=offset;i< offset+limit&&i < activitys.size();i++){
         Activity activity1=activitys.get(i);
         //显示社区
@@ -76,10 +81,14 @@ public class userActivityRequestController {
         communityExample.or().andCommGuidEqualTo(activityFromCommGuid);
         List<Community> communities = communityMapper.selectByExample(communityExample);
         activity1.setActivityFromCommGuid(communities.get(0).getCommTitle());
-        //筛选活动界面中有此用户的id的记录
-//        if(activity1.getActivityTargetsUserGuid().contains(Guid)) {
-            activityRecordList.add(activity1);
-//        }
+        //第一步查询activity中traget字段是否包含此用户
+        String activityTraget=activity1.getActivityTargetsUserGuid();
+        if(activityTraget!=null&&activityTraget.contains(userguid)){
+            //第二步  用户防止修改小区以后 还能看到原先的活动  查询现在的小区 是否跟activity中的fromcommguid一样
+            if(activityFromCommGuid!=null&&activityFromCommGuid.equals(usercommguid)){
+                activityRecordList.add(activity1);
+            }
+        }
     }
     //全部符合要求的数据的数量
     int total=activitys.size();
@@ -98,10 +107,6 @@ public class userActivityRequestController {
     @RequestMapping(value = "/activityApply/{activityGuid}")
     public String activityApply (@PathVariable String activityGuid, Model model) {
         System.out.println("查看详情界面");
-//        System.out.println(activityGuid);
-//        System.out.println(22);
-//        System.out.println(acticityIDByUser);
-//        acticityIDByUser = activityGuid;
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());

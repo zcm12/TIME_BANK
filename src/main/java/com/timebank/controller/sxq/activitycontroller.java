@@ -1,8 +1,10 @@
 package com.timebank.controller.sxq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.timebank.controller.yl.UpdateList;
 import com.timebank.domain.*;
 import com.timebank.mapper.*;
+import org.apache.catalina.User;
 import org.apache.ibatis.jdbc.Null;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.Account;
@@ -59,17 +61,17 @@ public class activitycontroller {
      */
     public String IdtoName(String reqtargetuser) {
         if (reqtargetuser != null && !reqtargetuser.isEmpty()) {
-            UsersExample usersExample = new UsersExample();
             StringBuilder sb = new StringBuilder();
+            UsersExample usersExample = new UsersExample();
+
             //去掉[]
             String r = reqtargetuser.replaceAll("^.*\\[", "").replaceAll("].*", "");
             //分割字符串
             String[] array = r.split(",");
             String respondName = null;
             for (int in = 0; in < array.length; in++) {
-                //去掉空格
-                String jj = array[in].replaceAll(" ", "");
                 usersExample.clear();
+                String jj = array[in].replaceAll(" ", "");
                 usersExample.or().andUserGuidEqualTo(jj);
                 List<Users> responduser = usersMapper.selectByExample(usersExample);
                 respondName = responduser.get(0).getUserName();
@@ -80,37 +82,6 @@ public class activitycontroller {
         }
 
         return null;
-    }
-
-    //导航栏查看活动
-    @RequestMapping(value = "/activitylist/{buttonId1}")
-    public String activitylist(Model model, @PathVariable String buttonId1) {
-        Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
-        System.out.println("这是查看所有活动，每个查看活动列表都是这个界面，只不过活动状态的区别");
-        model.addAttribute("buttonid",buttonId1);
-        return "activitylist";
-    }
-
-    //导航栏查看已完成但未评价的活动
-    //导航栏查看活动
-    @RequestMapping(value = "/activitylistscore")
-    public String activitylistscore(Model model) {
-
-        Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
-        System.out.println("这是查看已完成但是没有评价");
-        return "activitylistscore";
     }
 
     //导航栏发布活动
@@ -127,12 +98,68 @@ public class activitycontroller {
         return "publishactivity";
     }
 
+    //发布活动插入数据库请求
+    @RequestMapping(value = "/activityinsert")
+    private String activityInsert(@ModelAttribute @Valid Activity activity, Errors errors, Model model) {
+        System.out.println("222222222222");
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+
+        if (!errors.hasErrors()) {
+
+            UUID guid = randomUUID();
+            activity.setActivityGuid(guid.toString());
+            String comguid = users1.getUserCommGuid();//当前用户活动社区
+            String nameguid = users1.getUserGuid();//此用户guid
+            activity.setActivityFromCommGuid(comguid);//活动社区
+            activity.setActivityProcessUserGuid(nameguid);//活动处理人
+            activity.setActivityTypeProcessStatus("33333333-94e3-4eb7-aad3-111111111111");//默认活动处理状态未启动
+            UsersExample comusersExample = new UsersExample();
+            comusersExample.or().andUserCommGuidEqualTo(comguid);
+            //comusersExample.or().andUserFromRoleGuidEqualTo("USE");
+            List<Users> comusers = usersMapper.selectByExample(comusersExample);//得到所有相同社区的用户
+            List<String> comuser1 = new ArrayList<>();
+            for (Users comuser : comusers) {
+                if (comuser.getUserRole() != null)
+                    if (comuser.getUserRole().equals("USE")) {//在这判断为用户
+                        String comuserGuid = comuser.getUserGuid();
+                        comuser1.add(comuserGuid);
+                    }
+            }
+            //将同一个社区 并且为用户身份的人插入该字段
+            activity.setActivityTargetsUserGuid(comuser1.toString());
+            activityMapper.insertSelective(activity);
+        }
+        return "activitylist";
+
+    }
+
+    //导航栏查看活动
+    @RequestMapping(value = "/activitylist/{buttonId1}")
+    public String activitylist(Model model, @PathVariable String buttonId1) {
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+        System.out.println("这是查看所有活动，每个查看活动列表都是这个界面，只不过活动状态的区别");
+        model.addAttribute("buttonid", buttonId1);
+        return "activitylist";
+    }
+
     // 查看所有活动请求 这是list界面中的请求  向后台索要数据
     @RequestMapping(value = "/getActivityListJsonData")
     @ResponseBody
-    public String activitylist(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder, String searchText,String button) {
+    public String activitylist(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder, String searchText, String button) {
         Subject account = SecurityUtils.getSubject();
-        System.out.println(button);
+        System.out.println("获取数据库数据 显示列表");
         UsersExample usersExample100 = new UsersExample();
         usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
         List<Users> users10 = usersMapper.selectByExample(usersExample100);
@@ -152,21 +179,33 @@ public class activitycontroller {
             activityExample.setOrderByClause(order);
         }
 
-        //判断点击的是查看未开始活动   从数据库依据其类型的GUID筛选记录
+        //判断点击的是查看未启动活动   从数据库依据其类型的GUID筛选记录
         if (button.equals("2")) {
             activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94e3-4eb7-aad3-111111111111");
         }
-        //判断点击的是查看进行中活动
+        //判断点击的是查看待启动活动
         if (button.equals("3")) {
-            activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94e3-4eb7-aad3-333333333333");
+            activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94e3-4eb7-aad3-222222222222");
+        }
+        //判断点击的是启动活动
+        if (button.equals("4")) {
+            activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94E3-4EB7-AAD3-333333333333");
+        }
+        //判断点击的是未完成活动
+        if (button.equals("5")) {
+            activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94E3-4EB7-AAD3-555555555555");
         }
         //判断点击的是已完成活动
-        if (button.equals("4")) {
-            activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94e3-4eb7-aad3-444444444444");
+        if (button.equals("6")) {
+            activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94E3-4EB7-AAD3-444444444444");
         }
         //判断点击的是已撤销活动
-        if (button.equals("5")) {
+        if (button.equals("7")) {
             activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94e3-4eb7-aad3-666666666666");
+        }
+        //判断点击的是评价完成的活动活动
+        if (button.equals("8")) {
+            activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94e3-4eb7-aad3-777777777777");
         }
         List<Activity> activities = activityMapper.selectByExample(activityExample);
         List<Activity> activityRecordList = new ArrayList<Activity>();
@@ -228,16 +267,25 @@ public class activitycontroller {
         }
     }
 
+    //导航栏评价活动
+    @RequestMapping(value = "/activitylistscore")
+    public String activitylistscore(Model model) {
 
-    //评分找出已完成但未评价的活动   searchText 搜索框
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+        System.out.println("这是查看已完成但是没有评价");
+        return "activitylistscore";
+    }
+
+    //找出已完成的活动   searchText 搜索框
     @RequestMapping(value = "/getActivityListScoreJsonData")
     @ResponseBody
     public String activitylistscore(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder, String searchText) {
-//        System.out.println(11111111);
-//        System.out.println(offset);//0
-//        System.out.println(limit);//20
-        System.out.println(sortName);//activityGuid
-//        System.out.println(sortOrder);//asc 表示正序排序
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -262,7 +310,7 @@ public class activitycontroller {
             activityExample.setOrderByClause(order);
         }
 
-        activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94e3-4eb7-aad3-777777777777");
+        activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94E3-4EB7-AAD3-444444444444");
 
 
         List<Activity> activities = activityMapper.selectByExample(activityExample);
@@ -331,7 +379,7 @@ public class activitycontroller {
 
     //某个活动查看详情请求
     @RequestMapping(value = "/ACTIVITY/{activityGuid}")
-    public String activityshow(Model model, @PathVariable String activityGuid) {
+    public String activityshow(Model model, @PathVariable String activityGuid, UpdateList updateList) {
         System.out.println("查看详情界面");
         //将用户的角色插入到模型中
         Subject account = SecurityUtils.getSubject();
@@ -344,21 +392,151 @@ public class activitycontroller {
 
         Activity activity = activityMapper.selectByPrimaryKey(activityGuid);//根据guid获得这条记录
         model.addAttribute("activity", activity);
-        //将申请用户的id转换成姓名
+        //将能看到此条记录的用户的id转换成姓名
         String Name = activity.getActivityTargetsUserGuid();
         String name = IdtoName(Name);
         model.addAttribute("idmessage", name);
+        //遍历actpart 将申请过此条记录的人插入到前端model
+        ActpartExample actpartExample = new ActpartExample();
+        actpartExample.or().andActpartActivityGuidEqualTo(activityGuid);
+        List<Actpart> actparts = actpartMapper.selectByExample(actpartExample);
+        StringBuilder stringBuilder = new StringBuilder();
+        //计数
+        int count = 0;
+        for (Actpart actpart : actparts) {
+            String userGuid = actpart.getActpartUserGuid();
+            UsersExample usersExample1 = new UsersExample();
+            usersExample1.or().andUserGuidEqualTo(userGuid);
+            List<Users> userList = usersMapper.selectByExample(usersExample1);
+            String userName = userList.get(0).getUserName();
+            stringBuilder.append(userName + "   ");
+            count++;
+        }
+        //参加人的姓名
+        model.addAttribute("joinId", stringBuilder);
+        //参加的人数
+        model.addAttribute("count", count);
+        //活动处理状态按钮逻辑显示
 
-
-        //选择性锁定保存按钮（更新数据库）
         String Type = activity.getActivityTypeProcessStatus();
         System.out.println(Type);
-        if (Type.equals("33333333-94E3-4EB7-AAD3-444444444444") || Type.equals("33333333-94E3-4EB7-AAD3-777777777777") ||
-                Type.equals("33333333-94E3-4EB7-AAD3-666666666666")) {
-            model.addAttribute("message", "1");
+        //未启动
+        if (Type.equals("33333333-94E3-4EB7-AAD3-111111111111")) {
+            //更新按钮
+            updateList.setUpdateId(1);
+            //查看志愿者
+            updateList.setDeletaId(0);
+            //启动按钮
+            updateList.setStartId(0);
+            //待启动按钮
+            updateList.setViewVolId(1);
+            //完成按钮
+            updateList.setFinishId(0);
+            //未完成按钮
+            updateList.setUnFinishId(0);
+            model.addAttribute("updateList", updateList);
+        }
+        // 待启动
+        if (Type.equals("33333333-94E3-4EB7-AAD3-222222222222")) {
+            //更新按钮
+            updateList.setUpdateId(0);
+            //查看志愿者
+            updateList.setDeletaId(1);
+            //启动按钮
+            updateList.setStartId(1);
+            //待启动按钮
+            updateList.setViewVolId(0);
+            //完成按钮
+            updateList.setFinishId(0);
+            //未完成按钮
+            updateList.setUnFinishId(0);
+            model.addAttribute("updateList", updateList);
+        }
+        // 启动
+        if (Type.equals("33333333-94E3-4EB7-AAD3-333333333333")) {
+            //更新按钮
+            updateList.setUpdateId(0);
+            //查看志愿者
+            updateList.setDeletaId(1);
+            //启动按钮
+            updateList.setStartId(0);
+            //待启动按钮
+            updateList.setViewVolId(0);
+            //完成按钮
+            updateList.setFinishId(1);
+            //未完成按钮
+            updateList.setUnFinishId(1);
+            model.addAttribute("updateList", updateList);
+        }
+        // 未完成
+        if (Type.equals("33333333-94E3-4EB7-AAD3-555555555555")) {
+            //更新按钮
+            updateList.setUpdateId(0);
+            //查看志愿者
+            updateList.setDeletaId(1);
+            //启动按钮
+            updateList.setStartId(0);
+            //未完成按钮
+            updateList.setUnFinishId(0);
+            //待启动按钮
+            updateList.setViewVolId(0);
+            //完成按钮
+            updateList.setFinishId(0);
+
+            model.addAttribute("updateList", updateList);
+        }
+        // 已评价
+        if (Type.equals("33333333-94E3-4EB7-AAD3-777777777777")) {
+            //查看志愿者
+            updateList.setDeletaId(1);
+            //启动按钮
+            updateList.setStartId(0);
+            //待启动按钮
+            updateList.setViewVolId(0);
+            //更新按钮
+            updateList.setUpdateId(0);
+
+            //打分按钮（完成）
+            updateList.setFinishId(0);
+            //未完成按钮
+            updateList.setUnFinishId(0);
+            model.addAttribute("updateList", updateList);
+        }
+        // 已完成
+        if (Type.equals("33333333-94E3-4EB7-AAD3-444444444444")) {
+            //更新按钮
+            updateList.setUpdateId(0);
+            //查看志愿者
+            updateList.setDeletaId(1);
+            //启动按钮
+            updateList.setStartId(0);
+            //待启动按钮
+            updateList.setViewVolId(0);
+            //完成按钮
+            updateList.setFinishId(0);
+            //未完成按钮
+            updateList.setUnFinishId(0);
+            model.addAttribute("updateList", updateList);
+        }
+        // 撤销
+        if (Type.equals("33333333-94E3-4EB7-AAD3-666666666666")) {
+            //未完成按钮
+            updateList.setUnFinishId(0);
+            //更新按钮
+            updateList.setUpdateId(0);
+            // 查看志愿者
+            updateList.setDeletaId(0);
+            //启动按钮
+            updateList.setStartId(0);
+            //待启动按钮
+            updateList.setViewVolId(0);
+            //完成按钮
+            updateList.setFinishId(0);
+
+            model.addAttribute("updateList", updateList);
         }
 
-        //处理活动状态
+        //处理活动状态 改成单选框
         TypeExample typeExample = new TypeExample();          //声明数据库对象
         typeExample.or().andTypeGroupIdEqualTo(3);     //查找数据库中value=3的值
         List<Type> typex = typeMapper.selectByExample(typeExample); //将查找的值存到集合中  组成下拉框
@@ -368,6 +546,243 @@ public class activitycontroller {
         return "activityshow";
     }
 
+    //待启动按钮
+    @RequestMapping(value = "/activityupdate4")
+    public String activityupdate4(Model model, String activityGuid4) {
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+        System.out.println(2222222);
+        System.out.println(activityGuid4);
+        ActivityExample activityExample = new ActivityExample();
+        activityExample.or().andActivityGuidEqualTo(activityGuid4);
+        List<Activity> activities = activityMapper.selectByExample(activityExample);
+        Activity activity = activities.get(0);
+        activity.setActivityTypeProcessStatus("33333333-94E3-4EB7-AAD3-222222222222");
+        //数据库更新 前端显示待启动
+        activityMapper.updateByPrimaryKeySelective(activity);
+        if (activity.getActivityTypeProcessStatus() != null) {
+            Type type1 = typeMapper.selectByPrimaryKey("33333333-94E3-4EB7-AAD3-222222222222");
+            activity.setActivityTypeProcessStatus(type1.getTypeTitle());
+        }
+        model.addAttribute("activity", activity);
+        model.addAttribute("message",0);
+        return "activityShowNoSbumit";
+    }
+
+    //启动按钮
+    @RequestMapping(value = "/activityupdate3")
+    public String activityupdate3(Model model, String activityGuid3) {
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+        ActivityExample activityExample = new ActivityExample();
+        activityExample.or().andActivityGuidEqualTo(activityGuid3);
+        List<Activity> activities = activityMapper.selectByExample(activityExample);
+        Activity activity = activities.get(0);
+        activity.setActivityTypeProcessStatus("33333333-94E3-4EB7-AAD3-333333333333");
+        //数据库更新 前端显示待启动
+        activityMapper.updateByPrimaryKeySelective(activity);
+        if (activity.getActivityTypeProcessStatus() != null) {
+            Type type1 = typeMapper.selectByPrimaryKey("33333333-94E3-4EB7-AAD3-333333333333");
+            activity.setActivityTypeProcessStatus(type1.getTypeTitle());
+        }
+        model.addAttribute("message",0);
+        model.addAttribute("activity", activity);
+
+        return "activityShowNoSbumit";
+    }
+
+    //完成按钮
+    @RequestMapping(value = "/activityupdate5")
+    public String activityupdate5(Model model, String activityGuid5) {
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+        ActivityExample activityExample = new ActivityExample();
+        activityExample.or().andActivityGuidEqualTo(activityGuid5);
+        List<Activity> activities = activityMapper.selectByExample(activityExample);
+        Activity activity = activities.get(0);
+        activity.setActivityTypeProcessStatus("33333333-94E3-4EB7-AAD3-444444444444");
+        //数据库更新 前端显示待启动
+        activityMapper.updateByPrimaryKeySelective(activity);
+        if (activity.getActivityTypeProcessStatus() != null) {
+            Type type1 = typeMapper.selectByPrimaryKey("33333333-94E3-4EB7-AAD3-444444444444");
+            activity.setActivityTypeProcessStatus(type1.getTypeTitle());
+        }
+        model.addAttribute("message",0);
+        model.addAttribute("activity", activity);
+        return "activityShowNoSbumit";
+    }
+
+    //未完成按钮
+    @RequestMapping(value = "/activityupdate6")
+    public String activityupdate6(Model model, String activityGuid6) {
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+        ActivityExample activityExample = new ActivityExample();
+        activityExample.or().andActivityGuidEqualTo(activityGuid6);
+        List<Activity> activities = activityMapper.selectByExample(activityExample);
+        Activity activity = activities.get(0);
+        activity.setActivityTypeProcessStatus("333333333-94E3-4EB7-AAD3-555555555555");
+        //数据库更新 前端显示待启动
+        activityMapper.updateByPrimaryKeySelective(activity);
+        if (activity.getActivityTypeProcessStatus() != null) {
+            Type type1 = typeMapper.selectByPrimaryKey("33333333-94E3-4EB7-AAD3-555555555555");
+            activity.setActivityTypeProcessStatus(type1.getTypeTitle());
+        }
+        model.addAttribute("activity", activity);
+        model.addAttribute("message",0);
+        return "activityShowNoSbumit";
+    }
+
+    //撤销按钮
+    @RequestMapping(value = "/activityupdate7")
+    public String activityupdate7(Model model, String activityGuid7) {
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+        ActivityExample activityExample = new ActivityExample();
+        activityExample.or().andActivityGuidEqualTo(activityGuid7);
+        List<Activity> activities = activityMapper.selectByExample(activityExample);
+        Activity activity = activities.get(0);
+        activity.setActivityTypeProcessStatus("33333333-94E3-4EB7-AAD3-666666666666");
+        //数据库更新 前端显示待启动
+        activityMapper.updateByPrimaryKeySelective(activity);
+        if (activity.getActivityTypeProcessStatus() != null) {
+            Type type1 = typeMapper.selectByPrimaryKey("33333333-94E3-4EB7-AAD3-666666666666");
+            activity.setActivityTypeProcessStatus(type1.getTypeTitle());
+        }
+        model.addAttribute("activity", activity);
+        model.addAttribute("message",0);
+        return "activityShowNoSbumit";
+    }
+
+    //查看志愿者按钮 申请此单的人
+    @RequestMapping(value = "/activityupdate2")
+    public String activityupdate2(Model model, String activityGuid2) {
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+        model.addAttribute("message",activityGuid2);
+        System.out.println("查看志愿者");
+        return "volunteerListByMa";
+    }
+    @RequestMapping(value="/getVolunteerListJsonData1",produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String getVolunteerListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder,String activityGuid){
+        System.out.println(222222);
+        System.out.println(activityGuid);
+        ActpartExample actpartExample=new ActpartExample();
+        actpartExample.clear();
+        //处理排序信息
+        if(sortName!=null){
+            //拼接字符串
+            String order= GetDatabaseFileName(sortName)+" "+sortOrder;
+            //将排序信息添加到example中
+            actpartExample.setOrderByClause(order);
+        }
+        actpartExample.or().andActpartActivityGuidEqualTo(activityGuid);
+        List<Actpart> actpartList=actpartMapper.selectByExample(actpartExample);
+        List<Actpart> respondRecordList=new ArrayList<>();
+        for(int i=offset;i< offset+limit&&i < actpartList.size();i++){
+            Actpart actpart=actpartList.get(i);
+            TypeExample typeExample = new TypeExample();
+            String resUserGuid=actpart.getActpartUserGuid();
+            UsersExample usersExample = new UsersExample();
+            usersExample.or().andUserGuidEqualTo(resUserGuid);
+            List<Users> users = usersMapper.selectByExample(usersExample);
+            actpart.setActpartActivityGuid(users.get(0).getUserAccount());
+//            String resTypeGuidProcessStatus=actpart.getAcpartTypeGuidProcessStatus();
+//            typeExample.clear();
+//            typeExample.or().andTypeGuidEqualTo(resTypeGuidProcessStatus);
+//            List<Type> types = typeMapper.selectByExample(typeExample);
+//            actpart.setActpartActivityGuid(types.get(0).getTypeTitle());
+            respondRecordList.add(actpart);
+
+        }
+        //全部符合要求的数据的数量
+        int total=actpartList.size();
+        //将所得集合打包
+        ObjectMapper mapper = new ObjectMapper();
+        com.timebank.controller.yl.TableRecordsJson tableRecordsJson=new com.timebank.controller.yl.TableRecordsJson(respondRecordList,total);
+        //将实体类转换成json数据并返回
+        try {
+            String json1 = mapper.writeValueAsString(tableRecordsJson);
+            // System.out.println(json1);
+            return json1;
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    //更新按钮
+    @RequestMapping(value = "/activityupdate1")
+    public String activityupdate1(Model model, String activityGuid1) {
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+        model.addAttribute("message",1);
+        ActivityExample activityExample = new ActivityExample();
+        activityExample.or().andActivityGuidEqualTo(activityGuid1);
+        List<Activity> activities = activityMapper.selectByExample(activityExample);
+        Activity activity = activities.get(0);
+        if (activity.getActivityTypeProcessStatus() != null) {
+            Type type1 = typeMapper.selectByPrimaryKey("33333333-94E3-4EB7-AAD3-111111111111");
+            activity.setActivityTypeProcessStatus(type1.getTypeTitle());
+        }
+        model.addAttribute("activity",activity);
+        return "activityShowNoSbumit";
+    }
+    //更新界面中的保存按钮
+    @RequestMapping(value = "/updateactivity")
+    public  String updateactivity(Model model,Activity activity,String activityGuid){
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+        model.addAttribute("message",0);
+        activity.setActivityTypeProcessStatus("33333333-94E3-4EB7-AAD3-111111111111");
+        activityMapper.updateByPrimaryKeySelective(activity);
+        if (activity.getActivityTypeProcessStatus() != null) {
+            Type type1 = typeMapper.selectByPrimaryKey("33333333-94E3-4EB7-AAD3-111111111111");
+            activity.setActivityTypeProcessStatus(type1.getTypeTitle());
+        }
+        model.addAttribute("activity",activity);
+        return  "activityShowNoSbumit";
+    }
     //给活动参与者打分  评分按钮
     @RequestMapping(value = "/activityscore/{activityGuid}")
     public String activityscore(Model model, @PathVariable String activityGuid) {
@@ -379,10 +794,9 @@ public class activitycontroller {
         Users users1 = users.get(0);
         String role = users1.getUserRole();
         model.addAttribute("role", role);
-        model.addAttribute("activityid",activityGuid);
+        model.addAttribute("activityid", activityGuid);
 
-//        activityscore = activityGuid;
-//       System.out.println("评分按钮 结束");
+
         return "activitypersonscore";
     }
 
@@ -430,12 +844,15 @@ public class activitycontroller {
         for (int i = offset; i < offset + limit && i < array.length; i++) {
             String jj = array[i].replaceAll(" ", "");
             Users user = usersMapper.selectByPrimaryKey(jj);
+            //获得role的角色
+//            String userRole = user.getUserFromRoleGuid();
+//            roleExample.clear();
+//            roleExample.or().andRoleGuidEqualTo(userRole);
+//            List<Role> userrole1 = roleMapper.selectByExample(roleExample);
+//            user.setUserFromRoleGuid(userrole1.get(0).getRoleTitle());
 
-            String userRole = user.getUserFromRoleGuid();
-            roleExample.clear();
-            roleExample.or().andRoleGuidEqualTo(userRole);
-            List<Role> userrole1 = roleMapper.selectByExample(roleExample);
-            user.setUserFromRoleGuid(userrole1.get(0).getRoleTitle());
+//            String useRole=user.getUserRole();
+//            user.setUserRole(useRole);
 
             String userGender = user.getUserTypeGuidGender();
             typeExample.clear();
@@ -469,50 +886,8 @@ public class activitycontroller {
     }
 
 
-    //发布活动插入数据库请求aa
-    @RequestMapping(value = "/activityinsert")
-    private String activityInsert(@ModelAttribute @Valid Activity activity, Errors errors, Model model) {
-    System.out.println("222222222222");
-        Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
-
-        if (!errors.hasErrors()) {
-
-            UUID guid = randomUUID();
-            activity.setActivityGuid(guid.toString());
-            String comguid = users1.getUserCommGuid();//当前用户活动社区
-            String nameguid = users1.getUserGuid();//此用户guid
-            activity.setActivityFromCommGuid(comguid);//活动社区
-            activity.setActivityProcessUserGuid(nameguid);//活动处理人
-            activity.setActivityTypeProcessStatus("33333333-94e3-4eb7-aad3-111111111111");//默认活动处理状态
-            UsersExample comusersExample = new UsersExample();
-            comusersExample.or().andUserCommGuidEqualTo(comguid);
-            //comusersExample.or().andUserFromRoleGuidEqualTo("USE");
-            List<Users> comusers = usersMapper.selectByExample(comusersExample);//得到所有相同社区的用户
-            List<String> comuser1 = new ArrayList<>();
-            for (Users comuser : comusers) {
-                if(comuser.getUserRole()!=null)
-                    if (comuser.getUserRole().equals("USE")) {//在这判断为用户
-                        String comuserGuid = comuser.getUserGuid();
-                        comuser1.add(comuserGuid);
-                    }
-            }
-            activity.setActivityTargetsUserGuid(comuser1.toString());
-//            activity.setActivityProcessUserGuid("a395ac24-091d-410d-bd9b-5dbccbcc1226");//默认活动处理人
-            //activity.setActivityFromCommGuid("a395ac24-091d-410d-bd9b-5dbccbcc0109");//默认活动社区id
-            activityMapper.insertSelective(activity);
-        }
-        return "activitylist";
-
-    }
-
     //修改活动更新数据库请求 保存按钮
-    @RequestMapping(value = "/activityupdate")
+    @RequestMapping(value = "/activityGuid1")
     public String activityUpdate(@ModelAttribute @Valid Activity activity, Errors errors, Model model) {
 
         Subject account = SecurityUtils.getSubject();
@@ -530,9 +905,10 @@ public class activitycontroller {
     }
 
     //给服务打分
-    @RequestMapping(value = "/scoreForPerson",method=RequestMethod.POST )
-    private String scoreForPerson(Model model,String thisPerson1,String finalScore,String id) {
+    @RequestMapping(value = "/scoreForPerson", method = RequestMethod.POST)
+    private String scoreForPerson(Model model, String thisPerson1, String finalScore, String id, Errors errors) {
         System.out.println("这是打完分数后 确定按钮");
+        System.out.println(finalScore + "间隔" + id + "间隔" + thisPerson1);
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -540,17 +916,18 @@ public class activitycontroller {
         Users users1 = users.get(0);
         String role = users1.getUserRole();
         model.addAttribute("role", role);
-        model.addAttribute("activityid",id);
+        model.addAttribute("activityid", id);
         //需要将分数插入到actpartb表单中
-        ActpartExample actpartExample=new ActpartExample();
+        ActpartExample actpartExample = new ActpartExample();
         actpartExample.or().andActpartActivityGuidEqualTo(id);
-        List<Actpart> activities=actpartMapper.selectByExample(actpartExample);
-       for(Actpart it:activities){
-           if(it.getActpartUserGuid().equals(thisPerson1)){
-               it.setActpartEvaluate(Integer.parseInt(finalScore));
-                   actpartMapper.updateByPrimaryKeySelective(it);
-           }
-       }
+        List<Actpart> activities = actpartMapper.selectByExample(actpartExample);
+        for (Actpart it : activities) {
+            if (it.getActpartUserGuid().equals(thisPerson1)) {
+                it.setActpartEvaluate(Integer.parseInt(finalScore));
+                actpartMapper.updateByPrimaryKeySelective(it);
+            }
+        }
+        //打分完成后修改处理状态的字段  改成33333333-94E3-4EB7-AAD3-777777777777
         return "activitypersonscore";
     }
 

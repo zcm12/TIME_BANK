@@ -21,7 +21,6 @@ import java.util.List;
 import static java.util.UUID.randomUUID;
 
 @Controller
-//@SessionAttributes(value = {"userId", "role"})
 public class AdminRequestController {
     @Autowired
     private ReqestMapper reqestMapper;
@@ -35,29 +34,9 @@ public class AdminRequestController {
     private WeightMapper weightMapper;
     @Autowired
     private UsersMapper usersMapper;
-    //定义请求状态分类 默认查看所有
-//    private String requestStateClass = "0";
-
-    /**
-     * 模拟平台管理员登录
-     *
-     * @param model
-     * @return
-     */
-//    @RequestMapping(value = "/0")
-//    public String login(Model model) {
-//
-//        model.addAttribute("userId", "wbw");
-//        model.addAttribute("role", 0);
-//        return "listRequestByAdminView";
-//    }
-
     //左边代发请求按钮
     @RequestMapping(value = "/createRequestByAdminView")
-//    public String createRequestByAdminView(@ModelAttribute("userId") String userId, @ModelAttribute("role") Integer role,
-//                                           Model model) {
         public String createRequestByAdminView(Model model) {
-//        setUserIdandrole(model, userId, role);
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -66,15 +45,13 @@ public class AdminRequestController {
         String role = users1.getUserRole();
         model.addAttribute("role",role);
         //插入type和weight
-        insertReqType(model,false);
+        insertReqType(model,true);
         return "createRequestByAdminView";
     }
 
     //代发请求界面中的 “保存”按钮  将数据插入到数据库
     @RequestMapping(value = "/createRequestByAdmin")
-//    public String insertRequest(@ModelAttribute("userId") String userId, @ModelAttribute("role") Integer role,
-//                                @ModelAttribute @Valid Reqest reqest, Errors errors, Model model) {
-    public String insertRequest(@ModelAttribute @Valid Reqest reqest, Errors errors, Model model) {
+    public String insertRequest(@ModelAttribute @Valid Reqest reqest, Errors errors) {
         if (!errors.hasErrors()) {
             Subject account = SecurityUtils.getSubject();
             UsersExample usersExample=new UsersExample();
@@ -97,8 +74,8 @@ public class AdminRequestController {
             Date date = new Date();
             reqest.setReqIssueTime(date);
             reqest.setReqDispatchTime(date);
-            //接收请求的用户的guid
-            reqest.setReqTargetsUserGuid("48abce9f-36f4-4ddb-9891-10842434a688");
+            //TODO：接收请求的用户的guid    此处暂时无法处理    应该根据数据库实时位置（坐标）字段来判断谁可以看到   此处先随机添加一个已知的用户
+            reqest.setReqTargetsUserGuid("c18e63f9-10ad-42a1-8be1-e89730e84500");
             //管理员的guid
             reqest.setReqProcessUserGuid(userId);
             //管理员代发请求,无需审核,请求批准状态和请求处理状态为"通过"和"未启动"
@@ -109,13 +86,10 @@ public class AdminRequestController {
         return "listRequestByAdminView";
     }
 
-    //查看详情
+    //代发请求中查看详情
     @RequestMapping(value = "/showReqestDetailViewByAdmin/{reqGuid}")
-//    public String showTeacherView1(@ModelAttribute("userId") String userId, @ModelAttribute("role") Integer role,
-//                                   @PathVariable String reqGuid, Model model) {
     public String showTeacherView1(@PathVariable String reqGuid, Model model) {
-//        setUserIdandrole(model, userId, role);
-        System.out.println("查看详情按钮");
+        System.out.println("查看详情按钮11");
         Subject subject=SecurityUtils.getSubject();
         UsersExample usersExample=new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) subject.getPrincipal());
@@ -138,14 +112,14 @@ public class AdminRequestController {
         return "showReqestDetailViewByAdmin";
     }
 
-    //查看详情中的保存按钮
+    //代发请求查看详情中的保存按钮
     @RequestMapping(value = "/updateReqestByAdmin")
-//    public String updateReqestByAdmin(@ModelAttribute("userId") String userId, @ModelAttribute("role") Integer role,
-//                                      @ModelAttribute Reqest reqest, Model model) {
     public String updateReqestByAdmin(@ModelAttribute Reqest reqest, Model model) {
-        //TODO:接受请求人ID,这个需要在审核通过后,跳转到专门的页面选择接受人(此处模拟添加一个,否则报错)
+
+        //TODO:此处有毛病  逻辑的问题
+        System.out.println("就是这");
         if (reqest.getReqTargetsUserGuid() == null) {
-            reqest.setReqTargetsUserGuid("48abce9f-36f4-4ddb-9891-10842434a688");
+            reqest.setReqTargetsUserGuid("c18e63f9-10ad-42a1-8be1-e89730e84500");
         }
         Subject subject= SecurityUtils.getSubject();
         UsersExample usersExample=new UsersExample();
@@ -197,13 +171,13 @@ public class AdminRequestController {
         System.out.println(requestState);
         TypeExample typeExample = new TypeExample();
         if (requestState.equals("1")){//待审核
-            reqestExample.or().andReqTypeGuidProcessStatusEqualTo("88888888-94e3-4eb7-aad3-333333333333");
+            reqestExample.or().andReqTypeApproveStatusEqualTo("88888888-94e3-4eb7-aad3-333333333333");
         }
         if (requestState.equals("2")){//通过
-            reqestExample.or().andReqTypeGuidProcessStatusEqualTo("88888888-94e3-4eb7-aad3-111111111111");
+            reqestExample.or().andReqTypeApproveStatusEqualTo("88888888-94e3-4eb7-aad3-111111111111");
         }
         if (requestState.equals("3")){//驳回
-            reqestExample.or().andReqTypeGuidProcessStatusEqualTo("88888888-94e3-4eb7-aad3-222222222222");
+            reqestExample.or().andReqTypeApproveStatusEqualTo("88888888-94e3-4eb7-aad3-222222222222");
         }
         if (requestState.equals("4")){//未启动
             reqestExample.or().andReqTypeGuidProcessStatusEqualTo("33333333-94e3-4eb7-aad3-111111111111");
@@ -246,16 +220,8 @@ public class AdminRequestController {
 
     /**
      * 通过条件查找对应json数据,并实现排序功能
-     *
-     * @param offset
-     * @param limit
-     * @param sortName
-     * @param sortOrder
-     * @param reqestExample
-     * @return
      */
     private String getJsonDate(@RequestParam int offset, int limit, String sortName, String sortOrder, ReqestExample reqestExample) {
-//        System.out.println("排序信息：" + sortName + ";" + sortOrder);
         //处理排序信息
         if (sortName != null) {
             //拼接字符串
@@ -350,7 +316,6 @@ public class AdminRequestController {
             for (int in = 0; in < array.length; in++) {
                 //去掉双引号
                 String jj = array[in].replaceAll("\"", "");
-                // System.out.println(jj);
                 usersExample.clear();
                 usersExample.or().andUserGuidEqualTo(jj);
                 List<Users> responduser = usersMapper.selectByExample(usersExample);
@@ -366,10 +331,6 @@ public class AdminRequestController {
     /**
      * 根据不同的请求处理状态显示和隐藏保存按钮
      * 只有在请求状态为待审核,或请求通过,请求处理状态为未启动时才可以显示保存按钮,目的是选择添加接收该请求的对象
-     *
-     * @param reqGuid
-     * @param model
-     * @param typeExample
      */
     private void isHiddenBtnSubmit(@PathVariable String reqGuid, Model model, TypeExample typeExample) {
         ReqestExample reqestExample = new ReqestExample();

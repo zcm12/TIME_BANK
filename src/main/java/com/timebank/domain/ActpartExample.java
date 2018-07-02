@@ -784,6 +784,76 @@ public class ActpartExample {
             addCriterion("ACPART_PROCESS_USER_GUID not between", value1, value2, "acpartProcessUserGuid");
             return (Criteria) this;
         }
+
+        public Criteria andAcpartTypeGuidProcessStatusIsNull() {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusIsNotNull() {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusEqualTo(String value) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS =", value, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusNotEqualTo(String value) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS <>", value, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusGreaterThan(String value) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS >", value, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS >=", value, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusLessThan(String value) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS <", value, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusLessThanOrEqualTo(String value) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS <=", value, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusLike(String value) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS like", value, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusNotLike(String value) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS not like", value, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusIn(List<String> values) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS in", values, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusNotIn(List<String> values) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS not in", values, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusBetween(String value1, String value2) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS between", value1, value2, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAcpartTypeGuidProcessStatusNotBetween(String value1, String value2) {
+            addCriterion("ACPART_TYPE_GUID_PROCESS_STATUS not between", value1, value2, "acpartTypeGuidProcessStatus");
+            return (Criteria) this;
+        }
     }
 
     /**

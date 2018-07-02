@@ -35,11 +35,11 @@ public class UserRequestController {
     private RespondMapper respondMapper;
     @Autowired
     private UsersMapper usersMapper;
-//    String reqGuidOfVol = null;
-    //请求的guid
-//    String updateRequestGuid = null;
+    String reqGuidOfVol = null;
+    // 请求的guid
+    String updateRequestGuid = null;
     //时间
-//    Date dateStart = null;
+    Date dateStart = null;
     //besepage页面的发布请求
     @RequestMapping(value = "/createRequestByUserView")
     public String userApply(Model model)
@@ -88,7 +88,7 @@ public class UserRequestController {
         Type type = typeMapper.selectByPrimaryKey("88888888-94e3-4eb7-aad3-333333333333");
         reqest.setReqTypeApproveStatus(type.getTypeGuid());
         //将请求处理状态先置为未启动
-        Type type1 = typeMapper.selectByPrimaryKey("33333333-94e3-4eb7-aad3-222222222222");
+        Type type1 = typeMapper.selectByPrimaryKey("33333333-94e3-4eb7-aad3-111111111111");
         reqest.setReqTypeGuidProcessStatus(type1.getTypeGuid());
         reqestMapper.insert(reqest);
         return "applyListView";
@@ -197,8 +197,9 @@ public class UserRequestController {
     @RequestMapping(value = "/listREQESTModel/{reqGuid}")
     public String listREQESTModel (@PathVariable String reqGuid , UpdateList updateList, Model model) {
         System.out.println("这是查看详情");
-//        updateRequestGuid = reqGuid;
-//        model.addAttribute("reqGuid",reqGuid);
+
+        updateRequestGuid = reqGuid;
+        model.addAttribute("reqGuid",reqGuid);
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -219,18 +220,6 @@ public class UserRequestController {
         typeExample.or().andTypeGuidEqualTo(reqest.getReqTypeGuidUrgency());
         List<Type> typex = typeMapper.selectByExample(typeExample);
         reqest.setReqTypeGuidUrgency(typex.get(0).getTypeTitle());
-        //处理请求处理状态
-        //String approveId = reqest.getReqTypeApproveStatus();
-        String processId = reqest.getReqTypeGuidProcessStatus();
-        if (processId != null)
-        {
-            System.out.println("进入查看详情判断请求处理状态");
-            typeExample.clear();
-            typeExample.or().andTypeGuidEqualTo(processId); //筛选
-            List<Type> types2 = typeMapper.selectByExample(typeExample);
-            //reqest.setReqTypeApproveStatus(types2.get(0).getTypeTitle());
-            reqest.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
-        }
         //处理请求批准状态
         String approveId = reqest.getReqTypeApproveStatus();
         //String processId = reqest1.getReqTypeGuidProcessStatus();
@@ -243,111 +232,141 @@ public class UserRequestController {
             reqest.setReqTypeApproveStatus(types2.get(0).getTypeTitle());
             //reqest1.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
         }
-        if (processId.equals("33333333-94E3-4EB7-AAD3-666666666666"))
+        //处理请求处理状态
+        //String approveId = reqest.getReqTypeApproveStatus();
+        String processId = reqest.getReqTypeGuidProcessStatus();
+        if (processId != null)
         {
-            System.out.println("逻辑判断请求处理状态为撤销");
-            //TODO 请求处理状态为撤销
-            updateList.setUpdateId(0);
-            updateList.setDeletaId(1);
-            updateList.setStartId(0);
-            updateList.setViewVolId(0);
-            updateList.setFinishId(0);
-            updateList.setUnFinishId(0);
-            model.addAttribute("updateList",updateList);
-        }else if (processId.equals("33333333-94E3-4EB7-AAD3-111111111111")){
-            System.out.println("逻辑判断请求处理状态为未启动");
-            //TODO 请求处理状态为未启动
-            updateList.setUpdateId(0);
-            updateList.setDeletaId(0);
-            updateList.setStartId(1);
-            updateList.setViewVolId(0);
-            updateList.setFinishId(0);
-            updateList.setUnFinishId(0);
-            model.addAttribute("updateList",updateList);
-        }else if (processId.equals("33333333-94E3-4EB7-AAD3-222222222222")){
-
-            System.out.println("逻辑判断请求处理状态为待启动");
-            //TODO 请求处理状态为待启动
-            updateList.setUpdateId(1);
-            updateList.setDeletaId(1);
-            updateList.setStartId(0);
-            updateList.setViewVolId(1);
-            updateList.setFinishId(0);
-            updateList.setUnFinishId(1);
-            model.addAttribute("updateList",updateList);
-
-        }else if (processId.equals("33333333-94E3-4EB7-AAD3-333333333333")) {
-            //TODO 请求处理状态为启动
-            updateList.setUpdateId(0);
-            updateList.setDeletaId(0);
-            updateList.setStartId(0);
-            updateList.setViewVolId(1);
-            updateList.setFinishId(0);
-            updateList.setUnFinishId(0);
-            model.addAttribute("updateList",updateList);
-
-        }  else if (processId.equals("33333333-94E3-4EB7-AAD3-555555555555")) {
-            //TODO 请求处理状态为未完成
-            updateList.setUpdateId(1);
-            updateList.setDeletaId(1);
-            updateList.setStartId(0);
-            updateList.setViewVolId(0);
-            updateList.setFinishId(0);
-            updateList.setUnFinishId(1);
-            model.addAttribute("updateList",updateList);
-        }else if (processId.equals("33333333-94E3-4EB7-AAD3-444444444444")) {
-            //TODO 请求处理状态为已完成
-            updateList.setUpdateId(0);
-            updateList.setDeletaId(0);
-            updateList.setStartId(1);
-            updateList.setViewVolId(1);
-            updateList.setFinishId(1);
-            updateList.setUnFinishId(0);
-            model.addAttribute("updateList",updateList);
+            System.out.println("进入查看详情判断请求处理状态");
+            typeExample.clear();
+            typeExample.or().andTypeGuidEqualTo(processId); //筛选
+            List<Type> types2 = typeMapper.selectByExample(typeExample);
+            //reqest.setReqTypeApproveStatus(types2.get(0).getTypeTitle());
+            reqest.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
         }
-        else if (processId.equals("33333333-94E3-4EB7-AAD3-777777777777")) {
-            //TODO 请求处理状态为已完成未评价
+        //TODO 请求批准状态为待审核
+        if (approveId.equals("88888888-94E3-4EB7-AAD3-333333333333") )
+        {
+            System.out.println("逻辑判断请求批准状态为待审核");
+            updateList.setUpdateId(0);
+            updateList.setDeletaId(1);
+            updateList.setStartId(0);
+            updateList.setViewVolId(0);
+            updateList.setFinishId(0);
+            updateList.setUnFinishId(0);
+            updateList.setWaitId(0);
+            updateList.setEvaluateId(0);
+            model.addAttribute("updateList",updateList);
+        }else if(approveId == "88888888-94E3-4EB7-AAD3-222222222222")
+        {
+            System.out.println("逻辑判断请求批准状态为驳回");
+            //TODO 请求批准状态为驳回
+            updateList.setUpdateId(0);
+            updateList.setDeletaId(1);
+            updateList.setStartId(0);
+            updateList.setViewVolId(0);
+            updateList.setFinishId(0);
+            updateList.setUnFinishId(0);
+            updateList.setWaitId(0);
+            updateList.setEvaluateId(0);
+            model.addAttribute("updateList",updateList);
+        }else if (approveId.equals("88888888-94E3-4EB7-AAD3-111111111111"))
+        {
+            System.out.println("逻辑判断请求批准状态为通过");
+            //TODO 请求批准状态为通过
             updateList.setUpdateId(1);
-            updateList.setDeletaId(0);
+            updateList.setDeletaId(1);
             updateList.setStartId(1);
             updateList.setViewVolId(1);
             updateList.setFinishId(1);
-            updateList.setUnFinishId(0);
+            updateList.setUnFinishId(1);
+            updateList.setWaitId(1);
+            updateList.setEvaluateId(1);
             model.addAttribute("updateList",updateList);
         }
         else {
-            //TODO 请求批准状态为待审核
-            if (approveId.equals("88888888-94E3-4EB7-AAD3-333333333333") )
+            if (processId.equals("33333333-94E3-4EB7-AAD3-666666666666"))
             {
-                System.out.println("逻辑判断请求批准状态为待审核");
-                updateList.setUpdateId(1);
+                System.out.println("逻辑判断请求处理状态为撤销");
+                //TODO 请求处理状态为撤销
+                updateList.setUpdateId(0);
                 updateList.setDeletaId(0);
                 updateList.setStartId(0);
-                updateList.setViewVolId(0);
-                updateList.setFinishId(1);
-                updateList.setUnFinishId(1);
-                model.addAttribute("updateList",updateList);
-            }else if(approveId == "88888888-94E3-4EB7-AAD3-222222222222")
-            {
-                System.out.println("逻辑判断请求批准状态为驳回");
-                //TODO 请求批准状态为驳回
-                updateList.setUpdateId(0);
-                updateList.setDeletaId(1);
-                updateList.setStartId(0);
-                updateList.setViewVolId(0);
+                updateList.setViewVolId(1);
                 updateList.setFinishId(0);
                 updateList.setUnFinishId(0);
+                updateList.setWaitId(0);
+                updateList.setEvaluateId(0);
                 model.addAttribute("updateList",updateList);
-            }else if (approveId.equals("88888888-94E3-4EB7-AAD3-111111111111"))
-            {
-                System.out.println("逻辑判断请求批准状态为通过");
-                //TODO 请求批准状态为通过
-                updateList.setUpdateId(0);
-                updateList.setDeletaId(0);
+            }else if (processId.equals("33333333-94E3-4EB7-AAD3-111111111111")){
+                System.out.println("逻辑判断请求处理状态为未启动");
+                //TODO 请求处理状态为未启动
+                updateList.setUpdateId(1);
+                updateList.setDeletaId(1);
                 updateList.setStartId(1);
                 updateList.setViewVolId(0);
                 updateList.setFinishId(0);
                 updateList.setUnFinishId(0);
+                updateList.setWaitId(1);
+                updateList.setEvaluateId(0);
+                model.addAttribute("updateList",updateList);
+            }else if (processId.equals("33333333-94E3-4EB7-AAD3-222222222222")){
+                System.out.println("逻辑判断请求处理状态为待启动");
+                //TODO 请求处理状态为待启动
+                updateList.setUpdateId(1);
+                updateList.setDeletaId(1);
+                updateList.setStartId(1);
+                updateList.setViewVolId(1);
+                updateList.setFinishId(0);
+                updateList.setUnFinishId(0);
+                updateList.setWaitId(0);
+                updateList.setEvaluateId(0);
+                model.addAttribute("updateList",updateList);
+            }else if (processId.equals("33333333-94E3-4EB7-AAD3-333333333333")) {
+                //TODO 请求处理状态为启动
+                updateList.setUpdateId(0);
+                updateList.setDeletaId(1);
+                updateList.setStartId(0);
+                updateList.setViewVolId(1);
+                updateList.setFinishId(1);
+                updateList.setUnFinishId(1);
+                updateList.setWaitId(0);
+                updateList.setEvaluateId(0);
+                model.addAttribute("updateList",updateList);
+
+            }  else if (processId.equals("33333333-94E3-4EB7-AAD3-555555555555")) {
+                //TODO 请求处理状态为未完成
+                updateList.setUpdateId(0);
+                updateList.setDeletaId(1);
+                updateList.setStartId(0);
+                updateList.setViewVolId(1);
+                updateList.setFinishId(1);
+                updateList.setUnFinishId(0);
+                updateList.setWaitId(0);
+                updateList.setEvaluateId(0);
+                model.addAttribute("updateList",updateList);
+            }else if (processId.equals("33333333-94E3-4EB7-AAD3-444444444444")) {
+                //TODO 请求处理状态为已完成
+                updateList.setUpdateId(0);
+                updateList.setDeletaId(1);
+                updateList.setStartId(0);
+                updateList.setViewVolId(1);
+                updateList.setFinishId(0);
+                updateList.setUnFinishId(0);
+                updateList.setWaitId(0);
+                updateList.setEvaluateId(1);
+                model.addAttribute("updateList",updateList);
+            }
+            else if (processId.equals("33333333-94E3-4EB7-AAD3-777777777777")) {
+                //TODO 请求处理状态为已完成未评价
+                updateList.setUpdateId(0);
+                updateList.setDeletaId(1);
+                updateList.setStartId(0);
+                updateList.setViewVolId(1);
+                updateList.setFinishId(0);
+                updateList.setUnFinishId(0);
+                updateList.setWaitId(0);
+                updateList.setEvaluateId(1);
                 model.addAttribute("updateList",updateList);
             }
         }
@@ -355,15 +374,9 @@ public class UserRequestController {
 //        model.addAttribute("reqGuid",reqGuid);
         return "listRequestModel";
     }
-
-
-    //查看详情界面中的更新请求
+  /*  //查看详情界面中的更新请求
     @RequestMapping(value = "/updateREQEST")
     public String updateREQEST (UpdateList updateList,Model model,String reqGuid1) {
-        System.out.println(1212);
-        System.out.println(reqGuid1);
-        System.out.println("更新请求");
-        System.out.println(updateList);
 
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
@@ -395,6 +408,48 @@ public class UserRequestController {
         model.addAttribute("updateList",updateList);
         return "updateReqestView";
 
+    }*/
+
+    //查看详情界面中的更新请求
+    @RequestMapping(value = "/updateREQEST")
+    public String updateREQEST (UpdateList updateList,Model model) {
+        System.out.println(1212);
+        //System.out.println(reqGuid1);
+        System.out.println("更新请求");
+        System.out.println(updateList);
+
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role",role);
+
+        //TODO 根据传递过来的reqGuid
+        Reqest reqest = reqestMapper.selectByPrimaryKey(updateRequestGuid);
+        model.addAttribute("reqest",reqest);
+
+        TypeExample typeExample = new TypeExample();
+        typeExample.or().andTypeGroupIdEqualTo(5);
+        List<Type> typex = typeMapper.selectByExample(typeExample);
+        model.addAttribute("types",typex);
+        typeExample.clear();
+        typeExample.or().andTypeGroupIdEqualTo(4);
+        List<Type> types = typeMapper.selectByExample(typeExample);
+        model.addAttribute("types1",types);
+        //TODO 点击更新请求按钮以后
+        updateList.setUpdateId(0);
+        updateList.setDeletaId(1);
+        updateList.setStartId(0);
+        updateList.setViewVolId(1);
+        updateList.setFinishId(0);
+        updateList.setUnFinishId(0);
+        updateList.setWaitId(1);
+        updateList.setEvaluateId(0);
+        model.addAttribute("updateList",updateList);
+        return "updateReqestView";
+
     }
     @RequestMapping(value = "/updateREQESTSave")
     public String updateREQESTSave(Reqest reqest, Model model){
@@ -411,8 +466,7 @@ public class UserRequestController {
     }
     //老人进行撤单操作
     @RequestMapping(value = "/deleteREQEST")
-    public String deleteRESPOND (UpdateList updateList,Model model,String reqGuid2) {
-        System.out.println(reqGuid2);
+    public String deleteRESPOND (UpdateList updateList,Model model,String reqGuid4) {
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -420,39 +474,40 @@ public class UserRequestController {
         Users users1 = users.get(0);
         String role = users1.getUserRole();
         model.addAttribute("role",role);
-
-        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid2);
+        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid4);
         //更新请求表
-        reqest.setReqTypeGuidProcessStatus("33333333-94e3-4eb7-aad3-666666666666");
+        reqest.setReqTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-666666666666");
         reqestMapper.updateByPrimaryKeySelective(reqest);
         //TODO 老人进行了撤单的同时，将所有申请过这个单的志愿者的状态也改为撤单，这个撤单是老人的撤单，不是志愿者的撤单
         RespondExample respondExample = new RespondExample();
-        respondExample.or().andResReqGuidEqualTo(reqGuid2);
+        respondExample.or().andResReqGuidEqualTo(reqGuid4);
         List<Respond> responds = respondMapper.selectByExample(respondExample);
         if (responds!=null && responds.size()!=0)
         {
             for (Respond respondAfter : responds)
             {
-                respondAfter.setResTypeGuidProcessStatus("33333333-94e3-4eb7-aad3-666666666666");
+                respondAfter.setResTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-666666666666");
                 respondMapper.updateByPrimaryKey(respondAfter);
             }
         }
         //TODO 点击撤销按钮以后
-        updateList.setUpdateId(1);
-        updateList.setDeletaId(1);
+        updateList.setUpdateId(0);
+        updateList.setDeletaId(0);
         updateList.setStartId(0);
-        updateList.setViewVolId(0);
+        updateList.setViewVolId(1);
         updateList.setFinishId(0);
         updateList.setUnFinishId(0);
+        updateList.setWaitId(0);
+        updateList.setEvaluateId(0);
         model.addAttribute("updateList",updateList);
 
         return "applyListView";
     }
     //查看志愿者接单情况
     @RequestMapping(value = "/volunteerListOfApply")
-    public String volunteerListOfApply (Model model,String reqGuid6) {
+    public String volunteerListOfApply (Model model) {
         System.out.println(2121314);
-        System.out.println(reqGuid6);
+        System.out.println(updateRequestGuid);
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -460,16 +515,16 @@ public class UserRequestController {
         Users users1 = users.get(0);
         String role = users1.getUserRole();
         model.addAttribute("role",role);
-        model.addAttribute("message",reqGuid6);
+        model.addAttribute("message",updateRequestGuid);
 //        reqGuidOfVol = reqGuid6;
         return "volunteerList";
     }
     //查看志愿者接单情况 从后台获取数据
     @RequestMapping(value="/getVolunteerListJsonData",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getVolunteerListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder,String reqGuid){
+    public String getVolunteerListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder){
         System.out.println(222222);
-        System.out.println(reqGuid);
+        System.out.println(updateRequestGuid);
         RespondExample respondExample=new RespondExample();
         respondExample.clear();
         //处理排序信息
@@ -479,7 +534,7 @@ public class UserRequestController {
             //将排序信息添加到example中
             respondExample.setOrderByClause(order);
         }
-        respondExample.or().andResReqGuidEqualTo(reqGuid);
+        respondExample.or().andResReqGuidEqualTo(updateRequestGuid);
 //        respondExample.or().andResReqGuidEqualTo();
         List<Respond> responds=respondMapper.selectByExample(respondExample);
         List<Respond> respondRecordList=new ArrayList<>();
@@ -513,12 +568,10 @@ public class UserRequestController {
             return null;
         }
     }
-
-
-    //查看详情界面中的  申请启动按钮
-    @RequestMapping(value = "/startRequest")
-    public String startRequest (UpdateList updateList, Model model,String  reqGuid3) {
-        System.out.println(reqGuid3);
+    //查看详情界面中的  申请待启动按钮
+    @RequestMapping(value = "/waitRequest")
+    public String waitRequest (UpdateList updateList, Model model) {
+        System.out.println(updateRequestGuid);
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -526,9 +579,71 @@ public class UserRequestController {
         Users users1 = users.get(0);
         String role = users1.getUserRole();
         model.addAttribute("role",role);
-        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid3);
+        Reqest reqest = reqestMapper.selectByPrimaryKey(updateRequestGuid);
+        //设置请求处理状态为待启动
+        reqest.setReqTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-222222222222");
+        reqestMapper.updateByPrimaryKey(reqest);
+        //请求分类
+        TypeExample typeExample = new TypeExample();
+        typeExample.or().andTypeGuidEqualTo(reqest.getReqTypeGuidClass());
+        List<Type> types = typeMapper.selectByExample(typeExample);
+        reqest.setReqTypeGuidClass(types.get(0).getTypeTitle());
+        //选择请求紧急程度
+        typeExample.clear();
+        typeExample.or().andTypeGuidEqualTo(reqest.getReqTypeGuidUrgency());
+        List<Type> typex = typeMapper.selectByExample(typeExample);
+        reqest.setReqTypeGuidUrgency(typex.get(0).getTypeTitle());
+        //处理请求处理状态
+        String approveId = reqest.getReqTypeApproveStatus();
+        //String processId = reqest1.getReqTypeGuidProcessStatus();
+        if (approveId != null)
+        {
+
+            typeExample.clear();
+            typeExample.or().andTypeGuidEqualTo(approveId);
+            List<Type> types2 = typeMapper.selectByExample(typeExample);
+            reqest.setReqTypeApproveStatus(types2.get(0).getTypeTitle());
+            //reqest1.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
+        }
+        //处理请求批准状态
+        String processId = reqest.getReqTypeGuidProcessStatus();
+        //String processId = reqest1.getReqTypeGuidProcessStatus();
+        if (processId != null)
+        {
+            typeExample.clear();
+            typeExample.or().andTypeGuidEqualTo(processId);
+            List<Type> types2 = typeMapper.selectByExample(typeExample);
+            reqest.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
+            //reqest1.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
+        }
+        model.addAttribute("reqest",reqest);
+        //TODO 点击待启动按钮之后
+        updateList.setUpdateId(0);
+        updateList.setDeletaId(1);
+        updateList.setStartId(1);
+        updateList.setViewVolId(1);
+        updateList.setFinishId(0);
+        updateList.setUnFinishId(0);
+        updateList.setWaitId(0);
+        updateList.setEvaluateId(0);
+        model.addAttribute("updateList",updateList);
+        return "listRequestModel";
+    }
+
+    //查看详情界面中的  申请启动按钮
+    @RequestMapping(value = "/startRequest")
+    public String startRequest (UpdateList updateList, Model model,String reqGuid1) {
+        System.out.println(reqGuid1);
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role",role);
+        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid1);
         //设置请求处理状态为启动
-        reqest.setReqTypeGuidProcessStatus("33333333-94e3-4eb7-aad3-333333333333");
+        reqest.setReqTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-333333333333");
         //设置请求开始时间为现在
         Date startDate = new Date();
 //        dateStart =startDate;
@@ -572,16 +687,18 @@ public class UserRequestController {
         updateList.setUpdateId(0);
         updateList.setDeletaId(1);
         updateList.setStartId(0);
-        updateList.setViewVolId(0);
-        updateList.setFinishId(0);
-        updateList.setUnFinishId(0);
+        updateList.setViewVolId(1);
+        updateList.setFinishId(1);
+        updateList.setUnFinishId(1);
+        updateList.setWaitId(0);
+        updateList.setEvaluateId(0);
         model.addAttribute("updateList",updateList);
         return "listRequestModel";
     }
     //查看详情界面中的申请已完成按钮
     @RequestMapping(value = "/endRequest")
-    public String endRequest (UpdateList updateList, Model model,String reqGuid4) {
-        System.out.println(reqGuid4);
+    public String endRequest (UpdateList updateList, Model model,String reqGuid2) {
+        System.out.println(reqGuid2);
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -589,9 +706,9 @@ public class UserRequestController {
         Users users1 = users.get(0);
         String role = users1.getUserRole();
         model.addAttribute("role",role);
-        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid4);
+        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid2);
         //设置请求处理状态为已完成
-        reqest.setReqTypeGuidProcessStatus("33333333-94e3-4eb7-aad3-444444444444");
+        reqest.setReqTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-444444444444");
         //设置请求结束时间为现在
         Date endDate = new Date();
         reqest.setReqEndTime(endDate);
@@ -642,18 +759,20 @@ public class UserRequestController {
         model.addAttribute("reqest",reqest);
         //TODO 点击已完成按钮之后
         updateList.setUpdateId(0);
-        updateList.setDeletaId(0);
+        updateList.setDeletaId(1);
         updateList.setStartId(0);
-        updateList.setViewVolId(0);
+        updateList.setViewVolId(1);
         updateList.setFinishId(0);
-        updateList.setUnFinishId(1);
+        updateList.setUnFinishId(0);
+        updateList.setWaitId(0);
+        updateList.setEvaluateId(1);
         model.addAttribute("updateList",updateList);
         return "listRequestModel";
     }
     //查看详情界面中的申请未完成按钮
     @RequestMapping(value = "/unEndRequest")
-    public String unEndRequest (UpdateList updateList, Model model,String reqGuid5) {
-        System.out.println(reqGuid5);
+    public String unEndRequest (UpdateList updateList, Model model,String reqGuid3) {
+        System.out.println(reqGuid3);
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -661,8 +780,8 @@ public class UserRequestController {
         Users users1 = users.get(0);
         String role = users1.getUserRole();
         model.addAttribute("role",role);
-        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid5);
-        reqest.setReqTypeGuidProcessStatus("33333333-94e3-4eb7-aad3-555555555555");
+        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid3);
+        reqest.setReqTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-555555555555");
         reqestMapper.updateByPrimaryKey(reqest);
         //请求分类
         TypeExample typeExample = new TypeExample();
@@ -698,17 +817,19 @@ public class UserRequestController {
         }
         model.addAttribute("reqest",reqest);
         //TODO 点击未完成按钮之后
-        updateList.setUpdateId(1);
+        updateList.setUpdateId(0);
         updateList.setDeletaId(1);
-        updateList.setStartId(1);
-        updateList.setViewVolId(0);
-        updateList.setFinishId(0);
+        updateList.setStartId(0);
+        updateList.setViewVolId(1);
+        updateList.setFinishId(1);
         updateList.setUnFinishId(0);
+        updateList.setWaitId(0);
+        updateList.setEvaluateId(1);
         model.addAttribute("updateList",updateList);
         return "listRequestModel";
     }
 
-    /*---------------app api------------------------*/
+    /*---------------app api------------------------*//*
     @RequestMapping(value = "/appInsertReq")
     @ResponseBody
     public ResultModel appInsertReq(ReqestApp reqestApp)
@@ -781,5 +902,5 @@ public class UserRequestController {
         int insert = reqestMapper.insert(reqest);
         return new ResultModel(insert, "request插入成功");
 
-    }
+    }*/
 }

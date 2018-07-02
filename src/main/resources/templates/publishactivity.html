@@ -37,15 +37,15 @@
                             notEmpty: {
                                 message:'活动标题不能为空'
                             },
-                            stringLength: {
-                                min: 6,
-                                max: 18,
-                                message: '活动标题长度必须在6到18位之间'
-                            },
-                            regexp:{
-                                regexp: /^[a-zA-Z0-9_]+$/,
-                                message:'活动标题只能包含大写、小写、数字和下划线'
-                            }
+//                            stringLength: {
+//                                min: 6,
+//                                max: 18,
+//                                message: '活动标题长度必须在6到18位之间'
+//                            },
+//                            regexp:{
+//                                regexp: /^[a-zA-Z0-9_]+$/,
+//                                message:'活动标题只能包含大写、小写、数字和下划线'
+//                            }
                         }
                     },
                     activity_desp:{
@@ -358,14 +358,45 @@
     </div>
     <script>
 
-        laydate.render({
-            elem: '#activityStartTime' //指定元素
-            ,type: 'datetime'
+        var startTime = laydate.render({
+            elem:  '#activityStartTime',//指定元素
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            min: 0, //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59',
+            done: function (value,dates) {
+                console.log(dates);
+                endTime.config.min={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.endMin = value; //开始时间等于结束时间的最小值
+//                endStart = value;//将结束日的初始值设定为开始日
+            }
         });
-
-        laydate.render({
-            elem: '#activityEndTime' //指定元素
-            ,type: 'datetime'
+        var endTime = laydate.render({
+            elem: '#activityEndTime' , //指定元素
+            type: 'datetime',
+            format: "yyyy-MM-dd HH:mm:ss",
+            min: '1900-06-16 23:59:59',
+            max: '2099-06-16 23:59:59',
+            istime: true,
+            istoday: false,
+            done: function (value,dates) {
+                startTime.config.max={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.startMax = value; //开始时间的最大值等于选定的结束时间
+            }
         });
     </script>
     <div class="row clearfix">

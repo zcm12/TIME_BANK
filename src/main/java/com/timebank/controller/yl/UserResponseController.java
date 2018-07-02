@@ -46,7 +46,7 @@ public class UserResponseController {
     @RequestMapping(value="/getREQESTListJsonDataOfVol",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getJsonDataFromReqest(@RequestParam int offset, int limit, String sortName,String sortOrder){
-
+        System.out.println("向后台获取数据申请服务");
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -63,7 +63,7 @@ public class UserResponseController {
         }
         List<Reqest> reqests=reqestMapper.selectByExample(reqestExample);
         List<Reqest> reqests1 = new ArrayList<>();
-        //TODO 判断这条请求是不是发给自己的
+        //TODO 判断这条请求是不是发给自己的 遍历reqest中reqtragetsuserguid（已做完）
         String ownId = users1.getUserGuid().toLowerCase();
         for(Reqest re :reqests)
         {
@@ -156,7 +156,7 @@ public class UserResponseController {
     //服务列表中右边的申请服务按钮
     @RequestMapping(value = "/viewREQEST/{reqGuid}")
     public String updateREQEST (@PathVariable String reqGuid , Model model) {
-
+        System.out.println("服务列表中右边的申请服务按钮");
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -178,38 +178,38 @@ public class UserResponseController {
         return "detailsViewOfVolunteer";
     }
 
-    @RequestMapping(value = "/viewREQESTOfUser/{reqGuid}")
-    public String viewREQESTOfUser (@PathVariable String reqGuid , Model model) {
-        System.out.println("哪里");
-        Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role",role);
-        //TODO 根据传递过来的reqGuid
-        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid);
-        //处理紧急状态
-        String urgencyId = reqest.getReqTypeGuidUrgency();
-        TypeExample typeExample = new TypeExample();
-        typeExample.or().andTypeGuidEqualTo(urgencyId);
-        List<Type> typex = typeMapper.selectByExample(typeExample);
-        reqest.setReqTypeGuidUrgency(typex.get(0).getTypeTitle());
-        //处理选择分类
-        String typeId = reqest.getReqTypeGuidClass();
-        typeExample.clear();
-        typeExample.or().andTypeGuidEqualTo(typeId);
-        List<Type> typex2 = typeMapper.selectByExample(typeExample);
-        reqest.setReqTypeGuidClass(typex2.get(0).getTypeTitle());
-        model.addAttribute("reqest",reqest);
-        return "detailsViewOfVolunteer";
-    }
+//    @RequestMapping(value = "/viewREQESTOfUser/{reqGuid}")
+//    public String viewREQESTOfUser (@PathVariable String reqGuid , Model model) {
+//        System.out.println("哪里");
+//        Subject account = SecurityUtils.getSubject();
+//        UsersExample usersExample = new UsersExample();
+//        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+//        List<Users> users = usersMapper.selectByExample(usersExample);
+//        Users users1 = users.get(0);
+//        String role = users1.getUserRole();
+//        model.addAttribute("role",role);
+//        //TODO 根据传递过来的reqGuid
+//        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid);
+//        //处理紧急状态
+//        String urgencyId = reqest.getReqTypeGuidUrgency();
+//        TypeExample typeExample = new TypeExample();
+//        typeExample.or().andTypeGuidEqualTo(urgencyId);
+//        List<Type> typex = typeMapper.selectByExample(typeExample);
+//        reqest.setReqTypeGuidUrgency(typex.get(0).getTypeTitle());
+//        //处理选择分类
+//        String typeId = reqest.getReqTypeGuidClass();
+//        typeExample.clear();
+//        typeExample.or().andTypeGuidEqualTo(typeId);
+//        List<Type> typex2 = typeMapper.selectByExample(typeExample);
+//        reqest.setReqTypeGuidClass(typex2.get(0).getTypeTitle());
+//        model.addAttribute("reqest",reqest);
+//        return "detailsViewOfVolunteer";
+//    }
 
     //志愿者点击申请提出服务按钮 applyREQESTofVolunteer
     @RequestMapping(value = "/applyREQESTofVolunteer",method = RequestMethod.POST)
     public String applyREQESTofVolunteer (String resAcceptAddress, Respond respond, Reqest reqest, Model model) {
-
+        System.out.println("申请提出服务按钮");
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
@@ -233,7 +233,7 @@ public class UserResponseController {
         respondMapper.insert(respond);
         return "responseOfVolunteer";
     }
-    //导航栏左边查看服务列表
+    //导航栏左边查看服务列表（查看已经申请了的请求）
     @RequestMapping(value = "/applyListByUserView")
     public String applyListByUserView(Model model)
     {

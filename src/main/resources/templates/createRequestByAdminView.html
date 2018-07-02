@@ -509,7 +509,7 @@
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="reqComment" >亲请求补充：</label>
+                                <label class="control-label col-lg-3" for="reqComment" >请求补充：</label>
                                 <div class="col-lg-9">
 									<textarea rows="5" id="reqComment" name="reqComment" class="form-control" placeholder="录入亲请求补充" onmousedown="s(event,this)">
                                     </textarea>
@@ -527,7 +527,6 @@
                                 <div class="col-lg-9">
                                     <select name="reqTypeGuidClass" id="reqTypeGuidClass" class="form-control">
                                         <option th:each="typex:${type2}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" ></option>
-
                                     </select>
                                 </div>
                             </div>
@@ -580,15 +579,14 @@
                                     />
                                 </div>
                             </div>
-                            <!--<div class="form-group  col-lg-6">
+                            <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqTypeApproveStatus" >选择请求批准状态：</label>
                                 <div class="col-lg-9">
                                     <select name="reqTypeApproveStatus" id="reqTypeApproveStatus" class="form-control">
                                         <option th:each="typex:${type4}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" ></option>
-
                                     </select>
                                 </div>
-                            </div>-->
+                            </div>
                             <!--<div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqTargetsUserGuid" >接收请求人的ID：</label>
                                 <div class="col-lg-9">
@@ -615,20 +613,18 @@
                                 <div class="col-lg-9">
                                     <select name="reqTypeGuidUrgency" id="reqTypeGuidUrgency" class="form-control">
                                         <option th:each="typex:${type3}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" ></option>
-
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="reqFromWeightGuid" >选择本请求权值：</label>
+                                <label class="control-label col-lg-3" for="reqFromWeightGuid" >选择请求权值：</label>
                                 <div class="col-lg-9">
                                     <select name="reqFromWeightGuid" id="reqFromWeightGuid" class="form-control">
                                         <option th:each="weightx:${weights}" th:value="${weightx.weightGuid}" th:text="${weightx.weightTitle}" ></option>
-
                                     </select>
                                 </div>
                             </div>
-                            <!--<div class="form-group  col-lg-6">
+                            <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqTypeGuidProcessStatus" >选择请求处理状态：</label>
                                 <div class="col-lg-9">
                                     <select name="reqTypeGuidProcessStatus" id="reqTypeGuidProcessStatus" class="form-control">
@@ -636,7 +632,7 @@
 
                                     </select>
                                 </div>
-                            </div>-->
+                            </div>
                             <div class="form-group  col-lg-6" hidden="hidden">
                                 <label class="control-label col-lg-3" for="reqProcessUserGuid" >请求处理人：</label>
                                 <div class="col-lg-9">
@@ -664,28 +660,86 @@
             elem: '#reqDispatchTime' //指定元素
             ,type: 'datetime'
         });
-
-        laydate.render({
-            elem: '#reqAvailableStartTime' //指定元素
-            ,type: 'datetime'
+        var startTime = laydate.render({
+            elem: '#reqAvailableStartTime' ,//指定元素
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            min: 0, //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59',
+            done: function (value,dates) {
+                console.log(dates);
+                endTime.config.min={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.endMin = value; //开始时间等于结束时间的最小值
+//                endStart = value;//将结束日的初始值设定为开始日
+            }
         });
-
-        laydate.render({
-            elem: '#reqAvailableEndTime' //指定元素
-            ,type: 'datetime'
+        var endTime = laydate.render({
+            elem: '#reqAvailableEndTime' , //指定元素
+            type: 'datetime',
+            format: "yyyy-MM-dd HH:mm:ss",
+            min: '1900-06-16 23:59:59',
+            max: '2099-06-16 23:59:59',
+            istime: true,
+            istoday: false,
+            done: function (value,dates) {
+                startTime.config.max={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.startMax = value; //开始时间的最大值等于选定的结束时间
+            }
         });
-
-        laydate.render({
-            elem: '#reqStartTime' //指定元素
-            ,type: 'datetime'
+        var startTime1 = laydate.render({
+            elem:'#reqStartTime' ,//指定元素
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            min: 0, //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59',
+            done: function (value,dates) {
+                console.log(dates);
+                endTime1.config.min={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.endMin = value; //开始时间等于结束时间的最小值
+//                endStart = value;//将结束日的初始值设定为开始日
+            }
         });
-
-        laydate.render({
-            elem: '#reqEndTime' //指定元素
-            ,type: 'datetime'
+        var endTime1 = laydate.render({
+            elem:  '#reqEndTime' , //指定元素
+            type: 'datetime',
+            format: "yyyy-MM-dd HH:mm:ss",
+            min: '1900-06-16 23:59:59',
+            max: '2099-06-16 23:59:59',
+            istime: true,
+            istoday: false,
+            done: function (value,dates) {
+                startTime1.config.max={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.startMax = value; //开始时间的最大值等于选定的结束时间
+            }
         });
-
-
     </script>
     <script>
         function s(e,a)
