@@ -21,89 +21,128 @@
                     return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
                 }
             };
+            var $table = $('#USERS');
 
-            var $table = $('#ACTPART');
-            $('#ACTPART').bootstrapTable({
+            $('#USERS').bootstrapTable({
                 columns:[
-                    {
-                        title:'活动参与ID',
-                        field:'actpartGuid',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },
+//                    {
+//                        field : 'checked',
+//                        checkbox : true,
+//                        formatter : stateFormatter
+//                    },
                     {
                         title:'活动ID',
-                        field:'actpartActivityGuid',
+                        field:'activityid',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        title:'志愿者姓名',
-                        field:'actpartUserGuid',
+                        title:'用户姓名',
+                        field:'userName',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        title:'响应服务开始时间',
-                        field:'actpartStartTime',
+                        title:'用户账号',
+                        field:'userAccount',
                         align: 'center',
                         valign: 'middle',
-                        sortable: true ,
-                        formatter: function (value, row, index) {
-                            return changeDateFormat(value);
-                        }
-
+                        sortable: true
                     },
+//                    {
+//                        title:'用户密码',
+//                        field:'userPassword',
+//                        align: 'center',
+//                        valign: 'middle',
+//                        sortable: true
+//                    },
                     {
-                        title:'响应服务结束时间',
-                        field:'actpartEndTime',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true ,
-                        formatter: function (value, row, index) {
-                            return changeDateFormat(value);
-                        }
-
-                    },
-                    {
-                        title:'响应处理状态',
-                        field:'actpartTypeGuidProcessStatus',
+                        title:'用户角色',
+                        field:'userRole',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        title:'给服务打分',
-                        field:'actpartEvaluate',
+                        title:'用户性别',
+                        field:'userTypeGuidGender',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        field: 'actpartActivityGuid',
-                        title: '操作',
+                        title:'用户状态',
+                        field:'userTypeAccountStatus',
                         align: 'center',
-                        sortable: true,
+                        valign: 'middle',
+                        sortable: true
+                    },
+//                    {
+//                        title:'密码盐值',
+//                        field:'userSalt',
+//                        align: 'center',
+//                        valign: 'middle',
+//                        sortable: true
+//                    },
+                    {
+                        title:'持有时间',
+                        field:'userOwnCurrency',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'预支付时间',
+                        field:'userPreConsumeCurrency',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户住址',
+                        field:'userAddress',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户坐标',
+                        field:'userCoordinate',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'所属小区',
+                        field:'userCommGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        field:'userGuid',
+                        title:'评分',
+                        align:'center',
+                        sortable:true,
                         formatter: operateFormatter
                     }
                 ],
-                url: "/getVolunteerListJsonData1", //请求后台的URL（*）
+                url: "/getUSERSList", //请求后台的URL（*）
                 method: "get",
                 striped: true,     //是否显示行间隔色
                 cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 pagination: true,  //是否显示分页（*）
                 sortable: true,    //是否启用排序
-                sortOrder: "asc",  //排序方式
+                sortOrder: "asc",  //排序方式,
                 queryParams:function(params){
                     var limitApply={
                         limit:params.limit,
                         offset:params.offset,
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
-                        activityGuid:message
+                        activityid:message,
                     };
                     return limitApply;
                 },//传递参数
@@ -111,32 +150,34 @@
                 pageNumber:1,  //初始化加载第一页，默认第一页
                 pageSize: 20,  //每页的记录行数（*）
                 pageList:[5,10,20,30,40,50],
-                sortName:"actpartActivityGuid",
+                sortName:"userGuid",
                 showColumns: true,  //是否显示所有的列
                 showRefresh: true,  //是否显示刷新按钮
                 minimumCountColumns: 2, //最少允许的列数
                 clickToSelect: true,//是否启用点击选中行
                 toolbar:"#toolbar"
+
             });
             setTimeout(function () {
                 $table.bootstrapTable('resetView');
             }, 200);
-            function operateFormatter1(value, row, index) {
-                var ti=new Date(value);
-                var val=ti.toLocaleString() ;
-                return val;
-            };
             function operateFormatter(value, row, index) {
                 return [
+//                    alert(index),
+//                    alert(value),
+//                    alert(row),
+//                    alert(message),
                     '<div class="row">',
-                    '<a class="btn btn-default" href="/RESPOND/'+
-                    String(row.activityGuid) +
-                    '" title="查看详情">查看详情',
+                    '<a class="btn btn-default" href="/UserGuid/'+
+                    String(row.userGuid) +","+message+
+                    '" title="删除">删除',
                     '</a>  '+
                     '</div>'
                 ].join('');
             }
+
         });
+//        document.getElementsByName(activityid).valueOf(message);
     </script>
 </head>
 <body>
@@ -159,7 +200,7 @@
                 </div>
                 <div class="panel-body" >
                     <div class="table-responsive">
-                    <table id="ACTPART" name="ACTPART" class="table table-bordered table-hover table-striped"
+                    <table id="USERS" name="USERS" class="table table-bordered table-hover table-striped"
                            data-toolbar="#toolbar"
                            data-show-refresh="true"
                            data-show-toggle="true"

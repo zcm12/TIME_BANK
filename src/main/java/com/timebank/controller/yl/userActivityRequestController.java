@@ -166,6 +166,7 @@ public class userActivityRequestController {
         actpart.setActpartActivityGuid(activityGuid);
         //插入用户的id
         actpart.setActpartUserGuid(users1.getUserGuid());
+        actpart.setAcpartTypeGuidProcessStatus("88888888-94E3-4EB7-AAD3-111111111111");
         actpartMapper.insert(actpart);
         return "applyActivityListByUserView";
     }
