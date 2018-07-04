@@ -391,7 +391,7 @@ public class activitycontroller {
         model.addAttribute("role", role);
 
         Activity activity = activityMapper.selectByPrimaryKey(activityGuid);//根据guid获得这条记录
-        model.addAttribute("activity", activity);
+
         //将能看到此条记录的用户的id转换成姓名
         String Name = activity.getActivityTargetsUserGuid();
         String name = IdtoName(Name);
@@ -536,12 +536,12 @@ public class activitycontroller {
             model.addAttribute("updateList", updateList);
         }
 
-        //处理活动状态 改成单选框
-        TypeExample typeExample = new TypeExample();          //声明数据库对象
-        typeExample.or().andTypeGroupIdEqualTo(3);     //查找数据库中value=3的值
-        List<Type> typex = typeMapper.selectByExample(typeExample); //将查找的值存到集合中  组成下拉框
-        model.addAttribute("typex", typex);                  //添加到模型中
-
+        //TODO:处理活动状态 改成单选框
+        if (activity.getActivityTypeProcessStatus() != null) {
+            Type type1 = typeMapper.selectByPrimaryKey(activity.getActivityTypeProcessStatus());
+            activity.setActivityTypeProcessStatus(type1.getTypeTitle());
+        }
+        model.addAttribute("activity", activity);
 
         return "activityshow";
     }
@@ -743,7 +743,6 @@ public class activitycontroller {
                 user.setUserTypeAccountStatus(userstatus.get(0).getTypeTitle());
                 String userCommunicity = user.getUserCommGuid();
                 if (userCommunicity != null) {
-//                String userCommunicity = user.getUserCommGuid();
                     communityExample.clear();
                     communityExample.or().andCommGuidEqualTo(userCommunicity);
                     List<Community> usercommunicity = communityMapper.selectByExample(communityExample);
@@ -886,8 +885,7 @@ public class activitycontroller {
         actpartExample.or().andActpartActivityGuidEqualTo(activityid);
         List<Actpart> actparts=actpartMapper.selectByExample(actpartExample);
         for(Actpart it:actparts){
-            //todo:  先做删除功能  做完以后 放开此处
-            if(it.getAcpartTypeGuidProcessStatus()=="88888888-94E3-4EB7-AAD3-111111111111") {
+            if(it.getAcpartTypeGuidProcessStatus().equals("88888888-94E3-4EB7-AAD3-111111111111")) {
                 String usersguid = it.getActpartUserGuid();
                 Users user = usersMapper.selectByPrimaryKey(usersguid);
 
@@ -905,7 +903,6 @@ public class activitycontroller {
 
                 String userCommunicity = user.getUserCommGuid();
                 if (userCommunicity != null) {
-//                String userCommunicity = user.getUserCommGuid();
                     communityExample.clear();
                     communityExample.or().andCommGuidEqualTo(userCommunicity);
                     List<Community> usercommunicity = communityMapper.selectByExample(communityExample);
@@ -928,7 +925,7 @@ public class activitycontroller {
 
     //给服务打分
     @RequestMapping(value = "/scoreForPerson", method = RequestMethod.POST)
-    private String scoreForPerson(Model model, String thisPerson1, String finalScore, String id, Errors errors) {
+    private String scoreForPerson1(Model model, String thisPerson1, String finalScore, String id) {
         System.out.println("这是打完分数后 确定按钮");
         System.out.println(finalScore + "间隔" + id + "间隔" + thisPerson1);
         Subject account = SecurityUtils.getSubject();
@@ -944,12 +941,15 @@ public class activitycontroller {
         actpartExample.or().andActpartActivityGuidEqualTo(id);
         List<Actpart> activities = actpartMapper.selectByExample(actpartExample);
         for (Actpart it : activities) {
-            if (it.getActpartUserGuid().equals(thisPerson1)) {
-                it.setActpartEvaluate(Integer.parseInt(finalScore));
-                actpartMapper.updateByPrimaryKeySelective(it);
+            if(it.getActpartEvaluate()==null) {
+                if (it.getActpartUserGuid().equals(thisPerson1)) {
+                        it.setActpartEvaluate(Integer.parseInt(finalScore));
+                        actpartMapper.updateByPrimaryKeySelective(it);
+                }
             }
         }
-        //打分完成后修改处理状态的字段  改成33333333-94E3-4EB7-AAD3-777777777777
+
+        //TODO:打分完成后修改处理状态的字段  改成33333333-94E3-4EB7-AAD3-777777777777
         return "activitypersonscore";
     }
 

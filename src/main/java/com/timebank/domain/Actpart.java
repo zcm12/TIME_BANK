@@ -1,5 +1,7 @@
 package com.timebank.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Actpart {
@@ -46,6 +48,7 @@ public class Actpart {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date actparStartTime;
 
     /**
@@ -55,6 +58,7 @@ public class Actpart {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date actparEndTime;
 
     /**
