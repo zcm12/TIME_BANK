@@ -726,7 +726,7 @@ public class activitycontroller {
         actpartExample.or().andActpartActivityGuidEqualTo(activityid);
         List<Actpart> actparts=actpartMapper.selectByExample(actpartExample);
         for(Actpart it:actparts){
-            if(it.getAcpartTypeGuidProcessStatus()=="88888888-94E3-4EB7-AAD3-111111111111") {
+            if(it.getAcpartTypeGuidProcessStatus().equals("88888888-94E3-4EB7-AAD3-111111111111")) {
                 String usersguid = it.getActpartUserGuid();
                 Users user = usersMapper.selectByPrimaryKey(usersguid);
 
@@ -750,7 +750,7 @@ public class activitycontroller {
                     user.setUserCommGuid(usercommunicity.get(0).getCommTitle());
 
                 }
-            usersList.add(user);
+                usersList.add(user);
             }
         }
 
