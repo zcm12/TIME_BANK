@@ -693,54 +693,105 @@ public class activitycontroller {
         System.out.println("查看志愿者");
         return "volunteerListByMa";
     }
-    @RequestMapping(value="/getVolunteerListJsonData1",produces = "application/json;charset=UTF-8")
+    @RequestMapping(value="/getUSERSList",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getVolunteerListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder,String activityGuid){
+    public String getVolunteerListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder,String activityid,Model model){
         System.out.println(222222);
-        System.out.println(activityGuid);
-        ActpartExample actpartExample=new ActpartExample();
-        actpartExample.clear();
-        //处理排序信息
-        if(sortName!=null){
-            //拼接字符串
-            String order= GetDatabaseFileName(sortName)+" "+sortOrder;
-            //将排序信息添加到example中
-            actpartExample.setOrderByClause(order);
-        }
-        actpartExample.or().andActpartActivityGuidEqualTo(activityGuid);
-        List<Actpart> actpartList=actpartMapper.selectByExample(actpartExample);
-        List<Actpart> respondRecordList=new ArrayList<>();
-        for(int i=offset;i< offset+limit&&i < actpartList.size();i++){
-            Actpart actpart=actpartList.get(i);
-            TypeExample typeExample = new TypeExample();
-            String resUserGuid=actpart.getActpartUserGuid();
-            UsersExample usersExample = new UsersExample();
-            usersExample.or().andUserGuidEqualTo(resUserGuid);
-            List<Users> users = usersMapper.selectByExample(usersExample);
-            actpart.setActpartActivityGuid(users.get(0).getUserAccount());
-//            String resTypeGuidProcessStatus=actpart.getAcpartTypeGuidProcessStatus();
-//            typeExample.clear();
-//            typeExample.or().andTypeGuidEqualTo(resTypeGuidProcessStatus);
-//            List<Type> types = typeMapper.selectByExample(typeExample);
-//            actpart.setActpartActivityGuid(types.get(0).getTypeTitle());
-            respondRecordList.add(actpart);
+        System.out.println(activityid);
+        model.addAttribute("message",activityid);
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample100 = new UsersExample();
+        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users10 = usersMapper.selectByExample(usersExample100);
+        Users users100 = users10.get(0);
+        String role100 = users100.getUserRole();
+        model.addAttribute("role", role100);
 
+
+        ActivityExample activityExample = new ActivityExample();
+        UsersExample usersExample = new UsersExample();
+        RoleExample roleExample = new RoleExample();
+        TypeExample typeExample = new TypeExample();
+        CommunityExample communityExample = new CommunityExample();
+        ActpartExample actpartExample = new ActpartExample();
+        //处理排序信息
+        if (sortName != null) {
+            //拼接字符串
+            String order = GetDatabaseFileName(sortName) + " " + sortOrder;
+            //将排序信息添加到example中
+            usersExample.setOrderByClause(order);
         }
-        //全部符合要求的数据的数量
-        int total=actpartList.size();
-        //将所得集合打包
+        List<Users> usersList = new ArrayList<Users>();
+        //根据活动id遍历actpart数据库  得到用户guid
+        actpartExample.or().andActpartActivityGuidEqualTo(activityid);
+        List<Actpart> actparts=actpartMapper.selectByExample(actpartExample);
+        for(Actpart it:actparts){
+            if(it.getAcpartTypeGuidProcessStatus()=="88888888-94E3-4EB7-AAD3-111111111111") {
+                String usersguid = it.getActpartUserGuid();
+                Users user = usersMapper.selectByPrimaryKey(usersguid);
+
+                String userGender = user.getUserTypeGuidGender();
+                typeExample.clear();
+                typeExample.or().andTypeGuidEqualTo(userGender);
+                List<Type> gender = typeMapper.selectByExample(typeExample);
+                user.setUserTypeGuidGender(gender.get(0).getTypeTitle());
+
+                String userStatus = user.getUserTypeAccountStatus();
+                typeExample.clear();
+                typeExample.or().andTypeGuidEqualTo(userStatus);
+                List<Type> userstatus = typeMapper.selectByExample(typeExample);
+                user.setUserTypeAccountStatus(userstatus.get(0).getTypeTitle());
+                String userCommunicity = user.getUserCommGuid();
+                if (userCommunicity != null) {
+//                String userCommunicity = user.getUserCommGuid();
+                    communityExample.clear();
+                    communityExample.or().andCommGuidEqualTo(userCommunicity);
+                    List<Community> usercommunicity = communityMapper.selectByExample(communityExample);
+                    user.setUserCommGuid(usercommunicity.get(0).getCommTitle());
+
+                }
+            usersList.add(user);
+            }
+        }
+
+        int total = usersList.size();
         ObjectMapper mapper = new ObjectMapper();
-        com.timebank.controller.yl.TableRecordsJson tableRecordsJson=new com.timebank.controller.yl.TableRecordsJson(respondRecordList,total);
-        //将实体类转换成json数据并返回
+        TableRecordsJson tableRecordsJson = new TableRecordsJson(usersList, total);
         try {
             String json1 = mapper.writeValueAsString(tableRecordsJson);
-            // System.out.println(json1);
+            System.out.println(json1);
             return json1;
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
+    //删除志愿者
+    @RequestMapping(value = "/UserGuid/{message}")
+    public String DelVolunteer(Model model, @PathVariable String message){
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        Users users1 = users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
+        System.out.println("就是这： ");
+        System.out.println(message);
 
+        String[] strings=message.split(",");
+        String userGuid=strings[0];
+        String activity=strings[1];
+        ActpartExample actpartExample=new ActpartExample();
+        actpartExample.or().andActpartActivityGuidEqualTo(activity);
+        List<Actpart> actpartList=actpartMapper.selectByExample(actpartExample);
+        Actpart actpart=actpartList.get(0);
+        if(actpart.getActpartUserGuid().equals(userGuid)) {
+            actpart.setAcpartTypeGuidProcessStatus("88888888-94E3-4EB7-AAD3-222222222222");
+            actpartMapper.updateByPrimaryKeySelective(actpart);
+        }
+
+        return "volunteerListByMa";
+    }
     //更新按钮
     @RequestMapping(value = "/activityupdate1")
     public String activityupdate1(Model model, String activityGuid1) {
@@ -783,6 +834,8 @@ public class activitycontroller {
         model.addAttribute("activity",activity);
         return  "activityShowNoSbumit";
     }
+
+
     //给活动参与者打分  评分按钮
     @RequestMapping(value = "/activityscore/{activityGuid}")
     public String activityscore(Model model, @PathVariable String activityGuid) {
@@ -828,52 +881,40 @@ public class activitycontroller {
             //将排序信息添加到example中
             usersExample.setOrderByClause(order);
         }
-        //获取活动的id
-        activityExample.or().andActivityGuidEqualTo(activityid);
-        List<Activity> activities = activityMapper.selectByExample(activityExample);
-        Activity activity = activities.get(0);
-
-        String targetIds = activity.getActivityTargetsUserGuid();
-
-        //     if (targetIds != null) {
         List<Users> usersList = new ArrayList<Users>();
-        //正则表达式，取出方括号里面的值
-        String r = targetIds.replaceAll("^.*\\[", "").replaceAll("].*", "");
-        //分割字符串
-        String[] array = r.split(",");
-        for (int i = offset; i < offset + limit && i < array.length; i++) {
-            String jj = array[i].replaceAll(" ", "");
-            Users user = usersMapper.selectByPrimaryKey(jj);
-            //获得role的角色
-//            String userRole = user.getUserFromRoleGuid();
-//            roleExample.clear();
-//            roleExample.or().andRoleGuidEqualTo(userRole);
-//            List<Role> userrole1 = roleMapper.selectByExample(roleExample);
-//            user.setUserFromRoleGuid(userrole1.get(0).getRoleTitle());
+        //根据活动id遍历actpart数据库  得到用户guid
+        actpartExample.or().andActpartActivityGuidEqualTo(activityid);
+        List<Actpart> actparts=actpartMapper.selectByExample(actpartExample);
+        for(Actpart it:actparts){
+            //todo:  先做删除功能  做完以后 放开此处
+            if(it.getAcpartTypeGuidProcessStatus()=="88888888-94E3-4EB7-AAD3-111111111111") {
+                String usersguid = it.getActpartUserGuid();
+                Users user = usersMapper.selectByPrimaryKey(usersguid);
 
-//            String useRole=user.getUserRole();
-//            user.setUserRole(useRole);
+                String userStatus = user.getUserTypeAccountStatus();
+                typeExample.clear();
+                typeExample.or().andTypeGuidEqualTo(userStatus);
+                List<Type> userstatus = typeMapper.selectByExample(typeExample);
+                user.setUserTypeAccountStatus(userstatus.get(0).getTypeTitle());
+                String userGender = user.getUserTypeGuidGender();
+                typeExample.clear();
+                typeExample.or().andTypeGuidEqualTo(userGender);
+                List<Type> gender = typeMapper.selectByExample(typeExample);
+                user.setUserTypeGuidGender(gender.get(0).getTypeTitle());
 
-            String userGender = user.getUserTypeGuidGender();
-            typeExample.clear();
-            typeExample.or().andTypeGuidEqualTo(userGender);
-            List<Type> gender = typeMapper.selectByExample(typeExample);
-            user.setUserTypeGuidGender(gender.get(0).getTypeTitle());
 
-            String userStatus = user.getUserTypeAccountStatus();
-            typeExample.clear();
-            typeExample.or().andTypeGuidEqualTo(userStatus);
-            List<Type> userstatus = typeMapper.selectByExample(typeExample);
-            user.setUserTypeAccountStatus(userstatus.get(0).getTypeTitle());
-
-            String userCommunicity = user.getUserCommGuid();
-            communityExample.clear();
-            communityExample.or().andCommGuidEqualTo(userCommunicity);
-            List<Community> usercommunicity = communityMapper.selectByExample(communityExample);
-            user.setUserCommGuid(usercommunicity.get(0).getCommTitle());
-            usersList.add(user);
+                String userCommunicity = user.getUserCommGuid();
+                if (userCommunicity != null) {
+//                String userCommunicity = user.getUserCommGuid();
+                    communityExample.clear();
+                    communityExample.or().andCommGuidEqualTo(userCommunicity);
+                    List<Community> usercommunicity = communityMapper.selectByExample(communityExample);
+                    user.setUserCommGuid(usercommunicity.get(0).getCommTitle());
+                    usersList.add(user);
+                }
+            }
         }
-        int total = array.length;
+        int total = usersList.size();
         ObjectMapper mapper = new ObjectMapper();
         TableRecordsJson tableRecordsJson = new TableRecordsJson(usersList, total);
         try {
@@ -883,25 +924,6 @@ public class activitycontroller {
         } catch (Exception e) {
             return null;
         }
-    }
-
-
-    //修改活动更新数据库请求 保存按钮
-    @RequestMapping(value = "/activityGuid1")
-    public String activityUpdate(@ModelAttribute @Valid Activity activity, Errors errors, Model model) {
-
-        Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
-
-        if (!errors.hasErrors()) {
-            activityMapper.updateByPrimaryKeySelective(activity);
-        }
-        return "activitylist";
     }
 
     //给服务打分
