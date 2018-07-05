@@ -126,15 +126,20 @@ public class userActivityRequestController {
         ActpartExample actpartExample1=new ActpartExample();
         actpartExample1.or().andActpartActivityGuidEqualTo(activityGuid);
         List<Actpart> actparts1=actpartMapper.selectByExample(actpartExample1);
-        model.addAttribute("amountMessage",actparts1.size());
-
+        int num=0;
+        for(Actpart it:actparts1) {
+            if(it.getAcpartTypeGuidProcessStatus().equals("88888888-94E3-4EB7-AAD3-111111111111")) {
+                num++;
+            }
+        }
+        model.addAttribute("amountMessage", num);
         //选择性锁定申请按钮（只能申请一次）(参与活动的人数达到上限)
         ActpartExample actpartExample = new ActpartExample();
         actpartExample.or().andActpartUserGuidEqualTo(users1.getUserGuid());
         List<Actpart> actparts = actpartMapper.selectByExample(actpartExample);
         int renshu=activity.getActivityPersonNum();
         for(Actpart it: actparts){
-            if(it.getActpartActivityGuid().equals(activityGuid)||renshu<=actparts1.size()){//字符串比较  用equals方法
+            if(it.getActpartActivityGuid().equals(activityGuid)||renshu<=num){//字符串比较  用equals方法
                 model.addAttribute("message","1");
                 break;
             }
@@ -166,6 +171,7 @@ public class userActivityRequestController {
         actpart.setActpartActivityGuid(activityGuid);
         //插入用户的id
         actpart.setActpartUserGuid(users1.getUserGuid());
+        actpart.setAcpartTypeGuidProcessStatus("88888888-94E3-4EB7-AAD3-111111111111");
         actpartMapper.insert(actpart);
         return "applyActivityListByUserView";
     }

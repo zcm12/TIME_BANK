@@ -28,10 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
- * 登录功能啊啊
+ * 登录功能
  * 注册功能
  * */
 @Controller
@@ -45,7 +44,6 @@ public class MainController {
     private TypeMapper typeMapper;
     @Autowired
     private CommunityMapper communityMapper;
-
 
     //登录界面
     @RequestMapping(value = "/")
@@ -117,15 +115,6 @@ public class MainController {
                 usersExample.or().andUserAccountEqualTo(userName);
                 List<Users> users1 = usersMapper.selectByExample(usersExample);
                 Users users2 = users1.get(0);
-                //加载性别
-                TypeExample typeExample = new TypeExample();
-                typeExample.or().andTypeGroupIdEqualTo(1);
-                List<Type> types = typeMapper.selectByExample(typeExample);
-                model.addAttribute("types", types);
-                //所属小区
-                CommunityExample communityExample = new CommunityExample();
-                List<Community> communities = communityMapper.selectByExample(communityExample);
-                model.addAttribute("communities", communities);
                 if (users2.getUserTypeGuidGender() != null) {
                     //处理性别
                     Type type = typeMapper.selectByPrimaryKey(users2.getUserTypeGuidGender());
@@ -136,8 +125,13 @@ public class MainController {
                     Type type1 = typeMapper.selectByPrimaryKey(users2.getUserTypeAccountStatus());
                     users2.setUserTypeAccountStatus(type1.getTypeTitle());
                 }
+                if (users2.getUserCommGuid() != null) {
+                    //所属小区
+                    Community community = communityMapper.selectByPrimaryKey(users2.getUserCommGuid());
+                    users2.setUserCommGuid(community.getCommTitle());
+                }
                 model.addAttribute("users", users2);
-                return "updateUserInformation";
+                return "userInformation";
             }
             //小区管理员
             if (subject.hasRole("ADMIN")) {
@@ -157,17 +151,11 @@ public class MainController {
     //注册按钮 跳往注册界面
     @RequestMapping(value = "/register")
     public String resestUser(Model model) {
-       /* //所属小区
+        //所属小区
         System.out.println("点击登录界面注册按钮");
-
         CommunityExample communityExample = new CommunityExample();
         List<Community> communities = communityMapper.selectByExample(communityExample);
         model.addAttribute("communities", communities);
-       //加载手机号
-        UsersExample usersExample=new UsersExample();
-        List<Users> users=usersMapper.selectByExample(usersExample);
-        model.addAttribute("users",users);
-*/
         //加载性别
         TypeExample typeExample = new TypeExample();
         typeExample.or().andTypeGroupIdEqualTo(1);
@@ -180,23 +168,18 @@ public class MainController {
     @RequestMapping("/registerUser")
     public String register(Users users) {
         System.out.println(11111);
-        //加载手机号
-        UUID guig=UUID.randomUUID();
-        users.setUserGuid(guig.toString());
-        usersMapper.insertSelective(users);
-//       System.out.println(users.getUserPhone());
-
-      /*  //用户的密码加密和插入到数据库aaa
+        System.out.println(users.getUserAccount());//注册的账号名
+        //用户的密码加密和插入到数据库
         shrioRegister.register1(users);
         //进行更新  将用户状态置为正常
         Users uu = usersMapper.selectByPrimaryKey(users.getUserGuid());
         uu.setUserOwnCurrency(0d);
         uu.setUserTypeAccountStatus("22222222-94e3-4eb7-aad3-111111111111");
-        usersMapper.updateByPrimaryKeySelective(uu);*/
+        usersMapper.updateByPrimaryKeySelective(uu);
         return "index";
     }
     //用户名重名校验
-  /*  @RequestMapping(value = "/jquery/exist2.do")
+    @RequestMapping(value = "/jquery/exist2.do")
     @ResponseBody
     public String checkUserAccount1(String userName){
         System.out.println(11111);
@@ -250,9 +233,9 @@ public class MainController {
         }
         System.out.println(resultString);
         return resultString;
-    }*/
+    }
     /*------------app api------------------------*/
-    /*@RequestMapping(value = "/appLoginUser")
+    @RequestMapping(value = "/appLoginUser")
     @ResponseBody
     public ResultModel appLoginUser(Users users, Model model) {
         System.out.println(users);
@@ -317,6 +300,6 @@ public class MainController {
         }
         System.out.println(users2.getUserTypeAccountStatus());
         return users2;
-    }*/
+    }
 
 }

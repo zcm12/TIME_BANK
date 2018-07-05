@@ -159,7 +159,7 @@ public class activitycontroller {
     @ResponseBody
     public String activitylist(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder, String searchText, String button) {
         Subject account = SecurityUtils.getSubject();
-        System.out.println("开始："+searchText);
+        System.out.println("就是这：");
         UsersExample usersExample100 = new UsersExample();
         usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
         List<Users> users10 = usersMapper.selectByExample(usersExample100);
@@ -209,9 +209,8 @@ public class activitycontroller {
         }
         List<Activity> activities = activityMapper.selectByExample(activityExample);
         List<Activity> activityRecordList = new ArrayList<Activity>();
-        //让ID在界面上显示成汉字
         for (int i = offset; i < offset + limit && i < activities.size(); i++) {
-            System.out.println("分页数据："+offset);
+
             Activity act = activities.get(i);
 
             //活动处理人
@@ -252,6 +251,7 @@ public class activitycontroller {
                 activityRecordList.add(act);
             }
         }
+
         //全部符合要求的数据的数量
         int total = activities.size();
         //System.out.println("总数："+total);

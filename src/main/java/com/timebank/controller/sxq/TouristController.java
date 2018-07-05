@@ -298,18 +298,20 @@ public class TouristController {
             typeExample.or().andTypeGuidEqualTo(gender);
             List<Type> title=typeMapper.selectByExample(typeExample);
             it.setUserTypeGuidGender(title.get(0).getTypeTitle());
+            //处理小区 暂时不能放开 整合到最后在放开 否则出错-----活动 名字转换
+            String comm=it.getUserCommGuid();
+            CommunityExample communityExample=new CommunityExample();
+            communityExample.or().andCommGuidEqualTo(comm);
+            List<Community> communities=communityMapper.selectByExample(communityExample);
+            it.setUserCommGuid(communities.get(0).getCommTitle());
 //            //处理状态
             String userStatus = it.getUserTypeAccountStatus();
             typeExample.clear();
             typeExample.or().andTypeGuidEqualTo(userStatus);
             List<Type> userstatus = typeMapper.selectByExample(typeExample);
             it.setUserTypeAccountStatus(userstatus.get(0).getTypeTitle());
-            //处理小区 暂时不能放开 整合到最后在放开 否则出错-----活动 名字转换
-//            String comm=it.getUserCommGuid();
-//            CommunityExample communityExample=new CommunityExample();
-//            communityExample.or().andCommGuidEqualTo(comm);
-//            List<Community> communities=communityMapper.selectByExample(communityExample);
-//            it.setUserCommGuid(communities.get(0).getCommTitle());
+
+
             usersList.add(it);
         }
         int total = users2.size();
@@ -348,11 +350,11 @@ public class TouristController {
         List<Type> types=typeMapper.selectByExample(typeExample);
         use.setUserTypeGuidGender(types.get(0).getTypeTitle());
         //处理小区 暂时不能放开 整合到最后在放开 否则出错-----活动 名字转换
-//        String comm=use.getUserCommGuid();
-//        CommunityExample communityExample=new CommunityExample();
-//        communityExample.or().andCommGuidEqualTo(comm);
-//        List<Community> communities=communityMapper.selectByExample(communityExample);
-//        use.setUserCommGuid(communities.get(0).getCommTitle());
+        String comm=use.getUserCommGuid();
+        CommunityExample communityExample=new CommunityExample();
+        communityExample.or().andCommGuidEqualTo(comm);
+        List<Community> communities=communityMapper.selectByExample(communityExample);
+        use.setUserCommGuid(communities.get(0).getCommTitle());
 
         String status=use.getUserTypeAccountStatus();
         typeExample.clear();
