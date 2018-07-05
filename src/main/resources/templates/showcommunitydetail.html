@@ -3,112 +3,88 @@
 <head th:include="basepage :: common_header(~{::title},~{::script})">
     <title>COMMUNITY</title>
 
-    <!--<script type="text/javascript">-->
-        <!--$(document).ready(function() {-->
+    <script type="text/javascript">
+        $(document).ready(function() {
 
-            <!--$('#COMMUNITYInputForm').bootstrapValidator({-->
-                <!--message: 'This value is not valid',-->
-                <!--feedbackIcons: {-->
-                    <!--valid: 'glyphicon glyphicon-ok',-->
-                    <!--invalid: 'glyphicon glyphicon-remove',-->
-                    <!--validating:'glyphicon glyphicon-refresh'-->
-                <!--},-->
-                <!--fields: {-->
-                    <!--commGuid:{-->
-                        <!--message: '小区ID验证失败',-->
-                        <!--validators: {-->
-                            <!--notEmpty: {-->
-                                <!--message:'小区ID不能为空'-->
-                            <!--},-->
-                            <!--stringLength: {-->
-                                <!--min: 6,-->
-                                <!--max: 18,-->
-                                <!--message: '小区ID长度必须在6到18位之间'-->
-                            <!--},-->
-                            <!--regexp:{-->
-                                <!--regexp: /^[a-zA-Z0-9_]+$/,-->
-                                <!--message:'小区ID只能包含大写、小写、数字和下划线'-->
-                            <!--}-->
-                        <!--}-->
-                    <!--},-->
-                    <!--commTitle:{-->
-                        <!--message: '小区名字验证失败',-->
-                        <!--validators: {-->
-                            <!--notEmpty: {-->
-                                <!--message:'小区名字不能为空'-->
-                            <!--},-->
-                            <!--stringLength: {-->
-                                <!--min: 6,-->
-                                <!--max: 18,-->
-                                <!--message: '小区名字长度必须在6到18位之间'-->
-                            <!--},-->
-                            <!--regexp:{-->
-                                <!--regexp: /^[a-zA-Z0-9_]+$/,-->
-                                <!--message:'小区名字只能包含大写、小写、数字和下划线'-->
-                            <!--}-->
-                        <!--}-->
-                    <!--},-->
-                    <!--commAddress:{-->
-                        <!--message: '小区地址验证失败',-->
-                        <!--validators: {-->
-                            <!--notEmpty: {-->
-                                <!--message:'小区地址不能为空'-->
-                            <!--},-->
-                            <!--stringLength: {-->
-                                <!--min: 6,-->
-                                <!--max: 18,-->
-                                <!--message: '小区地址长度必须在6到18位之间'-->
-                            <!--},-->
-                            <!--regexp:{-->
-                                <!--regexp: /^[a-zA-Z0-9_]+$/,-->
-                                <!--message:'小区地址只能包含大写、小写、数字和下划线'-->
-                            <!--}-->
-                        <!--}-->
-                    <!--},-->
-                    <!--commDesp:{-->
-                        <!--message: '小区描述验证失败',-->
-                        <!--validators: {-->
-                            <!--notEmpty: {-->
-                                <!--message:'小区描述不能为空'-->
-                            <!--},-->
-                            <!--stringLength: {-->
-                                <!--min: 6,-->
-                                <!--max: 18,-->
-                                <!--message: '小区描述长度必须在6到18位之间'-->
-                            <!--},-->
-                            <!--regexp:{-->
-                                <!--regexp: /^[a-zA-Z0-9_]+$/,-->
-                                <!--message:'小区描述只能包含大写、小写、数字和下划线'-->
-                            <!--}-->
-                        <!--}-->
-                    <!--},-->
-                    <!--commCoordinate:{-->
-                        <!--message: '小区坐标验证失败',-->
-                        <!--validators: {-->
-                            <!--notEmpty: {-->
-                                <!--message:'小区坐标不能为空'-->
-                            <!--},-->
-                            <!--stringLength: {-->
-                                <!--min: 6,-->
-                                <!--max: 18,-->
-                                <!--message: '小区坐标长度必须在6到18位之间'-->
-                            <!--},-->
-                            <!--regexp:{-->
-                                <!--regexp: /^[a-zA-Z0-9_]+$/,-->
-                                <!--message:'小区坐标只能包含大写、小写、数字和下划线'-->
-                            <!--}-->
-                        <!--}-->
-                    <!--}-->
-                <!--},-->
-                <!--submitHandler: function (validator, form, submitButton) {-->
-                    <!--alert("submit");-->
-                <!--}-->
-            <!--});-->
-
-
-
-        <!--});-->
-    <!--</script>-->
+            $('#COMMUNITYInputForm').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating:'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    commGuid:{
+                        message: '小区ID验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'小区ID不能为空'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 18,
+                                message: '小区ID长度必须在6到18位之间'
+                            },
+                            regexp:{
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message:'小区ID只能包含大写、小写、数字和下划线'
+                            }
+                        }
+                    },
+                    commTitle:{
+                        message: '小区名字验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'小区名字不能为空'
+                            },
+                            stringLength: {
+                                min: 2,
+                                max: 10,
+                                message: '小区名字长度必须在2到10位之间'
+                            },
+                            regexp:{
+                                regexp:  /[\u4e00-\u9fa5]+$/,
+                                message:'格式只限中文'
+                            }
+                        }
+                    },
+                    commAddress:{
+                        message: '小区地址验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'小区地址不能为空'
+                            },
+                            stringLength: {
+                                min: 2,
+                                max: 30,
+                                message: '小区地址长度必须在2到30位之间'
+                            },
+                            regexp: {
+                                regexp: /^[^%_&!@#*',;=?$x22]+$/,
+                                message: '地址格式不包括特殊字符'
+                            }
+                        }
+                    },
+                    commDesp:{
+                        message: '小区描述验证失败',
+                        validators: {
+                            notEmpty: {
+                                message:'小区描述不能为空'
+                            },
+                            stringLength: {
+                                min: 5,
+                                max: 120,
+                                message: '只能输入中文且必须在5到120字之间'
+                            }
+                        }
+                    }
+                },
+                submitHandler: function (validator, form, submitButton) {
+                    alert("submit");
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="container">
@@ -125,7 +101,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        录入community
+                        更新小区信息
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -143,36 +119,36 @@
                                            th:value="${community.commGuid}"/>
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6">
+                            <div class="form-group ">
                                 <label class="control-label col-lg-3" for="commTitle" >小区名字：</label>
                                 <div class="col-lg-9">
                                     <input id="commTitle" name="commTitle" type="select" class="form-control" placeholder="录入小区名字"
                                            th:value="${community.commTitle}"/>
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6">
+                            <div class="form-group ">
                                 <label class="control-label col-lg-3" for="commAddress" >小区地址：</label>
                                 <div class="col-lg-9">
                                     <input id="commAddress" name="commAddress" type="select" class="form-control" placeholder="录入小区地址"
                                            th:value="${community.commAddress}"/>
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6">
+                            <div class="form-group ">
                                 <label class="control-label col-lg-3" for="commDesp" >小区描述：</label>
                                 <div class="col-lg-9">
-									<textarea rows="5" id="commDesp" name="commDesp" class="form-control" placeholder="录入小区描述"
+									<textarea rows="3" id="commDesp" name="commDesp" class="form-control" placeholder="录入小区描述"
                                               th:text="${community.commDesp}">
                                     </textarea>
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6">
+                          <!--  <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="commCoordinate" >小区坐标：</label>
                                 <div class="col-lg-9">
 									<textarea rows="5" id="commCoordinate" name="commCoordinate" class="form-control" placeholder="录入小区坐标"
                                               th:text="${community.commCoordinate}">
                                     </textarea>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                         <div class="form-actions">
                             <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;

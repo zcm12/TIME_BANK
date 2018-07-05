@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.Request;
 
 import javax.validation.Valid;
 import java.security.Security;
@@ -51,13 +52,15 @@ public class AdminRequestController {
 
     //代发请求界面中的 “保存”按钮  将数据插入到数据库
     @RequestMapping(value = "/createRequestByAdmin")
-    public String insertRequest(@ModelAttribute @Valid Reqest reqest, Errors errors) {
+    public String insertRequest(@ModelAttribute @Valid Reqest reqest,Model model,Errors errors) {
+        Subject account = SecurityUtils.getSubject();
+        UsersExample usersExample=new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String)account.getPrincipal());
+        List<Users> users=usersMapper.selectByExample(usersExample);
+        Users users1=users.get(0);
+        String role = users1.getUserRole();
+        model.addAttribute("role", role);
         if (!errors.hasErrors()) {
-            Subject account = SecurityUtils.getSubject();
-            UsersExample usersExample=new UsersExample();
-            usersExample.or().andUserAccountEqualTo((String)account.getPrincipal());
-            List<Users> users=usersMapper.selectByExample(usersExample);
-            Users users1=users.get(0);
             String userId=users1.getUserGuid();
             //给发布的请求生成一个GUID,作为该请求的唯一标识
             reqest.setReqGuid(randomUUID().toString());
@@ -166,10 +169,30 @@ public class AdminRequestController {
   //listRequestByAdminView界面中的向后台请求数据
     @RequestMapping(value = "/getREQESTListJsonDataByAdmin", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getREQESTListJsonDataByAdmin(Model model, int offset, int limit, String sortName, String sortOrder,String requestState) {
+    public String getREQESTListJsonDataByAdmin(Model model, int offset, int limit, String sortName, String sortOrder,String searchText,String requestState) {
+        Subject account = SecurityUtils.getSubject();
+        System.out.println("获取数据库数据 显示列表");
+        System.out.println(offset);
+        System.out.println(limit);
+        System.out.println(searchText);
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+        List<Users> users1 = usersMapper.selectByExample(usersExample);
+        Users users2 = users1.get(0);
+        String role2 = users2.getUserRole();
+        model.addAttribute("role", role2);
+        if (searchText == "") {
+            searchText = null;
+        }
         ReqestExample reqestExample = new ReqestExample();
-        System.out.println(requestState);
-        TypeExample typeExample = new TypeExample();
+        reqestExample.clear();
+        //处理排序信息
+        if (sortName != null) {
+            //拼接字符串
+            String order = GetDatabaseFileName(sortName) + " " + sortOrder;
+            //将排序信息添加到example中
+            reqestExample.setOrderByClause(order);
+        }
         if (requestState.equals("1")){//待审核
             reqestExample.or().andReqTypeApproveStatusEqualTo("88888888-94e3-4eb7-aad3-333333333333");
         }
@@ -197,9 +220,100 @@ public class AdminRequestController {
         if (requestState.equals("9")){//已撤单
             reqestExample.or().andReqTypeGuidProcessStatusEqualTo("33333333-94e3-4eb7-aad3-666666666666");
         }
+        List<Reqest> reqests=reqestMapper.selectByExample(reqestExample);
+        System.out.println("数据库总数："+reqests.size());
+        //让ID在界面上显示成汉字
+        //遍历请求列表
+        for (int i = 0;i<reqests.size(); i++) {
+            Reqest reqest =reqests.get(i);
+            //请求处理状态
+            String processStatus = reqest.getReqTypeGuidProcessStatus();
+            TypeExample typeExample = new TypeExample();
+            typeExample.or().andTypeGuidEqualTo(processStatus);
+            List<Type> processStatusType = typeMapper.selectByExample(typeExample);
+            reqest.setReqTypeGuidProcessStatus(processStatusType.get(0).getTypeTitle());
 
+            //用户名
+             String reqAccount=reqest.getReqIssueUserGuid();
+             UsersExample usersExample1=new UsersExample();
+             usersExample1.or().andUserGuidEqualTo(reqAccount);
+             List<Users> users=usersMapper.selectByExample(usersExample1);
+             Users users3=users.get(0);
+             reqest.setReqIssueUserGuid(users3.getUserAccount());
+
+             //请求分类
+            String reqTypeGuidClass=reqest.getReqTypeGuidClass();
+            TypeExample typeExample1=new TypeExample();
+            typeExample1.or().andTypeGuidEqualTo(reqTypeGuidClass);
+            List<Type> reqTypeGuidClassType=typeMapper.selectByExample(typeExample1);
+            Type Type1=reqTypeGuidClassType.get(0);
+            reqest.setReqTypeGuidClass(Type1.getTypeTitle());
+
+            //请求批准状态
+            String approveStatus=reqest.getReqTypeApproveStatus();
+            TypeExample typeExample2=new TypeExample();
+            typeExample2.or().andTypeGuidEqualTo(approveStatus);
+            List<Type> approveType=typeMapper.selectByExample(typeExample2);
+            Type Type2=approveType.get(0);
+            reqest.setReqTypeApproveStatus(Type2.getTypeTitle());
+
+            //请求紧急程度
+            String urgent=reqest.getReqTypeGuidUrgency();
+            TypeExample typeExample3=new TypeExample();
+            typeExample3.or().andTypeGuidEqualTo(urgent);
+            List<Type> urgentType=typeMapper.selectByExample(typeExample3);
+            Type type3=urgentType.get(0);
+            reqest.setReqTypeGuidUrgency(type3.getTypeTitle());
+
+           /* //请求权值
+            String weight=reqest.getReqFromWeightGuid();
+            WeightExample weightExample=new WeightExample();
+            weightExample.or().andWeightGuidEqualTo(weight);
+            List<Weight> weights=weightMapper.selectByExample(weightExample);
+            Weight weight1=weights.get(0);
+            reqest.setReqFromWeightGuid(weight1.getWeightTitle());*/
+        }
+        List<Reqest> reqestsNew = new ArrayList<>();//搜索框集合
+        List<Reqest> reqestsReturn = new ArrayList<>();//分页返回的集合
+        for (int i = 0;i<reqests.size();i++){
+            Reqest reqest =reqests.get(i);
+            if (searchText != null) {
+                String reqTitle = reqest.getReqTitle();//标题搜索
+                String reqUserAccount = reqest.getReqIssueUserGuid();//账户搜索
+                String reqAddress = reqest.getReqAddress();//地址搜索
+                String reqClass=reqest.getReqTypeGuidClass();//请求分类搜索
+                String reqUrgent=reqest.getReqTypeGuidUrgency();//紧急程度搜索
+                String reqDescribe=reqest.getReqDesp();//描述搜索
+                String reqComm=reqest.getReqComment();//补充搜索
+                if (reqTitle.contains(searchText) || reqUserAccount.contains(searchText) || reqAddress.contains(searchText)||reqClass.contains(searchText)||reqUrgent.contains(searchText)||reqDescribe.contains(searchText)||reqComm.contains(searchText)) {
+                    reqestsNew.add(reqest);
+                }
+            }else {
+                reqestsNew.add(reqest);
+            }
+        }
+        //分页，一页数据最多20个
+        for (int i = offset;i<offset+limit&&i<reqestsNew.size();i++){
+            reqestsReturn.add(reqestsNew.get(i));
+        }
+        //全部符合要求的数据的数量
+        int total = reqestsNew.size();
+        System.out.println("总数："+total);
+        //将所得集合打包
+        ObjectMapper mapper = new ObjectMapper();
+        com.timebank.controller.sxq.TableRecordsJson tableRecordsJson = new com.timebank.controller.sxq.TableRecordsJson(reqestsReturn, total);
+        //将实体类转换成json数据并返回
+        try {
+            String json1 = mapper.writeValueAsString(tableRecordsJson);
+            System.out.println("json");
+//            System.out.println(json1);
+            System.out.println("每次上传20条记录");
+            return json1;
+        } catch (Exception e) {
+            return null;
+        }
         //查看所有请求
-        return getJsonDate(offset, limit, sortName, sortOrder, reqestExample);
+//        return getJsonDate(offset, limit, sortName, sortOrder, reqestExample);
     }
 /*----------------------------------------------------------我是下划线,以下为工具类,可单独封装-------------------------------------------------------*/
 
@@ -281,6 +395,7 @@ public class AdminRequestController {
             String issueProcessPerson = reqest.getReqProcessUserGuid();
             String sb3 = IdtoName(issueProcessPerson);
             reqest.setReqProcessUserGuid(sb3);
+
 
 
             reqestRecordList.add(reqest);
