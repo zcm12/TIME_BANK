@@ -159,7 +159,7 @@ public class activitycontroller {
     @ResponseBody
     public String activitylist(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder, String searchText, String button) {
         Subject account = SecurityUtils.getSubject();
-        System.out.println("获取数据库数据 显示列表");
+        System.out.println("就是这：");
         UsersExample usersExample100 = new UsersExample();
         usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
         List<Users> users10 = usersMapper.selectByExample(usersExample100);
@@ -254,13 +254,15 @@ public class activitycontroller {
 
         //全部符合要求的数据的数量
         int total = activities.size();
-        //System.out.println("总数："+total);
+        System.out.println("总数："+total);
         //将所得集合打包
         ObjectMapper mapper = new ObjectMapper();
         TableRecordsJson tableRecordsJson = new TableRecordsJson(activityRecordList, total);
         //将实体类转换成json数据并返回
         try {
             String json1 = mapper.writeValueAsString(tableRecordsJson);
+            System.out.println(222);
+            System.out.println(json1);
             return json1;
         } catch (Exception e) {
             return null;
@@ -356,20 +358,17 @@ public class activitycontroller {
             } else {
                 activityRecordList.add(act1);
             }
-            //         activityRecordList.add(act);
         }
 
         //全部符合要求的数据的数量
         int total = activities.size();
-        //System.out.println("总数："+total);
         //将所得集合打包
         ObjectMapper mapper = new ObjectMapper();
         TableRecordsJson tableRecordsJson = new TableRecordsJson(activityRecordList, total);
         //将实体类转换成json数据并返回
         try {
             String json1 = mapper.writeValueAsString(tableRecordsJson);
-            System.out.println(222);
-            System.out.println(json1);
+
             return json1;
         } catch (Exception e) {
             return null;
@@ -950,6 +949,26 @@ public class activitycontroller {
         }
 
         //TODO:打分完成后修改处理状态的字段  改成33333333-94E3-4EB7-AAD3-777777777777
+        Activity activity=activityMapper.selectByPrimaryKey(id);
+        ActpartExample actpartExample1=new ActpartExample();
+        actpartExample1.or().andActpartUserGuidEqualTo(id);
+        List<Actpart> actpartList=actpartMapper.selectByExample(actpartExample1);
+        int num=0;
+        int num2=0;
+        for(Actpart it:actpartList){
+            if(it.getAcpartTypeGuidProcessStatus().equals("88888888-94E3-4EB7-AAD3-111111111111"))
+                 {
+                     num++;
+                     if(it.getActpartEvaluate()!=null){
+                        num2++;
+                     }
+            }
+        }
+        if(num==num2){
+            activity.setActivityTypeProcessStatus("33333333-94E3-4EB7-AAD3-777777777777");
+            activityMapper.updateByPrimaryKeySelective(activity);
+        }
+
         return "activitypersonscore";
     }
 
