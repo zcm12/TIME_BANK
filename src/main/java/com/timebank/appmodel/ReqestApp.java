@@ -3,6 +3,7 @@ package com.timebank.appmodel;
 
 public class ReqestApp {
 
+    private String reqGuid;
 
     private String reqAddress;
 
@@ -21,7 +22,13 @@ public class ReqestApp {
     private String reqRreDurationTime;
 
     private String reqPersonNum;
+    public String getReqGuid() {
+        return reqGuid;
+    }
 
+    public void setReqGuid(String reqGuid) {
+        this.reqGuid = reqGuid;
+    }
     public String getReqAddress() {
         return reqAddress;
     }
@@ -105,6 +112,7 @@ public class ReqestApp {
     @Override
     public String toString() {
         return "ReqestApp{" +
+                "reqGuid='" + reqGuid + '\'' +
                 "reqAddress='" + reqAddress + '\'' +
                 ", reqTitle='" + reqTitle + '\'' +
                 ", reqDesp='" + reqDesp + '\'' +

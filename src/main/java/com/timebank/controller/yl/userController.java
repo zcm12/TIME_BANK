@@ -300,53 +300,5 @@ public class userController {
     }
 
 
-    /*---------------app api------------------------*/
-  /*  @RequestMapping(value = "/appGetCom")
-    @ResponseBody
-    public List<Community> appGetCom() {
-        Subject account = SecurityUtils.getSubject();
-        System.out.println("account"+account);
-        System.out.println("principal"+account.getPrincipal().toString());
-        CommunityExample communityExample = new CommunityExample();
-        List<Community> communities = communityMapper.selectByExample(communityExample);
-        System.out.println("小区集合："+communities);
-        return communities;
-    }
-    @RequestMapping(value = "/appUpdateUserInfo")
-    @ResponseBody
-    public void appUpdateUserInfo(Users u) {
-        Subject account = SecurityUtils.getSubject();
-        String userAccount = (String) account.getPrincipal();
-        System.out.println("account"+account);
-        System.out.println("userAccount"+userAccount);
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo(userAccount);
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users user = users.get(0);
 
-        String userTypeGuidGender = u.getUserTypeGuidGender();
-        System.out.println("userTypeGuidGender"+userTypeGuidGender);
-        String userAddress = u.getUserAddress();
-        System.out.println("userAddress"+userAddress);
-        String userCommGuid = u.getUserCommGuid();
-        System.out.println("userCommGuid"+userCommGuid);
-
-        //处理性别
-        TypeExample typeExample = new TypeExample();
-        typeExample.or().andTypeTitleEqualTo(userTypeGuidGender);
-        List<Type> types = typeMapper.selectByExample(typeExample);
-        Type type = types.get(0);
-        user.setUserTypeGuidGender(type.getTypeGuid());
-        System.out.println("userGender"+user.getUserTypeGuidGender());
-        //处理小区
-        CommunityExample communityExample = new CommunityExample();
-        communityExample.or().andCommTitleEqualTo(userCommGuid);
-        List<Community> communities = communityMapper.selectByExample(communityExample);
-        Community community = communities.get(0);
-        user.setUserCommGuid(community.getCommGuid());
-        //处理地址
-        user.setUserAddress(userAddress);
-        //更新数据库
-        usersMapper.updateByPrimaryKey(user);
-    }*/
 }

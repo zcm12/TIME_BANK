@@ -135,6 +135,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/","anon");
         filterChainDefinitionMap.put("/register","anon");
         filterChainDefinitionMap.put("/registerUser","anon");
+        filterChainDefinitionMap.put("/appRegisterUser","anon");
         filterChainDefinitionMap.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
