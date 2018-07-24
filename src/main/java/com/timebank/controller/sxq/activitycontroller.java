@@ -578,7 +578,7 @@ public class activitycontroller {
         List<Activity> activities = activityMapper.selectByExample(activityExample);
         Activity activity = activities.get(0);
         activity.setActivityTypeProcessStatus("33333333-94E3-4EB7-AAD3-333333333333");
-        //数据库更新 前端显示待启动
+        //数据库更新 前端显示启动
         activityMapper.updateByPrimaryKeySelective(activity);
         if (activity.getActivityTypeProcessStatus() != null) {
             Type type1 = typeMapper.selectByPrimaryKey("33333333-94E3-4EB7-AAD3-333333333333");
@@ -603,7 +603,7 @@ public class activitycontroller {
         List<Activity> activities = activityMapper.selectByExample(activityExample);
         Activity activity = activities.get(0);
         activity.setActivityTypeProcessStatus("33333333-94E3-4EB7-AAD3-444444444444");
-        //数据库更新 前端显示待启动
+        //数据库更新 前端显示完成
         activityMapper.updateByPrimaryKeySelective(activity);
         if (activity.getActivityTypeProcessStatus() != null) {
             Type type1 = typeMapper.selectByPrimaryKey("33333333-94E3-4EB7-AAD3-444444444444");
@@ -626,15 +626,15 @@ public class activitycontroller {
         activityExample.or().andActivityGuidEqualTo(activityGuid6);
         List<Activity> activities = activityMapper.selectByExample(activityExample);
         Activity activity = activities.get(0);
-        activity.setActivityTypeProcessStatus("333333333-94E3-4EB7-AAD3-555555555555");
-        //数据库更新 前端显示待启动
+        activity.setActivityTypeProcessStatus("33333333-94E3-4EB7-AAD3-555555555555");
+        //数据库更新 前端显示未完成
         activityMapper.updateByPrimaryKeySelective(activity);
         if (activity.getActivityTypeProcessStatus() != null) {
             Type type1 = typeMapper.selectByPrimaryKey("33333333-94E3-4EB7-AAD3-555555555555");
             activity.setActivityTypeProcessStatus(type1.getTypeTitle());
         }
-        model.addAttribute("activity", activity);
         model.addAttribute("message",0);
+        model.addAttribute("activity", activity);
         return "activityShowNoSbumit";
     }
 
@@ -745,13 +745,13 @@ public class activitycontroller {
     }
     //删除志愿者
     @RequestMapping(value = "/UserGuid/{message}")
-    public String DelVolunteer(Model model, @PathVariable String message1){
+    public String DelVolunteer(Model model, @PathVariable String message){
         Subject account = SecurityUtils.getSubject();
-        String message=(String) account.getPrincipal();
-        Users users=GetCurrentUsers(message);
+        String message1=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message1);
         String role=users.getUserRole();
         model.addAttribute("role",role);
-        String[] strings=message1.split(",");
+        String[] strings=message.split(",");
         String userGuid=strings[0];
         String activity=strings[1];
         ActpartExample actpartExample=new ActpartExample();
