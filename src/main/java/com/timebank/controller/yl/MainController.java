@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.validation.Validator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,25 +51,24 @@ public class MainController {
     public String index() {
         return "index";
     }
+    /**
+     * 用户的登录功能
+     */
 
     //登录按钮
     @RequestMapping(value = "/loginUser")
     public String loginUser(Users users, Model model) {
-        //当前输入的用户名和密码
         String userName = users.getUserAccount();
-        String password = users.getUserPassword();
-
+        System.out.println(userName);
+        String password = users.getUserPassword(); //数据库中的密码
         Subject subject = SecurityUtils.getSubject();
-//        System.out.println(subject);//org.apache.shiro.web.subject.support.WebDelegatingSubject@5658fbfe
-//        System.out.println(subject.getPrincipal());//数据库里面账号名
+
         if (true) {
-            //收集实体(界面输入的)凭证信息  也就是常说的用户密码信息 令牌
             UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
-            //功能：记住我
             token.setRememberMe(true);
-            //提交认证信息 认证处理
             try {
                 subject.login(token);//提交认证信息
+                System.out.println();
 
             } catch (UnknownAccountException uae) {
                 System.out.println("账户不存在!");
@@ -83,9 +83,10 @@ public class MainController {
                 System.out.println("认证错误");
                 return "fail";
             }
-            //根据角色不同  跳往不同界面
+            //根据角色不同  跳往不同界面 游客
             if (subject.hasRole("Tourist")) {
                 model.addAttribute("role", "Tourist");
+                System.out.println("走这里");
                 UsersExample usersExample = new UsersExample();
                 usersExample.or().andUserAccountEqualTo(userName);
                 List<Users> users1 = usersMapper.selectByExample(usersExample);
@@ -111,10 +112,34 @@ public class MainController {
             //用户
             if (subject.hasRole("USE")) {
                 model.addAttribute("role", "USE");
-                UsersExample usersExample = new UsersExample();
-                usersExample.or().andUserAccountEqualTo(userName);
-                List<Users> users1 = usersMapper.selectByExample(usersExample);
-                Users users2 = users1.get(0);
+                //处理当前用户的个人信息  Subject account = SecurityUtils.getSubject();
+                UsersExample usersExample11=new UsersExample();
+                Users users2=null;
+//                String message=(String) account.getPrincipal();//从这开始
+                String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+                String ph = "^[1][34578]\\d{9}$";
+                if(userName.matches(ph)){
+                    usersExample11.or().andUserPhoneEqualTo(userName);
+                    List<Users> usersList = usersMapper.selectByExample(usersExample11);
+                    users2 = usersList.get(0);
+
+                } if( userName.matches(em)){
+                    usersExample11.or().andUserMailEqualTo(userName);
+                    List<Users> usersList = usersMapper.selectByExample(usersExample11);
+                    users2 = usersList.get(0);
+                } else {
+                    usersExample11.or().andUserAccountEqualTo(userName);
+                    List<Users> usersList = usersMapper.selectByExample(usersExample11);
+                    users2 = usersList.get(0);
+                }
+                String role=users2.getUserRole();
+                model.addAttribute("role",role);
+
+//
+//                UsersExample usersExample = new UsersExample();
+//                usersExample.or().andUserAccountEqualTo(userName);
+//                List<Users> users1 = usersMapper.selectByExample(usersExample);
+//                Users users2 = users1.get(0);
                 if (users2.getUserTypeGuidGender() != null) {
                     //处理性别
                     Type type = typeMapper.selectByPrimaryKey(users2.getUserTypeGuidGender());
@@ -232,6 +257,7 @@ public class MainController {
             e.printStackTrace();
         }
         System.out.println(resultString);
+        System.out.println("就是这里："+resultString);
         return resultString;
     }
     /*------------app api------------------------*/

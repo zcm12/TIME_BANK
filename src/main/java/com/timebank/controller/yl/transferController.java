@@ -37,16 +37,37 @@ public class transferController {
     @Autowired
     private TransferMapper transferMapper;
 
+    private Users GetCurrentUsers(String message){
+
+        UsersExample usersExample=new UsersExample();
+        Users users=null;
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        if(message.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+
+        }else if( message.matches(em)){
+            usersExample.or().andUserMailEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        } else {
+            usersExample.or().andUserAccountEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        }
+        return users;
+    }
     //汇款服务
     @RequestMapping(value = "/remitServicesView")
     public String remitServicesView(Model model) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
+
         return "transferServices";
     }
     //汇款提交
@@ -54,11 +75,9 @@ public class transferController {
     public String updateREQESTSave(Transfer transfer, Model model) {
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
         model.addAttribute("role",role);
 
         //转账ID//转账者
@@ -85,11 +104,9 @@ public class transferController {
     @RequestMapping(value = "/receiveServicesView")
     public String receiveServicesView(Model model) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         return "receiveServices";
     }
@@ -98,10 +115,10 @@ public class transferController {
     @ResponseBody
     public String getTRANSFERListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder){
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+//        model.addAttribute("role",role);
         TransferExample transferExample=new TransferExample();
         transferExample.or().andTransTypeGuidProcessStatusNotEqualTo("66666666-94e3-4eb7-aad3-666666666666");
         //处理排序信息
@@ -117,12 +134,13 @@ public class transferController {
         List<Transfer> transfers = new ArrayList<>();
         for (Transfer t : transfers1)
         {
-            if (t.getTransToUserGuid().contains(users1.getUserGuid()))
+            if (t.getTransToUserGuid().contains(users11.getUserGuid()))
             {
                 transfers.add(t);
             }
         }
         List<Transfer> transferRecordList=new ArrayList<>();
+        UsersExample usersExample=new UsersExample();
         for(int i=offset;i< offset+limit&&i < transfers.size();i++){
             Transfer transfer1=transfers.get(i);
             //处理转账接受者的ID，装换为接受者的账号名
@@ -166,11 +184,9 @@ public class transferController {
     @RequestMapping(value = "/confirmTRANSFER/{transGuid}")
     public String confirmTRANSFER (@PathVariable String transGuid , Model model) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         //当前这条转账
         Transfer transfer = transferMapper.selectByPrimaryKey(transGuid);
@@ -203,11 +219,9 @@ public class transferController {
     @RequestMapping(value = "/refuseTRANSFER/{transGuid}")
     public String refuseTRANSFER (@PathVariable String transGuid , Model model) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         //双方钱数不变，只是将进程状态改为 拒绝
         //当前这条转账
@@ -223,11 +237,9 @@ public class transferController {
     public String remitServicesList(Model model)
     {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         return "transferList";
     }
@@ -236,10 +248,10 @@ public class transferController {
     @ResponseBody
     public String getRemitListJsonData(@RequestParam int offset, int limit, String sortName,String sortOrder){
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+//        model.addAttribute("role",role);
         TransferExample transferExample=new TransferExample();
         transferExample.clear();
         //处理排序信息
@@ -250,7 +262,7 @@ public class transferController {
             transferExample.setOrderByClause(order);
         }
         //判断TRANS_FROM_USER_GUID字段中包不包含当前登陆者的ID
-        String fromUserId = users1.getUserGuid();
+        String fromUserId = users11.getUserGuid();
         TransferExample transferExample1 = new TransferExample();
         transferExample1.or().andTransFromUserGuidEqualTo(fromUserId);
         List<Transfer> transfers1=transferMapper.selectByExample(transferExample1);
@@ -284,11 +296,9 @@ public class transferController {
     @RequestMapping(value = "/delateRemit/{transGuid}")
     public String delateRemit (@PathVariable String transGuid , Model model) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         //双方钱数不变，只是将进程状态改为 撤销
         //当前这条转账

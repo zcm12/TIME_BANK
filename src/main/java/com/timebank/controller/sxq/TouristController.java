@@ -47,18 +47,36 @@ public class TouristController {
         }
         return sb.toString();
     }
+    private Users GetCurrentUsers(String message){
+        Users users=null;
+        UsersExample usersExample=new UsersExample();
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        if(message.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+
+        }else if( message.matches(em)){
+            usersExample.or().andUserMailEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        } else {
+            usersExample.or().andUserAccountEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        }
+        return users;
+    }
     //修改游客信息
    @RequestMapping(value="/modifyTouristInformationView")
     public String TouristInformationView(Model model){
-       System.out.println("修改用户信息");
-       Subject account=SecurityUtils.getSubject();
-       UsersExample usersExample = new UsersExample();
-       usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-       List<Users> users = usersMapper.selectByExample(usersExample);
-       Users users2 = users.get(0);
-       String role = users2.getUserRole();
-       model.addAttribute("role", role);
-       model.addAttribute("users",users2);
+       Subject account = SecurityUtils.getSubject();
+       String message=(String) account.getPrincipal();
+       Users users=GetCurrentUsers(message);
+       String role=users.getUserRole();
+       model.addAttribute("role",role);
+       model.addAttribute("users",users);
        //所属小区
        CommunityExample communityExample = new CommunityExample();
        List<Community> communities = communityMapper.selectByExample(communityExample);
@@ -74,12 +92,9 @@ public class TouristController {
     //查看游客信息
     @RequestMapping(value="/touristInformationView")
     public String touristInformationView(Model model){
-        System.out.println("查看用户信息");
-        Subject account=SecurityUtils.getSubject();
-        UsersExample usersExample=new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String)account.getPrincipal());
-        List<Users> users=usersMapper.selectByExample(usersExample);
-        Users users2=users.get(0);
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users2=GetCurrentUsers(message);
         String role=users2.getUserRole();
         model.addAttribute("role",role);
         if (users2.getUserTypeGuidGender()!= null)
@@ -101,11 +116,9 @@ public class TouristController {
     @RequestMapping(value = "/updateTouristSubmit")
     public String updateREQESTSave(Users users, Model model){
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users0 = usersMapper.selectByExample(usersExample);
-        Users users1 = users0.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
         model.addAttribute("role",role);
         usersMapper.updateByPrimaryKeySelective(users);
         Users users2 = usersMapper.selectByPrimaryKey(users.getUserGuid());
@@ -129,12 +142,10 @@ public class TouristController {
     //游客列表界面
     @RequestMapping(value = "/createUserRole")
     public String createUserRole(Model model){
-        Subject subject=SecurityUtils.getSubject();
-        UsersExample usersExample=new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String)subject.getPrincipal());
-        List<Users> users=usersMapper.selectByExample(usersExample);
-        Users users1=users.get(0);
-        String role=users1.getUserRole();
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
         model.addAttribute("role",role);
         return "touristList";
     }
@@ -143,14 +154,12 @@ public class TouristController {
     @ResponseBody
     public String getTourstListJsonData(Model model, int offset, int limit, String sortName, String sortOrder){
         //将管理员的角色添加到model中
-        Subject subject=SecurityUtils.getSubject();
-        UsersExample usersExample=new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) subject.getPrincipal());
-        List<Users> users=usersMapper.selectByExample(usersExample);
-        Users users1=users.get(0);
-        String role=users1.getUserRole();
-        String commguid=users1.getUserCommGuid();
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
         model.addAttribute("role",role);
+        String commguid=users.getUserCommGuid();
         //遍历数据库用户表格 得到所有的角色为Tourist的用户
         UsersExample usersExample1=new UsersExample();
         usersExample1.or().andUserRoleEqualTo("Tourist");
@@ -205,12 +214,10 @@ public class TouristController {
     //查看详情界面   进行审核
     @RequestMapping(value="/Tourist/{userGuid}")
     public String getTourstListJsonData(Model model,@PathVariable String userGuid){
-        System.out.println(userGuid);
-        Subject subject=SecurityUtils.getSubject();
-        UsersExample usersExample=new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) subject.getPrincipal());
-        List<Users> users=usersMapper.selectByExample(usersExample);
-        String role=users.get(0).getUserRole();
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
         model.addAttribute("role",role);
 
         UsersExample usersExample1=new UsersExample();
@@ -244,11 +251,10 @@ public class TouristController {
     //保存按钮 通过审核
     @RequestMapping(value = "/passSubmit")
     public String updateTouristInformationSubmit(Model model,Users users){
-        Subject subject=SecurityUtils.getSubject();
-        UsersExample usersExample=new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) subject.getPrincipal());
-        List<Users> users1=usersMapper.selectByExample(usersExample);
-        String role=users1.get(0).getUserRole();
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
         model.addAttribute("role",role);
         usersMapper.updateByPrimaryKeySelective(users);
         return "touristList";
@@ -257,12 +263,10 @@ public class TouristController {
     //用户游客列表
     @RequestMapping(value = "/createAllUserRole")
     public String createAllUserRole(Model model){
-        Subject subject=SecurityUtils.getSubject();
-        UsersExample usersExample=new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String)subject.getPrincipal());
-        List<Users> users=usersMapper.selectByExample(usersExample);
-        Users users1=users.get(0);
-        String role=users1.getUserRole();
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
         model.addAttribute("role",role);
         return "usersListByAdmin";
     }
@@ -271,13 +275,10 @@ public class TouristController {
     @ResponseBody
     public String getAllUsersListJsonData(Model model, int offset, int limit, String sortName, String sortOrder){
         //将管理员的角色添加到model中
-        Subject subject=SecurityUtils.getSubject();
-        UsersExample usersExample=new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) subject.getPrincipal());
-        List<Users> users=usersMapper.selectByExample(usersExample);
-        Users users1=users.get(0);
-        String role=users1.getUserRole();
-        String commguid=users1.getUserCommGuid();
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
         model.addAttribute("role",role);
         //遍历数据库用户表格 得到所有用户
         UsersExample usersExample1=new UsersExample();
@@ -327,12 +328,10 @@ public class TouristController {
     //查看详情安按钮
     @RequestMapping(value="/AllUser/{userGuid}")
     public String alluser(Model model,@PathVariable String userGuid){
-        System.out.println(userGuid);
-        Subject subject=SecurityUtils.getSubject();
-        UsersExample usersExample=new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) subject.getPrincipal());
-        List<Users> users=usersMapper.selectByExample(usersExample);
-        String role=users.get(0).getUserRole();
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
         model.addAttribute("role",role);
 
         UsersExample usersExample1=new UsersExample();
@@ -368,12 +367,11 @@ public class TouristController {
     //保存按钮
     @RequestMapping(value = "/passUserSubmit")
     public String passUserSubmit(Model model,Users users) {
-        Subject subject = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) subject.getPrincipal());
-        List<Users> users1 = usersMapper.selectByExample(usersExample);
-        String role = users1.get(0).getUserRole();
-        model.addAttribute("role", role);
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+        model.addAttribute("role",role);
         usersMapper.updateByPrimaryKeySelective(users);
         return "usersListByAdmin";
     }

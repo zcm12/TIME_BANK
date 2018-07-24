@@ -29,31 +29,48 @@ public class cummunityController {
     @Autowired
     private UsersMapper usersMapper;
 
+    private Users GetCurrentUsers(String message){
+        UsersExample usersExample=new UsersExample();
+        Users users=null;
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        if(message.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+
+        }else if( message.matches(em)){
+            usersExample.or().andUserMailEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        } else {
+            usersExample.or().andUserAccountEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        }
+        return users;
+    }
     //test测试
     @RequestMapping(value = "/createCommunityView")
     public String createCommunityView(Model model){
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
 
         return "creatcommunityview";
     }
     @RequestMapping(value = "/showCommunityView")
     public String showCommunityView(Model model){
 
-        Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
 
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         return "showcommunityview";
     }
 
@@ -61,12 +78,10 @@ public class cummunityController {
     public String createcommunityinsert(@ModelAttribute @Valid Community community, Errors errors, Model model){
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
 
         if (!errors.hasErrors()) {
             UUID guid = randomUUID();
@@ -133,13 +148,12 @@ public class cummunityController {
     @RequestMapping(value = "/COMMUNITY/{communityId}")
     public String cummunityDetail(Model model,@PathVariable String communityId){
 
+
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
 
         Community community = communityMapper.selectByPrimaryKey(communityId);
         model.addAttribute("community",community);
@@ -149,15 +163,11 @@ public class cummunityController {
     @RequestMapping(value = "/communityupdate")
     public String activityUpdate(@ModelAttribute @Valid Community community,Errors errors,Model model){
 
-
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
-
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
 
         if (!errors.hasErrors()){
             communityMapper.updateByPrimaryKeySelective(community);

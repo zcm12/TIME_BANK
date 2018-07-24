@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="basepage :: common_header(~{::title},~{::script})">
+<html lang="EN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="basepage :: common_header(~{::title},~{::script})">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>ACTIVITY</title>
-    <meta charset="UTF-8">
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#ACTIVITYInputForm').bootstrapValidator({

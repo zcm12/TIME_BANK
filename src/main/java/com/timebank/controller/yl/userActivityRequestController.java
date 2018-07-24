@@ -33,23 +33,41 @@ public class userActivityRequestController {
     @Autowired
     private TypeMapper typeMapper;
 
-//    String acticityIDByUser = null;
+    private Users GetCurrentUsers(String message){
+
+        UsersExample usersExample=new UsersExample();
+        Users users=null;
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        if(message.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+
+        }else if( message.matches(em)){
+            usersExample.or().andUserMailEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        } else {
+            usersExample.or().andUserAccountEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        }
+        return users;
+    }
 
     //basepage页面申请活动按钮
     @RequestMapping(value = "/createActivityByUserView")
     public String userApply(Model model)
     {
-        System.out.println("这是左边申请活动");
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         //获得该用户的guid和小区
-        model.addAttribute("userguid",users1.getUserGuid());
-        model.addAttribute("usercommguid",users1.getUserCommGuid());
+        model.addAttribute("userguid",users11.getUserGuid());
+        model.addAttribute("usercommguid",users11.getUserCommGuid());
         return "activityApplyByUser";
     }
     //活动列表页面后台请求数据
@@ -108,11 +126,9 @@ public class userActivityRequestController {
     public String activityApply (@PathVariable String activityGuid, Model model) {
         System.out.println("查看详情界面");
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         Activity activity = activityMapper.selectByPrimaryKey(activityGuid);
         CommunityExample communityExample = new CommunityExample();
@@ -135,7 +151,7 @@ public class userActivityRequestController {
         model.addAttribute("amountMessage", num);
         //选择性锁定申请按钮（只能申请一次）(参与活动的人数达到上限)
         ActpartExample actpartExample = new ActpartExample();
-        actpartExample.or().andActpartUserGuidEqualTo(users1.getUserGuid());
+        actpartExample.or().andActpartUserGuidEqualTo(users11.getUserGuid());
         List<Actpart> actparts = actpartMapper.selectByExample(actpartExample);
         int renshu=activity.getActivityPersonNum();
         for(Actpart it: actparts){
@@ -151,16 +167,10 @@ public class userActivityRequestController {
     @RequestMapping(value = "/ActivitySaveByUser")
     public String userApply(Model model,String activityGuid) {
         //保存当前登陆者的账号存到actpart表
-        System.out.println("申请按钮");
-        System.out.println(22222);
-        System.out.println(activityGuid);//null
-        //得到此用户的guid
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         //插入此条记录的guid
         Actpart actpart=new Actpart();
@@ -170,7 +180,7 @@ public class userActivityRequestController {
         System.out.println(activityGuid);
         actpart.setActpartActivityGuid(activityGuid);
         //插入用户的id
-        actpart.setActpartUserGuid(users1.getUserGuid());
+        actpart.setActpartUserGuid(users11.getUserGuid());
         actpart.setAcpartTypeGuidProcessStatus("88888888-94E3-4EB7-AAD3-111111111111");
         actpartMapper.insert(actpart);
         return "applyActivityListByUserView";
@@ -181,11 +191,9 @@ public class userActivityRequestController {
     public String applyActivityListByUserView(Model model)
     {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
 
         return "applyActivityListByUserView";
@@ -197,12 +205,10 @@ public class userActivityRequestController {
 
         ActivityExample activityExample=new ActivityExample();
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
         ActpartExample actpartExample = new ActpartExample();
-        actpartExample.or().andActpartUserGuidEqualTo(users1.getUserGuid());
+        actpartExample.or().andActpartUserGuidEqualTo(users11.getUserGuid());
         List<Actpart> actparts = actpartMapper.selectByExample(actpartExample);
         List<Activity> activitys=new ArrayList<>();
         activitys.clear();

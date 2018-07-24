@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
@@ -26,26 +27,42 @@ import static java.util.UUID.randomUUID;
 public class ShrioRegister {
     @Autowired
     UsersMapper usersMapper;
-    @Autowired
-     DefaultWebSecurityManager securityManager;
+//    @Autowired
+//    DefaultWebSecurityManager securityManager;
+//    @Autowired
+//    DefaultWebSecurityManager securityManager1;
     //散列算法类型为MD5
     private    String algorithmName ="MD5";
     //hash的次数
-    private   int hashIterations=10;
+    private   int hashIterations=1000;
     private boolean flag=true;
 
     public boolean register1(Users users) {
 
         System.out.println("密码加密开始");
         //干扰数据 盐 防破解
-        String salt = "";
+        //盐值唯一
+//        String salt = "";
+//        String salt=users.getUserGuid();
+//        int i = Integer.parseInt([String]); 或
+//
+//　　i = Integer.parseInt([String],[int radix]);
+        int flag= new Random().nextInt(999999);
+            if (flag < 100000)
+            {
+                flag += 100000;
+            }
+
+        String salt=String.valueOf(flag);
         System.out.println("原始密码为：" + users.getUserPassword());//注册密码
+        System.out.println("盐值为:"+salt);
         SimpleHash hash = new SimpleHash(algorithmName, users.getUserPassword(), salt, hashIterations);
         System.out.println("密码加密结束：" + hash);
         String encodedPassword = hash.toHex();
         users.setUserPassword(encodedPassword);
         UUID userGuid = randomUUID();
         users.setUserGuid(userGuid.toString());
+        users.setUserSalt( salt);
         usersMapper.insertSelective(users);
         return  true;
     }

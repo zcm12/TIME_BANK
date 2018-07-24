@@ -1,5 +1,6 @@
 package com.timebank.controller.yl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timebank.domain.*;
 import com.timebank.mapper.*;
@@ -41,19 +42,38 @@ public class userController {
         }
         return sb.toString();
     }
+    private Users GetCurrentUsers(String message){
 
+        UsersExample usersExample=new UsersExample();
+
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        Users users=null;
+        if(message.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+
+        }else if( message.matches(em)){
+            usersExample.or().andUserMailEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        } else {
+            usersExample.or().andUserAccountEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        }
+        return users;
+    }
     //查看个人信息
     @RequestMapping(value = "/userInformationView")
     public String userInformationView(Model model)
     {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
         model.addAttribute("role",role);
-
         if (users1.getUserTypeGuidGender()!= null)
         {
             //处理性别
@@ -88,13 +108,10 @@ public class userController {
     public String modifyUserInformationView(Model model)
     {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
         model.addAttribute("role",role);
-
         //所属小区
         CommunityExample communityExample = new CommunityExample();
         List<Community> communities = communityMapper.selectByExample(communityExample);
@@ -110,16 +127,11 @@ public class userController {
     //修改用户个人信息界面中保存按钮
     @RequestMapping(value = "/updateUserInformationSubmit")
     public String updateREQESTSave(@ModelAttribute @Valid Users users, Model model){
-//        System.out.println(0000000);
-//        System.out.println(users.getUserBirthdate());
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users1 = usersMapper.selectByExample(usersExample);
-        Users users2 = users1.get(0);
-        String role = users2.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
         model.addAttribute("role",role);
-
 
         usersMapper.updateByPrimaryKeySelective(users);
 
@@ -127,7 +139,7 @@ public class userController {
         String GUID=users.getUserGuid();
         UsersExample usersExample1=new UsersExample();
         usersExample1.or().andUserGuidEqualTo(GUID);
-        List<Users> usersList=usersMapper.selectByExample(usersExample);
+        List<Users> usersList=usersMapper.selectByExample(usersExample1);
         Users users3=usersList.get(0);
         System.out.println("哈哈哈"+users3.getUserBirthdate());
         if (users3.getUserTypeGuidGender()!= null)
@@ -180,6 +192,58 @@ public class userController {
 
         return "userInformation";
     }
+    //邮箱重名校验
+    @RequestMapping(value = "/jquery/exist4.do")
+    @ResponseBody
+    public String checkUserEmail(String userMail){
+        UsersExample usersExample=new UsersExample();
+        List<Users> users=usersMapper.selectByExample(usersExample);
+        boolean result = true;
+        Map<String, Boolean> map = new HashMap<>();
+        for(Users it:users){
+            if(it.getUserMail()!=null&&it.getUserMail().equals(userMail)){
+                result=false;
+            }
+        }
+        System.out.println(userMail);
+        map.put("valid", result);
+        ObjectMapper mapper = new ObjectMapper();
+        String resultString = "";
+        try {
+            //将对象转换成json数组  这里是将map<>对象转换成json
+            resultString = mapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        System.out.println(resultString);
+        return resultString;
+    }
+    //手机号重名校验
+    @RequestMapping(value = "/jquery/exist3.do")
+    @ResponseBody
+    public String checkUserPhone(String userPhone){
+        UsersExample usersExample=new UsersExample();
+        List<Users> users=usersMapper.selectByExample(usersExample);
+        boolean result = true;
+        Map<String, Boolean> map = new HashMap<>();
+        for(Users it:users){
+            if(it.getUserPhone()!=null&&it.getUserPhone().equals(userPhone)){
+                result=false;
+            }
+        }
+        System.out.println(userPhone);
+        map.put("valid", result);
+        ObjectMapper mapper = new ObjectMapper();
+        String resultString = "";
+        try {
+            //将对象转换成json数组  这里是将map<>对象转换成json
+            resultString = mapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        System.out.println(resultString);
+        return resultString;
+    }
     /**
      * 名字转换函数
      */
@@ -213,13 +277,10 @@ public class userController {
     public String scoreForVolunteer(Model model) {
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
-
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+        model.addAttribute("role",role);
         return "scoreForVolunteer";
     }
 
@@ -230,10 +291,10 @@ public class userController {
     public String getRESPONDListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder){
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+//        model.addAttribute("role",role);
         RespondExample respondExample=new RespondExample();
         respondExample.clear();
         //处理排序信息
@@ -279,12 +340,10 @@ public class userController {
     private String scoreForVolunteer(Model model,String thisPerson1,String finalScore,String id) {
         System.out.println("这是打完分数后 确定按钮");
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+        model.addAttribute("role",role);
         // model.addAttribute("activityid",id);
         //需要将分数插入到actpartb表单中
       /*  ActpartExample actpartExample=new ActpartExample();

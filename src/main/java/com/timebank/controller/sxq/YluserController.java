@@ -30,18 +30,37 @@ public class YluserController {
     private CommunityMapper communityMapper;
     @Autowired
     private ReqestMapper reqestMapper;
+    private Users GetCurrentUsers(String message){
 
+        UsersExample usersExample=new UsersExample();
+        Users users=null;
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        if(message.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+
+        }else if( message.matches(em)){
+            usersExample.or().andUserMailEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        } else {
+            usersExample.or().andUserAccountEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        }
+        return users;
+    }
     @RequestMapping(value = "/getUSERSListJsonData")
     @ResponseBody
     public String userList(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder) {
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role", role100);
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+        model.addAttribute("role",role);
 
 
         UsersExample usersExample = new UsersExample();
@@ -118,12 +137,12 @@ public class YluserController {
     public String volchoose(Model model) {
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role", role100);
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+        model.addAttribute("role",role);
+
+
 
         return "volunteerchoose";
     }
@@ -132,13 +151,10 @@ public class YluserController {
     public String volunteerdetail(Model model, @PathVariable String userid) {
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role", role100);
-
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+        model.addAttribute("role",role);
 
         Users users = usersMapper.selectByPrimaryKey(userid);
         model.addAttribute("users", users);
@@ -184,12 +200,11 @@ public class YluserController {
     public String setData(Reqest reqest, String reqTargetsUserGuid, Model model, String reqGuid) {
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role", role100);
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+        model.addAttribute("role",role);
+
 
         //后台接收前台的文本框内容
         System.out.print("文本框内容：" + reqGuid);

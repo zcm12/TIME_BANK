@@ -28,17 +28,38 @@ public class UserResponseController {
     private RespondMapper respondMapper;
     @Autowired
     private UsersMapper usersMapper;
+
+    private Users GetCurrentUsers(String message){
+
+        UsersExample usersExample=new UsersExample();
+        Users users=null;
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        if(message.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+
+        }else if( message.matches(em)){
+            usersExample.or().andUserMailEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        } else {
+            usersExample.or().andUserAccountEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        }
+        return users;
+    }
     //左边申请服务导航栏
     @RequestMapping(value = "/createApplyByUserView")
     public String userApply(Model model)
     {
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         return "applyViewOfVolunteer";
     }
@@ -46,12 +67,11 @@ public class UserResponseController {
     @RequestMapping(value="/getREQESTListJsonDataOfVol",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getJsonDataFromReqest(@RequestParam int offset, int limit, String sortName,String sortOrder){
-        System.out.println("向后台获取数据申请服务");
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+//        model.addAttribute("role",role);
 
         ReqestExample reqestExample=new ReqestExample();
         //处理排序信息
@@ -64,7 +84,7 @@ public class UserResponseController {
         List<Reqest> reqests=reqestMapper.selectByExample(reqestExample);
         List<Reqest> reqests1 = new ArrayList<>();
         //TODO 判断这条请求是不是发给自己的 遍历reqest中reqtragetsuserguid（已做完）
-        String ownId = users1.getUserGuid().toLowerCase();
+        String ownId = users11.getUserGuid().toLowerCase();
         for(Reqest re :reqests)
         {
             String userId = re.getReqTargetsUserGuid();
@@ -156,13 +176,10 @@ public class UserResponseController {
     //服务列表中右边的申请服务按钮
     @RequestMapping(value = "/viewREQEST/{reqGuid}")
     public String updateREQEST (@PathVariable String reqGuid , Model model) {
-        System.out.println("服务列表中右边的申请服务按钮");
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         //TODO 根据传递过来的reqGuid
         Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid);
@@ -209,20 +226,17 @@ public class UserResponseController {
     //志愿者点击申请提出服务按钮 applyREQESTofVolunteer
     @RequestMapping(value = "/applyREQESTofVolunteer",method = RequestMethod.POST)
     public String applyREQESTofVolunteer (String resAcceptAddress, Respond respond, Reqest reqest, Model model) {
-        System.out.println("申请提出服务按钮");
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
 
         UUID guid = UUID.randomUUID();
         respond.setResGuid(guid.toString());
         respond.setResReqGuid(reqest.getReqGuid());
         //userID
-        respond.setResUserGuid(users1.getUserGuid());
+        respond.setResUserGuid(users11.getUserGuid());
         //响应接受时间
         Date date = new Date();
         respond.setResAcceptTime(date);
@@ -239,11 +253,9 @@ public class UserResponseController {
     {
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         return "responseOfVolunteer";
     }
@@ -254,10 +266,10 @@ public class UserResponseController {
     public String getRESPONDListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder){
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+//        model.addAttribute("role",role);
         RespondExample respondExample=new RespondExample();
         respondExample.clear();
         //处理排序信息
@@ -268,7 +280,7 @@ public class UserResponseController {
             respondExample.setOrderByClause(order);
         }
         //判断自己响应过哪些请求
-        String ownId = users1.getUserGuid();
+        String ownId = users11.getUserGuid();
         respondExample.or().andResUserGuidEqualTo(ownId);
         List<Respond> responds=respondMapper.selectByExample(respondExample);
         List<Respond> respondRecordList=new ArrayList<>();
@@ -314,13 +326,10 @@ public class UserResponseController {
     //申请服务列表界面 的更新请求
     @RequestMapping(value = "/updateRESPOND/{resGuid}")
     public String updateRESPOND (@PathVariable String resGuid , Reqest reqest, Respond respond, Model model) {
-
-        Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+         Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         //TODO 根据传递过来的resGuid
         respond = respondMapper.selectByPrimaryKey(resGuid);
@@ -347,11 +356,9 @@ public class UserResponseController {
     public String applyRespondOfVolunteer (Respond respond, Model model) {
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         //TODO 根据传递过来的reqGuid
         respondMapper.updateByPrimaryKeySelective(respond);
@@ -362,11 +369,9 @@ public class UserResponseController {
     @RequestMapping(value = "/deleteRESPOND/{resGuid}")
     public String deleteRESPOND (@PathVariable String resGuid , Respond respond, Model model) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         respond = respondMapper.selectByPrimaryKey(resGuid);
         //更新响应表

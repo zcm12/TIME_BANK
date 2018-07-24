@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh-CN"  xmlns:th="http://www.thymeleaf.org">
+<html lang="EN"  xmlns:th="http://www.thymeleaf.org">
 <head >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>注册界面</title>
-    <script type="text/javascript" src="/jquery/jquery-3.2.1.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.js"></script>
-    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/cssCerulean/bootstrap.css" />
     <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.css"  />
+    <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.js"></script>
+    <script type="text/javascript" src="/bootstrap-table-master/bootstrap-table-master/dist/bootstrap-table.js"></script>
+    <script type="text/javascript" src="/bootstrap-table-master/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js"></script>
+    <script type="text/javascript" src="/laydate/laydate.js"></script>
+    <script type="text/javascript" src="/typehead.js"></script>
+    <script type="text/javascript" src="/jquery-rank-score/js/jquery.raty.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#Form').bootstrapValidator({
@@ -56,6 +61,32 @@
                                 type: 'POST',//请求方式
                                 data:{userName:function(){return $('#userName').val();}},
                             }
+                        }
+                    },
+                    userPassword: {
+                        message: '密码验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '密码不能为空'
+                            },
+                            stringLength: {
+                                min: 2,
+                                max: 6,
+                                message: '密码长度必须在2到6位之间'
+                            },
+                        }
+                    },
+                    userAddress: {
+                        message: '住址验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '住址不能为空'
+                            },
+                            stringLength: {
+                                min: 2,
+                                max: 6,
+                                message: '住址长度必须在2到6位之间'
+                            },
                         }
                     },
                     submitHandler: function (validator, form, submitButton) {

@@ -29,20 +29,39 @@ public class requsetController {
     private UsersMapper usersMapper;
     @Autowired
     private WeightMapper weightMapper;
+    private Users GetCurrentUsers(String message){
 
+        UsersExample usersExample=new UsersExample();
+        Users users=null;
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        if(message.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+
+        }else if( message.matches(em)){
+            usersExample.or().andUserMailEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        } else {
+            usersExample.or().andUserAccountEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        }
+        return users;
+    }
 
     @RequestMapping(value = "/waitsomebody")
     public String gotorequestlist(Model model){
 
 
-        Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
 
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         return "reqlistprocess";
     }
 
@@ -51,13 +70,10 @@ public class requsetController {
     public String getREQESTListJsonData(Model model,@RequestParam int offset, int limit, String sortName, String sortOrder){
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
-
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
 
 
         ReqestExample reqestExample=new ReqestExample();
@@ -75,18 +91,19 @@ public class requsetController {
         reqestExample.or().andReqTypeApproveStatusEqualTo("88888888-94e3-4eb7-aad3-111111111111").andReqTypeGuidProcessStatusEqualTo("33333333-94e3-4eb7-aad3-111111111111");
         List<Reqest> reqests=reqestMapper.selectByExample(reqestExample);
         List<Reqest> reqestRecordList=new ArrayList<Reqest>();
+        UsersExample usersExample=new UsersExample();
         for(int i=offset;i< offset+limit&&i < reqests.size();i++){
 
             Reqest reqest1=reqests.get(i);
            TypeExample typeExample = new TypeExample();
-            UsersExample usersExample = new UsersExample();
+            UsersExample usersExample1 = new UsersExample();
             WeightExample weightExample = new WeightExample();
 //
             String reqIssueUserGuid=reqest1.getReqIssueUserGuid();
-            usersExample.clear();
-            usersExample.or().andUserGuidEqualTo(reqIssueUserGuid);
-            List<Users> users = usersMapper.selectByExample(usersExample);
-            reqest1.setReqIssueUserGuid(users.get(0).getUserName());
+            usersExample1.clear();
+            usersExample1.or().andUserGuidEqualTo(reqIssueUserGuid);
+            List<Users> users1 = usersMapper.selectByExample(usersExample1);
+            reqest1.setReqIssueUserGuid(users1.get(0).getUserName());
 //
             String reqTypeGuidClass=reqest1.getReqTypeGuidClass();
             typeExample.clear();
@@ -176,18 +193,12 @@ public class requsetController {
 
         @RequestMapping(value = "/REQEST/{request1}")
         public String reqdetailshow(Model model,@PathVariable String request1){
-
-
             Subject account = SecurityUtils.getSubject();
-            UsersExample usersExample100 = new UsersExample();
-            usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-            List<Users> users10 = usersMapper.selectByExample(usersExample100);
-            Users users100 = users10.get(0);
-            String role100 = users100.getUserRole();
-            model.addAttribute("role",role100);
+            String message=(String) account.getPrincipal();
+            Users users=GetCurrentUsers(message);
+            String role=users.getUserRole();
+            model.addAttribute("role",role);
 
-
-            //     System.out.print(activityGuid);
             Reqest reqest = reqestMapper.selectByPrimaryKey(request1);
             model.addAttribute("reqest",reqest);
 

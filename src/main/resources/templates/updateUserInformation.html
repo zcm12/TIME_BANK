@@ -48,6 +48,13 @@
                             stringLength: {
                                 min: 11,
                                 message: '联系方式应该不少于11位'
+                            },
+                            remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}
+                                url: '/jquery/exist3.do',//验证地址
+                                message: '手机号已存在',//提示消息
+                                delay: 1000,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+                                type: 'POST',//请求方式
+                                data:{userName:function(){return $('#userPhone').val();}},
                             }
                         }
                     },
@@ -116,6 +123,13 @@
                             regexp: {
                                 regexp: /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/,
                                 message: '请输入完整邮箱！'
+                            },
+                            remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}
+                                url: '/jquery/exist4.do',//验证地址
+                                message: '邮箱已存在',//提示消息
+                                delay: 1000,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+                                type: 'POST',//请求方式
+                                data:{userName:function(){return $('#userMail').val();}},
                             }
                         }
                     },

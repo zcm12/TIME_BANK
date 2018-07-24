@@ -34,16 +34,38 @@ public class AdminRequestController {
     private WeightMapper weightMapper;
     @Autowired
     private UsersMapper usersMapper;
+
+    private Users GetCurrentUsers(String message){
+
+        UsersExample usersExample=new UsersExample();
+        Users users=null;
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        if(message.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+
+        }else if( message.matches(em)){
+            usersExample.or().andUserMailEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        } else {
+            usersExample.or().andUserAccountEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        }
+        return users;
+    }
     //左边代发请求按钮
     @RequestMapping(value = "/createRequestByAdminView")
         public String createRequestByAdminView(Model model) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
+
         //插入type和weight
         insertReqType(model,true);
         return "createRequestByAdminView";
@@ -54,11 +76,13 @@ public class AdminRequestController {
     public String insertRequest(@ModelAttribute @Valid Reqest reqest, Errors errors) {
         if (!errors.hasErrors()) {
             Subject account = SecurityUtils.getSubject();
-            UsersExample usersExample=new UsersExample();
-            usersExample.or().andUserAccountEqualTo((String)account.getPrincipal());
-            List<Users> users=usersMapper.selectByExample(usersExample);
-            Users users1=users.get(0);
-            String userId=users1.getUserGuid();
+            String message=(String) account.getPrincipal();
+            Users users11=GetCurrentUsers(message);
+            String role=users11.getUserRole();
+//            model.addAttribute("role",role);
+
+
+            String userId=users11.getUserGuid();
             //给发布的请求生成一个GUID,作为该请求的唯一标识
             reqest.setReqGuid(randomUUID().toString());
             String AA=reqest.getReqIssueUserGuid();//前端界面的输入值
@@ -89,15 +113,14 @@ public class AdminRequestController {
     //代发请求中查看详情
     @RequestMapping(value = "/showReqestDetailViewByAdmin/{reqGuid}")
     public String showTeacherView1(@PathVariable String reqGuid, Model model) {
-        System.out.println("查看详情按钮11");
-        Subject subject=SecurityUtils.getSubject();
-        UsersExample usersExample=new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) subject.getPrincipal());
-        List<Users> users=usersMapper.selectByExample(usersExample);
-        Users users1=users.get(0);
-        String role=users1.getUserRole();
-
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
+
+
+
 
         //插入type和weight
         TypeExample typeExample = insertReqType(model,true);
@@ -121,26 +144,15 @@ public class AdminRequestController {
         if (reqest.getReqTargetsUserGuid() == null) {
             reqest.setReqTargetsUserGuid("c18e63f9-10ad-42a1-8be1-e89730e84500");
         }
-        Subject subject= SecurityUtils.getSubject();
-        UsersExample usersExample=new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String)subject.getPrincipal());
-        List<Users> users=usersMapper.selectByExample(usersExample);
-        Users users1=users.get(0);
-        reqest.setReqProcessUserGuid(users1.getUserGuid());
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+        model.addAttribute("role",role);
 
 
-//        setUserIdandrole(model, userId, role);
-//        System.out.println("updateReqestByAdmin");
-        String reqTypeGuidProcessStatus = reqest.getReqTypeGuidProcessStatus();
-//        TypeExample typeExample = new TypeExample();
-//        typeExample.or().andTypeGuidEqualTo(reqTypeGuidProcessStatus);
-//        String typeTitle = typeMapper.selectByExample(typeExample).get(0).getTypeTitle();
-//
-//        if ("33333333-94e3-4eb7-aad3-111111111111".equals(reqTypeGuidProcessStatus)) {
-//            //TODO:跳转到选择请求接收人的页面
-//            System.out.println("跳转到选择请求接收人的页面");
-//            return "addTargetsUsers";
-//        }
+        reqest.setReqProcessUserGuid(users11.getUserGuid());
+
         reqestMapper.updateByPrimaryKeySelective(reqest);
         return "listRequestByAdminView";
     }
@@ -151,15 +163,12 @@ public class AdminRequestController {
     @RequestMapping(value = "/listRequestByAdminView/{requestState}")
     public String listRequestByAdminView( Model model, @PathVariable String requestState) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
+
         model.addAttribute("requestState",requestState);
-//        requestStateClass = requestState;
-//        System.out.println("requestStateClass:" + requestStateClass);
         return "listRequestByAdminView";
     }
 
@@ -410,16 +419,15 @@ public class AdminRequestController {
      *
      * @param model
      * @param userId
-     * @param role
      */
-    public void setUserIdandrole(Model model, String userId, Integer role) {
+    public void setUserIdandrole(Model model, String userId, Integer role1) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role",role100);
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+        model.addAttribute("role",role);
+
+
     }
 
     private String GetDatabaseFileName(String str) {

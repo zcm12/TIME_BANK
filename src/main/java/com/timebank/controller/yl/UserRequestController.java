@@ -40,16 +40,36 @@ public class UserRequestController {
     String updateRequestGuid = null;
     //时间
     Date dateStart = null;
+    private Users GetCurrentUsers(String message){
+
+        UsersExample usersExample=new UsersExample();
+        Users users=null;
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        if(message.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+
+        }else if( message.matches(em)){
+            usersExample.or().andUserMailEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        } else {
+            usersExample.or().andUserAccountEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        }
+        return users;
+    }
     //besepage页面的发布请求
     @RequestMapping(value = "/createRequestByUserView")
     public String userApply(Model model)
     {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
         model.addAttribute("role",role);
         //请求分类
         TypeExample typeExample = new TypeExample();
@@ -68,18 +88,14 @@ public class UserRequestController {
     public String applySubmit(Reqest reqest, Model model)
     {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
         model.addAttribute("role",role);
 
         //请求提交
         UUID guid=randomUUID();
         reqest.setReqGuid(guid.toString());
-        //TODO 此处应该是获取登录者的用户名和密码
-        //TODO 在user表中获得该用户名对应的user_duid传到前端页面的请求者ID，先自己设定这个值
         reqest.setReqIssueUserGuid(users1.getUserGuid());
         //请求提出的时间设定为当前时间
         Date date = new Date();
@@ -98,12 +114,11 @@ public class UserRequestController {
     @ResponseBody
     public String getJsonDataFromReqest(@RequestParam int offset, int limit, String sortName,String sortOrder){
         //获得当前用户
-
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+//        model.addAttribute("role",role);
 
         ReqestExample reqestExample=new ReqestExample();
         reqestExample.clear();
@@ -115,7 +130,7 @@ public class UserRequestController {
             reqestExample.setOrderByClause(order);
         }
         //获取当前登陆者id
-        String userID =users1.getUserGuid();
+        String userID =users11.getUserGuid();
         reqestExample.or().andReqIssueUserGuidEqualTo(userID);
         List<Reqest> reqests=reqestMapper.selectByExample(reqestExample);
         List<Reqest> reqestRecordList=new ArrayList<>();
@@ -184,11 +199,9 @@ public class UserRequestController {
     public String requestListByUserView(Model model)
     {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         return "applyListView";
 
@@ -201,13 +214,10 @@ public class UserRequestController {
         updateRequestGuid = reqGuid;
         model.addAttribute("reqGuid",reqGuid);
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
-
         Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid);
 
         //请求分类
@@ -413,19 +423,11 @@ public class UserRequestController {
     //查看详情界面中的更新请求
     @RequestMapping(value = "/updateREQEST")
     public String updateREQEST (UpdateList updateList,Model model) {
-        System.out.println(1212);
-        //System.out.println(reqGuid1);
-        System.out.println("更新请求");
-        System.out.println(updateList);
-
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
-
         //TODO 根据传递过来的reqGuid
         Reqest reqest = reqestMapper.selectByPrimaryKey(updateRequestGuid);
         model.addAttribute("reqest",reqest);
@@ -454,11 +456,9 @@ public class UserRequestController {
     @RequestMapping(value = "/updateREQESTSave")
     public String updateREQESTSave(Reqest reqest, Model model){
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
 
         reqestMapper.updateByPrimaryKeySelective(reqest);
@@ -468,11 +468,9 @@ public class UserRequestController {
     @RequestMapping(value = "/deleteREQEST")
     public String deleteRESPOND (UpdateList updateList,Model model,String reqGuid4) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid4);
         //更新请求表
@@ -506,14 +504,10 @@ public class UserRequestController {
     //查看志愿者接单情况
     @RequestMapping(value = "/volunteerListOfApply")
     public String volunteerListOfApply (Model model) {
-        System.out.println(2121314);
-        System.out.println(updateRequestGuid);
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         model.addAttribute("message",updateRequestGuid);
 //        reqGuidOfVol = reqGuid6;
@@ -573,11 +567,9 @@ public class UserRequestController {
     public String waitRequest (UpdateList updateList, Model model) {
         System.out.println(updateRequestGuid);
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         Reqest reqest = reqestMapper.selectByPrimaryKey(updateRequestGuid);
         //设置请求处理状态为待启动
@@ -635,11 +627,9 @@ public class UserRequestController {
     public String startRequest (UpdateList updateList, Model model,String reqGuid1) {
         System.out.println(reqGuid1);
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid1);
         //设置请求处理状态为启动
@@ -698,13 +688,10 @@ public class UserRequestController {
     //查看详情界面中的申请已完成按钮
     @RequestMapping(value = "/endRequest")
     public String endRequest (UpdateList updateList, Model model,String reqGuid2) {
-        System.out.println(reqGuid2);
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid2);
         //设置请求处理状态为已完成
@@ -774,11 +761,9 @@ public class UserRequestController {
     public String unEndRequest (UpdateList updateList, Model model,String reqGuid3) {
         System.out.println(reqGuid3);
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
         model.addAttribute("role",role);
         Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid3);
         reqest.setReqTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-555555555555");

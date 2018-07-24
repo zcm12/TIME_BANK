@@ -4,19 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timebank.controller.yl.UpdateList;
 import com.timebank.domain.*;
 import com.timebank.mapper.*;
-import org.apache.catalina.User;
-import org.apache.ibatis.jdbc.Null;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.Account;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +50,28 @@ public class activitycontroller {
         }
         return sb.toString();
     }
+    private Users GetCurrentUsers(String message){
+
+        UsersExample usersExample=new UsersExample();
+        Users users=null;
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        if(message.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+
+        }else if( message.matches(em)){
+            usersExample.or().andUserMailEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        } else {
+            usersExample.or().andUserAccountEqualTo(message);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            users = usersList.get(0);
+        }
+        return users;
+    }
 /***************************************************************************/
     /**
      * 名字转换函数
@@ -88,34 +105,28 @@ public class activitycontroller {
     @RequestMapping(value = "/publishactivity")
     public String publishactivity(Model model) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
-        System.out.println("这是发布活动");
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         return "publishactivity";
     }
 
     //发布活动插入数据库请求
     @RequestMapping(value = "/activityinsert")
     private String activityInsert(@ModelAttribute @Valid Activity activity, Errors errors, Model model) {
-        System.out.println("222222222222");
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
 
         if (!errors.hasErrors()) {
 
             UUID guid = randomUUID();
             activity.setActivityGuid(guid.toString());
-            String comguid = users1.getUserCommGuid();//当前用户活动社区
-            String nameguid = users1.getUserGuid();//此用户guid
+            String comguid = users.getUserCommGuid();//当前用户活动社区
+            String nameguid = users.getUserGuid();//此用户guid
             activity.setActivityFromCommGuid(comguid);//活动社区
             activity.setActivityProcessUserGuid(nameguid);//活动处理人
             activity.setActivityTypeProcessStatus("33333333-94e3-4eb7-aad3-111111111111");//默认活动处理状态未启动
@@ -143,13 +154,10 @@ public class activitycontroller {
     @RequestMapping(value = "/activitylist/{buttonId1}")
     public String activitylist(Model model, @PathVariable String buttonId1) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
-        System.out.println("这是查看所有活动，每个查看活动列表都是这个界面，只不过活动状态的区别");
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         model.addAttribute("buttonid", buttonId1);
         return "activitylist";
     }
@@ -159,13 +167,11 @@ public class activitycontroller {
     @ResponseBody
     public String activitylist(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder, String searchText, String button) {
         Subject account = SecurityUtils.getSubject();
-        System.out.println("就是这：");
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role", role100);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        System.out.println("这是产看所有活动"+role);
+        model.addAttribute("role",role);
         if (searchText == "") {
             searchText = null;
         }
@@ -215,9 +221,9 @@ public class activitycontroller {
 
             //活动处理人
             String processUserId = act.getActivityProcessUserGuid();
-            UsersExample usersExample = new UsersExample();
-            usersExample.or().andUserGuidEqualTo(processUserId);
-            List<Users> processuser = usersMapper.selectByExample(usersExample);
+            UsersExample usersExample1 = new UsersExample();
+            usersExample1.or().andUserGuidEqualTo(processUserId);
+            List<Users> processuser = usersMapper.selectByExample(usersExample1);
             act.setActivityProcessUserGuid(processuser.get(0).getUserName());
 
             //活动小区
@@ -274,13 +280,10 @@ public class activitycontroller {
     public String activitylistscore(Model model) {
 
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
-        System.out.println("这是查看已完成但是没有评价");
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         return "activitylistscore";
     }
 
@@ -289,12 +292,10 @@ public class activitycontroller {
     @ResponseBody
     public String activitylistscore(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder, String searchText) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
 
         if (searchText == "") {
             searchText = null;
@@ -379,16 +380,11 @@ public class activitycontroller {
     //某个活动查看详情请求
     @RequestMapping(value = "/ACTIVITY/{activityGuid}")
     public String activityshow(Model model, @PathVariable String activityGuid, UpdateList updateList) {
-        System.out.println("查看详情界面");
-        //将用户的角色插入到模型中
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
-
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         Activity activity = activityMapper.selectByPrimaryKey(activityGuid);//根据guid获得这条记录
 
         //将能看到此条记录的用户的id转换成姓名
@@ -549,14 +545,10 @@ public class activitycontroller {
     @RequestMapping(value = "/activityupdate4")
     public String activityupdate4(Model model, String activityGuid4) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
-        System.out.println(2222222);
-        System.out.println(activityGuid4);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         ActivityExample activityExample = new ActivityExample();
         activityExample.or().andActivityGuidEqualTo(activityGuid4);
         List<Activity> activities = activityMapper.selectByExample(activityExample);
@@ -577,12 +569,10 @@ public class activitycontroller {
     @RequestMapping(value = "/activityupdate3")
     public String activityupdate3(Model model, String activityGuid3) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         ActivityExample activityExample = new ActivityExample();
         activityExample.or().andActivityGuidEqualTo(activityGuid3);
         List<Activity> activities = activityMapper.selectByExample(activityExample);
@@ -604,12 +594,10 @@ public class activitycontroller {
     @RequestMapping(value = "/activityupdate5")
     public String activityupdate5(Model model, String activityGuid5) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         ActivityExample activityExample = new ActivityExample();
         activityExample.or().andActivityGuidEqualTo(activityGuid5);
         List<Activity> activities = activityMapper.selectByExample(activityExample);
@@ -630,12 +618,10 @@ public class activitycontroller {
     @RequestMapping(value = "/activityupdate6")
     public String activityupdate6(Model model, String activityGuid6) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         ActivityExample activityExample = new ActivityExample();
         activityExample.or().andActivityGuidEqualTo(activityGuid6);
         List<Activity> activities = activityMapper.selectByExample(activityExample);
@@ -656,12 +642,10 @@ public class activitycontroller {
     @RequestMapping(value = "/activityupdate7")
     public String activityupdate7(Model model, String activityGuid7) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         ActivityExample activityExample = new ActivityExample();
         activityExample.or().andActivityGuidEqualTo(activityGuid7);
         List<Activity> activities = activityMapper.selectByExample(activityExample);
@@ -682,12 +666,10 @@ public class activitycontroller {
     @RequestMapping(value = "/activityupdate2")
     public String activityupdate2(Model model, String activityGuid2) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         model.addAttribute("message",activityGuid2);
         System.out.println("查看志愿者");
         return "volunteerListByMa";
@@ -699,16 +681,14 @@ public class activitycontroller {
         System.out.println(activityid);
         model.addAttribute("message",activityid);
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role", role100);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
 
 
         ActivityExample activityExample = new ActivityExample();
-        UsersExample usersExample = new UsersExample();
+        UsersExample usersExample1 = new UsersExample();
         RoleExample roleExample = new RoleExample();
         TypeExample typeExample = new TypeExample();
         CommunityExample communityExample = new CommunityExample();
@@ -718,7 +698,7 @@ public class activitycontroller {
             //拼接字符串
             String order = GetDatabaseFileName(sortName) + " " + sortOrder;
             //将排序信息添加到example中
-            usersExample.setOrderByClause(order);
+            usersExample1.setOrderByClause(order);
         }
         List<Users> usersList = new ArrayList<Users>();
         //根据活动id遍历actpart数据库  得到用户guid
@@ -765,18 +745,13 @@ public class activitycontroller {
     }
     //删除志愿者
     @RequestMapping(value = "/UserGuid/{message}")
-    public String DelVolunteer(Model model, @PathVariable String message){
+    public String DelVolunteer(Model model, @PathVariable String message1){
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
-        System.out.println("就是这： ");
-        System.out.println(message);
-
-        String[] strings=message.split(",");
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
+        String[] strings=message1.split(",");
         String userGuid=strings[0];
         String activity=strings[1];
         ActpartExample actpartExample=new ActpartExample();
@@ -794,12 +769,10 @@ public class activitycontroller {
     @RequestMapping(value = "/activityupdate1")
     public String activityupdate1(Model model, String activityGuid1) {
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         model.addAttribute("message",1);
         ActivityExample activityExample = new ActivityExample();
         activityExample.or().andActivityGuidEqualTo(activityGuid1);
@@ -816,12 +789,10 @@ public class activitycontroller {
     @RequestMapping(value = "/updateactivity")
     public  String updateactivity(Model model,Activity activity,String activityGuid){
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         model.addAttribute("message",0);
         activity.setActivityTypeProcessStatus("33333333-94E3-4EB7-AAD3-111111111111");
         activityMapper.updateByPrimaryKeySelective(activity);
@@ -837,14 +808,11 @@ public class activitycontroller {
     //给活动参与者打分  评分按钮
     @RequestMapping(value = "/activityscore/{activityGuid}")
     public String activityscore(Model model, @PathVariable String activityGuid) {
-        System.out.println("评分按钮");
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         model.addAttribute("activityid", activityGuid);
 
 
@@ -855,19 +823,15 @@ public class activitycontroller {
     @RequestMapping(value = "/getUSERSListScoreJsonData")
     @ResponseBody
     public String userList(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder, String activityid) {
-        System.out.println("点击完评分按钮   跳转到个人 每个人后面都有 打分按钮");
-        System.out.println(activityid);
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample100 = new UsersExample();
-        usersExample100.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users10 = usersMapper.selectByExample(usersExample100);
-        Users users100 = users10.get(0);
-        String role100 = users100.getUserRole();
-        model.addAttribute("role", role100);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
 
 
         ActivityExample activityExample = new ActivityExample();
-        UsersExample usersExample = new UsersExample();
+        UsersExample usersExample1 = new UsersExample();
         RoleExample roleExample = new RoleExample();
         TypeExample typeExample = new TypeExample();
         CommunityExample communityExample = new CommunityExample();
@@ -877,7 +841,7 @@ public class activitycontroller {
             //拼接字符串
             String order = GetDatabaseFileName(sortName) + " " + sortOrder;
             //将排序信息添加到example中
-            usersExample.setOrderByClause(order);
+            usersExample1.setOrderByClause(order);
         }
         List<Users> usersList = new ArrayList<Users>();
         //根据活动id遍历actpart数据库  得到用户guid
@@ -925,15 +889,11 @@ public class activitycontroller {
     //给服务打分
     @RequestMapping(value = "/scoreForPerson", method = RequestMethod.POST)
     private String scoreForPerson1(Model model, String thisPerson1, String finalScore, String id) {
-        System.out.println("这是打完分数后 确定按钮");
-        System.out.println(finalScore + "间隔" + id + "间隔" + thisPerson1);
         Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role", role);
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
         model.addAttribute("activityid", id);
         //需要将分数插入到actpartb表单中
         ActpartExample actpartExample = new ActpartExample();
@@ -971,5 +931,6 @@ public class activitycontroller {
 
         return "activitypersonscore";
     }
+
 
 }
