@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="basepage :: common_header(~{::title},~{::script})">
-    <title>REQEST</title>
+    <title>请求列表</title>
     <script th:inline="javascript">
         var requestState=[[${requestState}]]
         </script>
@@ -31,7 +31,7 @@
                         sortable: true
                     },
                     {
-                        title:'请求者ID',
+                        title:'用户名',
                         field:'reqIssueUserGuid',
                         align: 'center',
                         valign: 'middle',
@@ -227,13 +227,18 @@
                 method: "get",
                 striped: true,     //是否显示行间隔色
                 cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                search:true,
+                searchAlign: "left",
+                searchOnEnterKey: true, //回车查询
                 pagination: true,  //是否显示分页（*）
                 sortable: true,    //是否启用排序
                 sortOrder: "asc",  //排序方式
                 queryParams:function(params){
+                    console.log(params);
                     var limitApply={
                         limit:params.limit,
                         offset:params.offset,
+                        searchText:params.search,
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
                         requestState:requestState
@@ -244,7 +249,8 @@
                 pageNumber:1,  //初始化加载第一页，默认第一页
                 pageSize: 20,  //每页的记录行数（*）
                 pageList:[5,10,20,30,40,50],
-                sortName:"reqGuid",
+                sortName:"reqIssueUserGuid",
+                showToggle: true,
                 showColumns: true,  //是否显示所有的列
                 showRefresh: true,  //是否显示刷新按钮
                 minimumCountColumns: 2, //最少允许的列数
@@ -287,7 +293,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        REQEST表
+                        请求列表
                     </h3>
                 </div>
                 <div class="panel-body" >

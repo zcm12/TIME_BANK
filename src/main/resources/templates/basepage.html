@@ -6,6 +6,7 @@
     <th:block th:replace="${title}" />
     <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css"  />
+    <link rel="stylesheet" href="/bootstrap-table-master/bootstrap-table-master/src/bootstrap-table.css"/>
     <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
@@ -48,21 +49,35 @@
                             <div class="panel-body">
                                 <ul id="systemSetting1" class="nav nav-pills nav-stacked">
                                     <li><a th:href="@{/createAllUserRole}"><i class="glyphicon glyphicon-user"></i> 审核用户角色</a></li>
-                                    <li><a th:href="@{/createCommunityView}"><i class="glyphicon glyphicon-user"></i> 创建小区</a></li>
-                                    <!--<li><a th:href="@{/createAdminView}"><i class="glyphicon glyphicon-user"></i> 创建小区管理员</a></li>-->
-                                    <li><a th:href="@{/showCommunityView}"><i class="glyphicon glyphicon-user"></i> 查看所有小区</a></li>
-                                    <!--<li><a th:href="@{/createUserByPlatAdminView}"><i class="glyphicon glyphicon-user"></i> 创建用户</a></li>-->
-                                    <li><a th:href="@{/createRequestByAdminView}"><i class="glyphicon glyphicon-th-list"></i> 代发请求</a></li>
-                                    <li><a th:href="@{/listRequestByAdminView/0}"><i class="glyphicon glyphicon-th-list"></i> 查看所有请求</a></li>
-                                    <li><a th:href="@{/listRequestByAdminView/1}"><i class="glyphicon glyphicon-th-list"></i> 待审核请求</a></li>
-                                    <li><a th:href="@{/listRequestByAdminView/2}"><i class="glyphicon glyphicon-th-list"></i> 通过的请求</a></li>
-                                    <li><a th:href="@{/listRequestByAdminView/3}"><i class="glyphicon glyphicon-th-list"></i> 驳回的请求</a></li>
-                                    <li><a th:href="@{/listRequestByAdminView/4}"><i class="glyphicon glyphicon-th-list"></i> 未启动请求</a></li>
-                                    <li><a th:href="@{/listRequestByAdminView/5}"><i class="glyphicon glyphicon-th-list"></i> 待启动请求</a></li>
-                                    <li><a th:href="@{/listRequestByAdminView/6}"><i class="glyphicon glyphicon-th-list"></i> 启动的请求</a></li>
-                                    <li><a th:href="@{/listRequestByAdminView/7}"><i class="glyphicon glyphicon-th-list"></i> 未完成请求</a></li>
-                                    <li><a th:href="@{/listRequestByAdminView/8}"><i class="glyphicon glyphicon-th-list"></i> 已完成请求</a></li>
-                                    <li><a th:href="@{/listRequestByAdminView/9}"><i class="glyphicon glyphicon-th-list"></i> 已撤销请求</a></li>
+                                    <li><a th:href="@{/createCommunityView}"><i class="glyphicon glyphicon-home"></i> 创建小区</a></li>
+                                    <li><a th:href="@{/showCommunityView}"><i class="glyphicon glyphicon-home"></i> 查看所有小区</a></li>
+                                    <li><a th:href="@{/createRequestByAdminView}"><i class="glyphicon glyphicon-edit"></i> 代发请求</a></li>
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle"  data-toggle="dropdown" th:href="@{/listRequestByAdminView/0}">
+                                            <i class="glyphicon glyphicon-th-list"></i>查看请求<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a th:href="@{/listRequestByAdminView/0}"><i class="glyphicon glyphicon-align-center"></i> 查看所有请求</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/listRequestByAdminView/1}"><i class="glyphicon glyphicon-exclamation-sign"></i> 待审核请求</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/listRequestByAdminView/2}"><i class="glyphicon glyphicon-check"></i> 通过的请求</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/listRequestByAdminView/3}"><i class="glyphicon glyphicon-remove-sign"></i> 驳回的请求</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/listRequestByAdminView/4}"><i class="glyphicon glyphicon-minus-sign"></i> 未启动请求</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/listRequestByAdminView/5}"><i class="glyphicon glyphicon-info-sign"></i> 待启动请求</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/listRequestByAdminView/6}"><i class="glyphicon glyphicon-ok-sign"></i> 启动的请求</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/listRequestByAdminView/7}"><i class="glyphicon glyphicon-remove-sign"></i> 未完成请求</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/listRequestByAdminView/8}"><i class="glyphicon glyphicon-ok-circle"></i> 已完成请求</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/listRequestByAdminView/9}"><i class="glyphicon glyphicon-ban-circle"></i> 已撤销请求</a></li>
+                                        </ul>
+                                    </li>
                                     <li><a th:href="@{/waitsomebody}"><i class="glyphicon glyphicon-th-list"></i> 待接单</a></li>
                                 </ul>
                             </div>
@@ -76,7 +91,7 @@
                             <div class="panel-body">
                                 <ul id="systemSetting2" class="nav nav-pills nav-stacked" >
                                     <li><a th:href="@{/createUserRole}"><i class="glyphicon glyphicon-user"></i> 审核用户角色</a></li>
-                                    <li><a th:href="@{/publishactivity}"><i class="glyphicon glyphicon-th-list"></i> 发布活动</a></li>
+                                    <li><a th:href="@{/publishactivity}"><i class="glyphicon glyphicon-edit"></i> 发布活动</a></li>
                                     <li><a th:href="@{/activitylist/1}"><i class="glyphicon glyphicon-th-list"></i> 查看所有活动</a></li>
                                     <li><a th:href="@{/activitylist/2}"><i class="glyphicon glyphicon-th-list"></i> 查看未启动活动</a></li>
                                     <li><a th:href="@{/activitylist/3}"><i class="glyphicon glyphicon-th-list"></i> 查看待启动活动</a></li>

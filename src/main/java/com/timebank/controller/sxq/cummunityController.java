@@ -94,11 +94,9 @@ public class cummunityController {
 
     @RequestMapping(value="/getCOMMUNITYListJsonData",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getCOMMUNITYListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder){
+    public String getCOMMUNITYListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder,String searchText){
         CommunityExample communityExample=new CommunityExample();
         communityExample.clear();
-        System.out.println("排序信息："+sortName+";"+sortOrder);
-
         //处理排序信息
         if(sortName!=null){
             //拼接字符串
@@ -106,25 +104,35 @@ public class cummunityController {
             //将排序信息添加到example中
             communityExample.setOrderByClause(order);
         }
-
         List<Community> communitys=communityMapper.selectByExample(communityExample);
-        List<Community> communityRecordList=new ArrayList<Community>();
-        for(int i=offset;i< offset+limit&&i < communitys.size();i++){
-
-            Community community1=communitys.get(i);
-            TypeExample typeExample = new TypeExample();
-            communityRecordList.add(community1);
+        List<Community> communityRecordList=new ArrayList<>();//搜索框的集合
+        for (int i=0;i<communitys.size();i++){
+            Community community=communitys.get(i);
+            if (searchText!=null){
+                String commName=community.getCommTitle();
+                String commAddress=community.getCommAddress();
+                String commDescribe=community.getCommDesp();
+                if (commName.contains(searchText)||commAddress.contains(searchText)||commDescribe.contains(searchText)){
+                    communityRecordList.add(community);
+                }
+            }else {
+                communityRecordList.add(community);
+            }
+        }
+        List<Community>communityList=new ArrayList<>();//分页的集合
+        for(int i=offset;i< offset+limit&&i < communityRecordList.size();i++){
+            Community community1=communityRecordList.get(i);
+            communityList.add(community1);
         }
         //全部符合要求的数据的数量
-        int total=communitys.size();
+        int total=communityRecordList.size();
         System.out.println("总数："+total);
         //将所得集合打包
         ObjectMapper mapper = new ObjectMapper();
-        TableRecordsJson tableRecordsJson=new TableRecordsJson(communityRecordList,total);
+        TableRecordsJson tableRecordsJson=new TableRecordsJson(communityList,total);
         //将实体类转换成json数据并返回
         try {
             String json1 = mapper.writeValueAsString(tableRecordsJson);
-            // System.out.println(json1);
             return json1;
         }catch (Exception e){
             return null;
