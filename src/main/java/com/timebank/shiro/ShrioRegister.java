@@ -37,7 +37,7 @@ public class ShrioRegister {
     private   int hashIterations=1000;
     private boolean flag=true;
 
-    public boolean register1(Users users) {
+    public boolean register(Users users) {
 
         System.out.println("密码加密开始");
         //干扰数据 盐 防破解

@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="basepage :: common_header(~{::title},~{::script})">
-    <title>给志愿者打分</title>
+    <title>USERS</title>
+    <style type="text/css">
+        *{margin:0;padding:0;list-style-type:none;}
+        a,img{border:0;}
+        body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";}
+        p{margin:20px 0 10px 0;}
+    </style>
+    <meta charset="UTF-8">
+    <script th:inline="javascript">
+        var resGuid = [[${resGuid}]];
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
             function changeDateFormat(cellval) {
@@ -15,69 +25,104 @@
                     var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
                     return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
                 }
-            };
-            var $table = $('#RESPOND');
-            $('#RESPOND').bootstrapTable({
+            }
+            var $table = $('#USERS');
+
+            $('#USERS').bootstrapTable({
                 columns:[
                     {
-                        title:'响应ID',
-                        field:'resGuid',
+                        title:'用户姓名',
+                        field:'userName',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        title:'请求响应ID',
-                        field:'resReqGuid',
+                        title:'用户账号',
+                        field:'userAccount',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        title:'响应接受时间',
-                        field:'resAcceptTime',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true ,
-                        formatter: function (value, row, index) {
-                            return changeDateFormat(value);
-                        }
-                    },
-                    {
-                        title:'响应接受地址',
-                        field:'resAcceptAddress',
+                        title:'用户角色',
+                        field:'userRole',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        title:'响应处理状态',
-                        field:'resTypeGuidProcessStatus',
+                        title:'用户性别',
+                        field:'userTypeGuidGender',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        field: 'resGuid',
-                        title: '操作',
+                        title:'用户状态',
+                        field:'userTypeAccountStatus',
                         align: 'center',
-                        sortable: true,
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'持有时间',
+                        field:'userOwnCurrency',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'预支付时间',
+                        field:'userPreConsumeCurrency',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户住址',
+                        field:'userAddress',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户坐标',
+                        field:'userCoordinate',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'所属小区',
+                        field:'userCommGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        field:'userGuid',
+                        title:'评分',
+                        align:'center',
+                        sortable:true,
+                        events : operateEvents1,
                         formatter: scoreFormatter
                     }
                 ],
-                url: "/getVolunteerScoreListJsonData", //请求后台的URL（*）
+                url: "/getUserScoreJsonData", //请求后台的URL（*）
                 method: "get",
                 striped: true,     //是否显示行间隔色
                 cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 pagination: true,  //是否显示分页（*）
                 sortable: true,    //是否启用排序
-                sortOrder: "asc",  //排序方式
+                sortOrder: "asc",  //排序方式,
                 queryParams:function(params){
                     var limitApply={
                         limit:params.limit,
                         offset:params.offset,
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
+                        resGuid:resGuid
                     };
                     return limitApply;
                 },//传递参数
@@ -85,76 +130,72 @@
                 pageNumber:1,  //初始化加载第一页，默认第一页
                 pageSize: 20,  //每页的记录行数（*）
                 pageList:[5,10,20,30,40,50],
-                sortName:"resGuid",
+                sortName:"userGuid",
                 showColumns: true,  //是否显示所有的列
                 showRefresh: true,  //是否显示刷新按钮
                 minimumCountColumns: 2, //最少允许的列数
                 clickToSelect: true,//是否启用点击选中行
                 toolbar:"#toolbar"
+
             });
             setTimeout(function () {
                 $table.bootstrapTable('resetView');
             }, 200);
-            function operateFormatter1(value, row, index) {
-                var ti=new Date(value);
-                var val=ti.toLocaleString() ;
-                return val;
-            };
-//            function operateFormatter(value, row, index) {
-//                return [
-//                    '<div class="row">',
-//                    '<a class="btn btn-default" href="/scoreForVolunteer/'+
-//                    String(row.resGuid) +
-//                    '" title="评分">评分',
-//                    '</a>  '+
-//                    '</div>'
-//                ].join('');
-//            }
-            function rat(star,result,m){
-                star= '#' + star;
-                result= '#' + result;
-                $(result).hide();//将结果DIV隐藏
-
-                $(star).raty({
-                    hints: ['10','20', '30', '40', '50','60', '70', '80', '90', '100'],
-                    path: "/jquery-rank-score/css/img",
-                    starOff: 'star-off-big.png',
-                    starOn: 'star-on-big.png',
-                    size: 24,
-                    start: 40,
-                    showHalf: true,
-                    target: result,
-                    targetKeep : true,//targetKeep 属性设置为true，用户的选择值才会被保持在目标DIV中，否则只是鼠标悬停时有值，而鼠标离开后这个值就会消失
-                    click: function (score, evt) {
-                        //第一种方式：直接取值
-                        //   alert('你的评分是'+score*m+'分');
-                        document.getElementById("scored").textContent = "您的评分为："+score*m+"分";
-                        document.getElementById("finalScore").value =score*m;
-
-                    }
-                });
-            }
-
-            //点击每个人的按钮获取该人的GUID
-//            window.operateEvents1 = {
-//                'click .getPersonId' : function(e, value, row, index) {
-//                    document.getElementById("thisPerson1").value =row.userGuid;
-//                    document.getElementById("id").value=(activityid)
-//                }
-//            };
-            //出现评分按钮并弹出模态框
-            function scoreFormatter(value,row,index) {
-                rat('star1','result1',10);
-                return [
-                    '<div class="row">',
-                    '<a class="getPersonId btn btn-default" data-toggle="modal" data-target="#Mymodel"'+
-                    ' title="打分">打分',
-                    '</a> '+
-                    '</div>'
-                ].join('');
-            }
-
         });
+
+        function rat(star,result,m){
+            star= '#' + star;
+            result= '#' + result;
+            $(result).hide();//将结果DIV隐藏
+
+            $(star).raty({
+                hints: ['10','20', '30', '40', '50','60', '70', '80', '90', '100'],
+                path: "/jquery-rank-score/css/img",
+                starOff: 'star-off-big.png',
+                starOn: 'star-on-big.png',
+                size: 24,
+                start: 40,
+                showHalf: true,
+                target: result,
+                targetKeep : true,//targetKeep 属性设置为true，用户的选择值才会被保持在目标DIV中，否则只是鼠标悬停时有值，而鼠标离开后这个值就会消失
+                click: function (score, evt) {
+                    //第一种方式：直接取值
+                    //   alert('你的评分是'+score*m+'分');
+                    document.getElementById("scored").textContent = "您的评分为："+score*m+"分";
+                    document.getElementById("finalScore").value =score*m;
+
+                }
+            });
+        }
+        $("#Mymodel").on("hidden.bs.modal", function() {
+            debugger;
+            $(this).removeData("bs.modal");
+            $(".modal-content").children().remove();
+        });
+
+        //点击每个人的按钮获取该人的GUID
+        window.operateEvents1 = {
+            'click .getPersonId' : function(e, value, row, index) {
+                document.getElementById("thisPerson1").value =row.userGuid;
+                document.getElementById("id").value=(resGuid);
+            }
+
+        };
+        //出现评分按钮并弹出模态框
+        function scoreFormatter(value,row,index) {
+            rat('star1','result1',10);
+            return [
+                '<div class="row">',
+                '<a class="getPersonId btn btn-default" data-toggle="modal" data-target="#Mymodel"'+
+                ' title="打分" >打分',
+                '</a> '+
+                '</div>'
+            ].join('');
+        }
+
+
+
+
     </script>
 </head>
 <body>
@@ -172,26 +213,29 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        给志愿者打分
+                        USERS表
                     </h3>
                 </div>
                 <div class="panel-body" >
                     <div class="table-responsive">
-                    <table id="RESPOND" name="RESPOND" class="table table-bordered table-hover table-striped"
-                           data-toolbar="#toolbar"
-                           data-show-refresh="true"
-                           data-show-toggle="true"
-                           data-show-columns="true"
-                           data-detail-view="false"
-                           data-minimum-count-columns="2"
-                           data-show-pagination-switch="true"
-                           data-pagination="true"
-                           data-id-field="applyId"
-                           data-page-list="[5, 10, 25, 50, 100, ALL]"
-                           data-show-footer="false"
-                           data-side-pagination="server">
-                    </table>
+                        <table id="USERS" name="USERS" class="table table-bordered table-hover table-striped"
+                               data-toolbar="#toolbar"
+                               data-show-refresh="true"
+                               data-show-toggle="true"
+                               data-show-columns="true"
+                               data-detail-view="false"
+                               data-minimum-count-columns="2"
+                               data-show-pagination-switch="true"
+                               data-pagination="true"
+                               data-id-field="applyId"
+                               data-page-list="[5, 10, 25, 50, 100, ALL]"
+                               data-show-footer="false"
+                               data-side-pagination="server">
+                        </table>
                     </div>
+                    <!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#Mymodel">-->
+                    <!--确定评分-->
+                    <!--</button>-->
                     <div class="modal fade" id="Mymodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabelautoalert" aria-hidden="true">
                         <div class="modal-dialog" style="top: 150px; width: 500px">
                             <!--<iframe frameborder=0 scrolling=no style="background-color:transparent; position: absolute; z-index: -1; width: 100%; height: 100%; top: 0;left:0;"></iframe>-->
@@ -208,8 +252,8 @@
                                         <div>
                                             <h3  id="scored" style="text-align:left">您的评分为：</h3>
                                         </div>
-                                        <!--<input id="thisPerson1" name="thisPerson1" type="text" value="" />-->
-                                        <!--<input id="finalScore" name="finalScore" type="text" value="" />-->
+                                        <input id="thisPerson1" name="thisPerson1" type="text" value="" />
+                                        <input id="finalScore" name="finalScore" type="text" value="" />
                                         <input id="id" name="id" type="text" value="" />
                                     </div>
                                     <div class="modal-footer">
@@ -230,5 +274,7 @@
         </div>
     </div>
 </div>
+
 </body>
+
 </html>

@@ -309,13 +309,4 @@ public class transferController {
         return "transferList";
     }
 
-
-
-
-
-
-
-
-
-
 }

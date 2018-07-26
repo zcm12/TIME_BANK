@@ -195,7 +195,7 @@ public class MainController {
         System.out.println(11111);
         System.out.println(users.getUserAccount());//注册的账号名
         //用户的密码加密和插入到数据库
-        shrioRegister.register1(users);
+        shrioRegister.register(users);
         //进行更新  将用户状态置为正常
         Users uu = usersMapper.selectByPrimaryKey(users.getUserGuid());
         uu.setUserOwnCurrency(0d);

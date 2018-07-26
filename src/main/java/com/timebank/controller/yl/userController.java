@@ -22,13 +22,13 @@ public class userController {
     @Autowired
     private UsersMapper usersMapper;
     @Autowired
-    private RoleMapper roleMapper;
-    @Autowired
     private TypeMapper typeMapper;
     @Autowired
     private CommunityMapper communityMapper;
     @Autowired
     private RespondMapper respondMapper;
+    @Autowired
+    private ReqestMapper reqestMapper;
     /**
      * 排序函数
      */
@@ -273,59 +273,79 @@ public class userController {
     }
     //导航栏查看已完成但未评价的活动
     //导航栏查看活动
-    @RequestMapping(value = "/scoreForVolunteer")
+    @RequestMapping(value = "/requestScore")
     public String scoreForVolunteer(Model model) {
-
+        System.out.println("导航栏评价");
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
         String role=users1.getUserRole();
         model.addAttribute("role",role);
-        return "scoreForVolunteer";
+        return "requestScore";
     }
-
-
-    //查看服务列表后向后台数据索要数据
-    @RequestMapping(value="/getVolunteerScoreListJsonData",produces = "application/json;charset=UTF-8")
+    //所有参与这个活动的用户的列表
+    @RequestMapping(value = "/getRequestListScoreJsonData")
     @ResponseBody
-    public String getRESPONDListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder){
-
+    public String getJsonDataFromReqest(@RequestParam int offset, int limit, String sortName,String sortOrder,Model model){
+        //获得当前用户
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
-        Users users1=GetCurrentUsers(message);
-        String role=users1.getUserRole();
-//        model.addAttribute("role",role);
-        RespondExample respondExample=new RespondExample();
-        respondExample.clear();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+        model.addAttribute("role",role);
+
+        ReqestExample reqestExample=new ReqestExample();
+        reqestExample.clear();
         //处理排序信息
         if(sortName!=null){
             //拼接字符串
             String order= GetDatabaseFileName(sortName)+" "+sortOrder;
             //将排序信息添加到example中
-            respondExample.setOrderByClause(order);
+            reqestExample.setOrderByClause(order);
         }
-        //判断自己响应过哪些请求
-        String ownId = users1.getUserGuid();
-        respondExample.or().andResUserGuidEqualTo(ownId);
-        List<Respond> responds=respondMapper.selectByExample(respondExample);
-        List<Respond> respondRecordList=new ArrayList<>();
-        for(int i=offset;i< offset+limit&&i < responds.size();i++){
-            Respond respond1=responds.get(i);
+        //获取当前登陆者id
+        String userID =users11.getUserGuid();
+        reqestExample.or().andReqIssueUserGuidEqualTo(userID);
+        List<Reqest> reqests=reqestMapper.selectByExample(reqestExample);
+        List<Reqest> reqestRecordList=new ArrayList<>();
+        for(int i=offset;i< offset+limit&&i < reqests.size();i++){
+            Reqest reqest1=reqests.get(i);
             TypeExample typeExample = new TypeExample();
-            if (respond1.getResTypeGuidProcessStatus()!=null) {
-                String resTypeGuidProcessStatus = respond1.getResTypeGuidProcessStatus();
+            String reqTypeGuidClass=reqest1.getReqTypeGuidClass();
+            typeExample.clear();
+            typeExample.or().andTypeGuidEqualTo(reqTypeGuidClass);
+            List<Type> types = typeMapper.selectByExample(typeExample);
+            reqest1.setReqTypeGuidClass(types.get(0).getTypeTitle());
+            String reqTypeGuidUrgency=reqest1.getReqTypeGuidUrgency();
+            typeExample.clear();
+            typeExample.or().andTypeGuidEqualTo(reqTypeGuidUrgency);
+            List<Type> types1 = typeMapper.selectByExample(typeExample);
+            reqest1.setReqTypeGuidUrgency(types1.get(0).getTypeTitle());
+            //处理请求处理状态
+            String approveId = reqest1.getReqTypeApproveStatus();
+            if (approveId != null)
+            {
                 typeExample.clear();
-                typeExample.or().andTypeGuidEqualTo(resTypeGuidProcessStatus);
-                List<Type> types = typeMapper.selectByExample(typeExample);
-                respond1.setResTypeGuidProcessStatus(types.get(0).getTypeTitle());
+                typeExample.or().andTypeGuidEqualTo(approveId);
+                List<Type> types2 = typeMapper.selectByExample(typeExample);
+                reqest1.setReqTypeApproveStatus(types2.get(0).getTypeTitle());
             }
-            respondRecordList.add(respond1);
+            //处理请求批准状态
+            String processId = reqest1.getReqTypeGuidProcessStatus();
+            if (processId != null)
+            {
+                typeExample.clear();
+                typeExample.or().andTypeGuidEqualTo(processId);
+                List<Type> types2 = typeMapper.selectByExample(typeExample);
+                reqest1.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
+            }
+            reqestRecordList.add(reqest1);
         }
         //全部符合要求的数据的数量
-        int total=responds.size();
+        int total=reqests.size();
         //将所得集合打包
         ObjectMapper mapper = new ObjectMapper();
-        com.timebank.controller.yl.TableRecordsJson tableRecordsJson=new com.timebank.controller.yl.TableRecordsJson(respondRecordList,total);
+        TableRecordsJson tableRecordsJson=new TableRecordsJson(reqestRecordList,total);
         //将实体类转换成json数据并返回
         try {
             String json1 = mapper.writeValueAsString(tableRecordsJson);
@@ -335,28 +355,110 @@ public class userController {
             return null;
         }
     }
+    //评分请求列表中的评分按钮
+    @RequestMapping(value = "/requestScore/{reqGuid}")
+    public String requestScore(Model model, @PathVariable String reqGuid) {
+        Subject account = SecurityUtils.getSubject();
+        String message = (String) account.getPrincipal();
+        Users users = GetCurrentUsers(message);
+        String role = users.getUserRole();
+        model.addAttribute("role", role);
+        model.addAttribute("resGuid", reqGuid);
+        return "scoreForVolunteer";
+    }
+    @RequestMapping(value="/getUserScoreJsonData")
+    @ResponseBody
+    public String getUserListJsonData(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder, String resGuid){
+        System.out.println("获取到用户数据");
+        System.out.println(resGuid);
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
+
+        UsersExample usersExample1 = new UsersExample();
+        TypeExample typeExample = new TypeExample();
+        RespondExample respondExample=new RespondExample();
+        //处理排序信息
+        if (sortName != null) {
+            //拼接字符串
+            String order = GetDatabaseFileName(sortName) + " " + sortOrder;
+            //将排序信息添加到example中
+            usersExample1.setOrderByClause(order);
+        }
+        List<Users> usersList = new ArrayList<Users>();
+
+        respondExample.or().andResReqGuidEqualTo(resGuid);
+        List<Respond> responds=respondMapper.selectByExample(respondExample);
+        for(Respond it:responds){
+            if(it.getResTypeGuidProcessStatus().equals("88888888-94E3-4EB7-AAD3-111111111111")) {
+                String usersguid = it.getResUserGuid();
+                Users user = usersMapper.selectByPrimaryKey(usersguid);
+
+                String userStatus = user.getUserTypeAccountStatus();
+                typeExample.clear();
+                typeExample.or().andTypeGuidEqualTo(userStatus);
+                List<Type> userstatus = typeMapper.selectByExample(typeExample);
+                user.setUserTypeAccountStatus(userstatus.get(0).getTypeTitle());
+                String userGender = user.getUserTypeGuidGender();
+                typeExample.clear();
+                typeExample.or().andTypeGuidEqualTo(userGender);
+                List<Type> gender = typeMapper.selectByExample(typeExample);
+                user.setUserTypeGuidGender(gender.get(0).getTypeTitle());
+
+                String userGuid = user.getUserGuid();
+                if (userGuid  != null) {
+                    respondExample.clear();
+                    respondExample.or().andResUserGuidEqualTo(userGuid);
+                    List<Respond> respondList = respondMapper.selectByExample(respondExample);
+                    user.setUserGuid(respondList.get(0).getResUserGuid());
+                    if (user.getUserCommGuid()!=null)
+                    {
+                        //所属小区
+                        Community community = communityMapper.selectByPrimaryKey(users.getUserCommGuid());
+                        user.setUserCommGuid(community.getCommTitle());
+                    }
+                    usersList.add(user);
+                }
+            }
+        }
+        int total = usersList.size();
+        ObjectMapper mapper = new ObjectMapper();
+        com.timebank.controller.sxq.TableRecordsJson tableRecordsJson = new com.timebank.controller.sxq.TableRecordsJson(usersList, total);
+        try {
+            String json1 = mapper.writeValueAsString(tableRecordsJson);
+            System.out.println(json1);
+            return json1;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     //给志愿者打分
-    @RequestMapping(value = "/scoreForVolunteer",method= RequestMethod.GET )
+    @RequestMapping(value = "/scoreForVolunteer", method = RequestMethod.POST )
     private String scoreForVolunteer(Model model,String thisPerson1,String finalScore,String id) {
-        System.out.println("这是打完分数后 确定按钮");
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
         String role=users1.getUserRole();
         model.addAttribute("role",role);
-        // model.addAttribute("activityid",id);
-        //需要将分数插入到actpartb表单中
-      /*  ActpartExample actpartExample=new ActpartExample();
-        actpartExample.or().andActpartActivityGuidEqualTo(id);
-        List<Actpart> activities=actpartMapper.selectByExample(actpartExample);
-        for(Actpart it:activities){
-            if(it.getActpartUserGuid().equals(thisPerson1)){
-                it.setActpartEvaluate(Integer.parseInt(finalScore));
-                actpartMapper.updateByPrimaryKeySelective(it);
-            }
-        }*/
+        model.addAttribute("resGuid",id);
+        //需要将分数插入到respond表单中
+        RespondExample respondExample=new RespondExample();
+        respondExample.or().andResReqGuidEqualTo(id);
+        List<Respond>responds=respondMapper.selectByExample(respondExample);
+        for (Respond it:responds){
+             if (it.getResEvaluate().equals(0))
+                   if (it.getResUserGuid().equals(thisPerson1)) {
+                       it.setResEvaluate(Integer.parseInt(finalScore));
+                       respondMapper.updateByPrimaryKeySelective(it);
+                   }
+
+        }
         return "scoreForVolunteer";
     }
+
 
 
 

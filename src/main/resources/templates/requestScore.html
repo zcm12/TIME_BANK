@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="basepage :: common_header(~{::title},~{::script})">
-    <title>申请服务列表</title>
+    <title>评价请求列表</title>
+    <script th:inline="javascript">
+        var reqGuid = [[${reqGuid}]];
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
             function changeDateFormat(cellval) {
@@ -10,11 +13,9 @@
                     var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
                     var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
                     var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-
                     var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
                     var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
                     var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-
                     return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
                 }
             };
@@ -30,14 +31,22 @@
                         sortable: true
                     },
                     {
+                        title:'请求者ID',
+                        field:'reqIssueUserGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
                         title:'提出请求的时间',
                         field:'reqIssueTime',
                         align: 'center',
                         valign: 'middle',
-                        sortable: true,
+                        sortable: true ,
                         formatter: function (value, row, index) {
                             return changeDateFormat(value);
                         }
+
                     },
                     {
                         title:'请求提出地址',
@@ -68,6 +77,17 @@
                         sortable: true
                     },
                     {
+                        title:'请求发布时间',
+                        field:'reqDispatchTime',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true ,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+
+                    },
+                    {
                         title:'请求分类',
                         field:'reqTypeGuidClass',
                         align: 'center',
@@ -79,20 +99,22 @@
                         field:'reqAvailableStartTime',
                         align: 'center',
                         valign: 'middle',
-                        sortable: true,
+                        sortable: true ,
                         formatter: function (value, row, index) {
                             return changeDateFormat(value);
                         }
+
                     },
                     {
                         title:'请求可用结束时间',
                         field:'reqAvailableEndTime',
                         align: 'center',
                         valign: 'middle',
-                        sortable: true,
+                        sortable: true ,
                         formatter: function (value, row, index) {
                             return changeDateFormat(value);
                         }
+
                     },
                     {
                         title:'预计持续时间',
@@ -109,8 +131,51 @@
                         sortable: true
                     },
                     {
-                        title:'请求处理状态',
-                        field:'reqTypeGuidProcessStatus',
+                        title:'请求服务开始时间',
+                        field:'reqStartTime',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true ,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+
+                    },
+                    {
+                        title:'请求服务结束时间',
+                        field:'reqEndTime',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true ,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+
+                    },
+                    {
+                        title:'请求实际消耗货币',
+                        field:'reqActualConsumeCurrency',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+//                    {
+//                        title:'请求批准状态',
+//                        field:'reqTypeApproveStatus',
+//                        align: 'center',
+//                        valign: 'middle',
+//                        sortable: true
+//                    },
+                    {
+                        title:'接收请求人的ID',
+                        field:'reqTargetsUserGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'请求持续时间长度',
+                        field:'reqActualDurationTime',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
@@ -130,14 +195,35 @@
                         sortable: true
                     },
                     {
-                        field: 'reqestId',
+                        title:'本请求权值',
+                        field:'reqFromWeightGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'请求处理状态',
+                        field:'reqTypeGuidProcessStatus',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'请求处理人',
+                        field:'reqProcessUserGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        field: 'reqGuid',
                         title: '操作',
                         align: 'center',
                         sortable: true,
                         formatter: operateFormatter
                     }
                 ],
-                url: "/getREQESTListJsonDataOfVol", //请求后台的URL（*）
+                url: "/getRequestListScoreJsonData", //请求后台的URL（*）
                 method: "get",
                 striped: true,     //是否显示行间隔色
                 cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
@@ -156,7 +242,7 @@
                 sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
                 pageNumber:1,  //初始化加载第一页，默认第一页
                 pageSize: 20,  //每页的记录行数（*）
-                //pageList:[10,20,30,40,50],
+                pageList:[5,10,20,30,40,50],
                 sortName:"reqGuid",
                 showColumns: true,  //是否显示所有的列
                 showRefresh: true,  //是否显示刷新按钮
@@ -167,28 +253,20 @@
             setTimeout(function () {
                 $table.bootstrapTable('resetView');
             }, 200);
+            function operateFormatter1(value, row, index) {
+                var ti=new Date(value);
+                var val=ti.toLocaleString() ;
+                return val;
+            };
             function operateFormatter(value, row, index) {
-                if (row.reqTypeGuidProcessStatus == "未启动" || row.reqTypeGuidProcessStatus == "待启动" )
-                {
-                    return [
-                        '<div class="row">',
-                        '<a class="btn btn-default" href="/viewREQEST/'+
-                        String(row.reqGuid) +
-                        '" title="查看详情">查看详情',
-                        '</a>  '+
-                        '</div>'
-                    ].join('');
-                }else{
-                    return [
-                        '<div class="row">',
-                        '<a class="btn btn-default" href="/viewREQEST/'+
-                        String(row.reqGuid) +
-                        '" title="查看详情">查看详情',
-                        '</a>  '+
-                        '</div>'
-                    ].join('');
-                }
-
+                return [
+                    '<div class="row">',
+                    '<a class="btn btn-default" href="/requestScore/'+
+                    String(row.reqGuid) +
+                    '" title="评分">评分',
+                    '</a>  '+
+                    '</div>'
+                ].join('');
             }
         });
     </script>
@@ -208,7 +286,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        申请服务列表
+                        请求列表
                     </h3>
                 </div>
                 <div class="panel-body" >

@@ -82,7 +82,7 @@ public class Respond {
      *
      * @mbg.generated
      */
-    private Byte resEvaluate;
+    private int resEvaluate;
 
     /**
      *
@@ -302,7 +302,7 @@ public class Respond {
      *
      * @mbg.generated
      */
-    public Byte getResEvaluate() {
+    public Integer getResEvaluate() {
         return resEvaluate;
     }
 
@@ -314,7 +314,7 @@ public class Respond {
      *
      * @mbg.generated
      */
-    public void setResEvaluate(Byte resEvaluate) {
+    public void setResEvaluate(int resEvaluate) {
         this.resEvaluate = resEvaluate;
     }
 

@@ -1,18 +1,7 @@
 <!DOCTYPE html>
 <html lang="EN"  xmlns:th="http://www.thymeleaf.org">
-<head >
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head th:include="basepage :: common_header(~{::title},~{::script})">
     <title>注册界面</title>
-    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/cssCerulean/bootstrap.css" />
-    <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.css"  />
-    <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
-    <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.js"></script>
-    <script type="text/javascript" src="/bootstrap-table-master/bootstrap-table-master/dist/bootstrap-table.js"></script>
-    <script type="text/javascript" src="/bootstrap-table-master/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js"></script>
-    <script type="text/javascript" src="/laydate/laydate.js"></script>
-    <script type="text/javascript" src="/typehead.js"></script>
-    <script type="text/javascript" src="/jquery-rank-score/js/jquery.raty.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#Form').bootstrapValidator({
@@ -140,12 +129,12 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="radio-inline">
-            <input type="radio" name ="userRole" id="inlineCheckbox1" value="Tourist"> 游客
+        <label class="radio-inline">游客
         </label>
+        <input type="radio" name ="userRole" id="inlineCheckbox1" value="Tourist"/>
+
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
 </form>
 </body>
-
 </html>

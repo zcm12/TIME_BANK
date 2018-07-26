@@ -242,9 +242,12 @@ public class activitycontroller {
             act.setActivityTypeProcessStatus(processStatusType.get(0).getTypeTitle());
 
             // 把接收者的Id换成名字显示在页面
+
             String reqtargetusers = act.getActivityTargetsUserGuid();//能够得到每条记录的guid
-            String sb1 = IdtoName(reqtargetusers);
-            act.setActivityTargetsUserGuid(sb1);
+            if(reqtargetusers!="[]") {
+                String sb1 = IdtoName(reqtargetusers);
+                act.setActivityTargetsUserGuid(sb1);
+            }
             if (searchText != null) {
                 String activityId = act.getActivityGuid();
                 String activityTile = act.getActivityTitle();
@@ -275,106 +278,7 @@ public class activitycontroller {
         }
     }
 
-    //导航栏评价活动
-    @RequestMapping(value = "/activitylistscore")
-    public String activitylistscore(Model model) {
 
-        Subject account = SecurityUtils.getSubject();
-        String message=(String) account.getPrincipal();
-        Users users=GetCurrentUsers(message);
-        String role=users.getUserRole();
-        model.addAttribute("role",role);
-        return "activitylistscore";
-    }
-
-    //找出已完成的活动   searchText 搜索框
-    @RequestMapping(value = "/getActivityListScoreJsonData")
-    @ResponseBody
-    public String activitylistscore(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder, String searchText) {
-        Subject account = SecurityUtils.getSubject();
-        String message=(String) account.getPrincipal();
-        Users users=GetCurrentUsers(message);
-        String role=users.getUserRole();
-        model.addAttribute("role",role);
-
-        if (searchText == "") {
-            searchText = null;
-        }
-
-        ActivityExample activityExample = new ActivityExample();
-        activityExample.clear();
-
-        //处理排序信息
-        if (sortName != null) {
-            //拼接字符串
-            String order = GetDatabaseFileName(sortName) + " " + sortOrder;
-            System.out.println(order);
-            //将排序信息添加到example中 此处表示先按sortName排序   再按asc（从小到大）排序
-            activityExample.setOrderByClause(order);
-        }
-
-        activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94E3-4EB7-AAD3-444444444444");
-
-
-        List<Activity> activities = activityMapper.selectByExample(activityExample);
-        List<Activity> activityRecordList = new ArrayList<Activity>();
-        for (int i = offset; i < offset + limit && i < activities.size(); i++) {
-
-
-            Activity act1 = activities.get(i);
-
-            //活动处理人
-            String processUserId = act1.getActivityProcessUserGuid();
-
-            UsersExample usersExample3 = new UsersExample();
-            usersExample3.or().andUserGuidEqualTo(processUserId);
-            List<Users> processuser = usersMapper.selectByExample(usersExample3);
-            act1.setActivityProcessUserGuid(processuser.get(0).getUserAccount());
-
-            //活动小区
-            String activityComm = act1.getActivityFromCommGuid();
-            CommunityExample communityExample = new CommunityExample();
-            communityExample.or().andCommGuidEqualTo(activityComm);
-            List<Community> comm = communityMapper.selectByExample(communityExample);
-            act1.setActivityFromCommGuid(comm.get(0).getCommTitle());
-
-            //活动处理状态
-            String processStatus = act1.getActivityTypeProcessStatus();
-            TypeExample typeExample = new TypeExample();
-            typeExample.or().andTypeGuidEqualTo(processStatus);
-            List<Type> processStatusType = typeMapper.selectByExample(typeExample);
-            act1.setActivityTypeProcessStatus(processStatusType.get(0).getTypeTitle());
-            //处理名字
-            String reqtargetusers = act1.getActivityTargetsUserGuid();//能够得到每条记录的guid
-            String sb1 = IdtoName(reqtargetusers);
-            act1.setActivityTargetsUserGuid(sb1);
-            if (searchText != null) {
-                String activityId = act1.getActivityGuid();
-                String activityTile = act1.getActivityTitle();
-                String activityDes = act1.getActivityDesp();
-                String activityCom = act1.getActivityComment();
-                if (activityId.contains(searchText) || activityTile.contains(searchText) || activityDes.contains(searchText) || activityCom.contains(searchText)) {
-                    activityRecordList.add(act1);
-                }
-            } else {
-                activityRecordList.add(act1);
-            }
-        }
-
-        //全部符合要求的数据的数量
-        int total = activities.size();
-        //将所得集合打包
-        ObjectMapper mapper = new ObjectMapper();
-        TableRecordsJson tableRecordsJson = new TableRecordsJson(activityRecordList, total);
-        //将实体类转换成json数据并返回
-        try {
-            String json1 = mapper.writeValueAsString(tableRecordsJson);
-
-            return json1;
-        } catch (Exception e) {
-            return null;
-        }
-    }
 
 
     //某个活动查看详情请求
@@ -803,7 +707,106 @@ public class activitycontroller {
         model.addAttribute("activity",activity);
         return  "activityShowNoSbumit";
     }
+    //导航栏评价活动
+    @RequestMapping(value = "/activitylistscore")
+    public String activitylistscore(Model model) {
 
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
+        return "activitylistscore";
+    }
+
+    //找出已完成的活动   searchText 搜索框
+    @RequestMapping(value = "/getActivityListScoreJsonData")
+    @ResponseBody
+    public String activitylistscore(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder, String searchText) {
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
+
+        if (searchText == "") {
+            searchText = null;
+        }
+
+        ActivityExample activityExample = new ActivityExample();
+        activityExample.clear();
+
+        //处理排序信息
+        if (sortName != null) {
+            //拼接字符串
+            String order = GetDatabaseFileName(sortName) + " " + sortOrder;
+            System.out.println(order);
+            //将排序信息添加到example中 此处表示先按sortName排序   再按asc（从小到大）排序
+            activityExample.setOrderByClause(order);
+        }
+
+        activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94E3-4EB7-AAD3-444444444444");
+
+
+        List<Activity> activities = activityMapper.selectByExample(activityExample);
+        List<Activity> activityRecordList = new ArrayList<Activity>();
+        for (int i = offset; i < offset + limit && i < activities.size(); i++) {
+
+
+            Activity act1 = activities.get(i);
+
+            //活动处理人
+            String processUserId = act1.getActivityProcessUserGuid();
+
+            UsersExample usersExample3 = new UsersExample();
+            usersExample3.or().andUserGuidEqualTo(processUserId);
+            List<Users> processuser = usersMapper.selectByExample(usersExample3);
+            act1.setActivityProcessUserGuid(processuser.get(0).getUserAccount());
+
+            //活动小区
+            String activityComm = act1.getActivityFromCommGuid();
+            CommunityExample communityExample = new CommunityExample();
+            communityExample.or().andCommGuidEqualTo(activityComm);
+            List<Community> comm = communityMapper.selectByExample(communityExample);
+            act1.setActivityFromCommGuid(comm.get(0).getCommTitle());
+
+            //活动处理状态
+            String processStatus = act1.getActivityTypeProcessStatus();
+            TypeExample typeExample = new TypeExample();
+            typeExample.or().andTypeGuidEqualTo(processStatus);
+            List<Type> processStatusType = typeMapper.selectByExample(typeExample);
+            act1.setActivityTypeProcessStatus(processStatusType.get(0).getTypeTitle());
+            //处理名字
+            String reqtargetusers = act1.getActivityTargetsUserGuid();//能够得到每条记录的guid
+            String sb1 = IdtoName(reqtargetusers);
+            act1.setActivityTargetsUserGuid(sb1);
+            if (searchText != null) {
+                String activityId = act1.getActivityGuid();
+                String activityTile = act1.getActivityTitle();
+                String activityDes = act1.getActivityDesp();
+                String activityCom = act1.getActivityComment();
+                if (activityId.contains(searchText) || activityTile.contains(searchText) || activityDes.contains(searchText) || activityCom.contains(searchText)) {
+                    activityRecordList.add(act1);
+                }
+            } else {
+                activityRecordList.add(act1);
+            }
+        }
+
+        //全部符合要求的数据的数量
+        int total = activities.size();
+        //将所得集合打包
+        ObjectMapper mapper = new ObjectMapper();
+        TableRecordsJson tableRecordsJson = new TableRecordsJson(activityRecordList, total);
+        //将实体类转换成json数据并返回
+        try {
+            String json1 = mapper.writeValueAsString(tableRecordsJson);
+
+            return json1;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     //给活动参与者打分  评分按钮
     @RequestMapping(value = "/activityscore/{activityGuid}")
@@ -814,8 +817,6 @@ public class activitycontroller {
         String role=users.getUserRole();
         model.addAttribute("role",role);
         model.addAttribute("activityid", activityGuid);
-
-
         return "activitypersonscore";
     }
 
@@ -889,6 +890,7 @@ public class activitycontroller {
     //给服务打分
     @RequestMapping(value = "/scoreForPerson", method = RequestMethod.POST)
     private String scoreForPerson1(Model model, String thisPerson1, String finalScore, String id) {
+        System.out.println(finalScore);
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users=GetCurrentUsers(message);
@@ -907,7 +909,6 @@ public class activitycontroller {
                 }
             }
         }
-
         //TODO:打分完成后修改处理状态的字段  改成33333333-94E3-4EB7-AAD3-777777777777
         Activity activity=activityMapper.selectByPrimaryKey(id);
         ActpartExample actpartExample1=new ActpartExample();
@@ -928,7 +929,6 @@ public class activitycontroller {
             activity.setActivityTypeProcessStatus("33333333-94E3-4EB7-AAD3-777777777777");
             activityMapper.updateByPrimaryKeySelective(activity);
         }
-
         return "activitypersonscore";
     }
 
