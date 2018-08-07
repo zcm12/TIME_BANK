@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
@@ -44,12 +45,9 @@ public class AppMainController {
     /*------------app api------------------------*/
     @RequestMapping(value = "/appLoginUser")
     @ResponseBody
-    public ResultModel appLoginUser(Users users, Model model) {
-        System.out.println(users);
+    public ResultModel appLoginUser(Users users) {
         String userName = users.getUserAccount();
-        System.out.println(userName);
         String password = users.getUserPassword();
-        System.out.println(password);
         Subject subject = SecurityUtils.getSubject();
 //        System.out.println(subject);
         if (true) {
@@ -79,51 +77,43 @@ public class AppMainController {
     //散列算法类型为MD5
     private    String algorithmName ="MD5";
     //hash的次数
-    private   int hashIterations=10;
+    private   int hashIterations=1000;
     @RequestMapping(value = "/appRegisterUser")
     @ResponseBody
     public ResultModel appRegisterUser(Users users){
+
+        //校验账号名是否存在
+        String userAccount = users.getUserAccount();
+        UsersExample usersExample=new UsersExample();
+        List<Users> usersList=usersMapper.selectByExample(usersExample);
+        for (Users u : usersList) {
+            if (userAccount != null && userAccount.equals(u.getUserAccount())) {
+                return new ResultModel(11, "账号名已存在，请重新申请");
+            }
+        }
         System.out.println("密码加密开始");
         //干扰数据 盐 防破解
-        String salt = "";
+        int flag= new Random().nextInt(999999);
+        if (flag < 100000)
+        {
+            flag += 100000;
+        }
+        String salt=String.valueOf(flag);
         System.out.println("原始密码为：" + users.getUserPassword());//注册密码
+        System.out.println("盐值为:"+salt);
         SimpleHash hash = new SimpleHash(algorithmName, users.getUserPassword(), salt, hashIterations);
         System.out.println("密码加密结束：" + hash);
         String encodedPassword = hash.toHex();
-        users.setUserPassword(encodedPassword);
+        users.setUserPassword(encodedPassword);//设置用户加密后密码
         UUID userGuid = randomUUID();
-        users.setUserGuid(userGuid.toString());
+        users.setUserGuid(userGuid.toString());//设置用户guid
+        users.setUserRole("USE");//设置用户角色
+        users.setUserSalt(salt);//设置密码盐
+        users.setUserTypeAccountStatus("22222222-94e3-4eb7-aad3-111111111111");//设置用户状态为 账号正常
+
         int insert = usersMapper.insertSelective(users);
         System.out.println("注册insert="+insert);
         return new ResultModel(insert, "注册成功");
     }
-    @RequestMapping(value = "/appUserInfo")
-    @ResponseBody
-    public Users appUserInfo(Users users){
-//        String userName = users.getUserAccount();
-//        System.out.println(userName);
-        Subject subject = SecurityUtils.getSubject();
-        String userAccount = (String) subject.getPrincipal();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo(userAccount);
-        List<Users> users1 = usersMapper.selectByExample(usersExample);
-        Users users2 = users1.get(0);
-        if (users2.getUserTypeGuidGender() != null) {
-            //处理性别
-            Type type = typeMapper.selectByPrimaryKey(users2.getUserTypeGuidGender());
-            users2.setUserTypeGuidGender(type.getTypeTitle());
-        }
-        if (users2.getUserTypeAccountStatus() != null) {
-            //用户状态
-            Type type1 = typeMapper.selectByPrimaryKey(users2.getUserTypeAccountStatus());
-            users2.setUserTypeAccountStatus(type1.getTypeTitle());
-        }
-        if (users2.getUserCommGuid() != null) {
-            //所属小区
-            Community community = communityMapper.selectByPrimaryKey(users2.getUserCommGuid());
-            users2.setUserCommGuid(community.getCommTitle());
-        }
-        System.out.println(users2.getUserTypeAccountStatus());
-        return users2;
-    }
+
 }
