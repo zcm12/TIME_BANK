@@ -23,7 +23,7 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <form id="REQESTInputForm" name="REQESTInputForm" method="post" class="form-horizontal" role="form"
+                    <form id="REQESTInputFoorm" name="REQESTInputForm" method="post" class="form-horizontal" role="form"
                           data-bv-message="This value is not valid"
                           data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
                           data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
@@ -121,9 +121,11 @@
                     </form>
 
                     <div class="form-group  col-lg-12">
-                        <a th:href="@{/updateREQEST}"><input id="updateRequest" class="btn btn-primary"type="button" value="更 新 请 求"/></a>
+                        <a th:href="@{/updateREQEST1}"><input id="updateRequest" class="btn btn-primary"type="button" value="更新请求"/></a>
                         <!--<input id="updateRequestValue" name="updateRequestValue" type="text" class="form-control" th:value="${updateList.updateId}" disabled="disabled"/>-->
-                        <a th:href="@{/volunteerListOfApply}"><input id="viewVolRequest" class="btn btn-primary" type="button" value="查 看 志 愿 者" onclick="viewVolRequest()" /></a>
+                        <a th:href="@{/volunteerListOfApply1}"><input id="viewVolRequest" class="btn btn-primary" type="button" value="查 看 志 愿 者" onclick="viewVolRequest()" /></a>
+                        <a th:href="@{/changestatuesa}"><input id="changestatues1" class="btn btn-primary"type="button" value="通过"/></a>
+                        <a th:href="@{/changestatuesb}"><input id="changestatues2" class="btn btn-primary"type="button" value="驳回"/></a>
                     </div>
 
                     <div class="form-group  col-lg-12">
@@ -136,83 +138,12 @@
                     <div class="form-group  col-lg-12">
                         <input id="startRequest" class="btn btn-primary" type="button" value="启 动" data-toggle="modal" data-target="#Mymodel"/>
                         <!-- <input id="startRequestValue" name="startRequestValue" type="text" class="form-control" th:value="${updateList.startId}" disabled="disabled"/>-->
-                        <a th:href="@{/waitRequest}"><input id="waitRequest" class="btn btn-primary" type="button" value="待启动" /></a>
+                        <a th:href="@{/waitRequest1}"><input id="waitRequest" class="btn btn-primary" type="button" value="待启动" /></a>
                     </div>
                     <div class="form-group  col-lg-12">
                         <input id="finishRequest" class="btn btn-primary" type="button" value="已 完 成" data-toggle="modal" data-target="#endmodel"  />
                         <input id="unFinishRequest" class="btn btn-primary" type="button" value="未 完 成" data-toggle="modal" data-target="#unEndmodel"/>
                     </div>
-                    <!--               &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;查看志愿者表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
-                                   <form id="REQESTInputForm6" name="REQESTInputForm6" method="post" class="form-horizontal" role="form" action="/volunteerListOfApply">&lt;!&ndash;data-bv-message="This value is not valid"
-                                         data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                                         data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                                         data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" &ndash;&gt;
-                                       <div class="form-group  col-lg-6" hidden="hidden">
-                                           <label class="control-label col-lg-3" for="reqGuid6"  >请求ID：</label>
-                                           <div class="col-lg-9">
-                                               <input id="reqGuid6" name="reqGuid6" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
-                                           </div>
-                                       </div>
-                                       <div class="form-actions">
-                                           <input id="Submit6" class="btn btn-primary" type="submit" value="查看志愿者" />&nbsp;
-                                       </div>
-                                   </form>
-                                   &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;未完成请求表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
-
-                                                               &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;已完成请求表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
-                                   <form id="REQESTInputForm4" name="REQESTInputForm4" method="post" class="form-horizontal" role="form" action="/endRequest"
-                                      >
-                                       <div class="form-group  col-lg-6" hidden="hidden">
-                                           <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
-                                           <div class="col-lg-9">
-                                               <input id="reqGuid4" name="reqGuid4" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
-                                           </div>
-                                       </div>
-                                       <div class="form-actions">
-                                           <input id="Submit4" class="btn btn-primary" type="submit" value="已完成请求" />&nbsp;
-                                       </div>
-                                   </form>
-                                                                           &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;启动请求表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
-                                       <form id="REQESTInputForm3" name="REQESTInputForm3" method="post" class="form-horizontal" role="form" action="/startRequest" >
-
-                                           <div class="form-group  col-lg-6" hidden="hidden">
-                                               <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
-                                               <div class="col-lg-9">
-                                                   <input id="reqGuid3" name="reqGuid3" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
-                                               </div>
-                                           </div>
-                                           <div class="form-actions">
-                                               <input id="Submit3" class="btn btn-primary" type="submit" value="启动请求" />&nbsp;
-                                           </div>
-                                       </form>
-                                                                   &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;撤销请求表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
-                                       <form id="REQESTInputForm2" name="REQESTInputForm2" method="post" class="form-horizontal" role="form" action="/deleteREQEST"
-                                             data-bv-message="This value is not valid"
-                                             data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                                             data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                                             data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
-                                           <div class="form-group  col-lg-6" hidden="hidden">
-                                               <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
-                                               <div class="col-lg-9">
-                                                   <input id="reqGuid2" name="reqGuid2" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
-                                               </div>
-                                           </div>
-                                           <div class="form-actions">
-                                               <input id="Submit2" class="btn btn-primary" type="submit" value="撤销请求" />&nbsp;
-                                               </div>
-                                       </form>
-                                                                   &lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;更新请求表格&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
-                                       <form id="REQESTInputForm1" name="REQESTInputForm1" method="post" class="form-horizontal" role="form" action="/updateREQEST">
-                                           <div class="form-group  col-lg-6" hidden="hidden">
-                                               <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
-                                               <div class="col-lg-9">
-                                                   <input id="reqGuid1" name="reqGuid1" type="txet" class="form-control" th:value="${reqest.reqGuid}" />
-                                               </div>
-                                           </div>
-                                           <div class="form-actions">
-                                               <input id="Submit1" class="btn btn-primary" type="submit" value="更新请求" />&nbsp;
-                                           </div>
-                                       </form>-->
 
 
                     <!--  启动按钮模态框-->
@@ -225,7 +156,7 @@
                                     </h4>
                                 </div>
                                 <div class="modal-body" >
-                                    <form id="REQESTInputForm1" name="REQESTInputForm1" method="post" class="form-horizontal" role="form" action="/startRequest" >
+                                    <form id="REQESTInputForm1" name="REQESTInputForm1" method="post" class="form-horizontal" role="form" action="/startRequest1" >
 
                                         <div class="form-group  col-lg-6" hidden="hidden">
                                             <label class="control-label col-lg-3" for="reqGuid1"  >请求ID：</label>
@@ -310,7 +241,7 @@
                                     </h4>
                                 </div>
                                 <div class="modal-body" >
-                                    <form id="REQESTInputForm4" name="REQESTInputForm4" method="post" class="form-horizontal" role="form" action="/deleteREQEST">
+                                    <form id="REQESTInputForm4" name="REQESTInputForm4" method="post" class="form-horizontal" role="form" action="/deleteREQEST1">
                                         <div class="form-group  col-lg-6" hidden="hidden">
                                             <label class="control-label col-lg-3" for="reqGuid4"  >请求ID：</label>
                                             <div class="col-lg-9">
@@ -328,13 +259,15 @@
                         </div>
                     </div>
                 </div>
-                <input id="updateId"   style="display:none"  type="text" th:value="${updateList.updateId}" />
-                <input id="deletaId"   style="display:none"  type="text" th:value="${updateList.deletaId}" />
-                <input id="startId"    style="display:none"  type="text" th:value="${updateList.startId}" />
-                <input id="viewVolId"  style="display:none"  type="text" th:value="${updateList.viewVolId}" />
-                <input id="finishId"   style="display:none"  type="text" th:value="${updateList.finishId}" />
-                <input id="unFinishId" style="display:none" type="text" th:value="${updateList.unFinishId}" />
-                <input id="waitId"     style="display:none" type="text" th:value="${updateList.waitId}" />
+                <input id="updateId"  style="display:none"  type="text" th:value="${updateList.updateId}" />
+                <input id="deletaId1"   style="display:none"  type="text" th:value="${updateList.deletaId}" />
+                <input id="startId1"    style="display:none"  type="text" th:value="${updateList.startId}" />
+                <input id="viewVolId1"  style="display:none"  type="text" th:value="${updateList.viewVolId}" />
+                <input id="finishId1"   style="display:none"  type="text" th:value="${updateList.finishId}" />
+                <input id="unFinishId1" style="display:none" type="text" th:value="${updateList.unFinishId}" />
+                <input id="waitId1"     style="display:none" type="text" th:value="${updateList.waitId}" />
+                <input id="shenhe"     style="display:none" type="text" th:value="${updateList.shenhe}" />
+                <!--<input id="shenhe1"     style="display:none" type="text" th:value="${updateList.shenhe}" />-->
                 <!--  <input id="evaluateId"     style="display:none" type="text" th:value="${updateList.evaluateId}" />-->
             </div>
         </div>
@@ -347,40 +280,46 @@
 </div>
 </body>
 <script>
-
+    if (document.getElementById("shenhe").value==1){
+        document.getElementById("changestatues1").disabled=false;
+        document.getElementById("changestatues2").disabled=false;
+    }else {
+        document.getElementById("changestatues1").disabled=true;
+        document.getElementById("changestatues2").disabled=true;
+    }
     if (document.getElementById("updateId").value==1){
         document.getElementById("updateRequest").disabled=false;
     }else {
         document.getElementById("updateRequest").disabled=true;
     }
 
-    if (document.getElementById("deletaId").value==1){
+    if (document.getElementById("deletaId1").value==1){
         document.getElementById("deleteRequest").disabled=false;
     }else {
         document.getElementById("deleteRequest").disabled=true;
     }
 
-    if (document.getElementById("startId").value==1){
+    if (document.getElementById("startId1").value==1){
         document.getElementById("startRequest").disabled=false;
     }else {
         document.getElementById("startRequest").disabled=true;
     }
-    if(document.getElementById("viewVolId").value==1){
+    if(document.getElementById("viewVolId1").value==1){
         document.getElementById("viewVolRequest").disabled=false;
     }else {
         document.getElementById("viewVolRequest").disabled=true;
     }
-    if(document.getElementById("finishId").value==1){
+    if(document.getElementById("finishId1").value==1){
         document.getElementById("finishRequest").disabled=false;
     }else {
         document.getElementById("finishRequest").disabled = true;
     }
-    if(document.getElementById("unFinishId").value==1){
+    if(document.getElementById("unFinishId1").value==1){
         document.getElementById("unFinishRequest").disabled=false;
     }else {
         document.getElementById("unFinishRequest").disabled = true;
     }
-    if(document.getElementById("waitId").value==1){
+    if(document.getElementById("waitId1").value==1){
         document.getElementById("waitRequest").disabled=false;
     }else {
         document.getElementById("waitRequest").disabled = true;

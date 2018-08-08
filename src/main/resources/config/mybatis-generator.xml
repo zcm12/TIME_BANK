@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
 
-    <classPathEntry location="C:\Users\Administrator\.IntelliJIdea2017.2\config\jdbc-drivers\SQL Server\6.0.8112.100\sqljdbc42-6.0.8112.100.jar"/>
+    <classPathEntry location="C:\Users\97775\.IntelliJIdea2017.2\config\jdbc-drivers\SQL Server\6.0.8112.100\sqljdbc42-6.0.8112.100.jar"/>
 
     <context id="context" targetRuntime="MyBatis3">
         <commentGenerator>
@@ -34,31 +34,31 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <!--<table schema="dbo" tableName="ACTIVITY" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="ACTPART" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="COMMUNITY" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="COMPLAIN" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="GROUP" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="REQEST" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="RESPOND" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="ROLE" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="TRANSFER" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="TYPE" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="ACTIVITY" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="USERS" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="WEIGHT" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
+        <table schema="dbo" tableName="ACTIVITY" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="ACTPART" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="COMMUNITY" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="COMPLAIN" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="GROUP" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="REQEST" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="RESPOND" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="ROLE" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="TRANSFER" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="TYPE" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="ACTIVITY" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="USERS" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table schema="dbo" tableName="WEIGHT" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
     </context>
 </generatorConfiguration>

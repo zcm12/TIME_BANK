@@ -286,12 +286,12 @@ public class UserRequestController {
             //TODO 请求批准状态为通过
             updateList.setUpdateId(1);
             updateList.setDeletaId(1);
-            updateList.setStartId(1);
-            updateList.setViewVolId(1);
-            updateList.setFinishId(1);
-            updateList.setUnFinishId(1);
+            updateList.setStartId(0);
+            updateList.setViewVolId(0);
+            updateList.setFinishId(0);
+            updateList.setUnFinishId(0);
             updateList.setWaitId(1);
-            updateList.setEvaluateId(1);
+            updateList.setEvaluateId(0);
             model.addAttribute("updateList",updateList);
         }
         else {
@@ -313,7 +313,7 @@ public class UserRequestController {
                 //TODO 请求处理状态为未启动
                 updateList.setUpdateId(1);
                 updateList.setDeletaId(1);
-                updateList.setStartId(1);
+                updateList.setStartId(0);
                 updateList.setViewVolId(0);
                 updateList.setFinishId(0);
                 updateList.setUnFinishId(0);
@@ -381,45 +381,8 @@ public class UserRequestController {
             }
         }
         model.addAttribute("reqest",reqest);
-//        model.addAttribute("reqGuid",reqGuid);
         return "listRequestModel";
     }
-  /*  //查看详情界面中的更新请求
-    @RequestMapping(value = "/updateREQEST")
-    public String updateREQEST (UpdateList updateList,Model model,String reqGuid1) {
-
-        Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String role = users1.getUserRole();
-        model.addAttribute("role",role);
-
-        //TODO 根据传递过来的reqGuid
-        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid1);
-        model.addAttribute("reqest",reqest);
-
-        TypeExample typeExample = new TypeExample();
-        typeExample.or().andTypeGroupIdEqualTo(5);
-        List<Type> typex = typeMapper.selectByExample(typeExample);
-        model.addAttribute("types",typex);
-        typeExample.clear();
-        typeExample.or().andTypeGroupIdEqualTo(4);
-        List<Type> types = typeMapper.selectByExample(typeExample);
-        model.addAttribute("types1",types);
-        //TODO 点击更新请求按钮以后
-        updateList.setUpdateId(1);
-        updateList.setDeletaId(1);
-        updateList.setStartId(1);
-        updateList.setViewVolId(0);
-        updateList.setFinishId(0);
-        updateList.setUnFinishId(0);
-        model.addAttribute("updateList",updateList);
-        return "updateReqestView";
-
-    }*/
-
     //查看详情界面中的更新请求
     @RequestMapping(value = "/updateREQEST")
     public String updateREQEST (UpdateList updateList,Model model) {

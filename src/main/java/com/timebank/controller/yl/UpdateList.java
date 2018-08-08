@@ -9,6 +9,17 @@ public class UpdateList {
     private int unFinishId;
     private int waitId;
     private int evaluateId;
+    private int shenhe;
+
+    public int getShenhe() {
+        return shenhe;
+    }
+
+    public void setShenhe(int shenhe) {
+        this.shenhe = shenhe;
+    }
+
+
 
     public int getEvaluateId() {
         return evaluateId;
@@ -73,4 +84,5 @@ public class UpdateList {
     public void setUnFinishId(int unFinishId) {
         this.unFinishId = unFinishId;
     }
+
 }

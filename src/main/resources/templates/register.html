@@ -1,7 +1,24 @@
 <!DOCTYPE html>
 <html lang="EN"  xmlns:th="http://www.thymeleaf.org">
-<head th:include="basepage :: common_header(~{::title},~{::script})">
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>注册界面</title>
+    <!--<link rel="stylesheet" href="/bootstrap-3.3.7-dist/cssCerulean/bootstrap.css" />-->
+    <!--<link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.css"  />-->
+
+    <!--<script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>-->
+    <!--<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>-->
+    <!--<script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>-->
+
+    <!--<script type="text/javascript" src="/bootstrap-table-master/bootstrap-table-master/dist/bootstrap-table.js"></script>-->
+    <!--<script type="text/javascript" src="/bootstrap-table-master/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js"></script>-->
+    <!--<script type="text/javascript" src="/laydate/laydate.js"></script>-->
+    <!--<script type="text/javascript" src="/typehead.js"></script>-->
+    <!--<script type="text/javascript" src="/jquery-rank-score/js/jquery.raty.js"></script>-->
+    <script type="text/javascript" src="/jquery/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#Form').bootstrapValidator({
@@ -93,10 +110,11 @@
       data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
       data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
       data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+    <!--<div class="row">-->
     <div class="form-group ">
         <label  for="userAccount">账户名</label>
         <input name="userAccount" type="text" class="form-control" id="userAccount" placeholder="userAccount"/>
-        <span id="tishi"></span>
+        <!--<span id="tishi"></span>-->
     </div>
     <div class="form-group">
         <label for="userName">用户名</label>
@@ -111,7 +129,7 @@
         <input  name="userAddress" class="form-control" id="userAddress" type="text"/>
     </div>
     <div class="row">
-        <div class="form-group  col-lg-6">
+        <div class="form-group ">
             <label class="control-label col-lg-3" for="userTypeGuidGender" >选择用户性别：</label>
             <div class="col-lg-9">
                 <select name="userTypeGuidGender" id="userTypeGuidGender" class="form-control">
@@ -119,7 +137,7 @@
                 </select>
             </div>
         </div>
-        <div class="form-group  col-lg-6">
+        <div class="form-group">
             <label class="control-label col-lg-3" for="userCommGuid" >所属小区：</label>
             <div class="col-lg-9">
                 <select name="userCommGuid" id="userCommGuid" class="form-control">
@@ -128,13 +146,15 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
-        <label class="radio-inline">游客
-        </label>
-        <input type="radio" name ="userRole" id="inlineCheckbox1" value="Tourist"/>
 
+    <div class="form-group">
+        <label class="radio-inline">
+            <input type="radio" name ="userRole" id="inlineCheckbox1" value="Tourist"> 游客
+        </label>
     </div>
+
     <button type="submit" class="btn btn-default">Submit</button>
 </form>
 </body>
+
 </html>
