@@ -14,7 +14,7 @@
     <result column="RES_SERVICE_START_TIME" jdbcType="TIMESTAMP" property="resServiceStartTime" />
     <result column="RES_SERVICE_END_TIME" jdbcType="TIMESTAMP" property="resServiceEndTime" />
     <result column="RES_TYPE_GUID_PROCESS_STATUS" jdbcType="CHAR" property="resTypeGuidProcessStatus" />
-    <result column="RES_EVALUATE" jdbcType="TINYINT" property="resEvaluate" />
+    <result column="RES_EVALUATE" jdbcType="INTEGER" property="resEvaluate" />
     <result column="RES_EARN_CURRENCY" jdbcType="DOUBLE" property="resEarnCurrency" />
     <result column="RES_PROCESS_USER_GUID" jdbcType="CHAR" property="resProcessUserGuid" />
   </resultMap>
@@ -152,7 +152,7 @@
     values (#{resGuid,jdbcType=CHAR}, #{resReqGuid,jdbcType=CHAR}, #{resUserGuid,jdbcType=CHAR}, 
       #{resAcceptTime,jdbcType=TIMESTAMP}, #{resAcceptAddress,jdbcType=NVARCHAR}, #{resServiceStartTime,jdbcType=TIMESTAMP}, 
       #{resServiceEndTime,jdbcType=TIMESTAMP}, #{resTypeGuidProcessStatus,jdbcType=CHAR}, 
-      #{resEvaluate,jdbcType=TINYINT}, #{resEarnCurrency,jdbcType=DOUBLE}, #{resProcessUserGuid,jdbcType=CHAR}
+      #{resEvaluate,jdbcType=INTEGER}, #{resEarnCurrency,jdbcType=DOUBLE}, #{resProcessUserGuid,jdbcType=CHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.timebank.domain.Respond">
@@ -222,7 +222,7 @@
         #{resTypeGuidProcessStatus,jdbcType=CHAR},
       </if>
       <if test="resEvaluate != null">
-        #{resEvaluate,jdbcType=TINYINT},
+        #{resEvaluate,jdbcType=INTEGER},
       </if>
       <if test="resEarnCurrency != null">
         #{resEarnCurrency,jdbcType=DOUBLE},
@@ -274,7 +274,7 @@
         RES_TYPE_GUID_PROCESS_STATUS = #{record.resTypeGuidProcessStatus,jdbcType=CHAR},
       </if>
       <if test="record.resEvaluate != null">
-        RES_EVALUATE = #{record.resEvaluate,jdbcType=TINYINT},
+        RES_EVALUATE = #{record.resEvaluate,jdbcType=INTEGER},
       </if>
       <if test="record.resEarnCurrency != null">
         RES_EARN_CURRENCY = #{record.resEarnCurrency,jdbcType=DOUBLE},
@@ -301,7 +301,7 @@
       RES_SERVICE_START_TIME = #{record.resServiceStartTime,jdbcType=TIMESTAMP},
       RES_SERVICE_END_TIME = #{record.resServiceEndTime,jdbcType=TIMESTAMP},
       RES_TYPE_GUID_PROCESS_STATUS = #{record.resTypeGuidProcessStatus,jdbcType=CHAR},
-      RES_EVALUATE = #{record.resEvaluate,jdbcType=TINYINT},
+      RES_EVALUATE = #{record.resEvaluate,jdbcType=INTEGER},
       RES_EARN_CURRENCY = #{record.resEarnCurrency,jdbcType=DOUBLE},
       RES_PROCESS_USER_GUID = #{record.resProcessUserGuid,jdbcType=CHAR}
     <if test="_parameter != null">
@@ -337,7 +337,7 @@
         RES_TYPE_GUID_PROCESS_STATUS = #{resTypeGuidProcessStatus,jdbcType=CHAR},
       </if>
       <if test="resEvaluate != null">
-        RES_EVALUATE = #{resEvaluate,jdbcType=TINYINT},
+        RES_EVALUATE = #{resEvaluate,jdbcType=INTEGER},
       </if>
       <if test="resEarnCurrency != null">
         RES_EARN_CURRENCY = #{resEarnCurrency,jdbcType=DOUBLE},
@@ -361,7 +361,7 @@
       RES_SERVICE_START_TIME = #{resServiceStartTime,jdbcType=TIMESTAMP},
       RES_SERVICE_END_TIME = #{resServiceEndTime,jdbcType=TIMESTAMP},
       RES_TYPE_GUID_PROCESS_STATUS = #{resTypeGuidProcessStatus,jdbcType=CHAR},
-      RES_EVALUATE = #{resEvaluate,jdbcType=TINYINT},
+      RES_EVALUATE = #{resEvaluate,jdbcType=INTEGER},
       RES_EARN_CURRENCY = #{resEarnCurrency,jdbcType=DOUBLE},
       RES_PROCESS_USER_GUID = #{resProcessUserGuid,jdbcType=CHAR}
     where RES_GUID = #{resGuid,jdbcType=CHAR}

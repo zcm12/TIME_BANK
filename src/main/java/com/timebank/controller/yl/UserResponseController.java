@@ -1,10 +1,7 @@
 package com.timebank.controller.yl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timebank.domain.*;
-import com.timebank.mapper.ReqestMapper;
-import com.timebank.mapper.RespondMapper;
-import com.timebank.mapper.TypeMapper;
-import com.timebank.mapper.UsersMapper;
+import com.timebank.mapper.*;
 import org.apache.catalina.mbeans.UserMBean;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -13,10 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class UserResponseController {
@@ -28,6 +23,8 @@ public class UserResponseController {
     private RespondMapper respondMapper;
     @Autowired
     private UsersMapper usersMapper;
+    @Autowired
+    private CommunityMapper communityMapper;
 
     private Users GetCurrentUsers(String message){
 
@@ -51,6 +48,7 @@ public class UserResponseController {
         }
         return users;
     }
+    /***********************************申请服务********************************************/
     //左边申请服务导航栏
     @RequestMapping(value = "/createApplyByUserView")
     public String userApply(Model model)
@@ -63,15 +61,35 @@ public class UserResponseController {
         model.addAttribute("role",role);
         return "applyViewOfVolunteer";
     }
+    /**
+     * 得到几天前的时间
+     */
+    public  Date getDateBefore(Date d,int day){
+        Calendar now =Calendar.getInstance();
+        now.setTime(d);
+        now.set(Calendar.DATE,now.get(Calendar.DATE)-day);
+        return now.getTime();
+    }
+
+    /**
+     * 得到几天后的时间
+     */
+    public  Date getDateAfter(Date d,int day){
+        Calendar now =Calendar.getInstance();
+        now.setTime(d);
+        now.set(Calendar.DATE,now.get(Calendar.DATE)+day);
+        return now.getTime();
+    }
+
     //申请服务 向后台数据库索要数据
     @RequestMapping(value="/getREQESTListJsonDataOfVol",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getJsonDataFromReqest(@RequestParam int offset, int limit, String sortName,String sortOrder){
+    public String getJsonDataFromReqest(@RequestParam int offset, int limit, String sortName,String sortOrder,Model model){
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
-//        model.addAttribute("role",role);
+        model.addAttribute("role",role);
 
         ReqestExample reqestExample=new ReqestExample();
         //处理排序信息
@@ -87,26 +105,34 @@ public class UserResponseController {
         String ownId = users11.getUserGuid().toLowerCase();
         for(Reqest re :reqests)
         {
-            String userId = re.getReqTargetsUserGuid();
-            if (userId==null||userId.length()==0)
-            {
-                //跳过
-            }else {
-                //拆分
-                String afterStep1 = userId.replace("\"","");
-                String afterStep2 = afterStep1.replace("[","");
-                String afterStep3 = afterStep2.replace("]","");
+            if(role.equals("USE")) {
+                String userId = re.getReqTargetsUserGuid();
+                if (userId == null || userId.length() == 0) {
+                    //跳过
+                } else {
+                    //拆分
+                    String afterStep1 = userId.replace("\"", "");
+                    String afterStep2 = afterStep1.replace("[", "");
+                    String afterStep3 = afterStep2.replace("]", "");
 
-                String[] afterSplit = afterStep3.split(",");
-                for (String after : afterSplit)
-                {
-                    //如果这个字段包含自己，那就在reqests中加上
-                    if (after.equals(ownId))
-                    {
-                        reqests1.add(re);
-                        break;
+                    String[] afterSplit = afterStep3.split(",");
+                    for (String after : afterSplit) {
+                        //如果这个字段包含自己，那就在reqests中加上
+                        if (after.equals(ownId)) {
+                            reqests1.add(re);
+                            break;
+                        }
                     }
                 }
+            }else if(role.equals("Tourist")){
+                //遍历三天以内发布的请求
+                 Date time=re.getReqIssueTime();
+                 Date date=new Date();
+               Date beforeDate=getDateBefore(date,3);
+                 if(time.after(beforeDate)){
+                     System.out.println(beforeDate);
+                     reqests1.add(re);
+                 }
             }
         }
         List<Reqest> reqestRecordList=new ArrayList<>();
@@ -181,6 +207,7 @@ public class UserResponseController {
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
+
         //TODO 根据传递过来的reqGuid
         Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid);
         //处理紧急状态
@@ -193,6 +220,7 @@ public class UserResponseController {
         reqest.setReqTypeGuidClass(type1.getTypeTitle());
         model.addAttribute("reqest",reqest);
         return "detailsViewOfVolunteer";
+
     }
 
 //    @RequestMapping(value = "/viewREQESTOfUser/{reqGuid}")
@@ -231,7 +259,7 @@ public class UserResponseController {
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
-
+        if(role.equals("USE")){
         UUID guid = UUID.randomUUID();
         respond.setResGuid(guid.toString());
         respond.setResReqGuid(reqest.getReqGuid());
@@ -246,7 +274,23 @@ public class UserResponseController {
         respond.setResTypeGuidProcessStatus("88888888-94e3-4eb7-aad3-111111111111");
         respondMapper.insert(respond);
         return "responseOfVolunteer";
+        }else{
+            //所属小区
+            CommunityExample communityExample = new CommunityExample();
+            List<Community> communities = communityMapper.selectByExample(communityExample);
+            model.addAttribute("communities",communities);
+            model.addAttribute("users",users11);
+            //加载性别
+            TypeExample typeExample = new TypeExample();
+            typeExample.or().andTypeGroupIdEqualTo(1);
+            List<Type> types = typeMapper.selectByExample(typeExample);
+            model.addAttribute("types",types);
+            model.addAttribute("users", users11);
+            model.addAttribute("message","请先完善个人信息");
+            return "updateUserInformation";
+        }
     }
+    /****************************我的服务****************************************************/
     //导航栏左边查看服务列表（查看已经申请了的请求）
     @RequestMapping(value = "/applyListByUserView")
     public String applyListByUserView(Model model)

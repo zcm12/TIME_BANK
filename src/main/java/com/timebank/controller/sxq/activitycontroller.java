@@ -172,6 +172,7 @@ public class activitycontroller {
         String role=users.getUserRole();
         System.out.println("这是产看所有活动"+role);
         model.addAttribute("role",role);
+        String guid=users.getUserGuid();
         if (searchText == "") {
             searchText = null;
         }
@@ -213,12 +214,19 @@ public class activitycontroller {
         if (button.equals("8")) {
             activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94e3-4eb7-aad3-777777777777");
         }
+
+////        ActivityExample activityExample1=new ActivityExample();
+//        activityExample.or().andActivityProcessUserGuidEqualTo(guid);
+
+
+
         List<Activity> activities = activityMapper.selectByExample(activityExample);
         List<Activity> activityRecordList = new ArrayList<Activity>();
         for (int i = offset; i < offset + limit && i < activities.size(); i++) {
 
             Activity act = activities.get(i);
-
+            //先判断是不是自己为处理人的活动
+            if(act.getActivityProcessUserGuid().equals(guid)) {
             //活动处理人
             String processUserId = act.getActivityProcessUserGuid();
             UsersExample usersExample1 = new UsersExample();
@@ -244,7 +252,7 @@ public class activitycontroller {
             // 把接收者的Id换成名字显示在页面
 
             String reqtargetusers = act.getActivityTargetsUserGuid();//能够得到每条记录的guid
-            if(reqtargetusers!="[]") {
+            if (reqtargetusers != "[]") {
                 String sb1 = IdtoName(reqtargetusers);
                 act.setActivityTargetsUserGuid(sb1);
             }
@@ -259,6 +267,7 @@ public class activitycontroller {
             } else {
                 activityRecordList.add(act);
             }
+         }
         }
 
         //全部符合要求的数据的数量
@@ -728,7 +737,10 @@ public class activitycontroller {
         Users users=GetCurrentUsers(message);
         String role=users.getUserRole();
         model.addAttribute("role",role);
-
+        String guid=users.getUserGuid();
+//        //得到此条活动的processGuid  判断是否与actpart一样
+//        Activity activity=activityMapper.selectByPrimaryKey(activityid);
+//        String actProcessGuid=activity.getActivityProcessUserGuid();
         if (searchText == "") {
             searchText = null;
         }
@@ -744,7 +756,7 @@ public class activitycontroller {
             //将排序信息添加到example中 此处表示先按sortName排序   再按asc（从小到大）排序
             activityExample.setOrderByClause(order);
         }
-
+        //判断是否已完成
         activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94E3-4EB7-AAD3-444444444444");
 
 
@@ -754,42 +766,43 @@ public class activitycontroller {
 
 
             Activity act1 = activities.get(i);
+            if(act1.getActivityProcessUserGuid().equals(guid)) {
+                //活动处理人
+                String processUserId = act1.getActivityProcessUserGuid();
 
-            //活动处理人
-            String processUserId = act1.getActivityProcessUserGuid();
+                UsersExample usersExample3 = new UsersExample();
+                usersExample3.or().andUserGuidEqualTo(processUserId);
+                List<Users> processuser = usersMapper.selectByExample(usersExample3);
+                act1.setActivityProcessUserGuid(processuser.get(0).getUserAccount());
 
-            UsersExample usersExample3 = new UsersExample();
-            usersExample3.or().andUserGuidEqualTo(processUserId);
-            List<Users> processuser = usersMapper.selectByExample(usersExample3);
-            act1.setActivityProcessUserGuid(processuser.get(0).getUserAccount());
+                //活动小区
+                String activityComm = act1.getActivityFromCommGuid();
+                CommunityExample communityExample = new CommunityExample();
+                communityExample.or().andCommGuidEqualTo(activityComm);
+                List<Community> comm = communityMapper.selectByExample(communityExample);
+                act1.setActivityFromCommGuid(comm.get(0).getCommTitle());
 
-            //活动小区
-            String activityComm = act1.getActivityFromCommGuid();
-            CommunityExample communityExample = new CommunityExample();
-            communityExample.or().andCommGuidEqualTo(activityComm);
-            List<Community> comm = communityMapper.selectByExample(communityExample);
-            act1.setActivityFromCommGuid(comm.get(0).getCommTitle());
-
-            //活动处理状态
-            String processStatus = act1.getActivityTypeProcessStatus();
-            TypeExample typeExample = new TypeExample();
-            typeExample.or().andTypeGuidEqualTo(processStatus);
-            List<Type> processStatusType = typeMapper.selectByExample(typeExample);
-            act1.setActivityTypeProcessStatus(processStatusType.get(0).getTypeTitle());
-            //处理名字
-            String reqtargetusers = act1.getActivityTargetsUserGuid();//能够得到每条记录的guid
-            String sb1 = IdtoName(reqtargetusers);
-            act1.setActivityTargetsUserGuid(sb1);
-            if (searchText != null) {
-                String activityId = act1.getActivityGuid();
-                String activityTile = act1.getActivityTitle();
-                String activityDes = act1.getActivityDesp();
-                String activityCom = act1.getActivityComment();
-                if (activityId.contains(searchText) || activityTile.contains(searchText) || activityDes.contains(searchText) || activityCom.contains(searchText)) {
+                //活动处理状态
+                String processStatus = act1.getActivityTypeProcessStatus();
+                TypeExample typeExample = new TypeExample();
+                typeExample.or().andTypeGuidEqualTo(processStatus);
+                List<Type> processStatusType = typeMapper.selectByExample(typeExample);
+                act1.setActivityTypeProcessStatus(processStatusType.get(0).getTypeTitle());
+                //处理名字
+                String reqtargetusers = act1.getActivityTargetsUserGuid();//能够得到每条记录的guid
+                String sb1 = IdtoName(reqtargetusers);
+                act1.setActivityTargetsUserGuid(sb1);
+                if (searchText != null) {
+                    String activityId = act1.getActivityGuid();
+                    String activityTile = act1.getActivityTitle();
+                    String activityDes = act1.getActivityDesp();
+                    String activityCom = act1.getActivityComment();
+                    if (activityId.contains(searchText) || activityTile.contains(searchText) || activityDes.contains(searchText) || activityCom.contains(searchText)) {
+                        activityRecordList.add(act1);
+                    }
+                } else {
                     activityRecordList.add(act1);
                 }
-            } else {
-                activityRecordList.add(act1);
             }
         }
 
@@ -831,9 +844,11 @@ public class activitycontroller {
         model.addAttribute("role",role);
 
 
-        ActivityExample activityExample = new ActivityExample();
+
+
+
         UsersExample usersExample1 = new UsersExample();
-        RoleExample roleExample = new RoleExample();
+
         TypeExample typeExample = new TypeExample();
         CommunityExample communityExample = new CommunityExample();
         ActpartExample actpartExample = new ActpartExample();
@@ -849,6 +864,7 @@ public class activitycontroller {
         actpartExample.or().andActpartActivityGuidEqualTo(activityid);
         List<Actpart> actparts=actpartMapper.selectByExample(actpartExample);
         for(Actpart it:actparts){
+            //判断actpart中此人是否已被删除  88888888-94E3-4EB7-AAD3-111111111111 通过
             if(it.getAcpartTypeGuidProcessStatus().equals("88888888-94E3-4EB7-AAD3-111111111111")) {
                 String usersguid = it.getActpartUserGuid();
                 Users user = usersMapper.selectByPrimaryKey(usersguid);

@@ -68,13 +68,28 @@ public class ShiroConfiguration {
         filterFactoryBean.setUnauthorizedUrl("/fail.html");
         // 配置访问权限
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        //注册，登录界面引入文件
+        filterChainDefinitionMap.put("/bootstrap-3.3.7-dist/**","anon");
+        filterChainDefinitionMap.put("/bootstrapvalidator-0.4.5/**","anon");
+        filterChainDefinitionMap.put("/jquery-3.1.1/**","anon");
+        filterChainDefinitionMap.put("/bootstrap-3.3.7-dist/**","anon");
+        filterChainDefinitionMap.put("/bootstrapvalidator-0.4.5/**","anon");
+        //测试上传图片
+        filterChainDefinitionMap.put("/wzd","anon");
+        filterChainDefinitionMap.put("D","anon");
+
+
+
+
         filterChainDefinitionMap.put("/css/**","anon");
         filterChainDefinitionMap.put("/fonts/**","anon");
         filterChainDefinitionMap.put("/jquery/**","anon");
+
         filterChainDefinitionMap.put("/js/**","anon");
         filterChainDefinitionMap.put("/img/**","anon");
         filterChainDefinitionMap.put("/loginUser","anon");
         filterChainDefinitionMap.put("/appLoginUser","anon");
+        filterChainDefinitionMap.put("/agreementAdress","anon");
         filterChainDefinitionMap.put("/","anon");
         filterChainDefinitionMap.put("/register","anon");
         filterChainDefinitionMap.put("/registerUser","anon");

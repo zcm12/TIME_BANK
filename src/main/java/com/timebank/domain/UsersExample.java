@@ -1801,6 +1801,146 @@ public class UsersExample {
             addCriterionForJDBCDate("USER_BIRTHDATE not between", value1, value2, "userBirthdate");
             return (Criteria) this;
         }
+
+        public Criteria andUserIdimageZIsNull() {
+            addCriterion("USER_IDIMAGE_Z is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZIsNotNull() {
+            addCriterion("USER_IDIMAGE_Z is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZEqualTo(String value) {
+            addCriterion("USER_IDIMAGE_Z =", value, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZNotEqualTo(String value) {
+            addCriterion("USER_IDIMAGE_Z <>", value, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZGreaterThan(String value) {
+            addCriterion("USER_IDIMAGE_Z >", value, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZGreaterThanOrEqualTo(String value) {
+            addCriterion("USER_IDIMAGE_Z >=", value, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZLessThan(String value) {
+            addCriterion("USER_IDIMAGE_Z <", value, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZLessThanOrEqualTo(String value) {
+            addCriterion("USER_IDIMAGE_Z <=", value, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZLike(String value) {
+            addCriterion("USER_IDIMAGE_Z like", value, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZNotLike(String value) {
+            addCriterion("USER_IDIMAGE_Z not like", value, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZIn(List<String> values) {
+            addCriterion("USER_IDIMAGE_Z in", values, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZNotIn(List<String> values) {
+            addCriterion("USER_IDIMAGE_Z not in", values, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZBetween(String value1, String value2) {
+            addCriterion("USER_IDIMAGE_Z between", value1, value2, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageZNotBetween(String value1, String value2) {
+            addCriterion("USER_IDIMAGE_Z not between", value1, value2, "userIdimageZ");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFIsNull() {
+            addCriterion("USER_IDIMAGE_F is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFIsNotNull() {
+            addCriterion("USER_IDIMAGE_F is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFEqualTo(String value) {
+            addCriterion("USER_IDIMAGE_F =", value, "userIdimageF");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFNotEqualTo(String value) {
+            addCriterion("USER_IDIMAGE_F <>", value, "userIdimageF");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFGreaterThan(String value) {
+            addCriterion("USER_IDIMAGE_F >", value, "userIdimageF");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFGreaterThanOrEqualTo(String value) {
+            addCriterion("USER_IDIMAGE_F >=", value, "userIdimageF");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFLessThan(String value) {
+            addCriterion("USER_IDIMAGE_F <", value, "userIdimageF");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFLessThanOrEqualTo(String value) {
+            addCriterion("USER_IDIMAGE_F <=", value, "userIdimageF");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFLike(String value) {
+            addCriterion("USER_IDIMAGE_F like", value, "userIdimageF");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFNotLike(String value) {
+            addCriterion("USER_IDIMAGE_F not like", value, "userIdimageF");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFIn(List<String> values) {
+            addCriterion("USER_IDIMAGE_F in", values, "userIdimageF");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFNotIn(List<String> values) {
+            addCriterion("USER_IDIMAGE_F not in", values, "userIdimageF");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFBetween(String value1, String value2) {
+            addCriterion("USER_IDIMAGE_F between", value1, value2, "userIdimageF");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageFNotBetween(String value1, String value2) {
+            addCriterion("USER_IDIMAGE_F not between", value1, value2, "userIdimageF");
+            return (Criteria) this;
+        }
     }
 
     /**

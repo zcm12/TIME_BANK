@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>标题</title>
-    <script type="text/javascript" src="/jquery/jquery-3.2.1.min.js"></script>
+    <title>登录</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css"  />
+    <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#Form').bootstrapValidator({
@@ -33,9 +36,9 @@
                             }
                         }
                     },
-                    submitHandler: function (validator, form, submitButton) {
-                        alert("submit");
-                    }
+//                    submitHandler: function (validator, form, submitButton) {
+//                        alert("submit");
+//                    }
                 }
             })
 
@@ -44,9 +47,9 @@
 </head>
 <body>
 
-<form action="/loginUser" method="post">
+<form id="Form" name="Form" action="/loginUser" method="post">
     <div class="form-group">
-        <label for="userAccount">用户名</label>
+        <label for="userAccount">账户名</label>
         <input name="userAccount" type="text" class="form-control" id="userAccount" placeholder="userAccount"/>
     </div>
     <div class="form-group">
@@ -58,5 +61,6 @@
 <div>
     <a class="btn btn-default" href="/register">注册</a>
 </div>
+
 </body>
 </html>

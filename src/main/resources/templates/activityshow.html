@@ -266,7 +266,7 @@
                                 <label class="control-label col-lg-3" for="activityTitle">活动标题：</label>
                                 <div class="col-lg-9">
                                     <input id="activityTitle" name="activityTitle" type="text" class="form-control"
-                                           placeholder="录入活动标题"
+                                           placeholder="录入活动标题"  disabled="disabled"
                                            th:value="${activity.activityTitle}" maxlength="50" minlength="5"/>
                                 </div>
                             </div>
@@ -274,7 +274,7 @@
                                 <label class="control-label col-lg-3" for="activityDesp">活动描述：</label>
                                 <div class="col-lg-9">
 									<textarea rows="5" id="activityDesp" name="activityDesp" class="form-control"
-                                              placeholder="录入活动描述"
+                                              placeholder="录入活动描述"  disabled="disabled"
                                               th:text="${activity.activityDesp}">
                                     </textarea>
                                 </div>
@@ -283,7 +283,7 @@
                                 <label class="control-label col-lg-3" for="activityComment">活动备注：</label>
                                 <div class="col-lg-9">
 									<textarea rows="5" id="activityComment" name="activityComment" class="form-control"
-                                              placeholder="录入活动备注"
+                                              placeholder="录入活动备注"  disabled="disabled"
                                               th:text="${activity.activityComment}">
                                     </textarea>
                                 </div>
@@ -292,7 +292,7 @@
                                 <label class="control-label col-lg-3" for="activityStartTime">设定开始时间：</label>
                                 <div class="col-lg-9">
                                     <input id="activityStartTime" name="activityStartTime"
-                                           class="form_datetime form-control" type="text" placeholder="录入开始时间"
+                                           class="form_datetime form-control" type="text" placeholder="录入开始时间"  disabled="disabled"
                                            th:value="${#calendars.format(activity.activityStartTime , 'yyyy-MM-dd HH:mm:ss')}"/>
                                 </div>
                             </div>
@@ -300,7 +300,7 @@
                                 <label class="control-label col-lg-3" for="activityEndTime">设定结束时间：</label>
                                 <div class="col-lg-9">
                                     <input id="activityEndTime" name="activityEndTime"
-                                           class="form_datetime form-control" type="text" placeholder="录入结束时间"
+                                           class="form_datetime form-control" type="text" placeholder="录入结束时间"  disabled="disabled"
                                            th:value="${#calendars.format(activity.activityEndTime , 'yyyy-MM-dd HH:mm:ss')}"/>
                                 </div>
                             </div>
@@ -308,7 +308,7 @@
                                 <label class="control-label col-lg-3" for="activityProcessUserGuid">活动处理人：</label>
                                 <div class="col-lg-9">
                                     <input id="activityProcessUserGuid" name="activityProcessUserGuid" type="text"
-                                           class="form-control" placeholder="录入活动处理人"
+                                           class="form-control" placeholder="录入活动处理人"  disabled="disabled"
                                            th:value="${activity.activityProcessUserGuid}"/>
                                 </div>
                             </div>
@@ -316,7 +316,7 @@
                                 <label class="control-label col-lg-3" for="activityAddress">活动地点：</label>
                                 <div class="col-lg-9">
                                     <input id="activityAddress" name="activityAddress" type="text" class="form-control"
-                                           placeholder="录入活动地点"
+                                           placeholder="录入活动地点"  disabled="disabled"
                                            th:value="${activity.activityAddress}" maxlength="50" minlength="5"/>
                                 </div>
                             </div>
@@ -330,7 +330,7 @@
 
                                     <!--</select>-->
                                     <input id="activityTypeProcessStatus" name="activityTypeProcessStatus"
-                                           class="form-control"
+                                           class="form-control"  disabled="disabled"
                                            th:value="${activity.activityTypeProcessStatus}">
                                     </input>
                                 </div>
@@ -366,7 +366,7 @@
                                 <label class="control-label col-lg-3" for="activityPersonNum">需要人数：</label>
                                 <div class="col-lg-9">
                                     <input id="activityPersonNum" name="activityPersonNum" type="text"
-                                           class="form-control" placeholder="录入需要人数"
+                                           class="form-control" placeholder="录入需要人数"  disabled="disabled"
                                            th:value="${activity.activityPersonNum}"/>
                                 </div>
                             </div>

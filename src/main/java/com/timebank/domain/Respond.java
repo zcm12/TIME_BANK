@@ -82,7 +82,7 @@ public class Respond {
      *
      * @mbg.generated
      */
-    private int resEvaluate;
+    private Integer resEvaluate;
 
     /**
      *
@@ -314,7 +314,7 @@ public class Respond {
      *
      * @mbg.generated
      */
-    public void setResEvaluate(int resEvaluate) {
+    public void setResEvaluate(Integer resEvaluate) {
         this.resEvaluate = resEvaluate;
     }
 

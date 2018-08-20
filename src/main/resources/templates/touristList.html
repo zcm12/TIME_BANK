@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="basepage :: common_header(~{::title},~{::script})">
-    <title>游客列表</title>
-    <!--<script th:inline="javascript">-->
-        <!--var button = [[${buttonid}]];-->
-        <!--console.log(button);-->
-    <!--</script>-->
+    <title>列表</title>
+    <script th:inline="javascript">
+        var num = [[${num}]];
+
+    </script>
     <script type="text/javascript">
+
         $(document).ready(function() {
             function changeDateFormat(cellval) {
                 var dateVal = cellval + "";
@@ -107,6 +108,7 @@
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
 //                        button:button
+                        num:num,
                     };
                     return limitApply;
                 },//传递参数

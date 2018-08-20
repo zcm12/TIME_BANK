@@ -84,33 +84,33 @@ public class MainController {
                 return "fail";
             }
             //根据角色不同  跳往不同界面 游客
-            if (subject.hasRole("Tourist")) {
-                model.addAttribute("role", "Tourist");
-                System.out.println("走这里");
-                UsersExample usersExample = new UsersExample();
-                usersExample.or().andUserAccountEqualTo(userName);
-                List<Users> users1 = usersMapper.selectByExample(usersExample);
-                Users users2 = users1.get(0);
-                if (users2.getUserTypeGuidGender() != null) {
-                    //处理性别
-                    Type type = typeMapper.selectByPrimaryKey(users2.getUserTypeGuidGender());
-                    users2.setUserTypeGuidGender(type.getTypeTitle());
-                }
-                if (users2.getUserTypeAccountStatus() != null) {
-                    //用户状态
-                    Type type1 = typeMapper.selectByPrimaryKey(users2.getUserTypeAccountStatus());
-                    users2.setUserTypeAccountStatus(type1.getTypeTitle());
-                }
-                if (users2.getUserCommGuid() != null) {
-                    //所属小区
-                    Community community = communityMapper.selectByPrimaryKey(users2.getUserCommGuid());
-                    users2.setUserCommGuid(community.getCommTitle());
-                }
-                model.addAttribute("users", users2);
-                return "TouristInformationview";
-            }
+//            if (subject.hasRole("Tourist")) {
+//                model.addAttribute("role", "Tourist");
+//                System.out.println("走这里");
+//                UsersExample usersExample = new UsersExample();
+//                usersExample.or().andUserAccountEqualTo(userName);
+//                List<Users> users1 = usersMapper.selectByExample(usersExample);
+//                Users users2 = users1.get(0);
+//                if (users2.getUserTypeGuidGender() != null) {
+//                    //处理性别
+//                    Type type = typeMapper.selectByPrimaryKey(users2.getUserTypeGuidGender());
+//                    users2.setUserTypeGuidGender(type.getTypeTitle());
+//                }
+//                if (users2.getUserTypeAccountStatus() != null) {
+//                    //用户状态
+//                    Type type1 = typeMapper.selectByPrimaryKey(users2.getUserTypeAccountStatus());
+//                    users2.setUserTypeAccountStatus(type1.getTypeTitle());
+//                }
+//                if (users2.getUserCommGuid() != null) {
+//                    //所属小区
+//                    Community community = communityMapper.selectByPrimaryKey(users2.getUserCommGuid());
+//                    users2.setUserCommGuid(community.getCommTitle());
+//                }
+//                model.addAttribute("users", users2);
+//                return "TouristInformationview";
+//            }
             //用户
-            if (subject.hasRole("USE")) {
+            if (subject.hasRole("USE")||subject.hasRole("Tourist")) {
                 model.addAttribute("role", "USE");
                 //处理当前用户的个人信息  Subject account = SecurityUtils.getSubject();
                 UsersExample usersExample11=new UsersExample();
@@ -200,39 +200,48 @@ public class MainController {
         Users uu = usersMapper.selectByPrimaryKey(users.getUserGuid());
         uu.setUserOwnCurrency(0d);
         uu.setUserTypeAccountStatus("22222222-94e3-4eb7-aad3-111111111111");
+        uu.setUserRole("Tourist");
         usersMapper.updateByPrimaryKeySelective(uu);
         return "index";
     }
-    //用户名重名校验
-    @RequestMapping(value = "/jquery/exist2.do")
-    @ResponseBody
-    public String checkUserAccount1(String userName){
-        System.out.println(11111);
-        //遍历数据库 查找是否有账号
-        UsersExample usersExample=new UsersExample();
-        List<Users> users=usersMapper.selectByExample(usersExample);
-        boolean result = true;
-        Map<String, Boolean> map = new HashMap<>();
-        for(Users it:users){
-            if(it.getUserName()!=null&&it.getUserName().equals(userName)){
-                result=false;
-            }
-        }
-        System.out.println(userName);
-        map.put("valid", result);
-        ObjectMapper mapper = new ObjectMapper();
-        String resultString = "";
-        try {
-            //将对象转换成json数组  这里是将map<>对象转换成json
-            resultString = mapper.writeValueAsString(map);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        System.out.println(resultString);
-        return resultString;
+    //注册界面中的协议地址
+    @RequestMapping(value="/agreementAdress")
+    public  String agreementAdres(){
+        System.out.println("zouzou");
+        return "agreement";
     }
+//    //用户名重名校验
+//    @RequestMapping(value = "/jquery/exist2.do")
+//    @ResponseBody
+//    public String checkUserAccount1(String userName){
+//        System.out.println(11111);
+//        //遍历数据库 查找是否有账号
+//        UsersExample usersExample=new UsersExample();
+//        List<Users> users=usersMapper.selectByExample(usersExample);
+//        boolean result = true;
+//        Map<String, Boolean> map = new HashMap<>();
+//        for(Users it:users){
+//            if(it.getUserName()!=null&&it.getUserName().equals(userName)){
+//                result=false;
+//            }
+//        }
+//        System.out.println(userName);
+//        map.put("valid", result);
+//        ObjectMapper mapper = new ObjectMapper();
+//        String resultString = "";
+//        try {
+//            //将对象转换成json数组  这里是将map<>对象转换成json
+//            resultString = mapper.writeValueAsString(map);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(resultString);
+//        return resultString;
+//    }
+
     //账号名重名校验
     @RequestMapping(value = "/jquery/exist.do")
+//    @RequestMapping(value = "/jquery/exist/{userAccount}")
     @ResponseBody
     public String checkUserAccount(String userAccount){
         System.out.println(2222);

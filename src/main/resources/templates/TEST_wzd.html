@@ -1,0 +1,256 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>测试</title>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--<form class="container" enctype="multipart/form-data" method="post" id='formBox' name="form">-->
+    <!--<input type="file" id="chooseImage" name="file">-->
+    <!--&lt;!&ndash; 保存用户自定义的背景图片 &ndash;&gt;-->
+    <!--&lt;!&ndash;<img id="cropedBigImg" value='custom' alt="lorem ipsum dolor sit" data-address='' title="自定义背景"/>&ndash;&gt;-->
+<!--</form>-->
+<!--<script type="text/javascript">-->
+    <!--$('#chooseImage').on('change',function(){-->
+        <!--var filePath = $(this).val(),         //获取到input的value，里面是文件的路径-->
+            <!--fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),-->
+            <!--src = window.URL.createObjectURL(this.files[0]); //转成可以在本地预览的格式-->
+
+        <!--// 检查是否是图片-->
+        <!--if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {-->
+            <!--error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');-->
+            <!--return;-->
+        <!--}-->
+
+        <!--$('#cropedBigImg').attr('src',src);-->
+    <!--});-->
+
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>图片生成</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            list-style: none;
+        }
+
+        body {
+            font-size: 12px;
+            font-family: Arial, Verdana;
+            color: #fff;
+            font-weight: 100;
+            cursor: default;
+            background:#FFFFFF;
+            min-width:320px;
+        }
+        textarea,select,input[type="text"],input[type="button"], input[type="submit"], input[type="reset"] {
+            -webkit-appearance: none;
+            appearance:none;
+            outline:none;
+            -webkit-tap-highlight-color:rgba(0,0,0,0);
+            border-radius:0;
+            background: none;
+        }
+        .head1{
+            width:100%;
+            height:50px;
+            line-height:50px;
+            color:#323232;
+            background:#F7F7F7;
+            text-align:center;
+            font-family:"微软雅黑";
+            border-bottom:5px solid #EFEFEF;
+        }
+        .cancel{
+            width:50px;
+            height:50px;
+            color:#989898;
+            position:absolute;
+        }
+        .save_btn{
+            margin:20px auto;
+            border:none;
+            height:40px;
+            width:95%;
+            background:#ce1b1b!important;
+            border-radius:3px!important;
+            font-family:"微软雅黑";
+            font-size:16px;
+            color:white;
+            line-height:40px;
+        }
+        .info_list{
+            width:100%;
+            height:50px;
+            border-bottom:1px solid #F2F2F2;
+        }
+        .list_left{
+            width:27%;
+            margin-left:3%;
+            height:50px;
+            font-family:"微软雅黑";
+            font-size:16px;
+            color:#636363;
+            line-height:50px;
+            float:left;
+        }
+        .list_left2{
+            width:97%;
+            margin-left:3%;
+            height:50px;
+            font-family:"微软雅黑";
+            font-size:16px;
+            color:#636363;
+            line-height:50px;
+            float:left;
+        }
+        .list_left2 span{
+            color:#A04E52;
+            font-size:12px;
+            margin-left:5px;
+        }
+        .list_right{
+            width:65%;
+            margin-right:3%;
+            height:50px;
+
+            color:#636363;
+            line-height:50px;
+            float:right;
+        }
+        .edit{
+            width:100%;
+            height:50px;
+            color:#898989;
+            font-family:"微软雅黑";
+            font-size:16px;
+            border:none;
+        }
+        .id_img_wp{
+            width:94%;
+            margin:0 auto;
+            min-height:30px;
+        }
+        .img_wp{
+            width:40%;
+            margin:0 5% 0 5%;
+            float:left;
+            cursor:pointer;
+        }
+        .img_wp img{
+            width:100%;
+            height:100%;
+        }
+        .img_intro{
+            color:#383838;
+            text-align:center;
+            font-family:"微软雅黑";
+            padding:10px 0 10px 0;
+        }
+        .cf{
+            clear:both;
+        }
+    </style>
+    <script src="/jquery-3.1.1/jquery-3.1.1.js"></script>
+</head>
+<body>
+<div class="head1">
+    <div class="cancel"></div>
+    购直销权
+</div>
+<form action="/css/tj" onsubmit="return checkForm()" method="post" enctype="multipart/form-data">
+    <div class="info_list" style="border-bottom:none;">
+        <div class="list_left2">身份证上传<span>(请上传身份证正反面，图片保持清晰)</span></div>
+    </div>
+    <div class="id_img_wp">
+        <input type="file" accept="image/*" onchange="getzImg(this)" style="display:none" value="" id="img_z" name="img_z"/>
+        <input type="file" accept="image/*" onchange="getfImg(this)" value="" id="img_f" style="display:none"/>
+        <div class="img_wp" onclick="zhengmian()">
+            <img src="/img/qie.jpg" id="zmz" name="tupian" />
+            <p class="img_intro">身份证正面照</p>
+        </div>
+
+        <div class="img_wp" onclick="fanmian()">
+            <img src="/img/qie.jpg" id="fmz"/>
+            <p class="img_intro">身份证反面照</p>
+        </div>
+        <div class="cf"></div>
+    </div>
+    <p style="text-align:center;">
+        <input type="submit" value="确认申请" class="save_btn"/>
+    </p>
+</form>
+
+<script>
+
+
+
+    $(function(){
+        $('.img_wp img').height($('.img_wp img').width()*0.6);
+        $(window).resize(function(){
+            $('.img_wp img').height($('.img_wp img').width()*0.6);
+        })
+    })
+    //正面
+    function zhengmian(){
+        $('#img_z').click();
+    }
+    function getzImg(imgFile){
+        var file = imgFile.files[0];
+//        alert(11);
+//        //获取上传图片的位置
+//        var filePath=document.getElementById("img_z").value;
+//        alert(filePath);
+//        alert(22);
+        var reader = new FileReader();
+        reader.readAsDataURL(file);//将文件读取为Data URL小文件   这里的小文件通常是指图像与 html 等格式的文件
+        reader.onload = function(e){
+            $("#zmz").attr("src",e.target.result);
+        }
+    }
+
+    //反面
+    function fanmian(){
+        $('#img_f').click();
+    }
+    function getfImg(imgFile){
+
+        var file = imgFile.files[0];
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e){
+            $("#fmz").attr("src",e.target.result);
+        }
+    }
+    //申请
+    function checkForm(){
+        if($('#img_z').val()==null||$('#img_z').val()==''){
+            alert('请上传身份证正面照！');
+            return false;
+        }
+        if($('#img_f').val()==null||$('#img_f').val()==''){
+            alert('请上传身份证反面照！');
+            return false;
+        }
+        //提交表单
+    }
+</script>
+</body>
+</html>

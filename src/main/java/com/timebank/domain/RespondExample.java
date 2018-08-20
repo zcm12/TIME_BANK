@@ -735,52 +735,52 @@ public class RespondExample {
             return (Criteria) this;
         }
 
-        public Criteria andResEvaluateEqualTo(Byte value) {
+        public Criteria andResEvaluateEqualTo(Integer value) {
             addCriterion("RES_EVALUATE =", value, "resEvaluate");
             return (Criteria) this;
         }
 
-        public Criteria andResEvaluateNotEqualTo(Byte value) {
+        public Criteria andResEvaluateNotEqualTo(Integer value) {
             addCriterion("RES_EVALUATE <>", value, "resEvaluate");
             return (Criteria) this;
         }
 
-        public Criteria andResEvaluateGreaterThan(Byte value) {
+        public Criteria andResEvaluateGreaterThan(Integer value) {
             addCriterion("RES_EVALUATE >", value, "resEvaluate");
             return (Criteria) this;
         }
 
-        public Criteria andResEvaluateGreaterThanOrEqualTo(Byte value) {
+        public Criteria andResEvaluateGreaterThanOrEqualTo(Integer value) {
             addCriterion("RES_EVALUATE >=", value, "resEvaluate");
             return (Criteria) this;
         }
 
-        public Criteria andResEvaluateLessThan(Byte value) {
+        public Criteria andResEvaluateLessThan(Integer value) {
             addCriterion("RES_EVALUATE <", value, "resEvaluate");
             return (Criteria) this;
         }
 
-        public Criteria andResEvaluateLessThanOrEqualTo(Byte value) {
+        public Criteria andResEvaluateLessThanOrEqualTo(Integer value) {
             addCriterion("RES_EVALUATE <=", value, "resEvaluate");
             return (Criteria) this;
         }
 
-        public Criteria andResEvaluateIn(List<Byte> values) {
+        public Criteria andResEvaluateIn(List<Integer> values) {
             addCriterion("RES_EVALUATE in", values, "resEvaluate");
             return (Criteria) this;
         }
 
-        public Criteria andResEvaluateNotIn(List<Byte> values) {
+        public Criteria andResEvaluateNotIn(List<Integer> values) {
             addCriterion("RES_EVALUATE not in", values, "resEvaluate");
             return (Criteria) this;
         }
 
-        public Criteria andResEvaluateBetween(Byte value1, Byte value2) {
+        public Criteria andResEvaluateBetween(Integer value1, Integer value2) {
             addCriterion("RES_EVALUATE between", value1, value2, "resEvaluate");
             return (Criteria) this;
         }
 
-        public Criteria andResEvaluateNotBetween(Byte value1, Byte value2) {
+        public Criteria andResEvaluateNotBetween(Integer value1, Integer value2) {
             addCriterion("RES_EVALUATE not between", value1, value2, "resEvaluate");
             return (Criteria) this;
         }

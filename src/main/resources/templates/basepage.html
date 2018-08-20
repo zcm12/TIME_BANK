@@ -90,7 +90,9 @@
                         <div id="panel-element-640833" class="panel-collapse in" th:if="${role} == 'MADMIN'">
                             <div class="panel-body">
                                 <ul id="systemSetting2" class="nav nav-pills nav-stacked" >
-                                    <li><a th:href="@{/createUserRole}"><i class="glyphicon glyphicon-user"></i> 审核用户角色</a></li>
+                                    <li><a th:href="@{/createUserRole/1}"><i class="glyphicon glyphicon-user"></i> 游客列表</a></li>
+                                    <li><a th:href="@{/createUserRole/2}"><i class="glyphicon glyphicon-user"></i> 用户列表</a></li>
+                                    <li><a th:href="@{/createUserRole/3}"><i class="glyphicon glyphicon-user"></i> 审核列表</a></li>
                                     <li><a th:href="@{/publishactivity}"><i class="glyphicon glyphicon-edit"></i> 发布活动</a></li>
                                     <li><a th:href="@{/activitylist/1}"><i class="glyphicon glyphicon-th-list"></i> 查看所有活动</a></li>
                                     <li><a th:href="@{/activitylist/2}"><i class="glyphicon glyphicon-th-list"></i> 查看未启动活动</a></li>
@@ -115,15 +117,15 @@
                                     <li><a th:href="@{/mybank}"><i class="glyphicon glyphicon-user"></i> 查看地图</a></li>
                                     <li><a th:href="@{/userInformationView}"><i class="glyphicon glyphicon-user"></i> 查看个人信息</a></li>
                                     <li><a th:href="@{/modifyUserInformationView}"><i class="glyphicon glyphicon-user"></i> 完善个人信息</a></li>
-                                    <li><a th:href="@{/createRequestByUserView}"><i class="glyphicon glyphicon-th-list"></i> 发布请求</a></li>
-                                    <li><a th:href="@{/requestListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 查看请求列表</a></li>
+                                    <li><a th:href="@{/createRequestByUserView}"><i class="glyphicon glyphicon-th-list"></i> 发布需求</a></li>
+                                    <li><a th:href="@{/requestListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的需求</a></li>
                                     <li><a th:href="@{/createApplyByUserView}"><i class="glyphicon glyphicon-th-list"></i> 申请服务</a></li>
-                                    <li><a th:href="@{/applyListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 查看服务列表</a></li>
+                                    <li><a th:href="@{/applyListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的服务</a></li>
                                     <li><a th:href="@{/createActivityByUserView}"><i class="glyphicon glyphicon-th-list"></i> 申请活动</a></li>
-                                    <li><a th:href="@{/applyActivityListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 查看活动列表</a></li>
-                                    <li><a th:href="@{/receiveServicesView}"><i class="glyphicon glyphicon-th-list"></i> 收款服务</a></li>
-                                    <li><a th:href="@{/remitServicesView}"><i class="glyphicon glyphicon-th-list"></i> 汇款服务</a></li>
-                                    <li><a th:href="@{/remitServicesList}"><i class="glyphicon glyphicon-th-list"></i> 汇款列表</a></li>
+                                    <li><a th:href="@{/applyActivityListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的活动</a></li>
+                                    <li><a th:href="@{/receiveServicesView}"><i class="glyphicon glyphicon-th-list"></i> 收入时间币</a></li>
+                                    <li><a th:href="@{/remitServicesView}"><i class="glyphicon glyphicon-th-list"></i> 转出时间币</a></li>
+                                    <li><a th:href="@{/remitServicesList}"><i class="glyphicon glyphicon-th-list"></i> 交易列表</a></li>
                                     <li><a th:href="@{/requestScore}"><i class="glyphicon glyphicon-th-list"></i> 评价志愿者</a></li>
                                 </ul>
                             </div>
@@ -135,8 +137,18 @@
                         <div id="panel-element-640835" class="panel-collapse in" th:if="${role} == 'Tourist'">
                             <div class="panel-body">
                                 <ul id="systemSetting4" class="nav nav-pills nav-stacked" >
-                                    <li><a th:href="@{/touristInformationView}"><i class="glyphicon glyphicon-user"></i> 查看个人信息</a></li>
-                                    <li><a th:href="@{/modifyTouristInformationView}"><i class="glyphicon glyphicon-user"></i> 修改个人信息</a></li>
+                                    <li><a th:href="@{/userInformationView}"><i class="glyphicon glyphicon-user"></i> 查看个人信息</a></li>
+                                    <li><a th:href="@{/modifyUserInformationView}"><i class="glyphicon glyphicon-user"></i> 完善个人信息</a></li>
+                                    <li><a th:href="@{/createRequestByUserView}"><i class="glyphicon glyphicon-th-list"></i> 发布需求</a></li>
+                                    <li><a th:href="@{/requestListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的需求</a></li>
+                                    <li><a th:href="@{/createApplyByUserView}"><i class="glyphicon glyphicon-th-list"></i> 申请服务</a></li>
+                                    <li><a th:href="@{/applyListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的服务</a></li>
+                                    <li><a th:href="@{/createActivityByUserView}"><i class="glyphicon glyphicon-th-list"></i> 申请活动</a></li>
+                                    <li><a th:href="@{/applyActivityListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的活动</a></li>
+                                    <li><a th:href="@{/receiveServicesView}"><i class="glyphicon glyphicon-th-list"></i> 收入时间币</a></li>
+                                    <li><a th:href="@{/remitServicesView}"><i class="glyphicon glyphicon-th-list"></i> 转出时间币</a></li>
+                                    <li><a th:href="@{/remitServicesList}"><i class="glyphicon glyphicon-th-list"></i> 交易列表</a></li>
+                                    <li><a th:href="@{/requestScore}"><i class="glyphicon glyphicon-th-list"></i> 评价志愿者</a></li>
                                 </ul>
                             </div>
                         </div>

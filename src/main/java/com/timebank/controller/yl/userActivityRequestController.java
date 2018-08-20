@@ -11,9 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static java.util.UUID.randomUUID;
 
@@ -55,7 +53,7 @@ public class userActivityRequestController {
         }
         return users;
     }
-
+/***********************************用户申请活动*************************************************************/
     //basepage页面申请活动按钮
     @RequestMapping(value = "/createActivityByUserView")
     public String userApply(Model model)
@@ -70,12 +68,38 @@ public class userActivityRequestController {
         model.addAttribute("usercommguid",users11.getUserCommGuid());
         return "activityApplyByUser";
     }
+    /**
+     * 得到几天前的时间
+     */
+    public  Date getDateBefore(Date d,int day){
+        Calendar now =Calendar.getInstance();
+        now.setTime(d);
+        now.set(Calendar.DATE,now.get(Calendar.DATE)-day);
+        return now.getTime();
+    }
+
+    /**
+     * 得到几天后的时间
+     */
+    public  Date getDateAfter(Date d,int day){
+        Calendar now =Calendar.getInstance();
+        now.setTime(d);
+        now.set(Calendar.DATE,now.get(Calendar.DATE)+day);
+        return now.getTime();
+    }
+
+
     //活动列表页面后台请求数据
     @RequestMapping(value="/getACTIVITYListByUserJsonData",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getACTIVITYListJsonData(@RequestParam int offset, int limit, String sortName,String sortOrder,String usercommguid,String userguid){
+    public String getACTIVITYListJsonData(@RequestParam int offset,Model model, int limit, String sortName,String sortOrder,String usercommguid,String userguid){
         System.out.println("活动列表界面向后台请求数据");
         System.out.println("此用户的guid:"+userguid+" 此用户的小区guid :"+usercommguid);
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+        model.addAttribute("role",role);
         ActivityExample activityExample=new ActivityExample();
         activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94e3-4eb7-aad3-222222222222");
 
@@ -101,9 +125,20 @@ public class userActivityRequestController {
         activity1.setActivityFromCommGuid(communities.get(0).getCommTitle());
         //第一步查询activity中traget字段是否包含此用户
         String activityTraget=activity1.getActivityTargetsUserGuid();
-        if(activityTraget!=null&&activityTraget.contains(userguid)){
-            //第二步  用户防止修改小区以后 还能看到原先的活动  查询现在的小区 是否跟activity中的fromcommguid一样
-            if(activityFromCommGuid!=null&&activityFromCommGuid.equals(usercommguid)){
+        if(role.equals("USE")) {
+            if (activityTraget != null && activityTraget.contains(userguid)) {
+                //第二步  用户防止修改小区以后 还能看到原先的活动  查询现在的小区 是否跟activity中的fromcommguid一样
+                if (activityFromCommGuid != null && activityFromCommGuid.equals(usercommguid)) {
+                    activityRecordList.add(activity1);
+                }
+            }
+        }else if(role.equals("Tourist")){
+            //遍历三天以内发布的请求
+            Date time=activity1.getActivityStartTime();
+            Date date=new Date();
+            Date beforeDate=getDateBefore(date,3);
+            if(time.after(beforeDate)){
+//                System.out.println(beforeDate);
                 activityRecordList.add(activity1);
             }
         }
@@ -173,17 +208,37 @@ public class userActivityRequestController {
         String role=users11.getUserRole();
         model.addAttribute("role",role);
         //插入此条记录的guid
-        Actpart actpart=new Actpart();
-        UUID guid=randomUUID();
-        actpart.setActpartGuid(guid.toString());
-        //插入此活动的guid
-        System.out.println(activityGuid);
-        actpart.setActpartActivityGuid(activityGuid);
-        //插入用户的id
-        actpart.setActpartUserGuid(users11.getUserGuid());
-        actpart.setAcpartTypeGuidProcessStatus("88888888-94E3-4EB7-AAD3-111111111111");
-        actpartMapper.insert(actpart);
-        return "applyActivityListByUserView";
+       if(role.equals("USE")) {
+           Actpart actpart = new Actpart();
+           UUID guid = randomUUID();
+           actpart.setActpartGuid(guid.toString());
+           //插入此活动的guid
+           System.out.println(activityGuid);
+           actpart.setActpartActivityGuid(activityGuid);
+           //插入用户的id
+           actpart.setActpartUserGuid(users11.getUserGuid());
+           actpart.setAcpartTypeGuidProcessStatus("88888888-94E3-4EB7-AAD3-111111111111");
+           //从activity中得到活动处理人 插入到actpart表格
+           Activity activity=activityMapper.selectByPrimaryKey(activityGuid);
+           String processguid=activity.getActivityProcessUserGuid();
+           actpart.setAcpartProcessUserGuid(processguid);
+
+           actpartMapper.insert(actpart);
+           return "applyActivityListByUserView";
+       }else{
+           CommunityExample communityExample = new CommunityExample();
+           List<Community> communities = communityMapper.selectByExample(communityExample);
+           model.addAttribute("communities",communities);
+           model.addAttribute("users",users11);
+           //加载性别
+           TypeExample typeExample = new TypeExample();
+           typeExample.or().andTypeGroupIdEqualTo(1);
+           List<Type> types = typeMapper.selectByExample(typeExample);
+           model.addAttribute("types",types);
+           model.addAttribute("users", users11);
+           model.addAttribute("message","请先完善个人信息");
+           return "updateUserInformation";
+       }
     }
 
     //basepage页面查看活动列表

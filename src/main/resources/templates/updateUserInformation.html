@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="basepage :: common_header(~{::title},~{::script})">
+
     <title>完善用户信息</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css"  />
@@ -13,6 +14,15 @@
     <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
     <script type="text/javascript" src="/region/distpicker.data.js"></script>
     <script type="text/javascript" src="/region/distpicker.js"></script>
+
+    <script th:inline="javascript">
+
+
+        message = [[${message}]];
+
+        alert(message);
+    </script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#USERSInputForm').bootstrapValidator({
@@ -110,9 +120,9 @@
                     userBirthdate:{
                         message: '日期验证失败',
                         validators: {
-                            notEmpty: {
-                                message:'日期不能为空'
-                            }
+//                            notEmpty: {
+//                                message:'日期不能为空'
+//                            }
                         }
                     },
                     userMail: {
@@ -216,9 +226,6 @@
                         }
                     },
                 },
-//                submitHandler: function (validator, form, submitButton) {
-//                    alert("submit");
-//                }
             });
         });
     </script>
@@ -253,7 +260,7 @@
                 </div>
                 <div class="panel-body">
                     <form id="USERSInputForm" name="USERSInputForm" method="post" class="form-horizontal"
-                          action="/updateUserInformationSubmit"  role="form"
+                          action="/updateUserInformationSubmit"  role="form" onsubmit="return checkForm()" enctype="multipart/form-data"
                           data-bv-message="This value is not valid"
                           data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
                           data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
@@ -265,7 +272,7 @@
                                     <input id="userGuid" name="userGuid" type="text" class="form-control" th:value="${users.userGuid}" />
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6">
+                            <div class="form-group  col-lg-6" hidden="hidden">
                                 <label class="control-label col-lg-3" for="userAccount" >账号：</label>
                                 <div class="col-lg-9">
                                     <input id="userAccount" name="userAccount" type="text" class="form-control" th:value="${users.userAccount}" disabled="disabled"/>
@@ -274,10 +281,10 @@
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userName" >姓名：</label>
                                 <div class="col-lg-9">
-                                    <input id="userName" name="userName" type="text" class="form-control" placeholder="填写您的姓名"/><!--th:value="${users.userAccount}"-->
+                                    <input id="userName" name="userName" type="text" class="form-control" th:value="${users.userName}" />
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6" >
+                            <div class="form-group  col-lg-6" hidden="hidden">
                                 <label class="control-label col-lg-3" for="userRole" >角色：</label>
                                 <div class="col-lg-9">
                                     <input id="userRole" name="userRole" type="text" class="form-control" th:value="${users.userRole}"disabled="disabled" />
@@ -286,7 +293,7 @@
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userMail" >电子邮箱：</label>
                                 <div class="col-lg-9">
-                                    <input id="userMail" name="userMail" type="email" class="form-control" placeholder="填写邮箱"  />
+                                    <input id="userMail" name="userMail" type="email" class="form-control" th:value="${users.userMail}" />
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
@@ -300,21 +307,21 @@
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userIdnum" >身份证号：</label>
                                 <div class="col-lg-9">
-                                    <input id="userIdnum" name="userIdnum" type="text" class="form-control" placeholder="填写您的证件号"/> <!--onclick="IdentityCodeValid(userIdnum)"-->
+                                    <input id="userIdnum" name="userIdnum" type="text" class="form-control" th:value="${users.userIdnum}" />
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userPhone" >手机号：</label>
                                 <div class="col-lg-9">
-                                    <input id="userPhone" name="userPhone" type="tel" class="form-control" placeholder="填写您的手机号" />
+                                    <input id="userPhone" name="userPhone" type="tel" class="form-control" th:value="${users.userPhone}" />
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="userBirthdate" >出生日期：</label>
-                                <div class="col-lg-6">
-                                    <input  class="form-control laydate-icon"  id="userBirthdate" name="userBirthdate"  type="text" placeholder="选择您的出生日期" />
-                                </div>
-                            </div>
+                            <!--<div class="form-group  col-lg-6">-->
+                                <!--<label class="control-label col-lg-3" for="userBirthdate" >出生日期：</label>-->
+                                <!--<div class="col-lg-6">-->
+                                    <!--<input  class="form-control laydate-icon"  id="userBirthdate" name="userBirthdate"  type="text" placeholder="选择您的出生日期" />-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userCommGuid" >所属小区：</label>
                                 <div class="col-lg-9">
@@ -324,44 +331,65 @@
                                 </div>
                             </div><br>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-4" for="userEmerperson" >紧急联系人：</label>
-                                <div class="col-lg-6">
-                                    <input id="userEmerperson" name="userEmerperson" type="text" class="form-control" placeholder="填写紧急联系人" />
-                                </div>
-                            </div>
-                            <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-4" for="userEmercontact" >紧急联系方式：</label>
-                                <div class="col-lg-9">
-                                    <input id="userEmercontact" name="userEmercontact" type="tel" class="form-control" placeholder="填写紧急联系手机号" />
-                                </div>
-                            </div>
-                            <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-4"><!--for="userAddress"--> 居住区域：</label>
-                                <!--<form class="form-inline">-->
+                                <label class="control-label col-lg-4">居住区域：</label>
                                 <div class="form-group  col-lg-4" data-toggle="distpicker">
-                                    <div class="form-group">
+                                    <!--<div class="form-group">-->
                                         <label class="control-label col-lg-4">省：</label>
-                                        <!--<label class="sr-only" for="userProvince">Province</label>-->
                                         <select class="form-control col-lg-4" id="userProvince"  name="userProvince" data-province="---- 选择省 ----"></select>
-                                    </div>
-                                    <div class="form-group">
+                                    <!--</div>-->
+                                    <!--<div class="form-group">-->
                                         <label class="control-label col-lg-4" for="userCity">市：</label>
                                         <select class="form-control col-lg-4" id="userCity"  name="userCity" data-city="---- 选择市 ----"></select>
-                                    </div>
-                                    <div class="form-group">
+                                    <!--</div>-->
+                                    <!--<div class="form-group">-->
                                         <label class="control-label col-lg-4" for="userCity">区：</label>
                                         <select class="form-control col-lg-4" id="userDistrict" name="userDistrict" data-district="---- 选择区 ----"></select>
-                                    </div>
+                                    <!--</div>-->
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-4" for="userAddress">详细地址：</label>
-                                <div  class="col-lg-6">
-                                    <input id="userAddress" name="userAddress" type="text" placeholder="请输入详细地址"/>
+                                <label class="control-label col-lg-3" for="userAddress" >详细住址：</label>
+                                <div class="col-lg-9">
+                                    <input id="userAddress" name="userAddress" type="text" class="form-control" th:value="${users.userAddress}" />
                                 </div>
                             </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userEmerperson" >紧急联系人姓名：</label>
+                                <div class="col-lg-9">
+                                    <input id="userEmerperson" name="userEmerperson" type="text" class="form-control" th:value="${users.userEmerperson}" />
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userEmercontact" >紧急联系手机号：</label>
+                                <div class="col-lg-9">
+                                    <input id="userEmercontact" name="userEmercontact" type="tel" class="form-control" th:value="${users.userEmercontact}" />
+                                </div>
+                            </div>
+                            <div class="info_list" style="border-bottom:none;">
+                                <div class="list_left2">身份证上传</div>
+                            </div>
+                            <div class="id_img_wp">
+                                <input type="file" accept="image/*" onchange="getzImg(this)" style="display:none" value="" id="img_z" name="img_z"/>
+                                <input type="file" accept="image/*" onchange="getfImg(this)" value="" id="img_f" name="img_f" style="display:none"/>
+                                <div class="img_wp" onclick="zhengmian()">
+                                    <img src="/img/qie.jpg" id="zmz" name="tupian" />
+                                    <p class="img_intro">身份证正面照</p>
+                                </div>
+
+                                <div class="img_wp" onclick="fanmian()">
+                                    <img src="/img/qie.jpg" id="fmz"/>
+                                    <p class="img_intro">身份证反面照</p>
+                                </div>
+                                <div class="cf"></div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <div class="col-lg-9">
+                                    <input name="confirm" type="checkbox"  checked onclick="agree();" id="cb"/>同意
+                                    <a th:href="@{/agreementAdress}" target="_blank"> 时间银行注册协议</a>
+                                </div>
+                            </div><br>
                             <div class="form-actions">
-                                <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/><br>
+                                <input id="tj" class="btn btn-primary" type="submit" value="保 存"/>
                                 <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
                             </div>
                         </div>
@@ -420,6 +448,73 @@
         }*/
         //        var c = '130981199312253466';
         //        var res= IdentityCodeValid(c);
+    </script>
+    <script language="javascript">
+        //注册按钮与阅读协议单选框
+        function agree(){
+
+            if(document.getElementById('cb').checked)
+                document.getElementById('tj').disabled=false;
+            else
+                document.getElementById('tj').disabled=true;
+        }
+
+
+    </script>
+    <script>
+
+
+
+        $(function(){
+            $('.img_wp img').height($('.img_wp img').width()*0.2);
+            $(window).resize(function(){
+                $('.img_wp img').height($('.img_wp img').width()*0.2);
+            })
+        })
+        //正面
+        function zhengmian(){
+            $('#img_z').click();
+        }
+        function getzImg(imgFile){
+            var file = imgFile.files[0];
+//        alert(11);
+//        //获取上传图片的位置
+//        var filePath=document.getElementById("img_z").value;
+//        alert(filePath);
+//        alert(22);
+            var reader = new FileReader();
+            reader.readAsDataURL(file);//将文件读取为Data URL小文件   这里的小文件通常是指图像与 html 等格式的文件
+            reader.onload = function(e){
+                $("#zmz").attr("src",e.target.result);
+            }
+        }
+
+        //反面
+        function fanmian(){
+            $('#img_f').click();
+        }
+        function getfImg(imgFile){
+
+            var file = imgFile.files[0];
+
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(e){
+                $("#fmz").attr("src",e.target.result);
+            }
+        }
+        //申请
+        function checkForm(){
+            if($('#img_z').val()==null||$('#img_z').val()==''){
+                alert('请上传身份证正面照！');
+                return false;
+            }
+            if($('#img_f').val()==null||$('#img_f').val()==''){
+                alert('请上传身份证反面照！');
+                return false;
+            }
+            //提交表单
+        }
     </script>
     <div class="row clearfix">
         <div class="col-md-12 bg-primary">

@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timebank.appmodel.ReqestApp;
 import com.timebank.appmodel.ResultModel;
 import com.timebank.domain.*;
-import com.timebank.mapper.ReqestMapper;
-import com.timebank.mapper.RespondMapper;
-import com.timebank.mapper.TypeMapper;
-import com.timebank.mapper.UsersMapper;
+import com.timebank.mapper.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +32,10 @@ public class UserRequestController {
     private RespondMapper respondMapper;
     @Autowired
     private UsersMapper usersMapper;
+    @Autowired
+    private CommunityMapper communityMapper;
+
+
     String reqGuidOfVol = null;
     // 请求的guid
     String updateRequestGuid = null;
@@ -62,6 +63,7 @@ public class UserRequestController {
         }
         return users;
     }
+    /**********************************发布需求**************************************************/
     //besepage页面的发布请求
     @RequestMapping(value = "/createRequestByUserView")
     public String userApply(Model model)
@@ -71,6 +73,7 @@ public class UserRequestController {
         Users users1=GetCurrentUsers(message);
         String role=users1.getUserRole();
         model.addAttribute("role",role);
+        if(role.equals("USE")){
         //请求分类
         TypeExample typeExample = new TypeExample();
         typeExample.or().andTypeGroupIdEqualTo(4);
@@ -82,8 +85,24 @@ public class UserRequestController {
         List<Type> typex = typeMapper.selectByExample(typeExample);
         model.addAttribute("typex",typex);
         return "apply";
+        }else{
+            //所属小区
+            CommunityExample communityExample = new CommunityExample();
+            List<Community> communities = communityMapper.selectByExample(communityExample);
+            model.addAttribute("communities",communities);
+//            model.addAttribute("users",users1);
+            //加载性别
+            TypeExample typeExample = new TypeExample();
+            typeExample.or().andTypeGroupIdEqualTo(1);
+            List<Type> types = typeMapper.selectByExample(typeExample);
+            model.addAttribute("types",types);
+            model.addAttribute("users", users1);
+            model.addAttribute("message","请先完善个人信息");
+            return "updateUserInformation";
+        }
 
     }
+    //保存按钮
     @RequestMapping(value = "/applySubmit")
     public String applySubmit(Reqest reqest, Model model)
     {
@@ -109,6 +128,20 @@ public class UserRequestController {
         reqestMapper.insert(reqest);
         return "applyListView";
     }
+
+/**********************查看我的需求*******************************/
+    //导航栏左边 查看我的需求
+    @RequestMapping(value = "/requestListByUserView")
+    public String requestListByUserView(Model model)
+    {
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+        model.addAttribute("role",role);
+        return "applyListView";
+
+    }
     // 从数据库加载数据
     @RequestMapping(value="/getREQESTListJsonData",produces = "application/json;charset=UTF-8")
     @ResponseBody
@@ -129,7 +162,7 @@ public class UserRequestController {
             //将排序信息添加到example中
             reqestExample.setOrderByClause(order);
         }
-        //获取当前登陆者id
+        //获取当前登陆者id 判断时候否为自己发布的需求
         String userID =users11.getUserGuid();
         reqestExample.or().andReqIssueUserGuidEqualTo(userID);
         List<Reqest> reqests=reqestMapper.selectByExample(reqestExample);
@@ -194,19 +227,8 @@ public class UserRequestController {
         }
         return sb.toString();
     }
-    //导航栏左边 查看请求列表
-    @RequestMapping(value = "/requestListByUserView")
-    public String requestListByUserView(Model model)
-    {
-        Subject account = SecurityUtils.getSubject();
-        String message=(String) account.getPrincipal();
-        Users users11=GetCurrentUsers(message);
-        String role=users11.getUserRole();
-        model.addAttribute("role",role);
-        return "applyListView";
 
-    }
-    //查看请求列表中的查看详情
+    //查看我的需求中的查看详情
     @RequestMapping(value = "/listREQESTModel/{reqGuid}")
     public String listREQESTModel (@PathVariable String reqGuid , UpdateList updateList, Model model) {
         System.out.println("这是查看详情");
