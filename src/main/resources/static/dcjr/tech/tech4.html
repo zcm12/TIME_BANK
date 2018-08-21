@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tech4.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(tech.css)
+</style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+  	<div>
+		<h1 align="center">非常好的静电保护(ESD)原理和设计（下）</h1>
+	</div>
+
+	<div id="content">
+	<h3 align="left">接 非常好的静电保护(ESD)原理和设计（上）</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">好了，ESD的原理和测试部分就讲到这里了，下面接着讲Process和设计上的factor。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">随着摩尔定律的进一步缩小，器件尺寸越来越小，结深越来越浅，GOX越来越薄，所以静电击穿越来越容易，而且在Advance制程里面，
+		Silicide引入也会让静电击穿变得更加尖锐，所以几乎所有的芯片设计都要克服静电击穿问题。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech4_1.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 静电放电保护可以从FAB端的Process解决，也可以从IC设计端的Layout来设计，所以你会看到Prcess有一个ESD的option layer，
+		或者Design rule里面有ESD的设计规则可供客户选择等等。当然有些客户也会自己根据SPICE model的电性通过layout来设计ESD。
+		</p>
+		<h3 align="left">1、制程上的ESD：</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">要么改变PN结，要么改变PN结的负载电阻，
+		而改变PN结只能靠ESD_IMP了，而改变与PN结的负载电阻，就是用non-silicide或者串联电阻的方法了。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1) Source/Drain的ESD implant：因为我们的LDD结构在gate poly两边很容易形成两个浅结，而这个浅结的尖角电场比较集中，
+		而且因为是浅结，所以它与Gate比较近，所以受Gate的末端电场影响比较大，所以这样的LDD尖角在耐ESD放电的能力是比较差的(<1kV)，所以如果这样的Device用在I/O端口，很容造成ESD损伤。
+		所以根据这个理论，我们需要一个单独的器件没有LDD，但是需要另外一道ESD implant，打一个比较深的N+_S/D，这样就可以让那个尖角变圆而且离表面很远，所以可以明显提高ESD击穿能力(>4kV)。
+		但是这样的话这个额外的MOS的Gate就必须很长防止穿通(punchthrough)，而且因为器件不一样了，所以需要单独提取器件的SPICE Model。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech4_2.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">  2) 接触孔(contact)的ESD implant：在LDD器件的N+漏极的孔下面打一个P+的硼，而且深度要超过N+漏极(drain)的深度，
+		这样就可以让原来Drain的击穿电压降低(8V-->6V)，所以可以在LDD尖角发生击穿之前先从Drain击穿导走从而保护Drain和Gate的击穿。所以这样的设计能够保持器件尺寸不变，且MOS结构没有改变，
+		故不需要重新提取SPICE model。当然这种智能用于non-silicide制程，否则contact你也打不进去implant。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech4_3.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">3) SAB (SAlicide Block)：一般我们为了降低MOS的互连电容，我们会使用silicide/SAlicide制程，但是这样器件如果工作在输出端，
+		我们的器件负载电阻变低，外界ESD电压将会全部加载在LDD和Gate结构之间很容易击穿损伤，所以在输出级的MOS的Silicide/Salicide我们通常会用SAB(SAlicide Block)光罩挡住RPO，不要形成silicide，
+		增加一个photo layer成本增加，但是ESD电压可以从1kV提高到4kV。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech4_4.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">4)串联电阻法：这种方法不用增加光罩，应该是最省钱的了，原理有点类似第三种(SAB)增加电阻法，
+		我就故意给他串联一个电阻(比如Rs_NW，或者HiR，等)，这样也达到了SAB的方法。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech4_5.png">
+		</div>
+		<h3 align="left"> 2、设计上的ESD：</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">这就完全靠设计者的功夫了，有些公司在设计规则就已经提供给客户solution了，客户只要照着画就行了，有些没有的则只能靠客户自己的designer了，
+		很多设计规则都是写着这个只是guideline/reference，不是guarantee的。一般都是把Gate/Source/Bulk短接在一起，把Drain结在I/O端承受ESD的浪涌(surge)电压，
+		NMOS称之为GGNMOS (Gate-Grounded NMOS)，PMOS称之为GDPMOS (Gate-to-Drain PMOS)。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">  以NMOS为例，原理都是Gate关闭状态，Source/Bulk的PN结本来是短接0偏的，当I/O端有大电压时，则Drain/Bulk PN结雪崩击穿，
+		瞬间bulk有大电流与衬底电阻形成压差导致Bulk/Source的PN正偏，所以这个MOS的寄生横向NPN管进入放大区(发射结正偏,集电结反偏)，所以呈现Snap-Back特性，起到保护作用。PMOS同理推导。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech4_6.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">这个原理看起来简单，但是设计的精髓(know-how)是什么？怎么触发BJT？怎么维持Snap-back？怎么撑到HBM>2KV or 4KV？
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 如何触发？必须有足够大的衬底电流，所以后来发展到了现在普遍采用的多指交叉并联结构(multi-finger)。但是这种结构主要技术问题是基区宽度增加，
+		放大系数减小，所以Snap-back不容易开启。而且随着finger数量增多，会导致每个finger之间的均匀开启变得很困难，这也是ESD设计的瓶颈所在。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech4_7.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">如果要改变这种问题，大概有两种做法(因为triger的是电压，改善电压要么是电阻要么是电流)：1、利用SAB(SAlicide-Block)在I/O的Drain上
+		形成一个高阻的non-Silicide区域，使得漏极方块电阻增大，而使得ESD电流分布更均匀，从而提高泄放能力；2、增加一道P-ESD (Inner-Pickup imp，类似上面的接触孔P+ ESD imp)，
+		在N+Drain下面打一个P+，降低Drain的雪崩击穿电压，更早有比较多的雪崩击穿电流(详见文献论文: Inner Pickup on ESD of multi-finger NMOS.pdf)。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于Snap-back的ESD有两个小小的常识要跟大家分享一下：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 1)NMOS我们通常都能看到比较好的Snap-back特性，但是实际上PMOS很难有snap-back特性，而且PMOS耐ESD的特性普遍比NMOS好，
+		这个道理同HCI效应，主要是因为NMOS击穿时候产生的是电子，迁移率很大，所以Isub很大容易使得Bulk/Source正向导通，但是PMOS就难咯。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2) Trigger电压/Hold电压: Trigger电压当然就是之前将的snap-back的第一个拐点(Knee-point)，寄生BJT的击穿电压，
+		而且要介于BVCEO与BVCBO之间。而Hold电压就是要维持Snap-back持续ON，但是又不能进入栅锁(Latch-up)状态，否则就进入二次击穿(热击穿)而损坏了。还
+		有个概念就是二次击穿电流，就是进入Latch-up之后I^2*R热量骤增导致硅融化了，而这个就是要限流，可以通过控制W/L，或者增加一个限流高阻，最简单最常用的方法是拉大Drain的距离/拉大SAB的距离(ESD rule的普遍做法)。
+		</p>
+		<h3 align="left"> 3、栅极耦合(Gate-Couple) ESD技术：</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">我们刚刚讲过，Multi-finger的ESD设计的瓶颈是开启的均匀性，假设有10只finger，而在ESD 放电发生时，这10 支finger 
+		并不一定会同时导通(一般是因Breakdown 而导通)，常见到只有2-3 支finger会先导通，这是因布局上无法使每finger的相对位置及拉线方向完全相同所致，这2~3 支finger 一导通，
+		ESD电流便集中流向这2~3支的finger，而其它的finger 仍是保持关闭的，所以其ESD 防护能力等效于只有2~3 支finger的防护能力，而非10 支finger 的防护能力。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">这也就是为何组件尺寸已经做得很大，但ESD 防护能力并未如预期般地上升的主要原因，增打面积未能预期带来ESD增强，怎么办？其实很简单，
+		就是要降低Vt1(Trigger电压)，我们通过栅极增加电压的方式，让衬底先开启代替击穿而提前导通产生衬底电流，这时候就能够让其他finger也一起开启进入导通状态，让每个finger都来承受ESD电流，真正发挥大面积的ESD作用。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">但是这种GCNMOS的ESD设计有个缺点是沟道开启了产生了电流容易造成栅氧击穿，所以他不见的是一种很好的ESD设计方案，
+		而且有源区越小则栅压的影响越大，而有源区越大则snap-back越难开启，所以很难把握。
+		</p>
+		<h3 align="left"> 4、还有一种复杂的ESD保护电路: </h3>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 可控硅晶闸管(SCR: Silicon Controlled Rectifier)，它就是我们之前讲过的CMOS寄生的PNPN结构触发产生Snap-Back
+		并且Latch-up，通过ON/OFF实现对电路的保护，大家可以回顾一下，只要把上一篇里面那些抑制LATCH-up的factor想法让其发生就可以了，不过只能适用于Layout，不能适用于Process，否则Latch-up又要fail了。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">最后，ESD的设计学问太深了，我这里只是抛砖引玉给FAB的人科普一下了，基本上ESD的方案有如下几种:电阻分压、二极管、
+		MOS、寄生BJT、SCR(PNPN structure)等几种方法。而且ESD不仅和Design相关，更和FAB的process相关，而且学问太深了，我也不是很懂。
+		</p>
+	</div>
+  </body>
+</html>

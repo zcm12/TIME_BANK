@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>无限流电阻中真正抑制上电浪涌电流的方法</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">无限流电阻中真正抑制上电浪涌电流的方法 </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：浪涌电流会导致电路无法正常运行，此外还会使得整体设计难以取得预期的效果。针对于此，各类针对浪涌电流的抑制方法便诞生了。本文将对无限流电阻中的上电浪涌电流抑制模块进行分析，探讨如何才能真正意义上的解决上
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">浪涌电流会导致电路无法正常运行，此外还会使得整体设计难以取得预期的效果。针对于此，各类针对浪涌电流的抑制方法便诞生了。本文将对无限流电阻中的上电浪涌电流抑制模块进行分析，探讨如何才能真正意义上的解决上电浪涌电流。
+		</p>
+
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc3_1_1.jpg">
+		</div>
+		<h3 align="center">图1 （a）</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc3_1_2.jpg">
+		</div>
+		<h3 align="center">图1 （b）</h3>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">无限流电阻的上电浪涌电流抑制电路如图1（a）所示，其上电电流波形如图1（b）所示，其思路是将电路设计成线形恒流电路。实际电路会由于两极放大的高增益而出现自激振荡现象，但不影响电路工作。从原理上讲，这种电路是可行的，但在使用时则有如下问题难以解决：如220V输入的400W开关电源的上电电流至少需要达到4A，如上电时刚好是电网电压峰值，则电路将承受4×220×=1248W的功率。不仅远超出IRF840的125W额定耗散功率，也远超出IRFP450及IRFP460的150W额定耗散功率，即使是APT的线性MOSFET也只有450W的额定耗散功率。因此，如采用IRF840或IRFP450的结果是，MOSFET仅能承受有限次数的上电过程便可能被热击穿，而且从成本上看，IRF840的价格可以接受，而IRFP450及IRFP460则难以接受，APT的线性MOSFET更不可能接受。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">欲真正实现无限流电阻的上电浪涌电流抑制模块，需解决功率器件在上电过程的功率损耗问题。另一种上电浪涌电流抑制模块的基本思想是，使功率器件工作在开关状态，从而解决了功率器件上电过程中的高功率损耗问题，而且电路简单。电路如图2（a）和图2（b）所示，上电电流波形如图2（c）所示。
+		</p>
+	   <div align="center">
+		<img alt="图片找不到" src="imgs/techemc3_2_1.jpg">
+		</div>
+		<h3 align="center">图2（a）</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc3_2_2.jpg">
+		</div>
+		<h3 align="center">图2 （b）</h3>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc3_2_3.jpg">
+		</div>
+		<h3 align="center">图2 （c）</h3>
+				
+		<p style="text-indent: 2em;padding: 3px 0px;">按照之后的这种思路能够最大程度上对上电浪涌电流进行抑制，从而保证电路的顺利运行。对上电浪涌电流的抑制存在疑问的朋友不妨花上几分钟阅读本文，相信会有意想不到的收获。
+		</p>
+	</div>
+
+</body>
+</html>

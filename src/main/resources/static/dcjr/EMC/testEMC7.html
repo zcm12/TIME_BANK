@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>test7.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+@import
+url(test.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">数字隔离器的浪涌测试</h1>
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">许多应用要求隔离危险电压，以符合国际安全标准的要求。为了确保设备和操作人员的安全，这些标准往往要求隔离元件（如数字隔离器或光耦合器）能承受10 kV（峰值）以上的高压浪涌。因此，测试隔离器浪涌性能是开发安全、可靠器件的必要环节。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">国际电工委员会(IEC)和VDE (Verband der Elektrotechnik)两个组织出版的标准就隔离技术在医疗、工业、消费以及汽车等系统中的系统级和元件级应用进行了规定。为了确保在出现高压浪涌时人员和设备的安全，这些标准根据具体应用所需要的隔离等级规定了不同的浪涌额定值。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">共有三类常见的隔离等级：功能隔离、基本隔离和增强隔离。功能隔离仅有少量安全要求，因为它一般只用于要求隔离接地基准电压的场合，以保证电路能正常工作。可见，安全性和浪涌性能并不是功能隔离的主要考虑因素。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">然而，安全性却是基本隔离和增强隔离的主要考虑因素，因此，浪涌电平是确定隔离质量的关键。基本隔离可以保护终端设备用户，使其免受电击，增强隔离是一种单独的隔离系统，其提供的保护能力相当于两个冗余的单个或基本隔离系统。医疗和工业应用一般要求增强隔离，以保护病人和终端用户，使其免受致命性电击的影响。VDE针对数字隔离器的增强隔离标准是VDE 0884-10，规定最小浪涌电压(VIOSM)额定值为10 kV，同时对工作电压(VIORM)和耐受电压(VISO)作出了规定。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">数字隔离器的浪涌电压额定值规定的是在经受连续短暂高压脉冲之后的抗冲击能力。图1所示为符合IEC 61000-4-5的浪涌波形的时序特性。
+	</p>
+	<div align="center">
+		<img alt="图片找不到" src="testImg/test7_1.png">
+	</div>
+	<h3 align="center">图1. 浪涌电压波形</h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">测试时，把设备放在一个测试板上，使隔离栅两端的所有引脚短路（见图2）。将一个高压脉冲发生器通过一个1000Ω/1000 pF网络连接到隔离栅的一端。发生器回路连接到隔离栅另一端。将一个100 kΩ、2.5 W的电阻跨接于隔离栅上，以便施加各个脉冲之后使电路放电。用一个带1000:1高压探头的示波器监控脉冲。将放电枪设置为测试计划规定的最低电压，示波器设为单次触发。在该电压电平下施加10个脉冲，并用示波器对各个脉冲进行监控。通过骤降脉冲幅度（在不到50 μs的时间内下降到50%）可发现隔离栅中的缺口。如果部件可以承受10个脉冲，则提高放电枪电压，再施加10个脉冲。持续进行，直到隔离栅发生故障为止，或者直到达到最大测试电压为止。
+	</p>
+	<div align="center">
+		<img alt="图片找不到" src="testImg/test7_2.png">
+	</div>
+	<h3 align="center">图2. 浪涌测试设置</h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">能否通过该测试主要取决于隔离厚度（亦称为隔离距离，缩写为DTI）以及隔离材料的质量。应用的电场往往在绝缘体内部的缺陷点聚集，因此，较低的缺陷密度一般会带来较高的击穿额定值。较厚的材料对击穿的抗击能力更强，因为场强与绝缘体任一端的导体之间的距离成反比。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">光耦合器一般可以通过10 kV浪涌测试，因为绝缘体很厚（典型值为400μm），因而可以降低绝缘质量对击穿特性的影响。简单而言，绝缘层很厚，因此不需优质材料也可通过10 kV测试。基于变压器的隔离器采用一种优质的20 m至32 μm聚酰亚胺层，存放于洁净的室内环境中。由于这种材料的缺陷水平远远低于光耦合器中使用的注射成型环氧树脂，因此，厚度薄得多的绝缘层也可达到10 kV的要求。电容性隔离器同样采用优质绝缘层，这里是在晶圆制造过程中沉淀的二氧化硅(SiO2)。二氧化硅具有较高的介电强度，但一般情况下，如果不在薄膜中造成机械应力，则无法沉淀得很厚。较厚的SiO2同时也可降低电容，这又会导致隔离栅耦合效率的下降。为此，电容性隔离器一般不能通过10 kV浪涌测试，因此，无法通过VDE的增强隔离认证。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">在需要对人员和设备进行保护的增强隔离应用中，需要实现10 kV浪涌保护。浪涌测试是确定隔离元件在此类应用中的安全等级的关键步骤。ADI公司提供广泛的iCoupler和isoPower产品，完全可以满足这种需求。 
+	</p>
+</body>
+</html>

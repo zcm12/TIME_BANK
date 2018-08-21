@@ -29,6 +29,7 @@
     <result column="USER_EMERCONTACT" jdbcType="NVARCHAR" property="userEmercontact" />
     <result column="USER_EMERPERSON" jdbcType="NVARCHAR" property="userEmerperson" />
     <result column="USER_BIRTHDATE" jdbcType="DATE" property="userBirthdate" />
+    <result column="USER_CURRENTADDR" jdbcType="NVARCHAR" property="userCurrentaddr" />
     <result column="USER_IDIMAGE_Z" jdbcType="NVARCHAR" property="userIdimageZ" />
     <result column="USER_IDIMAGE_F" jdbcType="NVARCHAR" property="userIdimageF" />
   </resultMap>
@@ -114,7 +115,7 @@
     USER_TYPE_ACCOUNT_STATUS, USER_SALT, USER_OWN_CURRENCY, USER_PRE_CONSUME_CURRENCY, 
     USER_ADDRESS, USER_PROVINCE, USER_CITY, USER_DISTRICT, USER_COORDINATE, USER_COMM_GUID, 
     USER_ROLE, USER_IDNUM, USER_PHONE, USER_MAIL, USER_EMERCONTACT, USER_EMERPERSON, 
-    USER_BIRTHDATE, USER_IDIMAGE_Z, USER_IDIMAGE_F
+    USER_BIRTHDATE, USER_CURRENTADDR, USER_IDIMAGE_Z, USER_IDIMAGE_F
   </sql>
   <sql id="Blob_Column_List">
     <!--
@@ -203,8 +204,9 @@
       USER_CITY, USER_DISTRICT, USER_COORDINATE, 
       USER_COMM_GUID, USER_ROLE, USER_IDNUM, 
       USER_PHONE, USER_MAIL, USER_EMERCONTACT, 
-      USER_EMERPERSON, USER_BIRTHDATE, USER_IDIMAGE_Z, 
-      USER_IDIMAGE_F, USER_IDIMAGE)
+      USER_EMERPERSON, USER_BIRTHDATE, USER_CURRENTADDR, 
+      USER_IDIMAGE_Z, USER_IDIMAGE_F, USER_IDIMAGE
+      )
     values (#{userGuid,jdbcType=CHAR}, #{userName,jdbcType=NVARCHAR}, #{userAccount,jdbcType=NVARCHAR}, 
       #{userPassword,jdbcType=NVARCHAR}, #{userFromRoleGuid,jdbcType=CHAR}, #{userTypeGuidGender,jdbcType=CHAR}, 
       #{userTypeAccountStatus,jdbcType=CHAR}, #{userSalt,jdbcType=NVARCHAR}, #{userOwnCurrency,jdbcType=DOUBLE}, 
@@ -212,8 +214,9 @@
       #{userCity,jdbcType=NVARCHAR}, #{userDistrict,jdbcType=NVARCHAR}, #{userCoordinate,jdbcType=NVARCHAR}, 
       #{userCommGuid,jdbcType=CHAR}, #{userRole,jdbcType=NVARCHAR}, #{userIdnum,jdbcType=NVARCHAR}, 
       #{userPhone,jdbcType=NVARCHAR}, #{userMail,jdbcType=NVARCHAR}, #{userEmercontact,jdbcType=NVARCHAR}, 
-      #{userEmerperson,jdbcType=NVARCHAR}, #{userBirthdate,jdbcType=DATE}, #{userIdimageZ,jdbcType=NVARCHAR}, 
-      #{userIdimageF,jdbcType=NVARCHAR}, #{userIdimage,jdbcType=LONGVARBINARY})
+      #{userEmerperson,jdbcType=NVARCHAR}, #{userBirthdate,jdbcType=DATE}, #{userCurrentaddr,jdbcType=NVARCHAR}, 
+      #{userIdimageZ,jdbcType=NVARCHAR}, #{userIdimageF,jdbcType=NVARCHAR}, #{userIdimage,jdbcType=LONGVARBINARY}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.timebank.domain.Users">
     <!--
@@ -290,6 +293,9 @@
       </if>
       <if test="userBirthdate != null">
         USER_BIRTHDATE,
+      </if>
+      <if test="userCurrentaddr != null">
+        USER_CURRENTADDR,
       </if>
       <if test="userIdimageZ != null">
         USER_IDIMAGE_Z,
@@ -370,6 +376,9 @@
       </if>
       <if test="userBirthdate != null">
         #{userBirthdate,jdbcType=DATE},
+      </if>
+      <if test="userCurrentaddr != null">
+        #{userCurrentaddr,jdbcType=NVARCHAR},
       </if>
       <if test="userIdimageZ != null">
         #{userIdimageZ,jdbcType=NVARCHAR},
@@ -468,6 +477,9 @@
       <if test="record.userBirthdate != null">
         USER_BIRTHDATE = #{record.userBirthdate,jdbcType=DATE},
       </if>
+      <if test="record.userCurrentaddr != null">
+        USER_CURRENTADDR = #{record.userCurrentaddr,jdbcType=NVARCHAR},
+      </if>
       <if test="record.userIdimageZ != null">
         USER_IDIMAGE_Z = #{record.userIdimageZ,jdbcType=NVARCHAR},
       </if>
@@ -511,6 +523,7 @@
       USER_EMERCONTACT = #{record.userEmercontact,jdbcType=NVARCHAR},
       USER_EMERPERSON = #{record.userEmerperson,jdbcType=NVARCHAR},
       USER_BIRTHDATE = #{record.userBirthdate,jdbcType=DATE},
+      USER_CURRENTADDR = #{record.userCurrentaddr,jdbcType=NVARCHAR},
       USER_IDIMAGE_Z = #{record.userIdimageZ,jdbcType=NVARCHAR},
       USER_IDIMAGE_F = #{record.userIdimageF,jdbcType=NVARCHAR},
       USER_IDIMAGE = #{record.userIdimage,jdbcType=LONGVARBINARY}
@@ -547,6 +560,7 @@
       USER_EMERCONTACT = #{record.userEmercontact,jdbcType=NVARCHAR},
       USER_EMERPERSON = #{record.userEmerperson,jdbcType=NVARCHAR},
       USER_BIRTHDATE = #{record.userBirthdate,jdbcType=DATE},
+      USER_CURRENTADDR = #{record.userCurrentaddr,jdbcType=NVARCHAR},
       USER_IDIMAGE_Z = #{record.userIdimageZ,jdbcType=NVARCHAR},
       USER_IDIMAGE_F = #{record.userIdimageF,jdbcType=NVARCHAR}
     <if test="_parameter != null">
@@ -626,6 +640,9 @@
       <if test="userBirthdate != null">
         USER_BIRTHDATE = #{userBirthdate,jdbcType=DATE},
       </if>
+      <if test="userCurrentaddr != null">
+        USER_CURRENTADDR = #{userCurrentaddr,jdbcType=NVARCHAR},
+      </if>
       <if test="userIdimageZ != null">
         USER_IDIMAGE_Z = #{userIdimageZ,jdbcType=NVARCHAR},
       </if>
@@ -666,6 +683,7 @@
       USER_EMERCONTACT = #{userEmercontact,jdbcType=NVARCHAR},
       USER_EMERPERSON = #{userEmerperson,jdbcType=NVARCHAR},
       USER_BIRTHDATE = #{userBirthdate,jdbcType=DATE},
+      USER_CURRENTADDR = #{userCurrentaddr,jdbcType=NVARCHAR},
       USER_IDIMAGE_Z = #{userIdimageZ,jdbcType=NVARCHAR},
       USER_IDIMAGE_F = #{userIdimageF,jdbcType=NVARCHAR},
       USER_IDIMAGE = #{userIdimage,jdbcType=LONGVARBINARY}
@@ -699,6 +717,7 @@
       USER_EMERCONTACT = #{userEmercontact,jdbcType=NVARCHAR},
       USER_EMERPERSON = #{userEmerperson,jdbcType=NVARCHAR},
       USER_BIRTHDATE = #{userBirthdate,jdbcType=DATE},
+      USER_CURRENTADDR = #{userCurrentaddr,jdbcType=NVARCHAR},
       USER_IDIMAGE_Z = #{userIdimageZ,jdbcType=NVARCHAR},
       USER_IDIMAGE_F = #{userIdimageF,jdbcType=NVARCHAR}
     where USER_GUID = #{userGuid,jdbcType=CHAR}

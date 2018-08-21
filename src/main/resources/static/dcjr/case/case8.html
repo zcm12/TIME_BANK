@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>case8.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(case.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">铁氧体磁环在广州地铁项目电磁兼容性中的应用</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">论述电磁兼容（EMC）设计干扰抑制器件的基本原理，介绍该器件在广州地铁项目静止逆变器电磁兼容设计中的应用。 
+		</p>
+		<h2 align="left">1　引言</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">电磁兼容（EMC）设计是一个复杂的系统工程，根据轨道车辆设计及生产特点，应包括两大方面的设计内容：一为车辆设计部分，又分为结构设计、电气设计及生产工艺设计三个方面；二为电气部件部分。只有这两个方面的密切结合，才能最终完成整个车辆的电磁兼容工作。在电磁兼容设计方法中，滤波是抑制干扰和防止干扰的一项重要措施。而铁氧体磁环是电气设备电磁兼容性设计中抑制干扰非常实用的滤波器件。本文结合广州地铁项目讨论了干扰抑制器件铁氧体磁环在电磁兼容设计中的原理和应用。
+		</p>
+		<h2 align="left">2　铁氧体抗干扰磁环</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">铁氧体抗干扰磁环是一种新型的干扰抑制器件，其作用相当于低通滤波器，较好地解决了电源线、信号线和连接器的射频干扰抑制问题，而且具有使用简单、方便、有效（使用时只要把铁氧体磁环套在被保护线路上，无需接地，利用铁氧体磁环对高频干扰所反映出来的阻抗，使高频干扰得到有效抑制）等一系列优点，从而在电磁兼容设计中获得了广泛的应用。                          
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">铁氧体是铁的氧化物和多种其它粉末状金属（通常是锰、锌、镍和钴）放在一起，经挤压和一定时间的高温烧结后形成的陶瓷晶体。铁氧体材料的电磁性能与添加的金属成份，以及烧结过程中的时间、温度等有关。
+		</p>
+		<h2 align="left">3  铁氧体抗干扰磁环的基本工作原理</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">铁氧体材料的阻抗由两部分组成：感抗和电阻，两者都与频率有关，图1为其等效电路。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case8_1.jpg">
+		</div>
+		<p>
+		<h3 align="center">图1　铁氧体抑制元件的等效电路</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">铁氧体阻抗Z(f)=R(f)+jwL(f) ；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">损耗电阻R和感抗jwL都是频率f的函数。在低频段，铁氧体磁环的阻抗主要是感抗，它与材料的导磁率有关，不影响数据线或信号线上有用信号的传输。随频率升高，导磁率迅速下降，平抑了感抗增长势头（甚至出现了感抗减少的情况）。但高频下铁损明显增加，使总阻抗Z（f）继续增大，但此时铁损R(f)成为阻抗主要成份。当有高频能量穿过磁性材料时，电阻性分量就会把这些能量转化为热能耗散掉。这样就构成一个低通滤波器，使高频噪音信号有大的衰减，而对低频有用信号的阻抗可以忽略，不影响电路的正常工作
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case8_2.jpg">
+		</div>
+		<p>
+		<h3 align="center">图2 铁氧体抑制元件应用电路</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">铁氧体应用时的等效电路如图2所示。图中Ｚ为抑制元件的阻抗，ZS和ZL分别为源阻抗和负载阻抗，Z为铁氧体抑制元件的阻抗。通常用插入损耗表示抑制元件对EMI信号的衰减能力。器件的插入损耗越大，表示器件对EMI噪音抑制能力越强。若磁环使用前后在ZL上的电压分别为E1和E2，则磁环对噪声的衰减作用为:
+		</p>
+		<p>
+		<h3 align="center">A=20lg(E1/E2)= 20lg(ZS+Z+ZL)/(ZS+ZL)</h3>
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">由上式可知：信号源内阻ZS与负载阻抗ZL之和越小，铁氧体的等效阻抗Z越大，则对高频干扰的抑制作用越好。 
+		</p>
+		<h2 align="left">4、铁氧体磁环的应用</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">牵引系统牵引逆变器、SIV静止逆变器是地铁车辆上电磁骚扰发射最严重的两个设备，这两个设备的电磁兼容性能最直接的影响车辆电磁兼容性能。在广州四、五号线地铁车辆项目中，最初两个逆变器的电磁兼容性能不能满足EN50121-3-2标准的骚扰发射要求，导致车辆上信号系统应答天线受到干扰，致使列车自动驾驶系统不能正常工作；此外，列车的整车电磁兼容性能不能通过EN50121-3-1标准规定限值。下面通过该项目SIV逆变器电磁兼容改造前后测试结果说明铁氧体磁环的具体应用。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">SIV静止逆变器的输入电压为DC1500V，输出为AC380V和DC110V，其电路原理见下图3。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case8_3.jpg">
+		</div>
+		<h3 align="center">图3 AC380V输出回路（已改造增加铁氧体磁环）</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case8_4.jpg">
+		</div>
+		<h3 align="center"> 图4 DC110V输出回路（已改造增加铁氧体磁环）</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+　　在对SIV逆变器使用电容（见附图3、4中0.22uf电容）进行滤波后，虽然电磁兼容性能有所改善，但仍旧不能满足EN50121-3-2标准规定的限值要求。测试时，未使用铁氧体磁环，AC380V输出电压传导噪声发射明显超出限值要求，见下图5。在频率为7MHz时，超出标准规定限值约20dB。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case8_5.jpg">
+		</div>
+		<h3 align="center"> 图5 使用铁氧体磁环前AC380V输出电压噪声</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+从下图6可以看出，未使用铁氧体磁环时DC110V输出电压传导噪声发射也明显超出标准规定的限值要求，在1.5MHz处超出标准规定限值大约20dB。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case8_6.jpg">
+		</div>
+		<h3 align="center">图6 使用铁氧体磁环前DC110V输出电压噪声</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+经过分析，在增加铁氧体前SIV的AC380V输出电源线（铜排和零线）、DC110V输出电源线（铜排和负线）之间存在共模干扰，因此考虑在AC380V输出线UK2、VK2、WK2、O线增加2个铁氧体，在110V直流输出的正负线也加2个铁氧体，见下图7。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case8_7.jpg">
+		</div>
+		<h3 align="center">图7  AC380V和DC110V输出电源线增加铁氧体</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+在使用铁氧体后，测试结果如下图8和图9。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case8_8.jpg">
+		</div>
+		<h3 align="center">图8 使用铁氧体磁环后AC380V输出电压噪声</h3>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/case8_9.jpg">
+		</div>
+		<h3 align="center">图9 使用铁氧体磁环后DC110V输出电压噪声</h3>
+	    <p style="text-indent: 2em;padding: 3px 0px;">
+通过图8和图9可以看出通过使用铁氧体，有效地抑制了SIV电源输出电路的骚扰发射。增加铁氧体后，SIV的电磁兼容射频传导发射完全满足了EN50121-3-2标准限值要求。这为广州地铁项目车辆能够顺利通过EN50121-3-1标准规定的整车电磁兼容性能提供了必要的保障。
+		</p>
+		<h2 align="left">5、铁氧体磁环选择</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+铁氧体抑制元件有多种材料和各种形状、尺寸供选择。为选择合适的抑制元件，使对噪音的抑制更有效，设计者必须知道需要抑制的EMI信号的频率和强度，要求抑制的效果，以及允许占用的空间包括内径、外径和长度等尺寸。不同的铁氧体抑制材料，有不同的最佳抑制频率范围，与磁导率有关。通常材料的磁导率越高，适用抑制的频率就越低。值得注意的是，在电源线上应用铁氧体元件时有DC偏流存在。铁氧体的阻抗和铁损随着DC偏流的增加而减少。当偏流增加到一定值时，铁氧体抑制元件会出现饱和现象。在 EMC设计时要考虑饱和或插入损耗降低的问题。铁氧体的磁导率越低，插入损耗受DC偏流的影响越小，越不易饱和。所以用在电源线上的铁氧体抑制元件，要选择磁导率低的材料和横截面积大的元件。当偏流较大时，可将电源的出线（AC的火线，DC的正线）与负线（AC的中线，DC的地线）同时穿入一个磁环。这样可避免饱和，但这种方法只抑制共模噪音，从图3和图4可以看出本文案例SIV改造方案中SIV输出电源线即采用的此种使用方法。
+		</p>
+		<h2 align="left">６、结束语 </h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+本文对铁氧体磁环器件抑制干扰的基本原理进行了详细说明，并结合广州地铁项目车辆SIV逆变器 EMC改造的实际应用进行了说明。铁氧体磁环在电气电子产品设备的电源线、信号线等射频干扰抑制设计中具有广泛的应用。
+		</p>
+		
+	</div>
+
+</body>
+</html>

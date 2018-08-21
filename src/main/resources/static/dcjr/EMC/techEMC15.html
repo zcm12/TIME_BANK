@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>改善CAN电磁兼容性的措施</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">改善CAN电磁兼容性的措施</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：随着CAN技术的不断发展，其应用领域已经不局限于汽车制造，而在工业设备、工业自动化等领域也得到了广泛应用。但是，工业现场环境恶劣，电磁干扰较为严重，如何保证CAN总线通讯的可靠性尤为重要。本文着重介绍CAN总线
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">随着CAN技术的不断发展，其应用领域已经不局限于汽车制造，而在工业设备、工业自动化等领域也得到了广泛应用。但是，工业现场环境恶劣，电磁干扰较为严重，如何保证CAN总线通讯的可靠性尤为重要。本文着重介绍CAN总线电磁兼容性能，提出几种改善CAN总线电磁兼容性能的措施。
+		</p>
+
+		<h2 align="left">一、CAN总线电磁兼容性能分析</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">电磁兼容性能对CAN总线系统的运行可靠性具有较大的影响， 目前，在电子产品设计中，电磁兼容EMC性能对系统的影响非常大，关系到其能否正常稳定运行。国际上已经开始对电子产品的电磁兼容性做强制性限制，电磁兼容性能已经成为考核产品性能的重要指标之一，因此必须予以重视。电磁兼容主要包括两方面的内容，一个是产品本身对外界产生不良的电磁干扰EMI影响，称为电磁干扰发射；另一个是对外界电磁信号的敏感程度，称为电磁敏感度EMS。干扰源、耦合途径及敏感设备是电磁兼容的三要素，缺一不可。电磁干扰信号的耦合途径有传导和辐射两种。
+		</p>
+		
+		<h2 align="left">二、改善CAN总线电磁兼容的措施</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">当使用非屏蔽线时，物理层的电磁兼容性就变得非常重要，提高电磁兼容性的措施可分为三种：发射防护、吸收防护、传导防护。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">发射防护——提高电子设备本身电磁兼容能力
+		</p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">提高电子设备本身的电磁兼容性能是从根本上提高系统电磁兼容性能的有效措施，而印制电路板（PCB板）是电子设备的核心组成部分，并且其抗电磁干扰性能与电磁辐射性能往往是相互联系的，因此可以采取以下措施来提高印制电路板的电磁兼容性能。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">选择电磁兼容性能好的元器件
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">选择EMC性能好的元器件，并尽量选择表面贴装的封装形式。器件合理布局，把相互有关的器件尽量放得靠近些，使各部件之间的引线尽量短。特别是微控制器和CAN控制器的时钟源晶体，一定要按规定放置，否则会不起振。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">合理布局，降低地线阻抗
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">合理布局包括三个方面，一方面是对元器件的位置进行合理布局，将相互关联的元器件尽可能地集中布置，使相互之间的引线尽可能短：第二个方面是要将电子设备内部的数字电路与模拟电路有效分开，防止相互之间的信号干扰。第三个方面是合理布局地线，理想状态下，电路板上所有的地线应该等电位，但是由于地线阻抗的存在导致地线各点电位有差异，所以应该尽量减小地线阻抗。最有效的办法是做多层板，在中间专门设置一层地线面。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">吸收防护——抑制感应电磁干扰
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">对于外界的辐射干扰，可采用屏蔽或吸收的方式减弱消除，由于方法简便易行、屏蔽效果好以及便于设计等优点成为提高系统电磁兼容性能的重要措施。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">使用双绞线，加大双绞程度，屏蔽接地
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">电场在电缆中感应出共模电压，而磁场在电缆中既可以感应出共模电压，也可以感应出差模电压。通过屏蔽可以将电磁场的感应干扰降低到最小，而使用双绞线则进一步抑制了磁场感应的差模电压。双绞线的两根线之间具有很小的回路面积，而且双绞线的每两个相邻回路上感应出的电流具有相反的方向，相互抵消。双绞线的绞节越密，则效果越明显，建议每米双绞33圈。同时，为了减小CAN总线的串扰，应将双绞线加屏蔽层，为了降低静电放电干扰，整个屏蔽体需要和大地单点相连。
+	    </p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/techemc15_1.jpg">
+		</div>
+		<h2 align="left">增加阻抗抑制共模干扰</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">在共模干扰方面，符合ISO11898-2标准的差分传输已经提供了极好的防护，在CAN收发器所支持的共模范围之内，由于接收器只计算总线之间的电压差，因此滤除了共模干扰信号。高能量、电感性的感应干扰信号可能导致产生超出收发器共模范围的干扰信号，为了抑制这种干扰信号，可以在CAN节点的输入电路中插入一个扼流线圈，如图所示：
+		</p>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc15_2.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过扼流线圈抑制电感性的感应共模干扰
+		</p>
+		<h2 align="left">分开的总线终端</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">在高频方面，通过将总线终端电阻分开可以改善CAN网络的电磁兼容性，此时终端电阻被分成两个相同的大电阻，在两个电阻中间通过一个耦合电容接地，如图所示，为了使高频信号对地短路而不削弱直流特性，必须确保电容连接到一个电平固定的地。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc15_3.jpg">
+		</div>
+		<h2 align="left">传导防护——传导干扰的隔离与防护</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">传导干扰主要产生于瞬态、暂态的过程中，如大功率开关的开合、雷电的袭击等带来的瞬时浪涌，一般通过CAN总线电缆传输，所带来的电磁危害较大，因此在传播途径中要消除这些瞬时的脉冲、浪涌，使CAN总线通讯得以可靠进行。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">瞬态抑制二极管TVS
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">瞬态抑制二极管并联在信号线和信号地线之间，用来保护电缆受到雷击或静电放电时产生的浪涌高压。当TVS上的电压超过一定的幅度时，器件迅速导通，从而将浪涌能量泄放掉，并将电压的幅度限制在一定的范围内。建议CANH、CANL每个信号线上分别使用两个TVS管进行双向保护。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">隔离收发器
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">隔离是解决传导干扰问题的理想方法，它具有良好的电绝缘能力和抗干扰能力。选择隔离收发器首先要考虑传输延时，如光耦隔离的延时高达25ns以上，磁耦隔离只有3~5ns，其延时时间对总线的传输距离和质量都会造成影响，建议使用磁隔离的CTM1051设计接口收发电路。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc15_4.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">光纤传输
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">采用光纤传输，比如致远电子的CANHUB-AF1S1，安全隔离干扰。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc15_5.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">信号保护器
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">外接专用的信号保护器消除干扰，如ZF-12Y2消耗干扰强度和CANbridge网桥做隔离。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc15_6.jpg">
+		</div>
+		<h2 align="left">三、总结</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">致远电子做为国内最早引入CAN技术的厂商之一，对CAN总线的开发和测试有着丰富的经验，其研发的一款综合性的CAN总线分析仪——CANScope，集海量存储示波器、网络分析仪、误码率分析仪、协议分析仪及可靠性测试工具于一身，并把各种仪器有机的整合和关联；重新定义CAN总线的开发测试方法，可对CAN网络通信正确性、可靠性、合理性进行多角度全方位的评估；帮助用户快速定位故障节点，解决CAN总线应用的各种问题，是CAN总线开发测试的终极工具。
+		</p>
+	</div>
+
+</body>
+</html>

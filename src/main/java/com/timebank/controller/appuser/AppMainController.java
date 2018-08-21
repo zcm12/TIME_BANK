@@ -47,12 +47,33 @@ public class AppMainController {
     @ResponseBody
     public ResultModel appLoginUser(Users users) {
         String userName = users.getUserAccount();
+        UsersExample usersExample=new UsersExample();
+        String userAccount=null;
+        String userRole="Tourist";
+        String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+        String ph = "^[1][34578]\\d{9}$";
+        if(userName.matches(ph)){
+            usersExample.or().andUserPhoneEqualTo(userName);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            userAccount = usersList.get(0).getUserAccount();
+            userRole = usersList.get(0).getUserRole();
+        }else if( userName.matches(em)){
+            usersExample.or().andUserMailEqualTo(userName);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            userAccount = usersList.get(0).getUserAccount();
+            userRole = usersList.get(0).getUserRole();
+        } else {
+            usersExample.or().andUserAccountEqualTo(userName);
+            List<Users> usersList = usersMapper.selectByExample(usersExample);
+            userAccount = usersList.get(0).getUserAccount();
+            userRole = usersList.get(0).getUserRole();
+        }
         String password = users.getUserPassword();
         Subject subject = SecurityUtils.getSubject();
 //        System.out.println(subject);
         if (true) {
             //收集实体凭证信息  也就是常说的用户密码信息
-            UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+            UsernamePasswordToken token = new UsernamePasswordToken(userAccount, password);
             token.setRememberMe(true);
             //提交认证信息 认证处理
             try {
@@ -72,7 +93,7 @@ public class AppMainController {
                 return new ResultModel(3, "认证错误");
             }
         }
-        return new ResultModel(4, "登录成功");
+        return new ResultModel(4, userRole);
     }
     //散列算法类型为MD5
     private    String algorithmName ="MD5";
@@ -107,7 +128,7 @@ public class AppMainController {
         users.setUserPassword(encodedPassword);//设置用户加密后密码
         UUID userGuid = randomUUID();
         users.setUserGuid(userGuid.toString());//设置用户guid
-        users.setUserRole("USE");//设置用户角色
+        users.setUserRole("Tourist");//设置用户角色
         users.setUserSalt(salt);//设置密码盐
         users.setUserTypeAccountStatus("22222222-94e3-4eb7-aad3-111111111111");//设置用户状态为 账号正常
 
@@ -116,4 +137,20 @@ public class AppMainController {
         return new ResultModel(insert, "注册成功");
     }
 
+   /* @RequestMapping(value = "/appUpdateCurrentAddr")
+    @ResponseBody
+    public int appUpdateCurrentAddr(Users users){
+        String userCurrentaddr = users.getUserCurrentaddr();
+
+        Subject subject = SecurityUtils.getSubject();
+        String userAccount = (String) subject.getPrincipal();
+        UsersExample usersExample = new UsersExample();
+        usersExample.or().andUserAccountEqualTo(userAccount);
+        List<Users> users1 = usersMapper.selectByExample(usersExample);
+        Users users2 = users1.get(0);
+        users2.setUserCurrentaddr(userCurrentaddr);
+        int update = usersMapper.updateByPrimaryKeySelective(users2);
+        System.out.println("=========="+update);
+        return update;
+    }*/
 }

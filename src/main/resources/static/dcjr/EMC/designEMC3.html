@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>汽车电子触摸屏EMC设计</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">汽车电子触摸屏EMC设计</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：0 引言触摸屏是目前最简单、方便和直接的一种人机交互方式。触摸屏的应用非常广阔，汽车娱乐系统目前也普遍使用了触摸屏，触摸屏的应用给驾驶者带来了良好的用户体验，同时也对汽车娱乐系统的EMC设计带来了挑战。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">0 引言
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">触摸屏是目前最简单、方便和直接的一种人机交互方式。触摸屏的应用非常广阔，汽车娱乐系统目前也普遍使用了触摸屏，触摸屏的应用给驾驶者带来了良好的用户体验，同时也对汽车娱乐系统的EMC设计带来了挑战。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">美国国家仪器嵌入式系统触摸屏是目前最简单、方便和直接的一种人机交互方式。触摸屏的应用非常广阔，汽车娱乐系统目前也普遍使用了触摸屏，触摸屏的应用给驾驶者带来了良好的用户体验，同时也对汽车娱乐系统的EMC设计带来了挑战。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">触摸屏根据感应原理可分为电阻式、电容式、声波式和光学式等。目前，电容式触摸屏凭借其高灵敏度、多点触摸和寿命长等特点，已成为汽车娱乐系统市场的主流。本文主要对电容触摸屏进行介绍和EMC设计分析。
+		</p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">1 电容触摸屏简介
+	    </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">当手指触摸在触摸屏上时，手指和触摸屏表面形成一个耦合电容，耦合电容对于触摸屏表面的持续扫描脉冲信号是导体，于是手指吸收走一部分的电流，控制器通过对变化电流比例的计算得出触摸点的位置。图1所示为电容式触摸屏的工作原理示意图。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc3_1.jpg">
+		</div>
+		<h3 align="center">图1 电容触摸屏工作原理</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">触摸屏的水平和垂直方向分布着若干根“X Line”和“Y Line”，X Line会发射100kHz至300kHz的脉冲信号，Y Line会接收到X Line耦合过来的信号。如果没有手指触摸，整个触摸屏范围内的Y Line检测的电流值是一定的，如果有手指触摸，则Y Line上耦合到的信号会因为连接了手指产生的耦合电容而会发生明显变化。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2 电容触摸屏的EMC设计
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">如上节所述，电容触摸屏检测用的脉冲信号频率在100kHz至300kHz之间，汽车电子EMC测试标准中的RE(Radiated Emission)和BCI(Bulk Current InjecTIon)测试都覆盖了这个频段，如果处理不当将很容易导致RE测试结果超标和BCI测试时触摸屏误触发。另外，由于电容触摸屏在汽车电子 EMC测试中需要经受多次±25kV静电放电测试，所以如果相关防护设计不够理想，会容易导致触摸屏损坏或者触摸屏驱动IC失效的问题。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.1 电容触摸屏RE问题及解决措施
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">RE测试是衡量被试品通过空间辐射对其他设备的干扰能力。汽车电子的RE测试频率一般从100kHz开始，所以在低频段会测出电容触摸屏的检测信号。在笔者一个项目的第一次摸底时发现在低频段严重超标，如图2红色曲线所示。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过排除法定位了骚扰源头来自电容触摸屏检测用的脉冲信号，而此脉冲信号各参数完全是由触摸屏控制器控制，要有效降低辐射值必须通过修改触摸屏控制器的软件设置来修改脉冲信号的参数。在不影响触摸屏报点各项性能的前提下以下措施的应用通过实验验证会明显降低脉冲信号导致的电磁辐射。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(1)降低脉冲信号的电压和电流。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">触摸屏在满足充电时间时可以降低输出脉冲信号的电压和电流。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(2)脉冲上升沿设置为缓慢上升。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">触摸屏控制器为了缩短大尺寸触摸屏屏充电时间从而提高报点率一般都会将脉冲上升沿配置为快速上升，即上升沿在100ns左右。而对于汽车电子产品，报点率不会要求太高的情况下可以将斜率改为缓慢上升，即上升沿在500ns左右。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(3)在触摸屏无触摸动作10秒后工作模式从AcTIve转为Idle。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">所谓AcTIve模式是指控制器连续发出脉冲信号，Idle模式是指控制器间隔一段时间发出脉冲信号。这样测试时天线在单个频点单位时间内检测到的能量就少了很多。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(4)增大脉冲间隔时间和减少脉冲个数。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">增大脉冲间隔时间和减少脉冲个数同样可以降低天线在单个频点单位时间内检测到的能量。其中措施(1)和(2)会降低测试的峰值，措施(3)和(4)会降低测试的平均值和准峰值。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc3_2.jpg">
+		</div>
+		<h3 align="center">图2 音响娱乐系统某产品整改前后单极天线测试结果对比</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">图2蓝色曲线是使用了触摸屏新配置软件后的测试结果。可以看出在低频段不但不再超标而且有了足够的余量。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.2 电容触摸屏BCI问题及解决措施
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">BCI是用来衡量各车载设备抵御耦合到线束上的射频干扰信号的能力，是汽车电子产品常用的一种抗干扰型式试验方法。一般测试的频率范围是100kHz至 400MHz。笔者一个项目在做BCI测试时发现在130kHz左右出现触摸屏误触发的现象。根据触摸屏的脉冲工作频率，判定触摸屏受到了BCI的同频干扰。这个问题同样需要通过修改触摸屏控制器的软件设置来修改脉冲信号的参数。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">BCI测试时触摸屏的整体噪声会明显加大，加大到一定程度后将会影响触摸屏报点的正确性，触摸屏在检测到时整体噪声即将到影响正确报点时一般有下面两种做法：<br>
+		(1)屏蔽触摸屏所有的报点;<br>
+		(2)采用跳频形式避开干扰点。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于EMC测试，因为测试频率范围很宽，所以一般采用第(1)种方法，而如果噪声是来自产品本身且有固定的频率(如开关电源)可以采用第(2)种办法。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">另外，不同的客户对BCI的测试方法和要求不完全一样，有些客户要求在BCI测试时同时有模拟手在不断触摸屏幕，同时不能有误报点。这种测试要求下必须采用上述的第(2)种方法。当客户没有此要求时可以采用第(1)种方法，相比第(2)种方法第(1)种方法更容易实现且效果更加明显。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.3 电容触摸屏ESD设计
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">ESD是触摸屏EMC设计中最需要重点考虑的，因为一旦ESD失效，光靠像上述RE和BCI那样修改触摸屏控制器的软件可能不能彻底解决问题，还需要原理图、PCB和结构等共同配合解决，这些修改不但会影响项目的进度而且会增加BOM成本。所以这里列出相关设计经验供大家参考。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(1)确定触摸屏玻璃厚度时需要参考最高测试电压等级。确保ESD不会击穿玻璃将触摸屏传感器打坏。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(2)触摸屏传感器的ITO“桥”在不影响透光率的前提下尽量做粗。ITO“桥”是传感器最薄弱而容易被ESD打坏的地方，将“桥”做粗可以通过更大的ESD电流从而降低烧坏的概率。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(3)触摸屏边缘的地线尽量做粗。ESD容易对触摸屏边缘的保护地线放电，如果地线较细不能给ESD提供低阻抗的泄放回路，将会引起ESD流过传感器。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(4)对于COF(Chip On FPC)的触摸屏需要将控制器芯片的地与系统的地良好且可靠接触。对于COB(Chip On Board)的触摸屏需要将控制器芯片下面设置成完整的地平面并和系统地低阻抗连接。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(5)触摸屏控制器的软件需要设置屏蔽“大手指”的报点输出。ESD对触摸屏放电时，会引起触摸屏表面较大面积的电荷变化，反馈到控制器就像一个很大的手指按上了一样，软件设置成屏蔽“大手指”后可以有效解决触摸屏误报点的问题。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(6)原理图设计时需要在触摸屏与系统的接口处预留TVS等ESD保护措施。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(7)PCB layout时需要将触摸屏与系统的通讯走线做包地处理，提高其抗干扰能力。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3 结束语
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本文是基于汽车电子项目得出的触摸屏EMC设计经验，因为汽车电子的EMC标准相比其他类产品标准要严，所以对于其他类含触摸屏产品EMC设计时也可以参考本文的设计。
+		</p>
+	</div>
+
+</body>
+</html>

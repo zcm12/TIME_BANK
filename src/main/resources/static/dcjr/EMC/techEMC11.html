@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>电动汽车用电机驱动系统的电磁兼容技术研究</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">电动汽车用电机驱动系统的电磁兼容技术研究</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：摘要：基于电动汽车的特点和应用要求，对车用电机驱动系统电磁骚扰特性及传播机制进行了分析，采用骚扰源抑制、系统接地、电磁屏蔽、系统合理布局等措施实现了系统电磁兼容性能的有效提升.文中给出的整改方案已应用于
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">摘要：基于电动汽车的特点和应用要求，对车用电机驱动系统电磁骚扰特性及传播机制进行了分析，采用骚扰源抑制、系统接地、电磁屏蔽、系统合理布局等措施实现了系统电磁兼容性能的有效提升.文中给出的整改方案已应用于某款纯电动汽车，满足了国标要求，证明文中给出的电磁兼容方案是行之有效的。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">关键词：电磁兼容；电动汽车；电机驱动系统
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电动汽车上的电力电子变换装置无论数量还是功率都远远超过传统汽车，电磁兼容问题的严重性和复杂性也远高于传统汽车.电机驱动系统是电动汽车的三大关键系统之一，也是最重要的功率变换装置，其电磁兼容性能（electromagneticcompatibility，简称为EMC）不仅关系到自身的工作可靠性，而且会影响整车的安全运行能力和工作可靠性。从目前已有的电动汽车整车产品的检测过程来看，大部分车型都是经过多次整改才能够达到国标的相关规定.鉴于电磁兼容问题的重要性，基于电磁骚扰耦合和传播的一般机制，本文给出了电动汽车用电机驱动系统的电磁兼容分析及解决方案，并给出了电磁兼容的测试结果。
+		</p>
+		<h2 align="left">1 车用电机驱动系统电磁骚扰分析</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">车用电机驱动系统的电机控制器由主回路、控制电路、机箱、散热器、电缆等几部分组成.其中主回路的主要部件为功率模块，如IPM或IGBT等，是控制器的主要骚扰源，而平行双线组成环路的电感。
+		<br>
+		L=uln(s/r)/π
+		<br>
+		式中：s为平行双线的间隔；r为导线半径.
+		</p>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">在高频的开关频率（几十kHz）下，产生很高的du/dt和di/dt，与直流母线的杂散电感相作用将产生很高的电流尖峰；而车用电机控制器的母线电压一般为上百伏，故在产生PWM波的同时伴有很高的电压峰值，这必然将带来严重的电磁骚扰噪声，通过近场和远场耦合形成传导和辐射骚扰.控制电路产生的PWM信号以及输出的高频时钟脉冲波也会产生差模和共模辐射，但其辐射水平较低，产生的电磁骚扰一般较小。机箱的屏蔽性差也会带来电磁泄漏产生电磁骚扰.散热器会产生电磁振荡，散热片通常具有复杂的几何形状，具有多频带的RF辐射特性，很可能对开关频率谐波起到辐射天线作用.电缆的不合理布设及非屏蔽也会产生较大的电磁骚扰。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电机驱动系统另外一个严重的电磁骚扰源来自电机.电机是电感性设备，电机工作时会产生很强的脉冲流并且可以在电源网络中传播，向周围空间辐射.电机的开、停以及负荷改变都会使工作电流改变并产生脉冲电流，这种骚扰表现为不规则的脉冲流，频谱约为10kHz耀1GHz。因此，电机驱动系统是电动汽车的主要电磁骚扰源[2-3]。
+		</p>
+		
+		<h2 align="left">2 解决方案</h2>
+	    <p style="text-indent: 2em;padding: 3px 0px;">理论与实践表明，任何电磁骚扰的发生必须具备3个条件：骚扰源、传播骚扰的途径和敏感设备.任意一个条件的削弱或缺失，都将使电磁骚扰问题得到改善和解决.基于以上分析，此次开发的电机驱动系统的电磁兼容设计采取了如下技术方案。
+	    </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.1抑制骚扰源
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">（1）设计低寄生电感的功率母线：采用叠层母线结构设计技术[4]，由正负导电铜板和中间的绝缘体构成一个3层结构，可以大大降低直流母线的寄生电感，从而降低浪涌电流及尖峰电压.图1给出了母线的设计图纸。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc11_1.jpg">
+		</div>
+		<h3 align="center">图1叠层母线设计图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">（2）简单起见，采用了单电容的吸收回路，抑制高频尖峰电压及电流，并最终在吸收电路中消耗或反馈到电源中去.单电容吸收电路如图2所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc11_2.jpg">
+		</div>
+		<h3 align="center">图2 单电容吸收电路</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">（4）在控制电源及动力电源输入侧加装EMI滤波器，如图4所示，既可以降低系统电磁发射强度，又可以提高系统的抗扰能力，但阻抗选择要根据系统工作频率和阻抗特性进行匹配。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc11_3.jpg">
+		</div>
+		<h3 align="center">图3门极驱动独立电源</h3>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">当DCDC模块工作时，DC+和DC-输出线会携带很强的干扰电流，DC-直接与机壳相连。测试模型图如图6所示，当没有接地点B时，干扰电流主要通过DC输出线与接地参考平面之间的杂散电容形成回路；当在DC+和DC-之间增加接地点B时，恰好为干扰电流提供了直接的低阻抗通路，就会出现地环路电流，导致更大的共模电流，进而出现传导发射超标的现象。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc11_4.jpg">
+		</div>
+		<h3 align="center">图4电源EMI滤波器电路图</h3>
+	
+		<p style="text-indent: 2em;padding: 3px 0px;">（5）驱动电机是车用驱动系统最强的电磁骚扰源，将电机外壳形成一个良好的密封体实现屏蔽的完整性，防止电磁泄漏，再通过多点接地的方式将电机屏蔽外壳与整车可靠接地，可以有效降低电机的电磁辐射水平。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.2 消除传播途径———接地、去耦、屏蔽设计
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">（1）根据地线分流原则.将强电与弱电地线分线，数字电路和模拟电路地线分线，安全地、信号地和噪声地分线，最后辐射状汇聚到一个公共接地点；采用光电隔离阻隔地环流，切断骚扰途径；外壳及散热器等与大地可靠连接，防止外界磁场的骚扰以及静电击穿；灵活运用多点和单点接地。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">（2）从系统整体角度而言，通过屏蔽措施使驱动系统达到良好的电磁屏蔽效果也是解决系统EMC的有效手段之一.电磁屏蔽的关键是保证屏蔽体的导电连续性，将机箱形成一个连续密封的导电体，使耦合到内部电路的电磁场被反射和吸收.在机箱的永久性接缝处采用焊接工艺密封；在机箱的非永久性接缝处加入实心导电橡胶条作为导电衬垫，从而有效保证了屏蔽的完整性.在动力线缆与信号线缆穿越机箱部分的屏蔽连续性设计也至关重要，可以采用带屏蔽的插头插座或在端接处使用动力线缆屏蔽压接装置[5-6]，实现屏蔽层与机箱的360毅端接，以及采用滤波连接器设计，可以有效地抑制辐射耦合.图5和图6为相关措施的示意图。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc11_5.jpg">
+		</div>
+		<h3 align="center">图5屏蔽动力线缆插座</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc11_6.jpg">
+		</div>
+		<h3 align="center">图6导电衬垫</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.3 提高系统的抗扰能力
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">（1）合理的整体布局.首先，将强电与弱电分开，避免彼此间的骚扰影响；其次，采取不同的电源分别供给数字信号和模拟信号，以确保彼此信号不会因为电源而彼此影响。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">（2）控制器电源的抗扰设计.控制电源采用隔离的模块电源，不同电路隔离供电.控制电源EMC设计主要有如下措施：一是将电源输入输出线绞合并缩短与进线端的距离，在进线端增加共模扼流圈、维持电容、去耦电容以及滤波电容，如图4所示.二是缩短进线端与负载间的距离，增大导线面积，以减小连接电阻对负载调整率的影响。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">（3）控制板抗扰性设计.淤采用光电隔离；于元器件的降额使用；盂选用集成度高的元器件；榆适当加入滤波和去耦电路，如每个集成电路安置一个0.01耀0.1滋F的电容，并且使电容与芯片电源端和地线端之间的联线尽量短；虞数据线、地址线、控制线要尽量短，以减少对地电容；愚多层分区设计，控制电路板采用多层设计，可有效地降低电源线和地线的阻抗及有效减少电路的环路面积，本文将控制电路板分为4个区，包括电源区、模拟电路分区、数字电路分区以及隔离通讯电路分区。
+		</p>
+		
+		<h2 align="left">3 实验结果</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">图7所示为系统测试配置框图.电机系统采用转速控制模式，模拟实车运行状态.其中，电机为永磁同步电机，峰值功率35kW，最高转速6000r/min。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc11_7.jpg">
+		</div>
+		<h3 align="center">图7系统测试框图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">图8为该电机系统经过上述电磁兼容整改方案前后的辐射骚扰垂直极化测试结果，主要频点均降低了50dB以上.从图8（a）中可以看出，未加电磁兼容设计整改的超标严重；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">而通过整改后，该电机系统通过了CISPR25：2008零部件的辐射发射Class3要求，如图8（b）所示.
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc11_8_1.jpg">
+		</div>
+		<h3 align="center">图8辐射骚扰垂直极化测试结果（a）整改前</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc11_8_2.jpg">
+		</div>
+		<h3 align="center">图8辐射骚扰垂直极化测试结果（a）整改后</h3>
+		<h2 align="left">4 结束语</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于采用电力电子装置的电机驱动系统而言，电磁兼容与干扰抑制无疑是至关重要的.针对电动汽车的特殊性，本文采用骚扰源抑制、系统接地、电磁屏蔽、系统合理布局等措施有效提升了车用电机驱动系统的电磁兼容性能.通过一款纯电动汽车用电机驱动系统的应用以及国标所涉及各个项目的整改和测试，证明了本文方案的正确性和有效性.
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">参考文献：<br>
+		[1]沙斐援机电一体化系统的电磁兼容技术[M].北京：中国电力出版社，1999.<br>
+		[2]朱学军，张逸成援电动汽车动力电力电子装置的电磁兼容性研究现状[J]援安全与电磁兼容，2009（2）：81-85.<br>
+		[3]韩利，温旭辉，曾莉莉援混合动力电动汽车用电机及驱动控制器的电磁兼容设计[J]援安全与电磁兼容，2006（1）：81-84.<br>
+		[4]MITSUBISHI援GeneralConsiderationsforIGBTandIntelligentPowerModules，MitsubishiSemiconductorsPowerModulesMos[Z].Tokyo：MitsubishiMotorsCorporation，2000.<br>
+		[5]王慧波，窦汝振，辛明华援一种动力线束的屏蔽结构：中国，201020603848.8[P].[2011-09-07].<br>
+		[6]窦汝振，王慧波，程普.总线式车载电动空调开发调试系统设计[J].天津工业大学学报，2010，29（2）：73-76.<br>
+		作者介绍：窦汝振1，王慧波1，苟毅彤1，程普2，杨阳1，武金羽1 （1.中国汽车技术研究中心，天津300162；2.河北化工医药职业技术学院电机工程系，石家庄050031）
+		</p>
+	</div>
+
+</body>
+</html>

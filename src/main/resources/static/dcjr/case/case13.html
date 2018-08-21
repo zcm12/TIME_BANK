@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>case13.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<style type="text/css">
+@import
+url(case.css)
+</style>
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">某车载显示屏辐射发射整改方案</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">显示屏用在汽车中控处，显示多媒体娱乐部分，有两路LVDS信号输入，测试要求通过国外某品牌汽车零部件标准，在测试时辐射发射超标，通过整改后测试，测试通过。
+		</p>
+		<p>
+		<h2 align="left">1.现象描述</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">该显示屏用在汽车中控处，显示多媒体娱乐部分，有两路LVDS信号输入，测试要求通过国外某品牌汽车零部件标准，
+		在测试时辐射发射超标，该产品功能如图1所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case13_1.png">
+		</div>
+		<p>
+		<h3 align="center">图1  车载显示屏功能图</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">测试数据如图2所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case13_2_1.png">
+		</div>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case13_2_2.png">
+		</div>
+		<p>
+		<h3 align="center"> 图2  车载显示屏辐射骚扰测试数据</h3>
+		</p>
+		<p>
+		<h2 align="left">2.原因分析</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">该产品为车载中控显示屏，测试限值比较低，其滤波要求与普通产品比较起来相对严格，该产品的问题有两路LVDS输入，
+		通过DS90UR906Q、DS90UH926QS将LVSD视频信号转化为RGB信号，通过分析发现在原理图LVSD输入没有加滤波电路，显示屏只有一个磁珠滤波，LVSD差分信号没有做等长处理。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case13_3.png">
+		</div>
+		<p>
+		<h3 align="center">图3  车载显示屏PCB</h3>
+		</p>
+		<p>
+		<h2 align="left">3.整改对策</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1. 对LVDS输入信号加滤波电路，LVDS为高速信号，有较强的干扰需要加滤波电路，如图4所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case13_4.png">
+		</div>
+		<p>
+		<h3 align="center">图4  LVDS输入信号加滤波电路</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2. 芯片的电源需要加滤波电路，汽车电子limit值比较低，需要在芯片的电源电路加滤波电路，消除干扰信号通过电源对外的干扰，如图5所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case13_5.png">
+		</div>
+		<p>
+		<h3 align="center">图5  芯片电源加滤波电路</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3. LVDS解码的时钟电路，需要加滤波电路，时钟电路是敏感干扰源，需要对其加滤波电路，防止时钟信号对外的干扰，如图6所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case13_6.png">
+		</div>
+		<p>
+		<h3 align="center">图6 LVDS解码时钟加滤波电路</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">4.对电源输入加滤波电路，滤除电源信号对外的干扰，如图7所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case13_7.png">
+		</div>
+		<p>
+		<h3 align="center">图7  电源输入加滤波电路</h3>
+		</p>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">5.  由于LVDS转换芯片有较强的干扰，在PCB设计时，对其加屏蔽罩处理，屏蔽芯片的辐射对外干扰；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">6.  在PCB设计时LVDS信号严格按照差分信号走线，做等长、并行走线处理；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">7.  时钟信号在同一层，做伴地处理，滤波元器件一定要靠近发射端源头。
+		</p>
+		<p>
+		<h2 align="left">4.测试验证</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过整改后测试，测试通过，测试数据如图8所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case13_8.png">
+		</div>
+		<p>
+		<h3 align="center">图8  车载显示屏辐射骚扰整改后测试数据</h3>
+		</p>
+		<p>
+		<h2 align="left">5.经验总结</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1.  汽车电子测试要求比消费类电子严格的多，在整改时思考问题从细节考虑，往往是一个小小的细节问题，会导致测试失败；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.  工程师在进行滤波电路设计时，也要严格要求，比其他消费类电子要增加多的滤波电路；：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3.  LVDS信号在设计时，要严格按照差分信号走线处理。
+		</p>
+	</div>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>test16.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <style type="text/css">
+	@import url(test.css)
+    </style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+     <div>
+		<h1 align="center">便携式音响EMC问题分析及整改方案分享 </h1>
+	 </div>
+
+	 <div id="content">
+	    <h2 align="left"> 一、现象描述</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">此产品为便携式音箱，产品具有AUX , USB , CD 功能。产品在做FCC Part 15B 辐射测试时，发现100-200MHz 余量不足。经过各个功能状态的对比发现，USB Play 状态最为严重。整改首先从USB Play 状态入手。
+		</p>
+		<h2 align="left">二、整改思路</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">从测试曲线上可以看出，曲线是宽带干扰引起，只有大电流的器件，才会引起宽带超标。通过频谱分析探测到，USB 工作时，DDC IC工作是大电流器件， 会产生很强的干扰。整改在DDC IC VCC与GND 追加磁珠，从而减小对外界的辐射。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">USB Play : 电路PCB 图，探测波形及测试数据如下：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">DDC 回路影响：低频Noise 影响，辐射曲线明显飘高。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test16_1.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">整改后:VCC ,GND 磁珠追加（选择磁珠时要注意满足大电流需求，要确保电流在1A以上）
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test16_2.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">USB Play: （整改后面完整测试数据）
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对策前：Margin 1.71 dB
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test16_3.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">对策后：Margin :4.47 dB
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test16_4.png">
+		</div>
+	</div>
+  </body>
+</html>

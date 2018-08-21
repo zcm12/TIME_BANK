@@ -1,0 +1,36 @@
+@CHARSET "UTF-8";
+/*
+	CSS 注释
+*/
+h1 {
+	font-size: 22px;
+	padding: 0 4% 0 4%;
+	margin: 10px 0 5px 0
+}
+
+h2 {
+	font-size: 16px;
+	padding: 0 4% 0 0;
+	margin: 10px 0 5px 0
+}
+
+h3 {
+	font-size: 16px;
+	padding: 0 4% 0 4%;
+	margin: 10px 0 5px 0
+}
+
+
+#content {
+	font-size: 13.5pt;
+	font-family: "HiraginoSansGB W3", Arial;
+	padding-left: 2%;
+	padding-right: 2%;
+	line-height: 1.25;
+}
+
+img {
+	max-width: 600px;
+	width: 100%;
+}
+

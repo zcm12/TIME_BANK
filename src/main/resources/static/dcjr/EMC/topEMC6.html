@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>降低噪声与电磁干扰的24个窍门</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">降低噪声与电磁干扰的24个窍门 </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：电子设备的灵敏度越来越高，这要求设备的抗干扰能力也越来越强，因此PCB设计也变得更加困难，如何提高PCB的抗干扰能力成为众多工程师们关注的重点问题之一。本文将介绍PCB设计中降低噪声与电磁干扰的一些小窍门。下面
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电子设备的灵敏度越来越高，这要求设备的抗干扰能力也越来越强，因此PCB设计也变得更加困难，如何提高PCB的抗干扰能力成为众多工程师们关注的重点问题之一。本文将介绍PCB设计中降低噪声与电磁干扰的一些小窍门。
+		</p>
+
+		<p style="text-indent: 2em;padding: 3px 0px;">下面是经过多年设计总结出来的，在PCB设计中降低噪声与电磁干扰的24个窍门：<br>
+		1、能用低速芯片就不用高速的，高速芯片用在关键地方。<br>
+		2、可用串一个电阻的办法，降低控制电路上下沿跳变速率。<br>
+		3、尽量为继电器等提供某种形式的阻尼。<br>
+		4、使用满足系统要求的最低频率时钟。<br>
+		5、时钟产生器尽量近到用该时钟的器件，石英晶体振荡器外壳要接地。<br>
+		6、用地线将时钟区圈起来，时钟线尽量短。<br>
+		7、I/O 驱动电路尽量近印刷板边，让其尽快离开印刷板;对进入印制板的信号要加滤波，从高噪声区来的信号也要加滤波，同时用串终端电阻的办法，减小信号反射。<br>
+		8、MCD 无用端要接高，或接地，或定义成输出端，集成电路上该接电源地的端都要接，不要悬空。<br>
+		9、闲置不用的门电路输入端不要悬空，闲置不用的运放正输入端接地，负输入端接输出端。<br>
+		10、印制板尽量，使用45 折线而不用90 折线布线以减小高频信号对外的发射与耦合。<br>
+		11、印制板按频率和电流开关特性分区，噪声元件与非噪声元件要距离再远一些。<br>
+		12、单面板和双面板用单点接电源和单点接地、电源线、地线尽量粗，经济是能承受的话用多层板以减小电源，地的容生电感。<br>
+		13、时钟、总线、片选信号要远离I/O 线和接插件。<br>
+		14、模拟电压输入线、参考电压端要尽量远离数字电路信号线，特别是时钟。<br>
+		15、对A/D 类器件，数字部分与模拟部分宁可统一下也不要交叉。<br>
+		16、时钟线垂直于I/O 线比平行I/O 线干扰小，时钟元件引脚远离I/O 电缆。<br>
+		17、元件引脚尽量短，去耦电容引脚尽量短。<br>
+		18、关键的线要尽量粗，并在两边加上保护地。高速线要短要直。<br>
+		19、对噪声敏感的线不要与大电流，高速开关线平行。<br>
+		20、石英晶体下面以及对噪声敏感的器件下面不要走线。<br>
+		21、弱信号电路，低频电路周围不要形成电流环路。<br>
+		22、信号都不要形成环路，如不可避免，让环路区尽量小。<br>
+		23、每个集成电路一个去耦电容。每个电解电容边上都要加一个小的高频旁路电容。<br>
+		24、用大容量的钽电容或聚酷电容而不用电解电容作电路充放电储能电容。使用管状电容时，外壳要接地。
+		</p>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc6_1.jpg">
+		</div>
+		
+	</div>
+
+</body>
+</html>

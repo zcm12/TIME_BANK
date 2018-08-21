@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tech17.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(tech.css)
+</style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    
+	<div>
+		<h1 align="center">照明产品的电磁兼容（EMC）问题及检测技术 </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">简介:很据市场质检专项抽查，LED照明产品不合格率达到73.9%，其中不合格项主要集中在谐波电流、浪涌冲击、骚扰电压等电磁兼容测试项目。电磁兼容性（EMC）是影响LED照明产品可靠性的重要因素。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">LED凭借自身高光效、长寿命、节能环保等显著优势在照明行业中渐渐确立了龙头地位，如室内、室外照明等众多领域。伴随国家各类扶植政策的出台，国内涌现出大批LED照明产品制造厂商，但是LED照明产品质量良莠不齐，在一定程度上影响了LED照明产品的推广。很据市场质检专项抽查，LED照明产品不合格率达到73.9%，其中不合格项主要集中在谐波电流、浪涌冲击、骚扰电压等电磁兼容测试项目。电磁兼容性（EMC）是影响LED照明产品可靠性的重要因素。
+		</p>
+		<h2 align="left">1、EMC测试标准  </h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">目前国际上尚无针对LED照明产品专用的EMC标准，目前的作法是根据LED照明产品应用的领域，参考执行相关标准。如车用LED照明产品应参照CISPR25《用于保护车辆接收机的无线电骚扰特性的限值和测量方法》、ISO7637-2《道路车辆 由传导和耦合引起的电骚扰 沿电源线的瞬态传导》和ISO11452《道路车辆 用窄带发射的电磁能量进行电磁干扰 部件试验方法》等标准执行EMC测试，这部分内容本文不作讨论。本文探讨的重点是一般用途LED照明产品（除车用照明、航空照明、影印机等专用LED照明设备）的EMC测试标准，具体如表1所示。
+		</p>
+		<h3 align="center">表1 LED照明产品的EMC测试标准</h3>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech17_1.png">
+		</div>
+		<h2 align="left"> 2、EMC测试项目 </h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">LED照明产品的EMC测试项目目前可以分为电磁干扰（EMI）和电磁敏感度（EMS）。EMI（Electromagnetic Interference）即电磁干扰测试，是测试LED照明产品产生的可能引起其它事物（包括设备、系统、人及动植物）性能降低或产生损害的电磁骚扰。EMS（Electromagnetic Susceptibility)即电磁敏感性（抗扰度）测试，是测试LED照明产品对电磁骚扰如雷击、ESD静电抗击测试和振铃波等抗扰能力。
+		</p>
+		<h3 align="center">表2 LED照明产品的EMC测试项目</h3>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech17_2.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">表2列举了LED照明产品的EMC测试项目、包括主要测试内容、主要测试设备、测试环境。以下将着重讨论EMI电磁干扰、静电放电、浪涌冲击这三方面测试内容。
+		</p>
+		<h2 align="left">2.1、EMI测试 </h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">电磁干扰EMI(Electromagnetic Interference)，有传导干扰和辐射干扰两种。传导干扰是指通过导电介质把一个电网络上的信号耦合（干扰）到另一个电网络。辐射干扰是指干扰源通过空间把其信号耦合（干扰）到另一个电网络。在高速PCB及系统设计中，高频信号线、集成电路的引脚、各类接插件等都可能成为具有天线特性的辐射干扰源，能发射电磁波并影响其他系统或本系统内其他子系统的正常工作。众所周知，EMC的测试目标是电子电器设备，而照明设备作为其中重要的一块，自然也有相应的约束。如美国的FCC认证，欧盟的CE认证等都对LED照明设备提出了相关的测试项目。当谈论到电磁干扰时，一般来讲有两种干扰源；一种是传导干扰，主要是电子设备产生的干扰信号通过导电介质或公共电源线互相产生干扰，LED灯具的FCC认证传导干扰扫瞄测试频率从0.15MHz开始至30MHz结束，CE认证中的传导干扰扫瞄测试频率从9KHz开始至30MHz结束。 另外一种干扰是辐射干扰，主要是指电子设备产生的干扰信号通过空间耦合把干扰信号传给另一个电网络或电子设备，LED灯具的FCC认证空间辐射干扰扫瞄测试频率从30MHz开始至1GHz结束，CE认证中的空间辐射干扰扫瞄测试频率从30KHz开始至300MHz结束。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在照明行业中，在测试9KHz-30MHz波段的EMI中有两种方法，一种是采用Antenna（天线）和EMI接收机，其依据标准是CISPR15，EN55015，GB17743。对于照明灯具可能产生的低频磁场设备，需要采用CISPR16-1-4规定的三环天线测量其低频磁场辐射骚扰。主要是由三环天线和EMI接收机进行测试，测试时需在屏蔽室室内进行。注：三环天线将X方向，Y方向和Z方向低频磁场分量转化为RF信号，并通过同轴开关三个通道输送到EMI接收机进行测量；另外一种是采用LISN测试方法，测试时需要由EMI接收机+人工电源网络+LISN和测试软件进行。传导骚扰测试系统用于测量灯和灯具照明设备在正常工作状态下电源端口产生的骚扰，LISN实现RF信号的隔离，采样，阻抗匹配，并为EUT提供电通道，EMI接收机对RF信号进行测量，并最终由EMI测试软件进行分析，处理和判限。测试时需在屏蔽室进行。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">与此同时，在9KHz-300MHz波段的EMI测试中采用的是CDN法。在CISPR15，EN55015和GB17743标准中还提供另外一种照明设备的辐射电场骚扰测试方法，即CDN共模端子电压法。采用CDN法，主要包括EMI接收机，CDN和衰减器。测试时可以在屏蔽室内进行。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">根据相关基础标准如CISPR16，力汕研发生产了两款EMI测试设备，而针对传统及新型照明行业标准，两款设备的扫描频率各不同， EMI-9KB EMI扫描频率为9KHz~300MHz，适合LED及传统照明设备的检测； EMI-9KA EMI扫描频率为9KHz~30MHz则主要适合传统照明设备的检测。而判定被测物是否符合标准，我们引用了峰值，准峰值和平均值三个值来判定，考虑到不同标准的差异，软件可直接调用GB17743、FCC、EN55015、GB4343等判定标准。
+		</p>
+		<h2 align="left"> 2.2、静电放电</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">LED属于半导体器件，在LED制造、装配、运输、存储、使用各阶段中，生产设备、材料、和操作者都可能给LED带来静电损失，导致LED过早出现漏电流增大、光衰加重，甚至“死灯”现象。静电放电对LED的电光参数包括反向漏电流、正向I-V特性、光通量均会造成一定程度的劣化。静电放电是影响   LED及LED照明产品可靠性的重要因素之一。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">LED是LED照明产品的关键材料。对于LED的静电放电抗扰度测试，应遵循相关国际标准如美国国家标准ANSI/ESD STM5.1、ANSI/ESD STM5.2，国际电子电工协会标准JESD22-A114D、JESD22-A115-A，美国军方标准MIL-STD-883等。上海力汕电子科技研发的的ESD61000-2静电放电发生器专门针对LED静电敏感等级判定要求及特点而设计，采用机器模式（MM）及人体模式（HBM）静电放电试验，静电放电电压最高可达30KV；LED电压、电流测量准确度可达0.2%；LED正向电压分辨率1mV；反向漏电流分辨率0.01μA。对于LED照明产品而言，其整体的静电放电抗扰度测试须按照GB/T 17626.2/IEC61000-4-2进行。接触放电是首选的测试方法，对LED照明产品机壳上每个可触及的金属部件（不包括接线端）进行20次连续放电，正负极性各10次。在无法进行接触放电的部位可使用空气放电。间接放电应根据GB/T17626.2的规定施加于水平或垂直耦合板上。为确保测试结果的重复性和一致性，静电放电试验必须按照GB/T17626.2第7章节内容规范布置。ESD61000-2静电放电发生器校准数据如下：
+		</p>
+		<h3 align="center">校准数据：</h3>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech17_3.png">
+		</div>
+		<h2 align="left"> 2.3、浪涌冲击</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">雷击是很普遍的气候现象，据统计，全世界有4万多个雷暴中心，每天有8百万次雷击，这意味着每秒钟有100次左右的雷击发生。雷电击中附近地面或邻近物体，在其周围产生强大的电磁场，线路上会感应高电压、大电流。另外一方面，在电力系统中浪涌也是一种非常普遍的现象。如主电源系统切换、设备接地网或接地系统间的短路和飞弧故障等等。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">LED照明产品尤其是户外照明产品如果不重视雷击浪涌方面的保护，会严重影响产品可靠性。大面积的LED路灯在雷雨天气后损坏的事例屡见不鲜；据某质监局在一次针对LED路灯的质量抽查中发现，近60%的LED路灯无法满足雷击浪涌要求。为评估LED照明产品的浪涌冲击抗扰性能，须按照IEC/EN61000-4-5和GB/T 17625.5的要求进行浪涌冲击测试。其测试原理如图5所示，共模和差模试验的耦合网络是不同的，差模试验即线-线试验，其耦合电容是18μF，用于模拟实际云层和大地间的电容；共模试验即线-地试验，其耦合网络由电容和电阻串联组成，其中电容为9μF，电阻为10Ω。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech17_4.png">
+		</div>
+	</div>
+  </body>
+</html>

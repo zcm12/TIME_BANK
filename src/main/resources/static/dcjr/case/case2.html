@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>case2.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(case.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">摄像头静电故障原因分析及整改 </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">某款摄像头产品在静电测试中，接触放电±6KV 和空气放电±8KV测试不通过。测试点如下图1所示：从测试现像来看，摄像头整个系统重新启动，怀疑是底板的DSP被MCU复位，为了验证是否是这个问题，使用近场干扰仪，在MCU- ... 
+		</p>
+		<h2 align="left">1. 现象描述</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 某款摄像头产品在静电测试中，接触放电±6KV 和空气放电±8KV测试不通过。测试点如下图1所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case2_1.png">
+		</div>
+		<p>
+		<h3 align="center">图1 某款摄像头</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">  实验现象如下：
+		</p>
+		<p style="text-indent: 3em;padding: 3px 0px;">
+		 （1）接触放电测试A点，摄像头会立刻重新启动；<br>    
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2）空气放电测试B点，图像会卡死，大约过二十秒会恢复到正常状态。
+		</p>
+	
+		<h2 align="left">2. 原因分析</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">  （1）接触放电测试A点，摄像头会立刻重新启动<br>
+
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 从测试现像来看，摄像头整个系统重新启动，怀疑是底板的DSP被MCU复位，为了验证是否是这个问题，使用近场干扰仪，在MCU-RST信号线上近场干扰，问题复现，和静电枪测试现像一致。而且复位信号本是容易受静电干扰的敏感信号。基本确定敏感信号。<br>
+
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2）空气放电测试B点，图像会卡死，大约过二十秒会恢复到正常状态<br>
+
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 从测试现像及测试位置来看B点更靠近前端sensor板。图像卡死，说明前端sensor板挂死，而后恢复到正常状态，说明sensor重新恢复，二十秒是一种恢复机制设定。摄像头采用分板设计，架构示意如图2所示，B点为空气放电，而sensor与结构不搭接，推断为空间干扰，而散热片比较大相当于接受干扰的天线。而且散热片与sensor通过分布电容耦合干扰。去除散热器后，静电枪测试无图像卡死现像。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case2_2.png">
+		</div>
+		<h3 align="center">图2 摄像头基本架构图</h3>
+		<h2 align="left">3. 解决措施</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">    （1）接触放电测试A点，摄像头会立刻重新启动<br>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;复位信号受到干扰一般有三种解决方案：<br>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、提高复位信号的电平；<br>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、增加滤波措施；<br>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、软件上设置复位信号检测时间。<br>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此处选择第二种方案，在复位线上靠近DSP管脚串联100欧姆电阻及并联1nF电容,最终测试A点未出现重启现像。<br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2）空气放电测试B点，图像会卡死，大约过二十秒会恢复到正常状态<br>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;去除散热片，因为散热需要是不能去除的。因此从减少分布电容着手：<br>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 增加导热垫厚度，变相的增大散热片与sensor芯片之间的距离，从而减少分布电容；<br>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. 因为导热垫规格限制，我们同时改变散垫片的形状。此处借助仿真来进行仿真量化。如下图3所示，选择sensor芯片与PCB的GND之间两个电压观察点，原始散电场测试后会产生1.6V的压差，通过增加导热垫及散热器形状将电压降至0.6V对芯片影响不大，通过测试。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case2_3.png">
+		</div>
+		<h3 align="center">图3 仿真表面电流</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">   最终修改方案：<br>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（1） 增厚导热垫厚度至3mm；<br>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2） 改变散热器形状，如下图4所示，减少对芯片的分布电容。
+		</p>
+			<div align="center">
+		<img alt="图片找不到" src="imgs/case2_4.png">
+		</div>
+		<h3 align="center">图4 散热片结构设计</h3>
+        <h2 align="left">4. 思考与启示</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">  复位和重启现像是静电测试中最常见的现像，而复位信号属于敏感信号，在设计中一定要注意远离放电点，并预留滤波器件。芯片上加散热器会增加芯片的空间散电场的耦合干扰，可以从散热器与芯片的间距及形状来控制之间，而静电仿真可以量化干扰场的大小及表面电流路径。
+		</p>
+	</div>
+
+</body>
+</html>

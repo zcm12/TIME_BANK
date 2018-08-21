@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>case3.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(case.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">路径分析解决安防摄像机浪涌问题  </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">EMC（电磁兼容）是一门综合性学科，它的难点在于电磁场看不见、摸不着，还不安分，不按照你给予的设计路径走。电场转磁场、磁场转电场、空间辐射、线缆传导、线缆辐射、差模回路、共模电压等等，一系列专有名词让很 ... 
+		</p>
+		<h2 align="center">前   言</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;"> EMC（电磁兼容）是一门综合性学科，它的难点在于电磁场看不见、摸不着，还不安分，不按照你给予的设计路径走。电场转磁场、磁场转电场、空间辐射、线缆传导、线缆辐射、差模回路、共模电压等等，一系列专有名词让很多初学者甚至有经验的硬件工程师都望而却步。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> EMC最重要的一个理论就是EMC三要素：骚扰源--耦合路径--敏感源，三者缺一就无法形成有效骚扰。针对SURGE浪涌问题来说，其骚扰源是确定的：浪涌发生器输出波形；耦合路径：线缆为主+部分空间；敏感源：接口芯片为主+部分敏感信号。在所有EMC测试项目中，浪涌相对来说速率是比较低的，其高频分量干扰也相对较小，我们常用的测试波形1.2/50uS 、10/700uS都是uS级的波形，所以它的泄放路径我们在板子上是可以来规划的。良好的规划好浪涌泄放路径可以有效的解决三要素中的耦合路径问题，对EMC问题就迎刃而解。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 电路中的浪涌保护设计常用的思路是两种：疏和堵。所谓疏就是利用GDT、TSS、TVS等保护器件来提供低阻抗回路，把浪涌能量疏通泄放到大地上去，一些设计中并联电容也能起到疏的作用；而堵一般是利用电气隔离，用电感、电阻、串联电容等器件来实现。
+		</p>
+		<h2 align="left">1. 问题描述</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">  测试设备：安防球型摄像机；<br>
+
+ &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;测试端口：AC24V端口(兼容DC12V供电)<br>
+
+ &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;测试等级：1.2/50uS  差模（2Ω）：3KV；共模（12Ω）：6KV<br>
+
+ &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;测试现象：雷击测试后电路损坏，无法正常工作<br>
+
+ &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;原始电路接口保护方案如图1所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case3_1.png">
+		</div>
+		<h3 align="center">图1  原始电路接口保护方案</h3>
+		<h2 align="left">2. 原因分析</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">查看电路，发现原AC24V电路设计上只做了气体放电管一级防护，且后级电路是DC-DC芯片并非FlyBack电路，众所周知，DC-DC芯片的耐压能力相对于FlyBack电路来说要低很多。另外此电源板共模电感量值1mH，其漏感所形成的差模电感分量很小，未起到足够的退耦作用。所以测试过程中出现了电路损坏现象。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 量测DC-DC芯片的电源管脚与地，阻抗发生变化，验证了以上分析。
+		</p>
+		<h2 align="left">3. 解决措施</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">  优化方案如图2所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case3_2.png">
+		</div>
+		<h3 align="center">图2  优化防护方案</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">共模电感后极增加TVS管做二级保护，TVS选型可以用BV-SMCJ58CA、BV-SMDJ58CA、BV-5SMDJ58CA，实际选用功率大小与PTC、共模电感退耦有关系。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">更改电路，由于原PCB空间限制，实际电路选用了槟城BV-SMBJ58C2H，SMB封装，功率达到3000W，相当于BV-SMDJ58CA。测试雷击AC24V电源口AC24VA测试通过，AC24VB测试后设备损坏，详细检查电路后发现整流桥二极管烧毁。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 新问题：优化保护方案后，测试AC24VB线时出现整流桥烧毁，更换整流桥后工作正常，DC-DC芯片正常。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">分析：简化电路，接口处直接焊接5000W的BV-5SMDJ36CA在接口处，如下图所示三颗分别做差模、共模保护。（选用36V 5000W是为了控制残压在DC-DC芯片耐压要求内，仅仅只为定位问题而采取的措施。实际选型需大于AC24V峰值电压24V*1.414*1.2=40.7V）
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case3_3.png">
+		</div>
+		<h3 align="center">图3  接口处增加防护电路</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">为了简化先用裸电源板上做了以下实验（未接设备机壳）：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">实验一：测试L-PE  6KV，测试后检验设备，工作正常；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">实验二：测试N-PE  6KV，测试后检验设备，工作正常；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">以上实验做完发现测试正常未损坏。查看电路板分析，在整机中电源板的螺孔都是固定在整机结构上的，整机结构是金属件，所以他们是连在一起的属性，所以采用导线把两个螺孔连接在一起，模拟实际地回路。（备注图4上螺孔为PE地，下螺孔为数字地）
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case3_4.png">
+		</div>
+		
+		<h3 align="center">图4  单板上的地</h3>
+			<p style="text-indent: 2em;padding: 3px 0px;">实验三：测试L-PE  6KV，测试后检验设备，工作正常；
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">实验四：测试N-PE  6KV，测试后检验设备，工作异常，整流桥二极管损坏；
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">实验五：测试N-PE  +6KV，测试后检验设备，工作正常；
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">实验六：测试N-PE  -6KV，测试后检验设备，工作异常，整流桥二极管损坏；
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">分析上述实验结果：
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">1、通过实验一、二与实验室三、四可以得出数字地与PE地相连影响测试结果；
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">2、通过实验五、六对比是N-PE 负向电压脉冲导致二极管损坏。
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">分析浪涌能量回流路径如图5所示：
+		</p>
+			<div align="center">
+			<img alt="图片找不到" src="imgs/case3_5.png">
+		</div>
+		<h3 align="center">图5  浪涌能量回流路径</h3>
+			<p style="text-indent: 2em;padding: 3px 0px;">  如上图黄色所示为N-PE +6KV测试时的能量流经图，大能量从AV24VB开始大部分通过TVS管泄放到地，另一部分能量通过后极整流桥D18通过DC33V与地的电容流经，由于电容隔离在，因此后极泄放的能量很小，不至于把整流桥搞坏。测试结果为通过。
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">  如上图绿色所示为N-PE -6KV测试时的能量流经图，一部分能量从PE端通过TVS管到AC24VB端（AC24VB端施加负电压时，PE端为高电平）；另一部分能量从PE端通过数字地（PE地与数字地在结构上相通）到D17整流二极管，再到AC24VB端，此路径是一个低阻抗路径，所以大部分能量会通过此路径通过。导致D17二极管损坏，此分析的管子损坏位置与实际实验测试相符。
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">  加大D17通流量，测试通过；另在AC24VB端串PTC，同样测试通过。
+		</p>
+		<h2 align="left">4. 思考与启示</h2>
+			<p style="text-indent: 2em;padding: 3px 0px;">  （1）浪涌防护设计中路径分析最重要。规划好泄放路径，设计出来的保护方案自然能成功；分析好泄放路径，问题点自然清晰可见，对症下药，药到病除；
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">  （2）针对此AC24V电源方案，由于其采用了DC-DC芯片转换，所以整流桥负极性的地与后级数字地是必须相连的，这与FlyBack电路不同，所以其防护设计需要特别考虑从数字地通过整流桥到接口的路径；
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">  （3）两级保护的退耦方式较多，可以用PTC、差模电感、共模电感，可以根据电路可靠性要求，布板面积要求等来进行调节。优选差模电感，成本一般，功率损耗小；次选共模的电感，成本高，体积大，后续TVS需求功率大，但是对EMC的性能提升很大；最后PTC，因为其稳定性不好，阻抗会根据环境温度变化，会产生一定的功耗，其优点是成本低于前者；
+		</p>
+			<p style="text-indent: 2em;padding: 3px 0px;">  （4）针对AC24V电源口GDT选型，在安防行业里AC24V接口往往是需要兼容DC12V供电设计的，而两种供电方式中用到是同一套方案。所以当DC12V供电时对接口GDT的要求是其弧光电压必须大于12V，否则会有续流风险。这一点也是很多工程师比较容易忽略的。
+		</p>
+	</div>
+
+</body>
+</html>

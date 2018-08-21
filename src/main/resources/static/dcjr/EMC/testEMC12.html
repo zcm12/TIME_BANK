@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>test12.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <style type="text/css">
+	@import url(test.css)
+    </style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">汽车电子电磁兼容测试标准必备</h1>
+	 </div>
+
+	 <div id="content">
+	    <p style="text-indent: 2em;padding: 3px 0px;">汽车电子EMC测试，正在受到越来越多的关注。其中最重要的三个标准为，CISPR 25、ISO11452-2、ISO11452-4。本文给出了测试设备、所起到的作用和推荐方案，是汽车电子工程师的必备速查手册。
+		</p>
+	    <h2 align="left">一、CISPR25标准</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">CISPR25目前用的是2007年第三版标准，与2002年的旧版，还是有很大差别。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1、CISPR25传导骚扰测试设备
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">CISPR25传导骚扰测试方法分为两种。一种是电压方法：电压测量只能用于单一导线的传导发射特性，故常用于测量电源线的发射，采用人工电源网络做隔离物；另外一种是电流探头方法：测量控制/信号线的发射。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">CISPR25传导骚扰测试设备
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test12_1.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">2、CISPR25辐射骚扰测试方法
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1）电波暗室（ALSE）方法：辐射场强测量应在ALSE 内进行，以消除来自电气设备以及广播台站产生的额外电磁骚扰的影响。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2）TEM小室方法：辐射场强度的测量应该在屏蔽室中进行，以消除来自电气设备和广播站的附加干扰。TEM 小室的工作如同屏蔽室一样。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3）带状线法方法：带状线是开方式的波导，由一个接地平板和一个主导电体（隔板）构成，有特征阻抗。一般采用的特征阻抗值是50Ω和90Ω 。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">目前关于零部件/模块的辐射骚扰测量的常见方法主要是：ALSE方法、TEM小室方法、带状线法。但目前由于TEM小室受电磁环境及场地限制较多，带状线法则还处于研究和实践中。所以基本上都是用ALSE方法来进行汽车电子的辐射骚扰测量。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">CISPR25辐射骚扰测试设备
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test12_2.png">
+		</div>
+		<h2 align="left">二、ISO11452-2标准</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">ISO11452介绍的是用各种不同的测试方法来对车载电子进行抗骚扰类的测试。所以我们将对最常用的两种测试方法进行介绍。分别是电波暗室法（ISO11452-2）和大电流注入法（ISO11452-4）。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">辐射抗干扰测试方法：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">校准法：使用校准夹具标定的标准电流值，系统记录下发射功率后，再将样品摆放上去开始试验，测试过程中的注入功率不变，但产生的电流可能出现变化。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">闭环法：无需校准，直接测试，系统根据监测钳的数据实时改变输出功率，尽量使电流稳定在测试要求的数值。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">注：这两种方法产生的结果很可能有较大差别。其效果和产品自身的阻抗特性有关。其中闭环法不常见，而基本都是用校准法进行测试。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">ISO11452-2测试设备
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test12_3.png">
+		</div>
+		<h2 align="left">三、ISO11452-4 Part 4：大电流注入法，Bulk currentinjection (BCI)</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">道路车辆-用窄带发射的电磁能量进行电子干扰。部件试验方法-第4部分，该测试目的是检验设备对【1MHz– 400MHz】频带电磁场的抗干扰性能。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">ISO11452-4测试设备
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test12_4.png">
+		</div>
+  </body>
+</html>

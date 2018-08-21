@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>COOL MOSFET在反激式转换器中的EMI设计指南</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">COOL MOSFET在反激式转换器中的EMI设计指南 </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;"> 导读：本文简述功率在转换器电路中的转换传输过程，针对开关器件MOSFET在导通和关断瞬间，产生电压和电流尖峰的问题，进而产生电磁干扰现象，通过对比传统平面MOSFET与超结MOSFET的结构和参数，寻找使用超结MOSFET产生更差
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 本文简述功率在转换器电路中的转换传输过程，针对开关器件MOSFET在导通和关断瞬间，产生电压和电流尖峰的问题，进而产生电磁干扰现象，通过对比传统平面MOSFET与超结MOSFET的结构和参数，寻找使用超结MOSFET产生更差电磁干扰的原因，进行分析和改善。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 随着开关电源技术的不断发展，功率MOSFET作为开关电源的核心电子器件之一，开关损耗是其主要的损耗之一，本着节省能源、降低损耗的基本思想，功率MOSFET技术朝着提高开关速度、降低导通电阻的方向发展。COOL  MOSFET是一种超结的新结构功率MOSFET，具有更低的导通电阻，更快的开关速度，可以实现更高的功率转换效率。然而，超结MOSFET超快的开关性能也带来了不必要的副作用，比如电压、电流尖峰较高，电磁干扰较差等。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 以下内容以一个反激式转换器拓扑（如图1）为例，简述转换器的功率转换传输过程，从平面MOSFET与超结MOSFET的结构和参数差别，讨论电压、电流尖峰，以及电磁干扰的产生机理，通过外围电路改善并降低电压、电流尖峰，从而实现降低电磁干扰的目的。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_1.jpg">
+		</div>
+		<h3 align="center">图1包含寄生元件的反激式转换器拓扑图</h3>
+		<h2 align="left">反激式转换器工作原理</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">图1为一个最简单的反激式转换器拓扑结构，并且包含以下寄生元件：如初级漏电感、MOSFET的寄生电容和次级二极管的结电容。该拓扑源自一个升降压转换器，将滤波电感替换为耦合电感，如带有气隙的磁芯变压器，当主开关器件MOSFET导通时，能量以磁通形式存储在变压器中，并在MOSFET关断时传输至输出。由于变压器需要在MOSFET导通期间存储能量，磁芯应该开有气隙,基于这种特殊的功率转换过程，所以反激式转换器可以转换传输的功率有限，只是适合中低功率应用，如电池充电器、适配器和DVD播放器。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">反激式转换器在正常工作情况下，当MOSFET关断时，初级电流(id)在短时间内为 MOSFET的Coss（即Cgd+Cds)充电,当Coss两端的电压Vds超过输入电压及反射的输出电压之和(Vin+nVo)时，次级二极管导通，初级电感Lp两端的电压被箝位至nVo。因此初级总漏感Lk（即Lkp+n2×Lks)和Coss之间发生谐振，产生高频和高压浪涌，MOSFET上过高的电压可能导致故障。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">反激式转换器可以工作在连续导通模式(CCM)（如图2）和不连续导通模式(DCM)（如图3）下，当工作在CCM模式时，次级二极管保持导通直至MOSFET栅极导通，而MOSFET导通时，次级二极管的反向恢复电流被添加至初级电流，因此在导通瞬间初级电流上出现较大的电流浪涌；当工作在DCM模式时，由于次级电流在一个开关周期结束前干涸，Lp和MOSFET的Coss之间发生谐振。 
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_2.jpg">
+		</div>
+		<h3 align="center">图2 连续导通模式</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_3.jpg">
+		</div>
+		<h3 align="center">图3 不连续导通模式 </h3>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;"> 图4显示了开关电源工作在DCM模式，实测的MOSFET电压和电流工作波形，除了可以看到MOSFET在开通和关断的过程中，均产生比较大的电压和电流变化，而且可以看到MOSFET在开通和关断的瞬间，产生一些震荡和电流尖峰。 
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_4.jpg">
+		</div>
+		<h3 align="center"> 图4 MOSFET电压和电流工作波形</h3>
+		
+		
+	    <p style="text-indent: 2em;padding: 3px 0px;">如图1所示的包含寄生元件的反激式转换器拓扑图，其中Cgs、Cgd和 Cds分别为开关管MOSFET的栅源极、栅漏极和漏源极的杂散电容，Lp、Lkp、Lks和Cp分别为变压器的初级电感、初级电感的漏感、次级电感的漏感和原边线圈的杂散电容，Cj为输出二极管的结电容。图5为反激变换器工作在DCM工作模式时，开关管分别工作在(a)开通瞬间、 (b)开通阶段、 (c)关断瞬间和(d)关断阶段时，所对应的等效分析电路，Rds为开关管的漏源极等效电阻。
+		</p>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_5.jpg">
+		</div>
+		<h3 align="center"> 图5  反激变换器在DCM模式开关管工作在各阶段对应的等效分析电路</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">在开关管开通瞬间，由于电容两端电压不能突变，杂散电容Cp两端电压开始是上负下正，产生放电电流，随着开关管逐渐开通，电源电压Vin对杂散电容Cp充电，其两端电压为上正下负，形成流经开关管和Vin的电流尖峰；同时Cds电容对开关管放电，也形成电流尖峰，但是此尖峰电流不流经Vin,只在开关管内部形成回路；另外，如果变换器工作在CCM模式时，由于初级电感Lp两端电压缩小，二极管D开始承受反偏电压关断，引起反向恢复电流，该电流经变压器耦合到原边侧，也会形成流经开关管和Vin的电流尖峰。
+		</p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">在开关管开通阶段，二极管D截止，电容Cp两端电压为Vin，通过初级电感Lp的电流指数上升，近似线性上升。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在开关管关断瞬间，初级电流id为Coss充电,当Coss两端的电压超过Vin与nVo（二极管D开通时变压器副边线圈电压反射回原边线圈的电压）之和时，二极管D在初级电感Lp续流产生的电压作用下正偏开通，Lk和Coss发生谐振，产生高频震荡电压和电流。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在开关管关断阶段，二极管D正偏开通，把之前存储在Lp中的能量释放到负载端，此时副边线圈电压被箝位等于输出电压Vo，经匝比为n的变压器耦合回原边，使电容Cp电压被充电至nVo（极性下正上负），初级电感Lp两端的电压被箝位至nVo。当Lp续流放电结束后，D反偏截止，Lp和Coss、Cp发生谐振，导致Cp上的电压降低。
+		</p>
+		<h2 align="left">功率MOSFET 的等效分析原理图</h2>
+		 <p style="text-indent: 2em;padding: 3px 0px;"> MOSFET是电压控制型器件，功率MOSFET的源、漏电极不在同一平面内，也称为纵向MOSFET(即VMOSFET),其具有很多不同于横向MOSFET的特点，一般把功率MOSFET看作一个由横向MOSFET驱动的纵向JFET器件，图6显示了功率MOSFET包含寄生器件在内的等效原理图，其中Lg、Ld、Ls分别为MOSFET的栅极、漏极、源极的引线电感，Rg为MOSFET内部栅极电阻, Cgd、Cgs、Cds为MOSFET寄生电容，D为寄生体二极管。由于寄生器件的存在，使功率MOSFET在反激变换器电路的工作和分析变得复杂，特别是在变换瞬间，寄生参数的分析显得更为重要。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_6.jpg">
+		</div>
+		<h3 align="center">图6 MOSFET包含寄生器件在内的等效原理图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">超结 MOSFET 与平面MOSFET的区别      图7显示了平面MOSFET的截面结构和电场分布，从中可以看出平面MOSFET的击穿电压取决于漂移区的掺杂度和厚度，电场分布的倾斜度与漂移区掺杂度成正比。因此，如需获得较高的击穿电压，就需要较厚且轻掺杂的外延层，但是从MOSFET的导通电阻分布（如图8）中，可以看出外延层的电阻占主要部分，尤其是高击穿电压MOSFET。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_7.jpg">
+		</div>
+		<h3 align="center">图7  平面MOSFET的截面结构和电场分布</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_8.jpg">
+		</div>
+		<h3 align="center">图8  MOSFET导通电阻分布</h3>
+		<h2 align="left">近场探测开展相对测量</h2>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;"> 综上所述，平面高压MOSFET由于结构的原因，导通电阻较大，导致导通损耗较大，而且开关速度也受到一定的限制，开关损耗也比较大，这显然已经不能满足目前日益要求节能和提高转换器效率的电子市场需求。基于平面MOSFET的缺点，超结MOSFET应运而生，图9给出了超结MOSFET的截面结构和电场分布，与平面MOSFET的截面结构不同，超结MOSFET采用了较深的P型柱结构，平面MOSFET的外延层几乎被交替的N型和P型半导体薄层替换，平面MOSFET与超结MOSFET的等效器件模型如图10所示。
+		</p>
+	
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_9.jpg">
+		</div>
+		<h3 align="center">图9 超结MOSFET的截面结构和电场分布 </h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_10.jpg">
+		</div>
+		<h3 align="center">图10 MOSFET等效器件模型</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">超结MOSFET垂直方向上插入P型区，可以补偿过量的电流导通电荷，在漂移层加反向偏置电压，将产生一个横向电场，使PN结耗尽，当电压达到一定值时，漂移层完全耗尽，将起到电压支持层的作用，使器件的击穿电压仅依赖N-漂移区的厚度，而与N-区和P阱区的掺杂浓度无关，且这种电荷补偿越充分，击穿电压越高。由于掺杂浓度的大幅提高，在相同的击穿电压下，导通电阻Ron可以大大降低，甚至突破硅限；同样，在相同的击穿电压和相同的导通电阻Ron下，可以使用更小的芯片面积，从而减小栅电荷，提高开关速度，降低驱动功率和开关损耗，表1显示了西安芯派同型号芯片的SW Planer 系列和SW Cool系列MOSFET的参数对比结果。
+		</p>
+		<h3 align="center">表1  SW Planer 系列MOSFET和SW Cool系列MOSFET的参数对比</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_11.jpg">
+		</div>
+		
+		
+		<h2 align="left">反激式转换器产生电磁干扰的原因和传播方式</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">电磁干扰主要是传导干扰和辐射干扰，传导干扰是在输入和输出线上流过的干扰噪声，来源于差模电流噪声和共模电流噪声；辐射干扰是通过空间辐射的干扰噪声，来源于电场发射和磁场发射，它们之间可以相互转换。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">开关电源产生电磁干扰的原因较多，其中以功率开关器件和变压器为主要噪声源。开关器件高频的开通和关断，导致电流和电压的快速变化，电感及寄生电感的快速电流变化产生磁场，从而产生较高的电压尖峰uL=L×diL/dt；电容及寄生电容的快速电压变化产生电场，从而产生较高的电流尖峰iC=C×duC/dt，而其内部引线的杂散电感和寄生电容则是噪声耦合的通道，但是由于这些参数是器件固有的特性，所以电子设计和应用工程师无法对它们进行优化，只能根据器件手册选择匹配的器件。前面已经分析了开关管MOSFET 包含寄生器件的等效分析原理图，超结 MOSFET 与平面MOSFET的结构和参数区别，电磁干扰产生的原因，设计者可以根据情况选择使用和优化。
+		</p>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">变压器作为另外一个主要噪声源，而初级次级的漏感、初级的层间电容、次级的层间电容、初级和次级之间的耦合电容则是噪声的通道。如图11所示的包含寄生电容的变压器模型，其中Ca为最外层绕组到磁芯的电容，Ct为辅助绕组到次级绕组的电容，Cs为初级绕组到次级绕组的电容，Cp为初级绕组的层间电容，Cm为最内层初级绕组到磁芯的电容；除此之外，变压器还有磁芯到大地的电容Cme，输出线到大地的电容Coe，初级或次级的层间电容可以通过减小绕组的层数来降低，增大变压器骨架窗口的宽度可以减小绕组的层数。绕组的分离绕制，如初级绕组采用三明治绕法，可以减小初级的漏感，但由于增大了初级绕组和次级绕组的接触面积，因而增大了初级绕组和次级绕组的耦合电容。采用铜皮屏蔽（需连接到初级或次级的静点）可以减小初级绕组与次级绕组间的耦合电容，但由于屏蔽层绕在初级绕组与次级绕组之间，使初级绕组和次级绕组的耦合系数降低，从而又增加了漏感。   
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_12.jpg">
+		</div>
+		<h3 align="center">图11  包含寄生电容的变压器模型</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">差模电流在两根输入电源线（L、N）间反方向流动，构成电流回路，其中一根是差模电流的源线，则另一根是差模电流的回线，主要由开关器件的高频开关电流产生，图12给出了开关管开通瞬间的差模电流流动情况，可以看出IDM=ICp+ nIR−ICin ；图13给出了开关管关断瞬间的差模电流流动情况，可以看出IDM= ICds + Ig− ICp −ICin。
+		</p>
+	
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_13.jpg">
+		</div>
+		<h3 align="center">图12  开关管开通瞬间的差模电流</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_14.jpg">
+		</div>
+		<h3 align="center">图13  开关管关断瞬间的差模电流</h3>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">共模电流在输入线、输出线与大地间流动，主要由功率器件高频工作的电压瞬态变化产生，图14给出了共模电流的流动通道情况，主要包括通过Cde、 Cm和Cme、 Ca和Cme 、 Ct和Coe、 Cs和Coe产生共模电流，其中通过Cs和Coe的共模电流占主导作用。
+		</p>
+
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_15.jpg">
+		</div>
+		<h3 align="center">图14  共模电流产生通道</h3>
+		
+		
+		<h2 align="left">改善使用超结 MOSFET 的反激变换器的电磁干扰措施</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过对反激变换器的工作原理，电磁干扰的产生原因，MOSFET的等效原理图，以及平面MOSFET与超结MOSFET的结构和参数对比分析，可以看出使用超结MOSFET虽然降低了反激变换器的损耗和驱动功率，但是由于开关管的开关速度提高，增大了电压和电流变化率，使反激变换器的电磁干扰增强。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电磁干扰的危害日益明显和严重，目前许多国家已经把电磁干扰测量作为电子设备的强制测试项目，针对不同类型产品有不同的干扰限值要求。电源作为电网与用电设备之间的接口电路，在完成功率传送和满足电能变换的同时，不可避免地产生电磁干扰，但是改善和通过标准限值要求，也显得尤为重要。从反激变换器产生电磁干扰的原理出发，降低电磁干扰的方法主要为降低电压和电流的变化率；减小电路中存在的寄生电感和电容；优化PCB设计。
+		</p>
+		<h2 align="left">一、减小电压和电流变化率</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">减小电压和电流变化率，可以通过改变栅极驱动电阻、改变变压器结构或者增加缓冲吸收电路实现。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">（1）改变栅极电阻值可以改变开关管的开关速率，改变电压和电流的变化率，如图17所示，在开关管的栅极外加驱动电阻Rg=Rg1+Rg2,增加Rg,降低开关管的开通速度，加快开关管的关断速度。为了开关管的开通和关断速度都降低，可以如图17所示，给Rg2并联一个低压降快速恢复二级管，如接成D1(实线)的方向，开关管开通时栅极驱动电阻为Rg，关断时栅极驱动电阻为Rg1，开关管关断时的速度相对不并二极管时要慢。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_16.jpg">
+		</div>
+		<h3 align="center">图17  改变栅极驱动电阻</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">（2）在反激变换器的开关管关断瞬间，由于变压器的初级漏感Lk和开关管的寄生输出电容Coss构成了一个串联谐振电路，会产生非常高的过压和振铃，电路的Q值越高，振铃电压就越高。这种过高的振铃电压可能会造成巨大的电磁干扰，并且由于MOSFET漏电压的升高，甚至会降低开关管的可靠性。		
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">改变变压器的结构，给变压器的初级绕组增加一个恢复绕组NR=Np，使两个绕组成为双股，并排缠绕在磁芯或线轴上，形成双股绕组。如图18所示，NR一端与初级地相连，与Np同名的一端通过一个二极管D1连接到Vin。这种方法使耦合最大化，并获得了寄生电容与电感的严格匹配，初级绕组与其它绕组之间的耦合并没有那么重要。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc7_17.jpg">
+		</div>
+		<h3 align="center">图18  增加恢复绕组NR和二极管D1实现无源阻尼器</h3>
+		<h2 align="left">二、减小寄生的电感和电容值 </h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">差模滤波器可以滤除差模电流，如图21所示，差模滤波器是由电感和电容组成的二阶低通滤波器，由于其电感有杂散电容，对高频干扰噪声可以由杂散电容旁路，使滤波器不能起到有效的作用，采用几个电解电容并联可以减小ESL和ESR，降低开关电流的高次谐波因为输入电解电容的ESL和ESR形成的差模电流。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">改变变压器结构降低共模电流，如图23所示，调整辅助绕组和次级绕组的整流二极管放置位置，从而改变电压变化方向，改变动点位置，且注意静点尽量靠近，减小总体的共模电流；另外，在内层放置铜皮，铜皮的宽度小于或等于初级绕组的宽度，铜皮的中点由导线连接到静点，同时可以在初级绕组和次级绕组、辅助绕组和次级绕组之间绕制屏蔽绕组（也可是铜皮，方法与内层放置铜皮一致），绕满一层即可，一端连接到静点，一端悬空内埋，减小总体的共模电流，但是屏蔽层的使用必须满足效率的要求，因为屏蔽层的使用会降低初次级的耦合系数，降低转换效率。
+		</p>
+		<h2 align="left">三、优化PCB设计 </h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">按照电路的流程安排各个功能电路单元的位置，图25给出了反激转换器内部的四个电流环路，分别是功率开关管交流电流环路、输出整流器交流电流环路、输入电源电流环路和输出负载电流环路，每个环路要与其他环路分开，其中输入环路与功率开关环路必须直接接到输入电容的两端；输出环路与整流环路的连接必须直接接到输出电容的两端；开关环路的滤波电容、功率开关管和变压器必须尽可能靠近放置；输出整流环路的整流器、电感和滤波电容必须尽可能靠近放置，放置时需确定好器件方向，使其之间的电流通路尽可能短。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">开关电源内部接地的合理性直接影响到电源的电磁干扰甚至影响其稳定工作，图26给出了反激转换器的地线安排情况，其中电源地是电流环路底下的支路；控制地是连接控制集成电路和与之相关的无源器件的地。控制地非常敏感，因而要在其他的交流电流环路都布置好后再放置，必须通过一些特定的点与其他地连接，这个连接点是产生控制IC所要检测的小电压的所有器件的公共连接点，包括电流型变换器电流检测电阻的公共接点和输出端电阻分压器的下端。除此之外，每条大电流的地线要短而宽，输入滤波电容的公共端应作为其他交流电流地的唯一接点。   
+		</p>
+	</div>
+
+</body>
+</html>

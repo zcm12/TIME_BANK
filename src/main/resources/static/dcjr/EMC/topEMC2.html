@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>浅谈投射式电容触摸屏的电磁干扰问题的解决方案</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">浅谈投射式电容触摸屏的电磁干扰问题的解决方案 </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">浅谈投射式电容触摸屏的电磁干扰问题的解决方案
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">开发具有触摸屏人机界面的移动手持设备是一项复杂的设计挑战，尤其是对于投射式电容触摸屏设计来说更是如此，它代表了当前多点触摸界面的主流技术。投射式电容触摸屏能够精确定位手指轻触屏幕的位置，它通过测量电容的微小变化来判别手指位置。在此类触摸屏应用中，需要考虑的一个关键设计问题是电磁干扰 （EMI）对系统性能的影响。干扰引起的性能下降可能对触摸屏设计产生不利影响，本文将对这些干扰源进行探讨和分析。
+		</p>
+
+		<h2 align="left">投射式电容触摸屏结构</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">典型的投射式电容传感器安装在玻璃或塑料盖板下方。图1所示为双层式传感器的简化边视图。发射（Tx）和接收（Rx）电极连接到透明的氧化铟锡 （ITO），形成交叉矩阵，每个Tx-Rx结点都有一个特征电容。Tx ITO位于Rx ITO下方，由一层聚合物薄膜或光学胶（OCA）隔开。如图所示，Tx电极的方向从左至右，Rx电极的方向从纸外指向纸内。
+		</p>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc2_1.jpg">
+		</div>
+		<h3 align="center">图1 传感器结构参考</h3>
+		<h2 align="left">传感器工作原理</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">　让我们暂不考虑干扰因素，来对触摸屏的工作进行分析：操作人员的手指标称处在地电势。Rx通过触摸屏控制器电路被保持在地电势，而Tx电压则可变。变化的 Tx电压使电流通过Tx-Rx电容。一个仔细平衡过的Rx集成电路，隔离并测量进入Rx的电荷，测量到的电荷代表连接Tx和Rx的“互电容”。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">传感器状态：未触摸
+		</p>
+		
+	    <p style="text-indent: 2em;padding: 3px 0px;">图2显示了未触摸状态下的磁力线示意图。在没有手指触碰的情况下，Tx-Rx磁力线占据了盖板内相当大的空间。边缘磁力线投射到电极结构之外，因此，术语“投射式电容”由之而来。
+	    </p>
+	    
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc2_2.jpg">
+		</div>
+		<h3 align="center">图2 未触摸状态下的磁力线</h3>
+		
+	    <h2 align="left">　传感器状态：触摸</h2>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">当手指触摸盖板时，Tx与手指之间形成磁力线，这些磁力线取代了大量的Tx-Rx边缘磁场，如图3所示。通过这种方式，手指触摸减少了Tx-Rx互电容。 电荷测量电路识别出变化的电容（△C），从而检测到Tx-Rx结点上方的手指。通过对Tx-Rx矩阵的所有交叉点进行△C测量，便可得到整个面板的触摸分 布图。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">图3还显示出另外一个重要影响：手指和Rx电极之间的电容耦合。通过这条路径，电干扰可能会耦合到Rx。某些程度的手指-Rx耦合是不可避免的。
+		</p>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc2_3.jpg">
+		</div>
+		<h3 align="center">图3 触摸状态下的磁力线</h3>
+	
+		
+		<h2 align="left">专用术语</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">投射式电容触摸屏的干扰通过不易察觉的寄生路径耦合产生。术语“地”通常既可用于指直流电路的参考节点，又可用于指低阻抗连接到大地：二者并非相同术语。 实际上，对于便携式触摸屏设备来说，这种差别正是引起触摸耦合干扰的根本原因。为了澄清和避免混淆，我们使用以下术语来评估触摸屏干扰。<br>
+		•Earth（地）：与大地相连，例如，通过3孔交流电源插座的地线连接到大地。<br>
+		•Distributed Earth（分布式地）：物体到大地的电容连接。<br>
+		•DC Ground（直流地）：便携式设备的直流参考节点。<br>
+		•DC Power（直流电源）：便携式设备的电池电压。或者与便携式设备连接的充电器输出电压，例如USB接口充电器中的5V Vbus。<br>
+		•DC VCC（直流VCC电源）：为便携式设备电子器件（包括LCD和触摸屏控制器）供电的稳定电压。<br>
+		•Neutral（零线）：交流电源回路（标称处在地电势）。<br>
+		•Hot（火线）：交流电源电压，相对零线施加电能。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">LCD Vcom耦合到触摸屏接收线路
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">便携式设备触摸屏可以直接安装到LCD显示屏上。在典型的LCD架构中，液晶材料由透明的上下电极提供偏置。下方的多个电极决定了显示屏的多个单像素；上 方的公共电极则是覆盖显示屏整个可视前端的连续平面，它偏置在电压Vcom。在典型的低压便携式设备（例如手机）中，交流Vcom电压为在直流地和 3.3V之间来回震荡的方波。交流Vcom电平通常每个显示行切换一次，因此，所产生的交流Vcom频率为显示帧刷新率与行数乘积的1/2。一个典型的便 携式设备的交流Vcom频率可能为15kHz。图4为LCD Vcom电压耦合到触摸屏的示意图。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc2_4.jpg">
+		</div>
+		<h3 align="center">图4 LCD Vcom干扰耦合模型</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">双层触摸屏由布满Tx阵列和Rx阵列的分离ITO层组成，中间用电介质层隔开。Tx线占据Tx阵列间距的整个宽度，线与线之间仅以制造所需的最小间距隔 开。这种架构被称为自屏蔽式，因为Tx阵列将Rx阵列与LCD Vcom屏蔽开。然而，通过Tx带间空隙，耦合仍然可能发生。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">为降低架构成本并获得更好的透明度，单层触摸屏将Tx和Rx阵列安装在单个ITO层上，并通过单独的桥依次跨接各个阵列。因此，Tx阵列不能在LCD Vcom平面和传感器Rx电极之间形成屏蔽层。这有可能发生严重的Vcom干扰耦合情况。
+		</p>
+		<h2 align="left">充电器干扰</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">触摸屏干扰的另一个潜在来源是电源供电手机充电器的开关电源。干扰通过手指耦合到触摸屏上，如图5所示。小型手机充电器通常有交流电源火线和零线输入，但 没有地线连接。充电器是安全隔离的，所以在电源输入和充电器次级线圈之间没有直流连接。然而，这仍然会通过开关电源隔离变压器产生电容耦合。充电器干扰通 过手指触摸屏幕而形成返回路径。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc2_5.jpg">
+		</div>
+		<h3 align="center">图5 充电器干扰耦合模型</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">注意：在这种情况下，充电器干扰是指设备相对于地的外加电压。这种干扰可能会因其在直流电源和直流地上等值，而被描述成“共模”干扰。在充电器输出的直流 电源和直流地之间产生的电源开关噪声，如果没有被充分滤除，则可能会影响触摸屏的正常运行。这种电源抑制比（PSRR）问题是另外一个问题，本文不做讨论。
+		</p>
+		<h2 align="left">充电器耦合阻抗</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">充电器开关干扰通过变压器初级-次级绕组漏电容（大约20pF）耦合产生。这种弱电容耦合作用可以被出现在充电器线缆和受电设备本身相对分布式地的寄生并 联电容补偿。拿起设备时，并联电容将增加，这通常足以消除充电器开关干扰，避免干扰影响触摸操作。当便携式设备连接到充电器并放在桌面上，并且操作人员的 手指仅与触摸屏接触时，将会出现充电器产生的一种最坏情况的干扰。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">充电器开关干扰分量
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">　典型的手机充电器采用反激式（flyback）电路拓扑。这种充电器产生的干扰波形比较复杂，并且随充电器不同而差异很大，它取决于电路细节和输出电压控制策略。干扰振幅的变化也很大，这取决于制造商在开关变压器屏蔽上投入的设计努力和单位成本。典型参数包括：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">　波形：包括复杂的脉宽调制方波和LC振铃波形。频率：额定负载下40~150kHz，负载很轻时，脉冲频率或跳周期操作下降到2kHz以下。电压：可达电源峰值电压的一半=Vrms/√2。
+		</p>
+		<h2 align="left">充电器电源干扰分量</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">在充电器前端，交流电源电压整流生成充电器高电压轨。这样，充电器的开关电压分量叠加在一个电源电压一半的正弦波上。与开关干扰相似，此电源电压也是通过 开关隔离变压器形成耦合。在50Hz或60Hz时，该分量的频率远低于开关频率，因此，其有效的耦合阻抗相应更高。电源电压干扰的严重程度取决于对地并联 阻抗的特性，同时还取决于触摸屏控制器对低频的灵敏度。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc2_6.jpg">
+		</div>
+		<h3 align="center">图6 充电器波形实例</h3>
+		<h2 align="left">电源干扰的特殊情况：不带接地的3孔插头</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">额定功率较高的电源适配器（例如笔记本电脑交流适配器），可能会配置3孔交流电源插头。为了抑制输出端EMI，充电器可能在内部把主电源的地引脚连接到输 出的直流地。此类充电器通常在火线和零线与地之间连接Y电容，从而抑制来自电源线上的传导EMI。假设有意使地连接存在，这类适配器不会对供电PC和 USB连接的便携式触摸屏设备造成干扰。图5中的虚线框说明了这种配置。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于PC和其USB连接的便携式触摸屏设备来说，如果具有3孔电源输入的PC充电器插入了没有地连接的电源插座，充电器干扰的一种特殊情况将会产生。Y电 容将交流电源耦合到直流地输出。相对较大的Y电容值能够非常有效地耦合电源电压，这使得较大的电源频率电压通过触摸屏上的手指以相对较低的阻抗进行耦合。
+		</p>
+		<h2 align="left">本文小结</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">当今广泛用于便携式设备的投射式电容触摸屏很容易受到电磁干扰，来自内部或外部的干扰电压会通过电容耦合到触摸屏设备。这些干扰电压会引起触摸屏内的电荷 运动，这可能会对手指触摸屏幕时的电荷运动测量造成混淆。因此，触摸屏系统的有效设计和优化取决于对干扰耦合路径的认识，以及对其尽可能地消减或是补偿。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">干扰耦合路径涉及到寄生效应，例如：变压器绕组电容和手指-设备电容。对这些影响进行适当的建模，可以充分认识到干扰的来源和大小。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">　对于许多便携式设备来说，电池充电器构成触摸屏主要的干扰来源。当操作人员手指接触触摸屏时，所产生的电容使得充电器干扰耦合电路得以关闭。充电器内部屏蔽设计的质量和是否有适当的充电器接地设计，是影响充电器干扰耦合的关键因素。
+		</p>
+	</div>
+
+</body>
+</html>

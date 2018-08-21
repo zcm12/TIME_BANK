@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>case10.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<style type="text/css">
+@import
+url(case.css)
+</style>
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">防护电路设计方案盲点分析不可忽略</h1>
+	</div>
+
+	<div id="content">
+		<p>
+		<h2 align="left">1.概述</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">一个方案的设计，不单单要满足测试要求，也要满足实际应用需求，方案盲点往往是最容易被忽略的问题之一。
+		所谓盲点，就是高于最大持续运行电压UC，但可引起一个多级防护电路不完全动作的工作点，这可造成防护电路中的一些元件遭受过载，导致防护失效。
+		</p>
+		<p>
+		<h2 align="left">2.问题描述</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在防护电路设计领域，实战是最好的引证，下面讲述的是一个方案盲点的实际案例分析。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">某客户的电源板，供电为AC24V，需要满足1.2/50-8/20μs，6KV-3KA的测试需求，初步验证方案时，
+		是按照1KV、2KV、4KV、6KV验证的均能满足测试要求，但销售一段时间后，返修率较高，主要损坏是后级的TVS，方案图如图1所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case10_1.png">
+		</div>
+		<p>
+		<h3 align="center">图1  电源板原始设计防护方案</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case10_2.png">
+		</div>
+		<p>
+		<h3 align="center">图2  电源板防护设计PCB图</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">为了找到TVS是否存在设计的缺陷，我们单独对方案做了如下低电压的测试，数据如下表1所示：
+		</p>
+			<p>
+		<h3 align="center">表1 验证原有方案</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case10_f1.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">从以上数据看，在500V~550V时，方案出现TVS损坏，当浪涌电压提升到580V~6KV时，防护方案能正常的起到防护作用，
+		而且器件没有损坏，由此可见，该方案确实存在盲点，盲点就是在580V以下。
+		</p>
+		<p>
+		<h2 align="left">3.原因分析</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">当浪涌电压较高时，由于上升速率较快，di/dt较大，在电感两端的压降也比较大，所以放电管很快就导通，流到后级的能量较小，
+		后级TVS承受的电流也比较小，所以后级没有损坏；当浪涌电压较低时，电流的上升速率di/dt较慢，电感两端的压降较小，GDT可能动作，或者没有动作，基本上电流都往后级流动，而600W 
+		TVS通流能力有限，导致TVS短路。
+		</p>
+		<p>
+		<h2 align="left">4.处理措施</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由以上分析，该方案存在的问题就是TVS的通流能力较小，客户板子体积有限，不能增大体积，而且PCB为成品，重新layout成本较高。
+		恰好，我司有SMB同等体积，通流量较大的TVS——BV-SMBJ58C2H，该器件的特点是：保留SMB的体积，通流能力较普通SMB600W功率大，刚好能满足这一需求。
+		那么BV-SMBJ58C2H的表现如何呢？我们单独对器件做如表2通流测试
+		</p>
+		<p>
+		<h3 align="center">表2  单体TVS通流测试数据</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case10_f2.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">从以上数据可得，即使前级未动作，后级也可以扛住1KV-500A的通流能力，由于TVS电压变高了，
+		TVS的后级能否承受这个残压呢？上板测试数据如表3所示：
+		</p>
+		<p>
+		<h3 align="center">表3 整改后方案上板测试数据</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case10_f3.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">由以上数据，方案从300V~6KV均能通过测试，致此，方案盲点消除！
+		</p>
+		<h2 align="left">5.经验总结</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">方案设计不能一味追求通过测试标准，需要综合考虑方案防护的各种情况，不单单要按照标准的测试，
+		往往还需要考虑下后级与前级的配合问题，盲点只是其中一个方向！
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">解决方案盲点，首先要有能发现盲点的方法，唯一发现盲点的方法是通过实际测试，将测量电压降低到前级不动作的情况，
+		看后级能否承受，如果可以承受，则方案不存在盲点；如果不能承受，则方案就有盲点，虽然能通过标准的要求，但在实际使用过程中也会出现问题，导致产品质量事件，造成不必要的直接经济损失与间接经济损失。
+		</p>
+	</div>
+  </body>
+</html>

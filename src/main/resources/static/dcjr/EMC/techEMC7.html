@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>MCM功率电源模块EMC技术研究和设计</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">MCM功率电源模块EMC技术研究和设计</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：对MCM功率电源而言，由于其工作在几百kHz的高频开关状态，故易成为干扰源。电磁兼容性EMC（Electro Magnetic Compatibility），是指设备或系统在其电磁环境中符合要求运行并不对其环境中的任何设备产生无法忍受的电磁
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对MCM功率电源而言，由于其工作在几百kHz的高频开关状态，故易成为干扰源。电磁兼容性EMC（Electro Magnetic Compatibility），是指设备或系统在其电磁环境中符合要求运行并不对其环境中的任何设备产生无法忍受的电磁干扰的能力。因此，EMC包括两个方面的要求：一方面是指设备在正常运行过程中对所在环境产生的电磁干扰不能超过一定的限值；另一方面是指器具对所在环境中存在的电磁干扰具有一定程度的抗扰度，即电磁敏感性。从国外同类公司的报告及实际措施来看，解决DC/DC变换器电磁干扰主要就是满足10kHz～10MHz电源线传导发射的要求。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1电路的设计技术
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过EDA仿真，利用可靠性优化和可靠性简化技术设计电路参数，着重解决如下问题。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">① 线路的自激振荡：合理地选择消振网络，消除DC/DC变换器的R、L、C参数选取的不合理性引起的振荡，减小EMI的电平。DC/DC电源由于工作在高频开关状态，有时反应为带满载时正常带轻载时自激，有时反映为常温时正常高温或低温时自激，因此元器件的选取、补偿网络的应用显得尤为重要。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">② 纹波与噪声的有效抑制：抑制的方法大致可以归结为二类，即降低本身的纹波与噪声和设计滤波电路。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">为了抑制外来的高频干扰，也为了抑制DC/DC变换器对外传导干扰，通过在DC/DC变换器的输入端、输出端设计滤波电路，抑制共模、差模干扰，降低EMI电平。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">为了减少DC/DC变换器通过输入、输出端传导EMI，除了在输入、输出端采取LC滤波外，还在电源的输入地到金属外壳之间、输出地到金属外壳之间增加高频滤波电容，以减少共模干扰的产生。但此处要注意电容耐压要大于500V，以满足产品隔离电压的要求。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc7_1.jpg">
+		</div>
+		<h3 align="center">图1 滤波器的原理图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">图中，L1、C1组成的输入滤波电路和L2、C2组成的输出滤波电路能减少纹波电流的大小，从而减少通过辐射传播的电磁干扰。滤波电容C1、C2采用多个电容并联，以减少等效串联电阻，从而减小纹波电压。C3、C4、C5、C6用于滤除共模干扰，其值不宜取大，以避免有较大的漏电流。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">滤波器是由电感器和电容器构成的网路，可使混合的交直流电流分开。电源整流器中，即借助此网路滤净脉动直流中的涟波，而获得比较纯净的直流输出。最基本的滤波器，是由一个电容器和一个电感器构成，称为L型滤波。所有各型的滤波器，都是集合L型单节滤波器而成。基本单节式滤波器由一个串联臂及一个并联臂所组成，串联臂为电感器，并联臂为电容器。在电源及声频电路中之滤波器，最通用者为L型及π型两种。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2 抑制干扰源技术
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">DC/DC变换器的主要干扰源有高频变压器、功率开关管及整流二极管，为此逐一地采取措施。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">① 高频变压器
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在开关电源中，变压器在电路中起到电压变换、隔离及能量转化作用，其工作在高频状态，初、次级将产生噪声并形成电磁干扰EMI。当开关管关断时，高频变压器漏感会产生反电动势E=-Ldi/dt，其值与集电极的电流变化率（di/dt）成正比，与漏感量成正比，叠加在关断电压上，形成关断电压尖峰，从而形成传导性电磁干扰。此外，变压器对外壳的分布电容形成另一条高频通道，从而使变压器周围产生的电磁波更容易在其他引线上耦合形成噪声。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">高频变压器是作为开关电源最主要的组成部分。开关电源中的拓扑结构有很多。比如半桥式功率转换电路，工作时两个开关三极管轮流导通来产生100kHz的高频脉冲波，然后通过高频变压器进行变压，输出交流电，高频变压器各个绕组线圈的匝数比例则决定了输出电压的多少。典型的半桥式变压电路中最为显眼的是三只高频变压器：主变压器、驱动变压器和辅助变压器（待机变压器），每种变压器在国家规定中都有各自的衡量标准，因此，在设计中采取了以下措施。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">为减小变压器漏感的影响，采用初、次级交叉绕制的方法，并使其紧密耦合。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">尽可能采用罐型磁芯。由于罐型磁芯可以把所有的线圈绕组封在磁芯里面，因此具有良好的自我屏蔽作用，可以有效地减少EMI。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc7_2.jpg">
+		</div>
+		<h3 align="center">图2 输入输出滤波电路</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">为吸收上升沿和下降沿产生的过冲，并有可能造成的自激振荡，在初、次级电路中增加R、C吸收网络，以减少尖峰干扰。在调试时须仔细调整R、C的参数，确保电阻R1的值在30～200Ω，电容C1的值在100～1000P之间，以免影响变压器的效率。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">② 功率开关管
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于功率管工作于高频通断开关状态，将产生电磁干扰EMI。当开关管流过大的脉冲电流时，大体上形成了矩形波，含有许多高频成分。凡有短路电流的导线及这种脉冲电流流经的变压器和电感产生的电磁场都可形成噪声源。开关管的负载是高频变压器，在开关管导通的瞬间，变压器初级出现很大的涌流，造成尖峰噪声。这个尖峰噪声实际上是尖脉冲，轻者造成干扰，重者有可能击穿开关管。因此，须采取以下措施。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">优化功率管的驱动电路设计。通过缓冲电路，可以延缓功率开关管的通断过程。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">采用R、C吸收电路，从而在维持电路性能不变的同时，降低其电磁干扰的EMI电平。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">③ 整流二极管
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">整流二极管一般为平面型硅二极管，用于各种电源整流电路中。选用整流二极管时，主要应考虑其最大整流电流、最大反向工作电流、截止频率及反向恢复时间等参数。普通串联稳压电源电路中使用的整流二极管，对截止频率的反向恢复时间要求不高，只要根据电路的要求选择最大整流电流和最大反向工作电流符合要求的整流二极管即可。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">开关稳压电源的整流电路及脉冲整流电路中使用的整流二极管，应选用工作频率较高、反向恢复时间较短的整流二极管（例如RU系列、EU系列、V系列、1SR系列等）或选择快恢复二极管。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">整流二极管在关断期，由于反向恢复时间会引起尖峰干扰。为减少这种电磁干扰，必须选用具有软恢复特性的、反向恢复电流小的、反向恢复时间短的二极管。肖特基势垒二极管是多数载流子导流，不存在少子的存储与复合效应，因而也就会产生很小的电压尖峰干扰，故采取以下措施。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">● 采用R1、C1组成旁路吸收网络。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">● 采用多个肖特基并联分担负载电流，有效地抑制整流二极管形成的EMI电平。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc7_3.jpg">
+		</div>
+		<h3 align="center">图3 初级吸收网络</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">3 产品平面转化时EMC设计技术
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">影响产品EMC的方面很多。除了在线路上进行优化设计外，如何在基片有限的空间内合理的安排元器件的位置以及导带的布线，也将直接影响到电路中各元器件自身的抗干扰性和产品的电磁兼容性EMC指标。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">① 平面转换设计规范
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于电源内部高频开关器件，如功率VMOS管、高频变压器、整流管等，应尽可能地减少其电路电流的环路面积，且不要与其他导带长距离平行分布。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">设计布线时走线尽量少拐弯，因为直角或夹角会产生电流突变，产生EMI干扰。导带上的线宽不要突变，无尖刺毛边。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">导带印制时应尽量采用高目数的印制网，以便使线电流达到均衡。应选用电流噪声系数较小、性能稳定性较好的电阻浆料和导带浆料，保证不会因为工艺参数的因数带来新的干扰。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc7_4.jpg">
+		</div>
+		<h3 align="center">图4 次级整流电路</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">② 采用金属全密封结构进行封装
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">屏蔽有两个目的，一是限制内部辐射的电磁能量泄漏出，二是防止外来辐射干扰进入该内部区域。其原理是利用屏蔽体对电磁能量进行反射、吸收和引导。电磁骚扰对其他电子设备的影响，可完全按照对磁场屏蔽的方法来加工金属外壳，然后将金属外壳与系统的机壳和地连接为一体，就能对电磁场进行有效的屏蔽。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">4 地线设计技术
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电路地线：在电路设计时，主要是防止干扰与提高无线电波的辐射效率。地线被广泛作为电位的参考点，为整个电路提供一个基准电位。此时，地线未必与真正的大地相连，而往往与输入电源线的一根相连（通常是零线），其电位也与大地电位无关。整个电路在设计时，以地线上电压为0V，以统一整个电路电位。为进一步减小接地回路的压降，可用旁路电容减少返回电流的幅值。在低频和高频共存的电路系统中，还应分别将低频电路、高频电路、功率电路的地线单独连接后，再连接到公共参考点上，如果有可能最好设计地线层。
+		</p>
+	</div>
+
+</body>
+</html>

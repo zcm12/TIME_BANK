@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>源端串联端接详解</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">源端串联端接详解</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：记得刚接触SI的时候最先遇到的信号完整性问题就是过冲和振铃，产生过冲和振铃的最直接原因就是传输通道阻抗不匹配，抑制过冲和振铃最有效的方法就是做好源端阻抗匹配。什么是源端阻抗匹配？我们定义驱动的输出阻抗为
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">记得刚接触SI的时候最先遇到的信号完整性问题就是过冲和振铃，产生过冲和振铃的最直接原因就是传输通道阻抗不匹配，抑制过冲和振铃最有效的方法就是做好源端阻抗匹配。什么是源端阻抗匹配？我们定义驱动的输出阻抗为R_0，源端端接电阻为R，传输线阻抗为  R_L  。源端阻抗匹配就是指 R_L=R_0+R 。源端串联端接除了对端接阻值有要求，还经常要求要把端接电阻靠近驱动端放置，这样做的目的是什么呢？下面我们就从串阻阻值和放置位置来详细讨论一下源端端接需要注意的问题。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">如下图1-a所示，我们假设驱动器的内阻为10 ohm，传输线阻抗为50 ohm，通道末端为开路。其实，实际电路在工作的时候，末端通常是高阻状态，也就是和开路差不多。末端开路，也就意味着全反射，这时在末端侦测到的电压就应该是入射电压的2倍。我们分三种情况，分别是驱动内阻加上端接电阻大于、小于和等于传输线阻抗。验证一下端接电阻阻值变化对信号的影响。
+		</p>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc5_1.jpg">
+		</div>
+		<h3 align="center">图1-a</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">R取值分别为0ohm，40ohm，70ohm。按照电路串联分压理论，初始进入A点的电压为<br>
+		Va=Vout(50/(50+R+R0))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vout表示驱动器原始电压，末端全反射，则初始B点电压为<br>
+		Vb=2Va
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">如下图1-b所示，感兴趣的朋友可以自己计算一下，仿真结果和计算结果是吻合的。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc5_2.jpg">
+		</div>
+		<h3 align="center">图1-b</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">我们姑且把驱动器内阻加上源端串联电阻一起称为源端阻抗吧。由图1-b可知，当源端阻抗小于传输线阻抗的时候，信号过冲比较厉害。当源端阻抗大于传输线阻抗的时候，会出现输出电压不足的情况，这两种情况都是我们不愿意看到，最好的做法就是通过仿真，选择合适的源端串联电阻，使之与传输线阻抗相匹配。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">源端串联端接除了阻值选择很重要，电阻的摆放位置对输出信号有什么影响呢？如下图2所示，经常会有设计部的同事过来问我，串联电阻是靠近驱动端好呢，还是靠近接收端好？
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc5_3.jpg">
+		</div>
+		<h3 align="center">图2</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">下面通过仿真来看一下。如图3所示，驱动端到接收端的传输延时一定，改变端接电阻的位置，仿真结果如下图4所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc5_4.jpg">
+		</div>
+		<h3 align="center">图3</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc5_5.jpg">
+		</div>
+		<h3 align="center">图4</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">由上图4可知，端接电阻越靠近接收端，信号过冲越大，端接电阻靠近驱动端效果最好。为啥？因为我们选择的端接电阻阻值一般小于传输线阻抗，也就意味着串阻与传输线阻抗是不匹配的。当把串阻靠近接收端时，初始加载到传输线上的电压和没有端接的情况是一样的，由于阻抗的不匹配，信号会在源端与串阻之间来回反射，当把串阻完全放到接收端时，全反射就会完全发生，相当于没有加串阻。
+		</p>
+	</div>
+
+</body>
+</html>

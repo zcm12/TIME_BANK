@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>某产品EMC测试辐射超标分析及整改方案</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">某产品EMC测试辐射超标分析及整改方案</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：某产品前期通过了EMC测试，在切换机柜后，进行认证测试，测试过程中发现辐射发射超标很严重，是什么导致了一个原本通过了测试的产品又出现了严重的辐射发射问题呢？下文的分析中进行了详细描述。XXX产品最初测试时由
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">某产品前期通过了EMC测试，在切换机柜后，进行认证测试，测试过程中发现辐射发射超标很严重，是什么导致了一个原本通过了测试的产品又出现了严重的辐射发射问题呢？下文的分析中进行了详细描述。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 某产品最初测试时由于产品线成本的压力，没有使用新的物料进行测试，整机环境是上海和深圳的一些单板拼凑起来的。因此，结构物料有很大老化。我们在第一次测试后发现，100MHz处频点超标限值线20dB，超过裕量线25dB，已经严重超标，测试结果如下图所示：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc11_1.jpg">
+		</div>
+		<h3 align="center">最初测试结果</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">于是立即对现象进行了分析，立即发现了由于物料陈旧引起的一些问题。当时分析为两个主要问题：1、导电布严重老化，失去弹性，并且已经有一定程度上的磨损。2、导电胶圈接触不好，部分物料使用的是老的导电胶圈，胶圈很细，并且导电性能不好。针对这两个问题，我们立即进行了整改，将拉手条上的导电布进行了更换，并且将性能不好的导电胶圈进行了更换。更换过程中，还发现有一些正在被替换中的一些方形槽的小拉手条，如图所示：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc11_2.jpg">
+		</div>
+		<h3 align="center">老的小拉手条（方形槽）</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc11_3.jpg">
+		</div>
+		<h3 align="center">新的小拉手条（圆形槽）</h3>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">这种小拉手条可能会由于挤压导致导电胶圈和大拉手条接触不是很好，由于当时没有这种物料，我们没有替换，只是尽量很小心的让导电胶圈和大小拉手条很好的接触。在安装导电胶圈的时候，我们同时发现由于以前一些方形槽的小拉手条的安装导致大拉手条受到一定程度的挤压，导致安装了导电胶圈的小拉手条和大拉手条不能很好的接触，会有一些缝隙，于是，我们使用导电铜箔贴在大拉手条和小拉手条接触的边缘，以减少小拉手条和大拉手条之间的缝隙。如图：
+		</p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/designemc11_4.jpg">
+		</div>
+		<h3 align="center">现场处理的老拉手条</h3>
+	    
+		<p style="text-indent: 2em;padding: 3px 0px;">更改以后进行测试发现100MHz处干扰下降了18dB左右，已经能够接近限值线附近。但是，测试还是不能通过。由于我们认为拉手条已经处理的比较好了，因此，后续的对策工作在其他很多方面展开，包括更换单板上的电感，电阻和改变单板在槽位上的配置情况等。结果发现更改单板的槽位配置情况改善比较明显，能在满配置的情况下改善将近10dB的测试结果，其他没有什么很好的办法能使干扰再大大降低。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于该问题急待解决，因此，我们做了很准备很充分，领取了一些必须的物料。首先将拉手条全部更换成新领的物料，包括方形槽的小扣板和坏的导电胶圈。仍然使用一直测试的单板进行测试，测试结果立即下降7dB多一点，100MHz处干扰下降至44.9dBµV/m，正好在裕量线（45dBµV/m）以下。另外，还准备了一体化的拉手条，即不使用小拉手条和导电胶圈的方案，如图：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc11_5.jpg">
+		</div>
+		<h3 align="center">一体化拉手条</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">测试结果有下降了5dB，达到39.9 dBµV/m。至此，XXX产品的EMC问题已经得到解决。测试结果如下：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc11_6.jpg">
+		</div>
+		<h3 align="center">新领拉手条测试结果：99.96MHz处44.9dBµV/m</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc11_7.jpg">
+		</div>
+		<h3 align="center">一体化拉手条测试结果：99.96MHz处39.8dBµV/m</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">分析原因: 主要是大拉手条经过多次装配，安装后已经有些形变，再加上一些方形槽的小拉手条不能使导电胶圈和拉手条良好接触。加之，我们处理过的拉手条在铜箔和大拉手条之间的接触不一定很好。导致了测试结果一直不能通过。
+		</p>
+	</div>
+
+</body>
+</html>

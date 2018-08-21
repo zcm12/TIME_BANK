@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tech8.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(tech.css)
+</style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">让你从此远离EMC困扰的必备“干粮”！（上）</h1>
+	</div>
+
+	<div id="content">
+	<p style="text-indent: 2em;padding: 3px 0px;">近年来，电磁干扰问题越来越成为电子设备或系统中的一个严重问题，
+	电磁兼容技术已成为许多技术人员和管理人员十分重视的内容。本文分别从电磁骚扰的耦合机理、电磁干扰的模式、电磁屏蔽理论、接地设计、
+	滤波设计等5个方面介绍了EMC，学会它们，就能帮你轻松解决EMC给你带来的困扰。
+	</p>
+	<h2 align="left">第一部分   电磁骚扰的耦合机理 </h2>
+	
+	<h3 align="left">1、基本概念</h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">电磁骚扰传播或耦合，通常分为两大类：即传导骚扰传播和辐射骚扰传播。
+	通过导体传播的电磁骚扰，叫传导骚扰；通过空间传播的电磁骚扰，叫辐射骚扰。
+	</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_1.png">
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">上图传染病的模型非常近似：</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_2.png">
+	</div>
+	<h3 align="left">2、 电磁骚扰的常用单位 </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;"> 骚扰的单位通用分贝来表示，分贝的原始定义为两个功率的比：</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_3.png">
+	</div>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_4.png">
+	</div>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_5.png">
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">通过以下的推导可知电压由分贝表示为（注意有一个前提条件为 R1=R2)：</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_6.png">
+	</div>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_7.png">
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">  对于辐射骚扰通常用电磁场的大小来度量，其单位是 V/m。通常用的单位是dBuV/m。</p>
+	<h3 align="left">3、传导干扰  </h3>
+	<h3 align="left">a、共阻抗耦合  </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;"> 由两个回路经公共阻抗耦合而产生，干扰量是电流 i，或变化的电流 di/dt。</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_8.png">
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">当两个电路的地电流流过一个公共阻抗时，就发生了公共阻抗耦合。我们在放大器中，
+	级与级之间的一种耦合方式是“阻容”耦合方式，这就是一种利用公共阻抗进行信号耦合的应用。在这里，上一级的输出与下一级的输入共用一个阻抗。</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">由于地线就是信号的回流线，因此当两个电路共用一段地线时，彼此也会相互影响。
+	一个电路的地电位会受到另一个电路工作状态的影响，即一个电路的地电位受另一个电路的地电流的调制，另一个电路的信号就耦合进了前一个电路。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">对于两个共用电源的电路也存在这个问题。解决的办法是对每个电路分别供电，或加解耦电路。
+	</p>
+	<h3 align="left">b、容性耦合   </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;"> 在干扰源与干扰对称之间存在着分布电容而产生，干扰量是变化的电场，即变化的电压 du/dt。
+	</p>
+	<h3 align="left">c、感性耦合  </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">在干扰源与干扰对称之间存在着互感而产生，干扰量是变化的磁场，即变化的电流 di/dt。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">当信号沿传输线传播时，信号路径与返回路径之问将产生电场，围绕在信号路径和返回路径周围
+	也有磁场。如图所示，基板材料为FR4的50Ω微带线横截面上的电力线和磁力线，可见，这些场并不仅仅局限于微带线的正下方，
+	而是会延伸到周围的空间。这些延伸出去的场称为边缘场。
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_9.png">
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">根据电磁场基本理论，变化的电场产生感应电流，变化的磁场产生感应电压。
+	那么，当一个网络（静态网络）的布线进入另一网络（动态网络）的边缘场时，一旦动态网络上的信号电压和电流发生变化，将会引起边缘场的变化，
+	边缘场的变化又将在静态网络上感应出噪声电压或电流，这就是串扰产生的物理根源。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;"> 这种两个网络之间通过场相互作用被称做耦合，耦合又可以分为容性耦合和感性耦合，
+	而把耦合电容和耦合电感分别称做互容和互感。</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">互容和互感都对串扰有贡献，但要区别对待。当返回路径是很宽的均匀平面时，
+	如PCB上的布线，容性耦合和感性耦合大体相当。因此，要精确预测耦合传输线的串扰，两种因素都必须考虑。如果返回路径不是很宽的均匀平面，
+	比如引线，虽然容性耦合和感性耦合也都存在，但串扰主要来自于互感。这时，如果动态网络上有一个快速变化的电流，如上升、下降沿，
+	将会在静态网络上引起不可忽视的噪声。
+	</p>
+	<h3 align="left">d. 共阻抗耦合干扰抑制方法   </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">1）让两个电流回路或系统彼此无关。信号相互独立，避免电路的连接，以避免形成电路性耦合。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">2）限制耦合阻抗，使耦合阻抗愈低愈好，当耦合阻抗趋于零时，称为电路去耦。为使耦合阻抗小，
+	必须使导线电阻和导线电感都尽可能小。</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">3）电路去耦：即各个不同的电流回路之间仅在唯一的一点作电的连接，
+	在这一点就不可能流过电路性干扰电流，于是达到电流回路间电路去耦的目的。</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">4）隔离：电平相差悬殊的相关系统（比如信号传输设备和大功率电气设备之间），常采用隔离技术。
+	</p>
+	<h3 align="left">e. 容性耦合干扰抑制方法   </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">为了抑制电容性干扰可以采取以下措施：
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">1）干扰源系统的电气参数应使电压变化幅度和变化率尽可能地小；</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">2）被干扰系统应尽可能设计成低阻；</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">3）两个系统的耦合部分的布置应使耦合电容尽量小。例如电线、电缆系统，
+	则应使其间距尽量大，导线短，避免平行走线；
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">4）可对干扰源的干扰对象进行电气屏蔽，屏蔽的目的在于切断干扰源的导体表面和干扰对象的
+	导体表面之间的电力线通路，使耦合电容变得最小；
+	</p>
+	<h3 align="left">f. 感性耦合干扰抑制方法   </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">1） 干扰源系统的电气参数应使电流变化的幅度和速率尽量小；被干扰系统应该具有高阻抗；
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">2）减少两个系统的互感，为此让导线尽量短，间距尽量大，避免平行走线，
+	采用双线结构时应缩小电流回路所围成的面积；
+    </p>
+	<p style="text-indent: 2em;padding: 3px 0px;">3）对于干扰源或干扰对象设置磁屏蔽，以抑制干扰磁场。</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">4）采用平衡措施，使干扰磁场以及耦合的干扰信号大部分相互抵消。
+	如使被干扰的导线环在干扰场中的放置方式处于切割磁力线最小（环方向与磁力线平行），则耦合的干扰信号最小；另外如将干扰源导线平衡绞合，
+	可将干扰电流产生的磁场相互抵消。
+	</p>
+	<h3 align="left">4、辐射干扰 </h3>
+	<h3 align="left">a. 近场和远场 </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">干扰通过空间传输实质上是干扰源的电磁能量以场的形式向四周空间传播。
+	场可分为近场和远场。近场又称感应场，远场又称辐射场。判定近场远场的准则是以离场源的距离 r 也定的。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">r>λ/2π      则为远场 
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">r<λ/2π      则为近场 
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">我们常用波阻抗来描述电场和磁场的关系，波阻抗定义为Zo=E/H 
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">在远场区电场和磁场方向垂直并且都和传播方向垂直称为平面波，
+	电场和磁场的比值为固定值，为 Zo=120π=377 欧。下图为波阻抗与距离的关系。
+	</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_10.png">
+	</div>
+	<h3 align="left">b. 减少辐射干扰的措施 </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">减小辐射干扰的措施主要有：
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">1）  辐射屏蔽：在干扰源和干扰对象之间插入一金属屏蔽物，以阻挡干扰的传播。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">2）  极化隔离：干扰源与干扰对象在布局上采取极化隔离措施。
+	即一个为垂直极化时，另一个为水平极化，以减小其间的耦合。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">3）  距离隔离：拉开干扰源与被干扰对象之间的距离，这是由于志在近场区，
+	场量强度与距离平方或立方成比例，当距离增大时，场衰减很快。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">4）  吸收涂层法：被干扰对象有时可涂复一层吸收电磁波的材料，以减小干扰。
+	</p>
+	<h2 align="left"> 第二部分  电磁干扰的模式 </h2>
+	<h3 align="left">1  共模干扰与差模干扰 </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;"> 共模干扰（Common-mode）：两导线上的干扰电流振幅相等，而方向相同者称为共模干扰。
+	</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_11.png">
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">差模干扰（Differential-mode）：两导线上的干扰电流，振幅相等，方向相反称为差模干扰。
+	</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_12.png">
+	</div>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_13.png">
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;"> 共模(Common mode)是指存在于两根或多根导线中，流经所有导线的电流都是同极性的，
+	差模(Differential mode)是指在导线对上的电流极性是相反的。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">共模干扰的干扰电流在电缆中的所有导线上幅度／相位相同，它在电缆与大地之间形成回路流动，
+	见图(a)。差模干扰的干扰电流在信号线与信号地线之间流动，见图(b)。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;"> 由于共模干扰与差模干扰的干扰电流在电缆上的流动方式不同，
+	对这两种干扰电流的滤波方法也不相同。因此在进行滤波设计之前必须了解所面对的干扰电流的类型。
+	</p>
+	<h3 align="left">2  PCB的辐射与线缆的辐射  </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;"> 1、PCB辐射
+	</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_14.png">
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;"> PCB上有许多信号环路，由中有差模电流环也有共模电流环，计算其辐射强度时，
+	可等效为环天线，辐射强度由下式计算：
+	</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_15.png">
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">2、线缆的辐射 
+	</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_16.png">
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">计算线缆的辐射强度时，将其等效为单极天线，其辐射强度由下式计算：
+	</p>
+	<div align="center">
+	<img alt="图片找不到" src="techImg/tech8_17.png">
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">以上两式可以看出线缆的辐射效率远大于 PCB 的辐射效率。
+	<h3 align="left">未完待续：让你从此远离EMC困扰的必备“干粮”！（下）  </h3>
+	</div>
+	
+  </body>
+</html>

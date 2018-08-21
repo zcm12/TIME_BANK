@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>test1.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <style type="text/css">
+@import
+url(test.css)
+</style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">使用示波器进行EMI共模电流进行测量</h1>
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">示波器是一种较为常见的测试测量仪器，其能够将肉眼不可见得电信号转化为能够被肉眼看到的图形，能够帮助设计者对电路进行检测或着进行数据的采集，在电子电力设备当中占有较为重要的地位。EMI问题一直都是电源类产品设计者所要面对的问题，其关系到产品是否能够顺利进入市场。那么，大家想过将示波器用于EMI的检测吗?本篇文章就将介绍这么一种方法，来使用示波器对EMI进行调试。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">早期的示波器并没有能够准确捕捉EMI信号所必备的灵敏度，并且FFT频谱分析功能也不够完善，操作起来十分繁琐。而在后来的发展当中，一些示波器已经发展出了能够对EMI进行调试的功能。今天将要介绍的这种方法利用输入回路的共模电流进行测量。
+	</p>
+	<div align="center">
+		<img alt="图片找不到" src="testImg/test1_1.png">
+	</div>
+	<h3 align="center">图1 共模电流正确的测量方式</h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">正确的测量方式如图1所示，图中，CI为共模干扰、DI为差模干扰，V1 = CI − DI、V2 = CI + DI、V3 = DI，R1、R2、R3、R4为接地电阻，C1为分布电容。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">接下来的步骤较为简单，需要借助示波器来对V1、V2、V3的这三个参数的数值进行测量，然后通过上述提到的关系式就能将EMI传导干扰信号计算出来。但问题是，在V1、V2、V3中还含有一个50周的交流信号，这个信号幅度相对于EMI信号来说，非常高，其幅度是数百伏，而干扰信号一般只有几十微伏到几毫伏。由于示波器的动态范围很有限，无法同时观测这两个信号，必须要先对干扰信号与电网电压进行分离（用高通滤波器）。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;"> 另一点需要注意的是场地问题，如果测试的环境不是在屏蔽室当中，那么由于分布电容C1的数值很小（即干扰信号的内阻很大），而示波器的输入阻抗一般都很高，在V1、V2、V3中还会含有其它干扰信号，如果不仔细进行分析，很难把本机的EMI干扰信号与外来干扰信号分辨出来。还有，由于分布电容C1的大小与设备对地的位置有关，每次测试结果可能都不一样。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;"> 最后需要提醒大家的是，对EMC进行的所有测试都需正式的测量仪器、场地、权威部门制定的方案来进行，否则就算通过其他方法得到了结果，也只能仅仅作为参考。
+	</p>
+  </body>
+</html>

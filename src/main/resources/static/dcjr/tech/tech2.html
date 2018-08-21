@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>tech12.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(tech.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">汽车电子产品EMC标准与常见问题解决方法</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">本文主要介绍汽车电子产品供应商给车厂供货时，由于严酷EMC要求，往往电磁兼容验证不能通过，导致供货受到一定的影响；本
+		文结合实际设计一个普通的产品 EMC进行分析，说明车厂的EMC要求以及常见问题与解决方法。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">随着汽车电控技术的不断发展,汽车电子设备数量大大增加,电路工作频率逐渐提高,功率逐渐增大,使得汽车工作环境中充斥着电磁波,
+		导致电磁干扰问题日益突出,轻则影响电子设备的正常工作,重则损坏相应的电器元件。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">因此，汽车应用电子产品都会涉及到共性问题——汽车电磁兼容技术。汽车电磁兼容技术关乎汽车特定电子系统及其周围电子系统运行的安全可靠性，
+		关乎电子控制功能的运行的安全可靠性。诸如电子控制汽车制动系统电子控制传动系统、电子控制转向系统。乃至影响汽车整车的安全可靠性。因此,汽车电子设备的电磁兼容性能越来越受重视,目前迫切要求能广泛应用针对汽车子设备的电磁改进技术。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech2_1.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">  国内外各个车厂就针对这种环境制定出一系列的抗扰度测试标准，同时为了保证良好的电磁兼容环境，同时也对产品提出了一系列的电磁骚扰标准。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">  以下表格为国外汽车电子需要满足的标准，国内大体上也是根据国外标准制定，同时在我们国内的合资汽车厂商，以及我们国内的相关汽车厂商也是遵循以下标准，只是在具体要求上略有差异。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech2_2.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">以上标准可以分为两类，一类是设备对外的无线电骚扰，一类是外部对我们设备的干扰，要求我们的设备具有一定的抗干扰特性。这两方面大部分产品都不能顺利的测试通过，
+		满足整车厂家的要求。那么如何提高我们汽车电子产品的自身抗扰度以及降低自身对外的电磁发射，满足各类整车制造厂家的要求？下面我们针对车载DVD产品作一些详细的分析。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">   车载DVD一般带有FM以及AM功能，同时DVD播放器必须带显示系统，所以一般配备一个7寸的LCD屏。设计技术比较高的厂商为了增加实用性，
+		在DVD上面配备USB Host功能，以及GPS导航功能，车载DVD最终变成了车载娱乐导航系统。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">  由于车载娱乐系统功能复杂，大多采用高速数字电路，大家都知道由于数字电路上升沿比较陡，谐波分量比较丰富，最终导致设备对外界的辐射很强；通常不能满足CISPR25的要求。如何降低娱乐系统对外的干扰，我们还需要将对外干扰进行分类，从干扰的性质来讲干扰主要分二类：
+		</p>
+		<h3 align="left">一、传导发射（沿着设备对外电缆进行发射）</h3>
+		<p style="text-indent: 0em;padding: 3px 0px;"> 对于传导发射我们一般有几种方式来解决：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">A、源头抑制：查找发射的源头，精确定位到某个器件、信号，进行分析处理，主要针对时钟，高速时钟线进行处理；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">B、在对外电缆接口处进行滤波处理，针对干扰的频率，性质有针对性的选用器件进行滤波，常用的器件有电感，电容等。
+		</p>
+		<h3 align="left">二、空间发射（通过设备缝隙或本身对外进行发射）</h3>
+		<p style="text-indent: 0em;padding: 3px 0px;"> 对于空间发射我们一般的处理方法如下：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">A、通过源头抑制对空间发射是一个很好的方法，主要是通过滤波电路，接口处理，PCB布局，布线，多层板设计解决；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">B、加强设备的屏蔽，对设备的结构缝隙进行处理；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">以上方法有利有弊；比如降低源头的后果会导致信号质量变差，我们在降低源头的时候必须要首先保证功能的正常以及稳定；增加滤波器件，
+		对信号质量不会有大的影响（选择器件的时候要有针对性的选择并且结合实际的信号频率进行滤波选择），但是会导致设备成本增加；所以我们在操作的过程中要结合自己的情况灵活运用；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 如何提高电子设备的抗扰度呢？我们先介绍车载DVD系统抗扰度实验常见的现象与解决方法：
+		</p>
+		<p style="text-indent: 0em;padding: 3px 0px;">1、 音频输出喇叭出现啸叫
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于音频输出喇叭啸叫，我们要分清楚啸叫的本质原因，常见的喇叭啸叫多数是因为干扰信号通过设备接口电缆耦合至内部电路（极少数是因为音频功放内部电路设计
+		不合理所至），然后通过各种路径耦合至音频功放输入端，导致功放将无用的1KHz干扰载波信号进行放大输出，从而导致啸叫；解决方法一般有以下几种：<br>
+		<br>
+		A、找出并切断耦合路径；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">寻找耦合路径是一个复杂的分析过程，要具体的结合PCB布局、布线、原理图设计等各个因素综合进行分析，
+		必要的时候可以借助示波器进行测试；一般可以用CS（传导敏感度试验）进行BCI模拟试验；<br>
+		<br>
+		B、在设备信号口进行滤波，让干扰信号无法进入设备内部；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在信号口滤波，一般选用共模滤波方式进行抑制（有时候也会用电容进行滤波）；选用共模电感时要有针对性的进行选择；
+		如啸叫发生在60MHz，需要选择针对60MHZ有效滤波器件；
+		</p>
+		<p style="text-indent: 0em;padding: 3px 0px;">2、 屏幕乱码、抖动、系统死机、复位；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于这几种情况，我们就要重点找出受干扰的具体电路，比如系统复位，此时我们就要关注复位电路、电源电路、控制电路等；如果屏幕乱码，
+		我们就要关注视频处理电路、视频处理电路的控制信号、逻辑信号等；具体可以结合示波器进行观察，最终找出敏感源，一般按照以下两类情况进行分析。<br>
+		<br>
+		一类：从设备信号口注入或者耦合至设备信号口的干扰；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于这类干扰，最节省成本的办法是找出我们设备的敏感点，提高此点的抗干扰能力，但是这需要花费大量的时间以及精力，而且还必须要具备良好的电路、
+		电磁场理论知识；我们现行的企业，一般到做EMC试验的时候，时间都是非常紧急，根本就没有足够的时间对设备进行详细的分析定位以及试验；所以在设备信号接口进行滤波不外是一个不错的选择；
+		由于我们很明确干扰直接从电缆传导至设备内部，我们完全可以运用EMC器件将干扰在接口进行滤除，避免干扰传导至单板其他的电路；只要干扰在信号接口被滤除，我们的设备出现的问题也会随之消失
+		；这种方法往往会导致成本有一定的上升；所以这种方法需要结合实际的情况进行考虑；<br>
+		<br>
+		二类：从设备缝隙耦合至设备内部的干扰；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">从缝隙耦合的干扰，直接可以将缝隙“堵住”进行试验；一般由缝隙引起的抗扰度问题着重处理缝隙即可，如果需要查找敏感源，就需要结合实际试验现象进行分析；
+		</p>
+		<h3 align="left">小结</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于汽车电子产品来讲，要通过严格的汽车电子电磁兼容标准要求，需要在结构，接口，单板滤波设计，PCB设计方面进行全方位考虑。
+		</p>
+		
+	</div>
+
+</body>
+</html>

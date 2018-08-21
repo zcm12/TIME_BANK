@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tech19.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(tech.css)
+</style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">经典剖析电源PCB布板与EMC的关系（下）</h1>
+	</div>
+
+	<div id="content">
+		<h3 align="left">接：经典剖析电源PCB布板与EMC的关系（上）</h3>
+		<h2 align="left">分享点十三：电路设计与布板之PFC</h2>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_1.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">上图是典型的BOOST PFC电路： 
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">左边绿色方框部分是驱动电路，和之前LLC拓扑驱动一样，离MOS就近放置，原理图上就体现出来。 
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">右边绿色虚线方框部分，是MOS管关断尖峰吸收电路，一样与MOS管构成环路要最小； 
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">另外二大重要环路，一是MOS管开通环路（虚线红色图），另一个是MOS管关断环路（实线红色图）；环路面积尽可能小；
+		</p>
+		<h2 align="left">分享点十四：磁环在EMC中妙用</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">有的产品EMC很难在源头上去处理的，可以采用磁环滤波，当然我这里说的磁环有二个层面的意思，一方面是输入输出端的滤波电感，采用不同材质磁环，不同匝数会有对应的效果，还有一方面意思是直接在输入输出线上套磁环，有时能起到妙用，但不是在所有场合都能用，起码还是能作为判断依据； 
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_2.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">上图蓝色和黑色线是输出正负端，上面套了个磁环，解决了输出整流管引起的高频端超出；有些时候端口的干扰在PCB板上加滤波器未必有效果，在输出线上放磁环就有想不到的效果。
+		</p>
+		<h2 align="left">分享点十五：PCB走线之关键信号 </h2>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_3.png">
+		</div>
+		<p style="text-indent: 0em;padding: 3px 0px;">注意： <br>
+			1.CS信号（采样信号）：从采样电阻R25，R26拉出，注意IC的地线以采样电阻为基准，采样电阻的正负差分走线拉倒IC CS脚以及IC 的GND脚。  <br>
+			2.驱动信号从驱动电路拉倒IC驱动引脚，注意不要干扰到CS脚；如图走线三根线并排走，并且将地线走在驱动先和CS线中间起到一定屏蔽作用；  <br>
+			3.双面板最好将IC一层铺地屏蔽，铺地的网络一定要从IC GND引出，非关键信号GND可直接打过孔，关键信号地需要单点接地，直接接IC；  <br>
+			4.FB反馈网络信号注意查分走线并且单点接IC；  <br>
+			5.RCD吸收网络不要放在主回路；  <br>
+			6.VCC的整流滤波地需要接主功率地，二级滤波可接IC 地；  <br>
+			7.Y电容走线单独接，不可与主功率混淆，避免干扰；
+		</p>
+		<h2 align="left">分享点十六：主功率及控制部分地接线示意图</h2>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_4.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">可能很多人看到此图，云里雾里的，大致介绍下： <br>
+			1.PFC的驱动和IC共地接PFC管，更具体点是接采样电阻的地； <br>
+			2.DC-DC部分的驱动地和控制地接DC开关管部分的采样地； <br>
+			3.辅助源部分控制地接辅助源MOS管采样第，MOS管地再接主功率地； <br>
+			4.各自IC的供电地通过辅助源EC滤波接IC地，注意RC滤波靠近IC； <br>
+			总结：注意好各自的单点接地，地线不乱，是走线最重要的地方之一！！！
+		</p>
+		<h2 align="left">分享点十七：电磁场屏蔽机理分析 </h2>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_5.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">如图对照：输入和输出的电场干扰可以通过电容传输耦合，若增加屏蔽板，则增加了C4的大小，并且C1也会减小，对电场干扰起到衰减的目的；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">图二：磁场屏蔽原理
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_6.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">如图：磁场屏蔽的特点和磁场不一样，需要外壳屏蔽，电场只需要平面屏蔽板，故散热器屏蔽带来的是电场屏蔽，有的采用外壳封闭式电源则起到了一定磁场屏蔽； 
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">磁场屏蔽原理，磁场通过屏蔽罩会改变磁路，导致磁力线向周围扩散，中间磁场干扰达到屏蔽目的；
+		</p>
+		<h2 align="left">分享点十八：开关器件与EMC   </h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">对器件的认识对EMC也有着重要的意义，比如MOS管，主开关MOS是很重要的EMC源头之一，还有整流管的开通以及关断也会产生高频辐射（原理是电流产生磁场，变化的电流产生电场）；当然这里主要是介绍半导体开关器件，其他的电感变压器就不做说明了； 
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">开关器件哪些参数对EMC有重要影响，我们常说快管，慢管是以什么作为参照的呢？我们都知道快管开通损耗小，为了做高效率都喜欢用，但是为了EMC顺利通过，不得不舍弃效率，降低开关速度来减弱开关辐射；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于MOS管，开通速度是由驱动电阻与输入结电容决定的；关断速度是由输出结电容与管子内阻决定； 
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_7.png">
+		</div>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_8.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">参照以上两图，是不同型号的MOS管，对比下输入结电容和输出结电容，2400PF与800PF;780PF与2200PF；一看就知道第一个规格是快管，第二个是慢管，这时候决定开关速度还要与驱动电阻匹配；常规情况驱动电阻在10R-150R比较多，选取驱动电阻与结电容有关，针对快板驱动电阻可适当增大，慢管驱动电阻可适当减小； 
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于二极管，有肖特基二极管，快回复二极管，普通二极管，还有一种用的比较少的SIC二极管，开关速度SIC二极管几乎为零，等于是没有反向恢复，开关辐射最小，并且损耗也最小，唯一的缺点就是价格昂贵，故很少用；其次就是肖特基二极管，正向压降低，反向恢复时间短，依次是快回复和普通二极管；需要在损耗和EMC之间折中；一般可采取改吸收以及套磁珠等措施整改EMC；
+		</p>
+		<h2 align="left">分享点十九：EMC之滤波器 </h2>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_9.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">滤波器的架构选择对滤波器的影响很重要，在不同场合，滤波器是根据阻抗匹配来达到滤波效果，大家可根据此图的原则参考选取如何滤波；比如最常用的输出整流桥后采用π型滤波以及输出端采用LC滤波器； 
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_10.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">滤波器的材质对设计滤波电感也是至关重要，采用不同初始磁导率的材质会在不同频率段起作用，选错材质就完全失去应有的效果；
+		</p>
+		<h2 align="left">分享点二十：EMC之反激高频等效模型分析  </h2>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_11.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">先从最简单的模型理解EMC： 
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> EMC的路径，当然空间辐射是跟环路有关，环路也是路径构造成的；分析出反激高频等效模型，帮助理解EMC形成的机理；我们的测试接收设备会从L,N端接收传导，为了减小接收的干扰，就必须让干扰通过地回路流通而不从L,N端口流向接收设备；这时候我们的EMI电感以及Y电容通过阻抗匹配就可以实现；另外原边的干扰可以通过原副边Y电容，变压器杂散电容以及大地耦合到副边，形成更多的回路；当然一些结电容参数，如MOS管结电容，散热器结电容也能构成流通路径；
+		</p>
+		<h2 align="left">分享点二十一：辐射的形式以及频率分布 </h2>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_12.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 这个图可能有些抽象，不过正好EMC是很难做到具体，需要给到我们一些启示，可知：差模辐射是以环路的形式存在，而共模辐射是以天线的形式发射；因此正好印证前面说我们布板的时候开关环路的布局以及走线的时候不要走锐角，常规走45度，最好是圆弧走线，当然走线效率会比较低； 
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">这些原理基础知识理解得好，对实际处理EMC工作以及布板很有用那个，如果没这种意识，可能毫无用处，因为提供不了直接方法，需要与其他知识想结合； 
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">而且这里提的很多原理东西，在很多EMC资料中是看不到的，而且也没这么集中，需要反复体会！ 
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_13.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">如图：一些频率端与开关电源产生部位的关系，这只是一般规律，不要完全相信；既是规律又不能尽信是为什么？规律并不是在所有情况下成立，不同电源的差异也很大，所以原理是帮你分析，而不是按照方法去硬套；
+		</p>
+		<h2 align="left">分享点二十二：EMC实例  </h2>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_14.png">
+		</div>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech19_15.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">根据传导实例，频率的分布点关键是具体的数据与基频之间的关系，这个测试完后，需要揣测这些数值的规律，可能能发现什么蛛丝马迹；当然对于这些频率如何通过滤波器去解决的手段前面也说过了；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 这里是给大家补充一些似乎很神秘的EMC它是怎么来的，感觉不再神秘，而不只是稀里糊涂的采用滤波器解决了问题！ 
+		</p>
+	</div>
+  </body>
+</html>

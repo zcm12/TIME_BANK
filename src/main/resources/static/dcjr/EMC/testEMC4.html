@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>test4.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <style type="text/css">
+@import
+url(test.css)
+</style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">开阔场地的辐射发射EMI测试讲解</h1>
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">进行开场测试时，有时候不方便多次关闭和打开被测设备的电源。本文探讨了在这种情况下，如何辨识环境信号的影响，识别出被测设备（DUT）的辐射发射信号。本文讨论了采用现代信号分析仪和EMI接收机进行开阔场地的辐射发射测量的实现方法。
+	</p>
+	<div align="center">
+		<img alt="图片找不到" src="testImg/test4_1.png">
+	</div>
+	<div align="center">
+		<img alt="图片找不到" src="testImg/test4_2.png">
+	</div>
+	<h3 align="center">比较常见的一些开阔场地</h3>
+	<h2 align="left">1、概述</h2>
+	<p style="text-indent: 2em;padding: 3px 0px;">开场的辐射发射测试（OATS）测试中，需要确定信号分析仪上显示的信号到底是被测设备的辐射信号还是来自周围环境的信号。反复地关闭被测设备，以检查信号是否消失，再打开设备电源继续测试，是一项繁复的工作。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">本文介绍了几种方法用来区别被测设备信号和环境信号，希望能解决OATS测试工作中遇到的问题。这些技术包括：采用转台来辨识被测设备信号和环境信号；采用双天线进行信号辨识；采用屏蔽法和采用调谐与监听法辨识信号。本文同时也介绍了如何使用迹线加减（Trace math）功能在信号分析仪显示的被测信号中去除环境信号。还探讨了使用具有信号列表（Signal List）功能的EMI接收机和信号分析仪去除环境信号仅留下被测设备信号的方法。
+	</p>
+	<h2 align="left">2、辨识环境信号的若干方法</h2>
+	<p style="text-indent: 2em;padding: 3px 0px;">2.1、采用转台法确定被测信号
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">如果被测设备的电源不容易频繁打开或关闭，测量中可以使用一个转台（turntable）来帮助识别被测信号。大多数情况下，从被测设备辐射出来的信号在某个平面比其他平面更强。当转台旋转时，被测设备辐射信号的幅度会随之变化。旋转转台并观察接收机上的信号幅度，寻找最大和最小信号。记录下高于规范限制或裕量的信号的最大值、频率和转台位置，便于进一步分析该信号。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">转台旋转进行测试的方法之所以可以标识出环境信号，因为当转台旋转时，环境信号的幅度不会随之改变。如果在相同区域进行多次测试，建议使用一个列表来记录环境信号的频率和幅度。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">2.2、双天线法辨识环境信号
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">一种非常灵活的辨识环境信号的方法是使用双天线法。通常第一个天线用于正常辐射测试，放置于规范定义的距离被测设备平面10米远处，第二个天线放置于两倍距离处。两个天线使用一个射频开关与接收机连接，正常测试时用第一个天线，当遇到异常信号，可能是环境信号也可能是被测设备辐射信号，切换到第二个天线再次测量。如果两次测试的信号幅度大致相同，则该信号是环境信号，如果第二次测量的幅度值低6 dB左右，则该信号是被测设备发出的信号。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">双天线法使用的天线应是相同的类型并且具有类似的传输因数。另外，两个天线和被测设备要尽量成直线放置。以保证每个天线接收到的辐射来自被测设备的同一平面。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">2.3、屏蔽法辨识环境信号
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">如果被测设备的电源不方便打开和关闭，一种较少用到但很经济的方法是在被测设备和测试天线之间放置一个屏蔽板。屏蔽板通常是铝板，与天线垂直，重要的一点是，屏蔽板必须接地，与OATS地平面连接。在大风天使用这种方法可能会有问题，因为很难保证铝板稳定地固定在测试场地上。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">2.4、调谐与监听法识别环境信号
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">很多信号分析仪和EMI接收机提供解调某个标记（marker）处调幅信号或调频信号的功能。在感兴趣的信号点放置标记，选择调幅、调频或调相等相应的解调方法进行解调。当信号被解调时，扫描会在标记处暂停一段时间。这对于快速辨识是本地无线电台还是被测设备辐射信号非常有用。该方法不适用于辨识数字通信信号（手机，数字电视等）。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">2.5、信号列表法去除环境信号
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">信号分析仪和EMI接收机的一个功能是可以把信号峰值放入信号列表（Signal List）。这些峰值可能是被测设备辐射信号，也可能是来自周围环境的信号。图1是一个典型的捕获到的辐射信号显示，既有被测信号又有环境信号。
+	</p>
+	<div align="center">
+		<img alt="图片找不到" src="testImg/test4_3.png">
+	</div>
+	<h3 align="center">图1、辐射发射</h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">对信号列表进行操作，例如用标记信号、删除信号的功能可以将信号列表减少到只有被测设备辐射信号和在两次扫描中的某次没有出现的环境信号。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">操作过程非常简单，第一次扫描，被测设备电源未打开，记录信号列表；然后打开被测设备电源，进行第二次扫描，再记录信号列表；搜索两次扫描都记录到的重复信号。这些重复信号就是两次扫描都出现过的环境信号。图2显示了标记出重复信号的信号列表。
+	</p>
+	<div align="center">
+		<img alt="图片找不到" src="testImg/test4_4.png">
+	</div>
+	<h3 align="center">图2、标记重复信号</h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">删除重复信号，剩下的信号就是被测设备信号和在两次扫描的某一次未出现的环境信号。图3显示了删除重复信号后剩下的信号。
+	</p>
+	<div align="center">
+		<img alt="图片找不到" src="testImg/test4_5.png">
+	</div>
+	<h3 align="center">图3、删除重复信号后剩下的信号</h3>
+  </body>
+</html>

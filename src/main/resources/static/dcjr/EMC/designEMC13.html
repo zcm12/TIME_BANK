@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>3GSPS及超高速ADC系统设计</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">3GSPS及超高速ADC系统设计</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：在设计包含千兆取样率 (gigasample) ADC的系统时，总会遇到许多复杂的问题，包括频率驱动、模拟输入级以及高速数字接口等，都是会面临的主要挑战。本文将探讨克服这些挑战的解决之道，并解释如何在千兆赫兹的速度下进
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在设计包含千兆取样率 (gigasample) ADC的系统时，总会遇到许多复杂的问题，包括频率驱动、模拟输入级以及高速数字接口等，都是会面临的主要挑战。本文将探讨克服这些挑战的解决之道，并解释如何在千兆赫兹的速度下进行系统最佳化。讨论将涵盖频率设计、差动输入驱动器在设计包含千兆取样率 (gigasample) ADC的系统时，总会遇到许多复杂的问题，包括频率驱动、模拟输入级以及高速数字接口等，都是会面临的主要挑战。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本文将探讨克服这些挑战的解决之道，并解释如何在千兆赫兹的速度下进行系统最佳化。讨论将涵盖频率设计、差动输入驱动器的设计、数字接口以及布局考虑等等十分复杂的问题。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本文中的参考设计将依据美国国家半导体公司的新款ADC083000/B3000 芯片为主进行说明。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于频率信号的定时精度会直接影响ADC的动态性能，频率源 (clock source) 就成为高速数据转换系统中最重要的子电路之一。为了减少此一影响，ADC的频率源必须具有很低的定时抖动或相位噪声。如果在选择频率电路时没有考虑这个因素，将无论由前端模拟输入或ADC的质量如何，系统的动态性能都会差强人意。理想频率总能在电平跳变之间保持精确的时间间隔，但实际上，频率边沿之间的时间间隔是在不断变化的。这一定时不确定性的结果，会使被取样波形的信噪比在数据转换过程中降质。
+		</p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">对于所有的抖动源，系统所能容忍的最大频率抖动（即由抖动所引起的噪声不超过量化噪声（1/2 LSB））可由下式定义：
+	    </p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/designemc13_1.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">如果输入电压（VIN）经过最佳化等于ADC的满量程（VINFSR），则对抖动的要求就只与ADC的分辨率（N位）和被取样的输入频率（fin）相关。当输入频率达到Nyquist 速率（对于1.5GSPS的转换速率为750MHz）时，总抖动要求为：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc13_2.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">这个值包括了各种原因引起的抖动的总和。ADC装置内部所引起的抖动称为孔径抖动。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">以ADC083000为例，在资料表中给出的孔径抖动为0.4ps，这一值将ADC频率的抖动规范限制在0.4ps。但是，对于数据转换系统而言，只简单地比对振荡器的性能数据与所需的标准，可能还是无法得到所预期的结果。这是因为基频附近的其它频率也有重大的影响。因此，我们需要以频谱分析仪来检查频率信号，才能确定与基频相关的能量没有分布太广。扩展到更高频率上的尖峰是可见的，并且也会直接影响抖动性能。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc13_3.jpg">
+		</div>
+		<h3 align="center">图1 建议的频率驱动电路</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">图1显示了为ADC083000所建议的频率电路。它由一个与Vari-L压控振荡器（VCO）相连的锁相回路（PLL）装置（LMX2312）组成。此PLL和VCO在Nyquist输入频率下仍能使ADC083000产品维持所需的信噪比（44 dB）。图2中的FFT显示了ADC08D1500在1.5 GSPS的频率速率下，采用图1中的电路取样100MHz输入频率时的动态性能。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc13_4.jpg">
+		</div>
+		<h3 align="center">图1 建议的频率驱动电路</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">我们通常会使用一个差动放大器作为单位增益的单端到差动端的转换器。为什么ADC需要差动输入呢？因为差动讯号不仅有利于抑制共模噪声，还能提高ADC的谐波性能。降低偶次谐波能带来更好的动态性能。使用运放来进行单端到差动端转换的优势在于放大器能允许直流讯号通过，而变压器却不能，同时，使用放大器比使用变压器更容易控制增益。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">当设计结束后要检查放大器的偏移电压时，须先移除运放输入端的激励讯号，再透过WaveVision(美国国家半导体的ADC评估软件)进行取样并在时域中观察这些样本。当运放的输入电压为零时，ADC的输出应该处于半量程，即128（8位转换器）。放大器的任何输出偏移误差都会引起输出码偏离半量程，这么一来就能测量运放的输出偏移误差。如果存在很大的偏移电压，则需要检查运放输入端的阻抗匹配，因为输入端的阻抗失配会改变输出偏移电压，由于输出幅度受到限制，因此会减小ADC的动态范围。
+		</p>
+		<h2 align="left">读取数字输出的数据</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">以很高的频率（1 GSPS甚至更高）对信号进行取样代表由转换器产生的数字输出数据必须快速地被存储或至少被快速地转移。ADC为它的两个通道提供了多任务数据输出，这个方法将数据率降低了一半，但增加了所需的位数。对于1 GSPS的取样率，ADC的转换数据输出速率为500MHz，即使以此低速输出，大多数分立或内部FPGA内存还是难以可靠地撷取数据。因此最好使用双数据率（DDR）的方法，在频率的上升沿和下降沿均传输数据。这样对于DDR信号，数据率不变，但频率频率再次被减小一半，变成易处理的250MHz。这一频率处于目前CMOS存储电路可实现的范围之内。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在将数据存入内存之前，在FPGA装置的输入端需要一对中间数据锁存器。第一个锁存器由一个同相数据频率控制，而第二个锁存器则由一个相差为180度的异相或反相数据频率控制。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">为了简化这一计时要求，FPGA通常具有PLL（锁相回路）或DLL（延迟锁定回路）形式的数字频率管理器，这些装置允许在内部产生相位锁定到一个输入频率的频率讯号，并提供0、90、180和270度的相位延迟。这一频率管理特性通过提供一个精确的相移180度的频率，使DDR的时序能有效地工作。它还能确保到来的数据与下降沿同步，因此可以可靠地被数据锁存器读取。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">被锁存后，到来的资料可以被转移到FIFO内存或Block RAM中，这样系统微控制器就能以较慢的速度容易地从中找回这些数据，进行读取后的处理。
+		</p>
+		<h2 align="left">电路板设计</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于数字开关的瞬时变化主要由高频成分构成，集肤效应告诉我们逻辑变化产生的噪声几乎与接地面铜皮的总质量无关，而总表面积比接地面的总体积更为重要。典型的充满噪声的数字电路与敏感的模拟电路之间的耦合会导致很差的性能，并且似乎无法隔离和补救。解决这一问题的方法就是要很妥善地将模拟电路与数字电路分开。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于所引起的公共回流路径会在ADC的模拟输入「地」中引起涨落，从而在转换结果中引入额外的噪声，因此不应将高功率的数字组件放置在任何线性组件或模拟与混合信号组件的电源线和电源接地层之上或其附近。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通常我们会假定模拟和数字引线应成90°交错而过，以避免数字噪声进入模拟路径。但在高频系统中应完全避免模拟和数字引线的交错，输入的频率线应与ALL 的其它引线（包括模拟和数字）隔离。应该避免通常可被接受的90°交叉，因为在高频下即使少许耦合也会引起问题。在高频下，笔直的信号路径具有最好的性能。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">模拟输入应与充满噪声的讯号引线隔离，以避免将寄生讯号耦合到输入中去。由于ADC083000要求低电平驱动，因此这一点尤其重要。任何连接在转换器输入端和地面之间的外部组件（如滤波电容），都应被连接到模拟接地面中一个非常干净的点上。所有模拟电路（输入放大器、滤波器等）都应与任何数字组件分开放置。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">作者简介：Nicholas Gray 任职于美国国家半导体公司数据转换系统部应用工程师，电子邮件:nicholas.gray@nsc.com
+		</p>
+	</div>
+
+</body>
+</html>

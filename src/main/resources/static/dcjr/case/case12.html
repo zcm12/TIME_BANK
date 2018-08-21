@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>case12.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<style type="text/css">
+@import
+url(case.css)
+</style>
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">某军用系统屏蔽网线导致的辐射发射超标案例</h1>
+	</div>
+
+	<div id="content">
+		<p>
+		<h2 align="left">1.问题描述</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">某设备随分系统进行试验时，RE102超标，用系统电缆单独测试，布置如图1，
+		电源线非屏蔽，长2m，其他线屏蔽状态同装机，长度15m，在100MHz、125MHz、150MHz、175MHz、200MHz超标，测试曲线见图2。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case12_1.png">
+		</div>
+		<p>
+		<h3 align="center">图 1 测试布置图</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case12_2.png">
+		</div>
+		<p>
+		<h2 align="left">图 2 RE102超标曲线</h2>
+		</p>
+		<p>
+		<h2 align="left">2. 原因分析</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">结合超标频点和内部时钟使用情况，确定干扰源为设备内部模块使用的25MHz时钟的谐波引起超标，
+		干扰耦合的主要途径为以太网线、RIU电缆束、电源线及机箱盖板缝隙。用近场探头排查，以太网线耦合的干扰是引起超标的主要原因，其余耦合途径不会引起超标。
+		对时钟输出串联电阻降低幅度，对NSM电路板的以太网口采取共模滤波的措施，测试超标，测试曲线见图4。从干扰源采取措施失败。
+		从耦合途径分析，以太网线本身带有屏蔽层，应该对芯线上的干扰信号有屏蔽作用，因此，引起超标的原因有两个：<br>
+		a) 以太网线屏蔽层屏蔽度不够；<br>
+		b) 以太网线屏蔽层本身耦合干扰对外辐射。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在机箱内部将以太网线断开，RE102仍然超标，测试曲线见图5，可以判定以太网线屏蔽层必定超标。
+		仔细检查网线，发现机箱内部有走线有近30cm的紧贴母板，然后通过连接器穿过机箱，与外部网线构成完整屏蔽，其屏蔽层与机壳只有一个搭接点，
+		且通过机箱内部母板与机壳地相连（详见图3），该单点接地不能完全把屏蔽层耦合的干扰信号导入机壳地，因此，屏蔽层耦合的干扰信号在穿出机箱时仍然带有干扰信号，引起超标。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case12_3.png">
+		</div>
+		<p>
+		<h3 align="center"> 图 3   以太网线内外连接图</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case12_4.png">
+		</div>
+		<p>
+		<h3 align="center">图 4  NSM模块以太网输出加共模电感，时钟输出加100Ω电阻</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case12_5.png">
+		</div>
+		<p>
+		<h3 align="center">图 5  设备内部断开网线</h3>
+		</p>
+		<h2 align="left">3. 解决措施</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 基于以上原因分析，采取如下措施：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> a) 在机箱内部靠近连接器端断开以太网线屏蔽层，产生的两个断点各自就近接机壳，见图6；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">  b) 在连接器内部将以太网屏蔽层与机壳搭接；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">采取上述措施后，RE102满足要求，测试曲线见图7～图9，对于措施a）在落实到产品时，屏蔽层断点在防雷滤波板上，
+		外侧断点通过防雷滤波板与机壳搭接，内侧断点直接通过搭接线与机箱搭接；对于措施b），要求连接器厂家在连接器内部将屏蔽层低阻抗搭接到机壳。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case12_6.png">
+		</div>
+		<p>
+		<h3 align="center">图 6 内部断开点及接机壳图</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case12_7.png">
+		</div>
+		<p>
+		<h3 align="center">图 7 RE102 1（整改后）</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case12_8.png">
+		</div>
+		<p>
+		<h3 align="center">图 8 RE102 2H （整改后）</h3>
+		</p>
+			<div align="center">
+			<img alt="图片找不到" src="imgs/case12_9.png">
+		</div>
+		<p>
+		<h3 align="center">图 9 RE102 2V （整改后）</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">相关点评：本文的核心问题其实是屏蔽线缆屏蔽层穿过机箱进并通过单板接机壳地导致的问题。
+		类似实践经验岛主在2009年也做过这样的案例，并从理论方面进行了分析，同时归纳总结了屏蔽线缆屏蔽层的几种接地方案的优劣；详见岛主的书《EMC设计开发内参资料》
+		（已售1600本好评非常高）第3部分“测试案例”，其中一篇《某系统电磁兼容认证案例分析》中第4节“举一反三”就是归纳总结的屏蔽层接地方案的优劣，没有本书的同仁可以在咱们论坛下载本案例。
+		</p>
+	</div>
+  </body>
+</html>

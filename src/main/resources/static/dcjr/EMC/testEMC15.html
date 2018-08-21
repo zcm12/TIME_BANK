@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>test15.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <style type="text/css">
+	@import url(test.css)
+    </style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+     <div>
+		<h1 align="center">电图机EMC整改案例分享 </h1>
+	 </div>
+
+	 <div id="content">
+	    <h2 align="left">一、问题描述</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">某心电图机有6 刀功能，外接有心电感应连接线，3PIN 电源线，接地线,在进行EFT测试，测试2kv 是出现心电图波形显示异常，心率显示有严重的偏差较大。
+		</p>
+		<h2 align="left">二、问题分析：</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">经过等为分析发现电源端口没有加滤波电路, 产品的工作地与心电图的否地没有任何连接。
+		</p>
+		<h2 align="left">三、产品问题定位：</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">1. 在电源的L、N 加磁环和共模电感效果有改善，还是不能达到要求，测试波形还有异常；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2. 产品的工作地与心电图的否地之间加100pf 电容连接，产品波形正常，但是测试心率显示还有变化，注意：此电容容值不能超过200pf ，否则不能通过安规测试；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3. 将电源的地线先接入大地，在通过电感接入产品的工作地，测试心电波形正常，心率有变化；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">4. 在心电感应连接线加磁环，测试心电波形正常，心率有变化；
+		</p>
+		<h2 align="left">四、整改措施：</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">整改方案为：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1. 在电源的L、N 加磁环和共模电感；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2. 将电源的地线先接入大地，在通过电感接入产品的工作地；
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test15_1.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">3. 产品的工作地与心电图的否地之间加100pf 电容连接；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">4. 在心电感应连接线加磁环；
+		</p>
+		<h2 align="left">五、整改后的测试数据：</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过上述整改措施，可以通过EFT 测试 正负2kv。
+		</p>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>EMC整改中线缆的屏蔽接地问题</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">PSR开关电源设计之EMC设计技巧</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：EMC工程师在整改过程中，处理线缆的辐射问题时，经常会采取屏蔽措施，将暴露的线缆采用导电胶带，铜箔的方式缠绕，或者直接采用带有屏蔽层的同轴线。在屏蔽的两端进行接地，有时候遇到另一端附近是插头，附近找不到合EMC工程师在整改过程中，处理线缆的辐射问题时，经常会采取屏蔽措施，将暴露的线缆采用导电胶带，铜箔的方式缠绕，或者直接采用带有屏蔽层的同轴线。在屏蔽的两端进行接地，有时候遇到另一端附近是插头，附近找不到合适的接地点，经常只有一头是接地处理。这样的处理方式跟不接地有多少区别，跟两端都接地又有多少区别？本文就来讨论一下这个问题。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">一、我们知道线缆辐射的产生，是由于ΔU的存在。屏蔽层中存在的ΔU正是驱动噪声不断向空间辐射的动力。这里借由仿真工具查看屏蔽层中的ΔU，我们建立一端长度为60cm的同轴线，用来模拟加屏蔽层的单线，线缆型号为RG58。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc4_1.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 创建上图的spice模型，并进行电路搭建。首先，屏蔽层不做接地处理，在线缆内芯和屏蔽层两端分别放置探头，如下图。
+		<br>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc4_2.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">激励波形为一随机的方波信号，如下图。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc4_3.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">仿真得到P3和P4的电压，如下图。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc4_4.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">这里，我们定义电压P3-P4为需要的ΔU波形，经过处理后得到下图。从结果可以看到，不接地的屏蔽层中存在很高的ΔU电压信号。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc4_5.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">采用同样的方法，分别仿真P3端接地、P4端接地、两端接地。得到ΔU波形并和上图中的ΔU进行比较。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc4_6.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">从上图可以看出，两端接地的屏蔽效果是最好的，ΔU曲线除了前段有个接近-0.5V的小包外，其余幅值均在0.05v左右。P3接地和P4接地的效果相当，差别仅在相位上；不接地处理方式的屏蔽层存在较大的ΔU。
+		</p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">二、一米法远场的辐射值对比
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">为了验证上述结果，我们采用另一个仿真工具，建立一条同样的RG58线缆，这里对线缆内部的绝缘层进行精简处理，采用空气替代。与上面不同的是，这次我们查看的是远场结果，这里我们按照GJB151设置远场为一米法。
+	    </p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/designemc4_7.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">同样的，设置四组对照组，分别为两端接地、不接地、波端口接地、波尾部接地。激励波形采用第一步仿真中保存的波形参数。对其仿真结束后，将一米法的电场信号和磁场信号进行对比，如下图：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc4_8.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">电场对比</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc4_9.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">磁场对比</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于设置线缆长度的原因，166MHz处刚好有个谐振峰（没有必要的前提下，尽量缩短线缆长度，否则即使屏蔽，即使接地处理，依旧有相当强烈的EMI产生），从远场结果来看，不做接地处理的屏蔽线缆，其电场和磁场辐射值是最强的，尾部接地处理的结果要高于波端口处接地，甚至非常接近不接地处理。检查激励信号波形和P3位置的波形，将其对比发现，两波形是刚好反相位的，所以激励信号加强了屏蔽层的EMI信号，使其辐射值变大。如下图：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc4_10.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">相反的，波端口位置接地的波相位刚好相同，这就使屏蔽层与线芯内部信号能够相互抵消，降低了EMI信号。如下图：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc4_11.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">结论：<br>
+		1、在必要的情况下，两端都进行接地结果是最理想的；<br>
+		2、靠近信号源的接地效果要优于远离信号源接地；<br>
+		3、线缆的长度越短越好，防止因谐振造成低频EMI信号的产生，低频的EMI信号对机箱的屏蔽将会是严重的考验!
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本文转载于电磁兼容(EMC)微信公众号，作者：小汤；转载请注明作者及出处，谢谢！
+		</p>
+	</div>
+
+</body>
+</html>

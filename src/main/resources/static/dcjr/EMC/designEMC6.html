@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>高性能模拟前端</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">高性能模拟前端</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：高速转换系统，尤其是电讯领域的转换系统，允许ADC（模拟-数字转换器）输入信号为AC链接信号（透过利用变压器、电容器或两者的组合）。但对于测试和量测行业而言，前端设计并非如此简单，这是因为除了提供AC结合能力高速转换系统，尤其是电讯领域的转换系统，允许ADC（模拟-数字转换器）输入信号为AC链接信号（透过利用变压器、电容器或两者的组合）。但对于测试和量测行业而言，前端设计并非如此简单，这是因为除了提供AC结合能力之外，该应用领域通常要求输入讯号与DC链接。主动式高速转换系统，尤其是电讯领域的转换系统，允许ADC（模拟-数字转换器）输入讯号为AC链接信号（透过利用变压器、电容器或两者的组合）。但对于测试和量测行业而言，前端设计并非如此简单，这是因为除了提供AC结合能力之外，该应用领域通常要求输入讯号与DC链接。主动式前端设计达到的良好脉波响应和低失真性能是有挑战性的（≧500MHz的DC频率）。本文适用于高速数据采集的高性能ADC所使用的模拟前端设计提供几种理念和建议。 
+		</p>
+		<h2 align="left">高速信号</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">使用差分放大器是将高频模拟讯号与ADC的输出相连的首选方法。因此其中第一个需要选择的器件就是差分输出运算放大器。选择这类器件时，主要有两个考虑元素：增加带宽产品和从外部电压设置运算放大器的共模电压输出的能力。这是因为驱动ADC输入的讯号放大器将共模电压输出(VCMO)设置在最适合的ADC范围内。如果不能满足这些条件，ADC 的性能会随着放大器的VCMO和ADC的最佳输入共模电压间不一致的增加而大幅下降。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">宽带差分运算放大器的主缺点在于其放大倍率通常都有限，而且其放大水平是在内部预设的。根据应用的不同，可能需要为设计添加前置放大器，从而满足必要的增加要求。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">至于前置放大器，应该采用宽带运算放大器以便满足ADC的期望输入频率。对于采样速率高达1 GSPS的系统而言，这等于已超过采样系统要求具有高达500 MHz的输入带宽。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于与较大增益（如AV=10）一起运作并能保持大带宽的运算放大器而言，其等于5 GHz增益带宽(GBW)产品。由于架构的关系在频率回响和增益之间的直接折中，因此大多数的电压回授放大器都不能满足该要求。然而，电流回授放大器与这些参数保持较好的关系，因为性能通常由运算放大器电路内的回授电阻值决定。运算放大器LMH6703非常适于在增能设置为1～10的高带宽下运作。该器件可与所选的差分放大器一起使用，从而在高带宽系统（如示波器和数据采集卡）中提供额外的增益要求。 本特殊放大器的频率回响见图１。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc6_1.jpg">
+		</div>
+		<h3 align="center">图 1. LMH6703 频率回响</h3>
+	    <p style="text-indent: 2em;padding: 3px 0px;">如果增益设置为10且带宽为500 MHz，则图１推荐使用300奥姆的回授电阻(RF1)。Av = 1 + (Rf / Rg)因此，RG1（增益电阻）可为33奥姆。例如，图2对具有差分放大器的电路中的LMH6703进行了说明。
+	    </p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/designemc6_2.jpg">
+		</div>
+		<h3 align="center">图2. 二层级放大器电流图</h3>
+	    <p style="text-indent: 2em;padding: 3px 0px;">除了需要具有合适的DC讯号路径的固定增益级别的系统，该应用还需要一个AC链接模式。这是因为DC讯号路径通常受到输入放大器所产生的增益带宽所限制。
+	    </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于数据采集器件或需要很宽的输入带宽和低失真的通讯路径而言，我们需要采用AC讯号路径。这可将输入频率上限扩展到DC讯号路径容量以外。 解决办法有很多种，选择何种解决方法主要取决于最小的输入频率以及所需的高频性能。对于高频下（≧200 MHz）的最高AC性能而言，平衡/非平衡变压器为实现单端-差分转换提供了解决方案，因为讯号失真的程度较低。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">折中在于平衡/非平衡变压器属减损器件，将会小幅（-1~2 dB）消弱讯号，而且它们的低频性能较差。透过使用单极RF继电器作为选则单端输出讯号从前置放大器切换到差分放大器或平衡/非平衡转换电路中，可以将平衡/非平衡联结讯号路径插入图2所示的电路中。还需要另一个双极双掷RF继电器来将平衡/非平衡变压器和差分放大器的输出发送到ADC输入中。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc6_3.jpg">
+		</div>
+		<h3 align="center">图3. 带有扩展AC讯号性能的系统频率回响</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">该电路很适用于高级测试和测量设备。但是对于价格较敏感的应用，RF讯号继电器的成本就成了系统预算的负担了，特别是在需要多个通道的情况下。因此低速系统选择可用于AC链接和DC链接模式的差分输出运算放大器较为有利，因为省下了平衡/非平衡转换电路。特别适于该用途的放大器逐渐出现，并渐渐提升带宽和THD方面的性能。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于8位1 GSPS的转换器而言，能在500 MHz下提供-50 dB THD图、小带宽至少为1 GHz的差分放大器会很适合。利用可以极大缩短设计时间的前端设计中现成的运算放大器组件，可以从高速ADC获取较好的动态性能。在频率上限处，放大器引起的SINAD损耗不超过3~4 dB。图4展示了198 MHz 输入讯号（由高带宽差分输出放大器进行缓冲，由8位ADC以500 MSPS的速率进行采样）的FFT。该图显示放大器在该频率下具有很低的2阶和3阶合谐波失真，使得ADC能够采集具有与从专用AC链接讯号路径获得的性能相当的噪声和失真数的讯号。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc6_4.jpg">
+		</div>
+		<h3 align="center">图4. 198 MHz正弦波（由高速差分输出运算放大器发送、由ADC08D500以500 MSPS的速率进行采样）的FFT图</h3>
+		<h2 align="left">总结</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">放大器的性能会不断的提升，从而提升带宽，并降低THD。随着ADC进入GSPS范围，我们就需要其它能够与这些转换器搭配的放大器。不仅能够透过减少信道上的电路来降低系统成本，而且不会牺牲系统的性能，并允许设计者以较低的成本实现较高的性能，同时缩短前端电子的设计时间。Signal Path DesignerSM #101内的A Walk Along the Signal Path(signalpath.national.com/designer)对差分输出放大器电路进行了大量说明。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 作者简介：Nicholas Gray 任职于美国国家半导体公司数据转换系统部应用工程师，电子邮件:nicholas.gray@nsc.com
+		</p>
+	</div>
+
+</body>
+</html>

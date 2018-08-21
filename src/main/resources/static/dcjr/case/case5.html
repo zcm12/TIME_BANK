@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>case5.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+@import
+url(case.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">交流电机控制电路浪涌故障分析及整改</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">交流电机的控制电路板，在做L-N差模1000V浪涌测试时，MOS管Q5击穿损坏。L-N线线间已有压敏电阻RV1,
+			型号为320E2K1，厂家EPCOS；MOS管，型号为SPP11N60C3,厂家INFINEON。</p>
+		<p>
+		<h2 align="left">1. 现象描述</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">交流电机的控制电路板，在做L-N差模1000V浪涌测试时，MOS管Q5击穿损坏。</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">L-N线线间已有压敏电阻RV1,
+			型号为320E2K1，厂家EPCOS；MOS管，型号为SPP11N60C3,厂家INFINEON。</p>
+		<p>
+		<h2 align="left">2. 原因分析</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">从电路上看，该电路不同于开关电源，有大容量的储能电解电容吸收浪涌电压，初步定为Q5的
+			D、S极间瞬时浪涌电压过高，导致MOS管击穿损坏。
+			用示波器监测D、S极间瞬时浪涌电压，为避免不损坏示波器，L-N间施加500V浪涌干扰信号。D极到S极之间的最高电压为638V，持续时间约13us。</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case5_1.png">
+		</div>
+		<p>
+		<h3 align="center">图1 D极与S极间残压</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过查询MOS管SPP11N60C3规格书，D-S雪崩击穿电压为700V，如图2所示。那么，L-N施加1000V时，D-S很有可能因此而击穿损坏。L-N间有320E2K1压敏电阻，难道没有用？</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case5_2.png">
+		</div>
+		<p>
+		<h3 align="center">图2 D极与S极雪崩击穿电压</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过查询压敏电阻320E2K1规格书，压敏电阻的压敏电压虽是320V(RMS)，但他的瞬时最大钳位电压是840V，如图3所示。MOS管无法承受这个瞬时钳位电压。</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case5_3.png">
+		</div>
+		<p>
+		<h3 align="center">图3 压敏电阻320E2K1规格书</h3>
+		<p>
+		<h2 align="left">3. 改进措施</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">钳位电压低于700V的，如图3，有250E2K1。但是压敏电压只有250
+			V(RMS)，显然不适合240V的电路。</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">显然，只能在MOS管选型上想办法。通过查找IRFBF20的规格书，D-S击穿电压900V，大于压敏电阻的钳位电压，可以满足要求，如图4所示。替换后，进行差模L-N
+			1000V浪涌测试，结果合格。</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case5_4.png">
+		</div>
+		<p>
+		<h3 align="center">图4 MOS管IRFBF20规格书</h3>
+		<p>
+		<h2 align="left">4. 思考与启示</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">选型压敏电阻时，不但考虑其服务的电路的正常工作电压范围，还要考虑其服务的电路所能承受的最大耐压。</p>
+	</div>
+</body>
+</html>

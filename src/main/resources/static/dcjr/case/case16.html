@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>case16.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<style type="text/css">
+@import
+url(case.css)
+</style>
+  </head>
+  
+  <body>
+    <div>
+    <h1 align="center">汽车仪表总成静电整改案例</h1>
+    </div>
+    <div id="content">
+		<p>
+		<h2 align="left">一、现象描述</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">产品在进行 25KV 空气静电放电抗干扰试验时，对仪表显示屏正下方外壳的缝隙位置放电时，仪表盘液晶屏字符显示错误，出现断码、花屏等现象，具体见下图 1 所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_1.png">
+		</div>
+		<p>
+		<h3 align="center">图1 空气放电实验</h3>
+		</p>
+		
+		<p>
+		<h2 align="left">二、原因分析</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 首先我们来分析信号形成的原理，当一个电平被输入，要区别它是有用信号或无用信号，必须对其电平值进行判定识别。简而言之，就是要判定信号的电平大小、极性、频率等参数，必须要有一个总体的参考电平为基准。在电路设计中，我们把电流回路作为单个系统的总的参考电平基准，即 0V 电平。如示意图 2 所示，信号等于输入电平减去参考电平，得出的信号电平可能是正极性，也可能是负极性。只要单个单元回路的参考电平一致且稳定，那么整个电路单元就能按原设计指标正常地运作。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_2.png">
+		</div>
+		<p>
+		<h3 align="center">图2 </h3>
+		</p>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 在 EMC 实践工作中，静电的干扰方式、耦合途径、耦合的脉冲电压、极性等多种多样，从泄放途径上基本上大致分为直接干扰和间接干扰两大类，对电路的影响主要表现在信号干扰和回路干扰两种基本形式，见下图 3。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_3.png">
+		</div>
+		<p>
+		<h3 align="center">图3</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">  该汽车仪表总成的测试现象为空气 25KV 等级对显示屏周边的缝隙进行放电，出现显示错误或工作异常，对应图 5 我们就能找出空气放电干扰的基本形式——即静电场干扰。此时还需要分析清楚这个静电场是如何导致系统工作异常的，是如何耦合到内部电路系统的，是信号通路还是回路被干扰等等问题。只有把病因了解透彻，才能从根本上治疗病症。对应前面所述的测试现象，其静电的几种干扰形式可以借助示意图 4、5 来分析。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_4.png">
+		</div>
+		<p>
+		<h3 align="center">图4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;图5</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 图4示意图所示为多层板之间的形成的静电场干扰示意图，在多层PCB板中，往往很多信号走线被敷设在了电源层或地层的相邻层或中间层，根据我们的大量实验分析证明，在静电放电抗扰度试验中，一旦地层的泄放路径阻抗较大时，那么与之相邻层的信号层或电源，就极易被地层上形成的静电场所耦合。同理，电源层形成的静电场原理类似，图 4 中，主要是考虑多层 PCB 所导致的失败因素。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">图 5 所示多见于单面或双面板的结构分布，由于 PCB 的走线或周围的铺地结构引起，被直接或间接注入静电脉冲电压，它所形成静电电流流动的环路而产生的静电场分布，在该静电电流环路中的系统或单元模块会因此而耦合到场能量，如果有多个单元或模块，那么每个单元或模块所耦合到的静电场能量会根据 PCB结构的布置而有所不同。图 4、图 5 在理论上，又可以用图 6 的等效图来帮助分析。</p>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_6.png">
+		</div>
+		<p>
+		<h3 align="center">图6</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 电场 E0 等于 V0 比上两个平行通路的距离 h 。在实际的生产和过作中，我们会发现，由于走线的结构、导体横截面积、器件分布、通路阻抗等因素的影响，会导致多个不同强度的场分布，如图 5 所示，形成静电场 A 与静电场 B 两个强度不同的场分布，处于该场分布中的 IC1 和 IC2 两个单元模块会受到两个不同强度的静电场干扰，假设场分布中 IC1 和 IC2 的中间走线看似为偶极子天线，有效长度为 hd ，那么根据理论公式计算，能够在其走线上感应到两个不同的电压值，设静电场 A 为 E1，静电场 B 为 E2，由于 E1≠E2，设定两个单元的有效天线长度相同（实际中对应两个单元模块而言永远不可能一致），最终得出 V1 ≠ V2。计算方法如下：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_7.png">
+		</div>
+		<p>
+		<h3 align="center">图7</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 当所感应到的 V1、V2 能量足够高、△V1V2 足够大时，就能够扰乱 IC1 和IC2 之间的正常通讯信号，根据前面图 2 的分析基础，此时的信号等于信号走线上感应到的脉冲电压减去回路电平，如图 8 所示。此时的电路已经无法识别信号，导致电路工作异常中断。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_8.png">
+		</div>
+		<p>
+		<h3 align="center">图8</h3>
+		</p>
+		<h2 align="left">三、整改措施</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过上述的理论分析，该产品的故障因素主要是由静电场干扰所引起，要解决场干扰问题，大致的方法有两种：一是采用泄放的方法，对敏感的“天线”进行有效地去耦处理，在信号通路上进行泄放，达到通过的目的；二是采用屏蔽的方法，对敏感的单元模块、“天线”等进行必要的静电屏蔽，保证信号与参考电平的差值不发生突变，使之正常工作。无论我们采用何种技术方案，其根本的目的还是在于消除信号电平与回路参考电平的差值不会突变。如下图 9 所示，使单元电路的输入电平和回路电平保持同时的升高或降低，对于信号电平总差值而言，可以基本维持不变化。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_9.png">
+		</div>
+		<p>
+		<h3 align="center">图9</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 静电的器件通常可采用如 TVS、放电管、压敏电阻、高分子吸收材料、电容等器件。对于信号端口而言，最有效、成本最低、性能最可靠的还是选用电容器件，利用电容对脉冲信号的瞬时导通的特性，可以迅速地将静电脉冲往低电势方向泄放，达到平衡的目的。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 进一步分析产品内部结构，图 10 为 LCD 屏信号走线，其走线较长，空白位置没有铺设地层，留有较多空白处，在静电放电时，走线极易形成天线效应。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_10.png">
+		</div>
+		<p>
+		<h3 align="center">图10 显示数据线的走线</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">图 11 是 LCD 与主板的连接结构，直插式，距离较高，约 1cm。LCD 数据引脚也可能形成天线效应，接收到静电场强干扰。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_11.png">
+		</div>
+		<p>
+		<h3 align="center">图11  LCD 屏的引脚连接结构图</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 通过基本电路结构的分析，PCB 在布板时，尤其是在 LCD 屏的数据走线的设计方面，存在不足，走线较长，且走线空白处和芯片周边未铺地，没有隔离和吸收作用地层，LCD 在组装结构上同理，插件引脚太长，没有增加任何去耦措施，导致静电在放电过程中，所有的数据线全部成为了接收天线。在设计上稍作改进便能通过测试，但客户的产品已经生产，后期不对 PCB 进行大改。故制定的整改方案是在不大改 PCB 板的前提下调整或增加器件，并保证成本和工艺的可行性。
+		</p>
+		<p>
+		<h2 align="left">根据前面所述原理，制定整改方案：</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1、对靠近边沿的重要数据线，采用去耦的技术方法，减小其“天线”的接收能力，使其对地形成泄放路径，达到抑制静电干扰的目的。在 LCD 引脚上采用 100pF电容与地并联，如图 12 所示；
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_12.png">
+		</div>
+		<p>
+		<h3 align="center">图 12  数据线去耦</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2、对走线进行屏蔽，由于引脚过长，对屏引脚进行静电场屏蔽处理，消除电场影响，在 LCD 左右两边的引脚支架上，采用铜箔屏蔽并良好接地，用于吸收静电干扰。屏蔽措施在重新的设计改进中，可以更改为 PCB 走线间铺地和 LCD引脚周围铺地代替。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case16_13.png">
+		</div>
+		<p>
+		<h3 align="center">图 13 LCD 屏蔽</h3>
+		</p>
+	    <p>
+		<h2 align="left">四、试验验证</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">25KV 静电放电试验通过。
+	    </p>
+	</div>
+  </body>
+</html>

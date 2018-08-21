@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>case15.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(case.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">隔离电源在高铁门控系统应用中共模浪涌拉弧案例分析</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">按照铁路行业EN50155标准要求，应用在高铁门控系统的电源产品其电磁兼容需满足EN
+			50121-3-2认证要求，同时浪涌需通过差模（线--线）1KV/共模（线--地）2KV。某高铁门控系统，为增强设备抗干扰能力，减少失效风险，采用隔离电源供电。但在认证测试时进行浪涌试验，发现系统的差模浪涌可以满足要求，但进行共模浪涌试验时，整个设备拉弧现象严重，并且导致多处IC损坏。为此，下面对设备的设计电路进行分析和整改。
+		</p>
+		<p>
+		<h2 align="left">一、原因分析：</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">首先,本案例中使用了隔离电源，一般来说共模浪涌试验不应该出现拉弧问题。因此我们需要对客户整个设备的电路结构进行分析。图1为电源部分原理框图，前端使用金升阳铁路电源专用滤波器FC-CX3D
+			用于EMC防护，主控制板供电电源采用URF1D05QB-50W进行供电，同时与之并联的电源URB1D15YMD-6W用于给电机驱动控制板供电，IB0505S-1W主要用于通信隔离芯片供电，大致结构如下。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case15_1.jpg">
+		</div>
+		<p>
+		<h3 align="center">图1 高铁门控设备主电路结构图</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">从图中可以看出，SP485通讯模块的EMC防护电路PE通过两个电源的隔离后与电源输入端EMC防护滤波器的PE汇接在一起。这种接法属于正常应用，但对浪涌来说却是问题所在。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case15_2.jpg">
+		</div>
+
+		<p>
+		<h3 align="center">图2 浪涌失效分析</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">按照上述接法，从图2中可以知道，CY为隔离电源原副边的Y电容，Cj为隔离电源原副边等效的分布电容，两者电容为并联关系。由于SP485的EMC防护电路PE与滤波器的PE存在连接关系，当进行共模浪涌L-PE或N-PE试验时，即相当于两个隔离电源原副边的Y电容串联进行分压。如对L-PE进行2KV共模浪涌试验，如果两个电容相等，
+			则各自分压1KV，即图2中的-、-两点之间存在1KV的压差。此时在系统布线时，如果两点之间的间距不能满足1KV隔离距离时，进行共模浪涌试验时，就会出现隔离输入与隔离输出之间拉弧问题。
+		</p>
+		<p>
+		<h2 align="left">二、试验验证：</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">分析完电路结构并确定信号输出与PE有连接关系后，如何确定是隔离输入与隔离输出之间的走线间距不满足耐压要求导致的打火拉弧现象？此处有两个方法：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">其一，通过PCB布局找出图2中两个隔离电源隔离输入与隔离输出之间的走线间距（一般打火拉弧处），寻找最小间距处并将此处断开。如果断开之后发现不存在打火拉弧的现象，基本可以确定是隔离输入与隔离输出之间的走线间距不能满足耐压要求导致的。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">其二，可以将隔离电源的输入地与输出地连接在一起变成非隔离，由于都是等电位，即不会出现打火拉弧现象。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过以上两种方法，均可以确定是否是由于隔离电源输入与输出之间的走线间距问题导致打火拉弧。
+		</p>
+		<p>
+		<h2 align="left">三、整改过程：</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过分析确定是隔离电源输入与输出之间走线间距不足，共模浪涌导致两端高压差问题。为此将打火处的走线断开，此处便不会再出现打火。同时如果其他地方有同样的问题，在断开前面的打火处后，则共模路径为转移到下一个间距不够的地方，因此需要将这些隔离间距都断开，并满足共模电压间距要求。
+		</p>
+		<p>
+		<h2 align="left">四、总结：</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1.分析方法：如确定是上述提到的系统结构导致共模浪涌时，隔离输入与隔离输出隔离间距不够导致打火的现象，可以采取两种方法进行验证：其一，将打火处的间距断开或增长；其二，将隔离变成非隔离，形成等电位。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.电源布局：系统设计时，如果使用隔离电源或隔离IC，且隔离电源的输出或隔离IC的输出通过直接或间接方式与系统的机壳地进行连接后，如果整个系统有共模浪涌要求时，此时在布局隔离输入与隔离输出时要注意原副边共模电压的耐受间距，做如下距离推荐：1KV--2mm；2KV--3mm；4KV--4mm及以上。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3.解决方法：其一，增大隔离输入与隔离输出的间距，以满足共模电压要求；其二，将隔离电源或隔离IC的输出与机壳的PE连接关系断开并保证其他信号与机壳的间距；其三，在电源输入线与PE之间增加压敏电阻进行共模电压抑制，但此时应关注输入与PE的工频耐压要求。
+		</p>
+
+	</div>
+
+</body>
+</html>

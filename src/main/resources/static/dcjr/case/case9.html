@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>case9.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<style type="text/css">
+@import
+url(case.css)
+</style>
+  </head>
+  
+  <body>
+        <div>
+		<h1 align="center">某医疗设备静电、辐射发射整改案例。</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">某医疗设备静电、辐射发射不通过，整改后满足EMC要求。
+		</p>
+		<p>
+		<h2 align="left">1.问题描述</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">设备系统组成如图1所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_1.png">
+		</div>
+		<p>
+		<h3 align="center">图1 系统框图</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">设备系统组成如图1所示：<br>
+		（1）设备在进行辐射发射测试时发现疑似16.5MHz的倍频严重超标；
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_2.png">
+		</div>
+		<p>
+		<h3 align="center">图2 辐射发射测试</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_f1.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">（2）设备在进行静电放电测试时出现以下异常现象：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">接触放电：在NIBP接口柱进行+6kV放电设备提示传感器异常报警。
+		</p>
+		<p>
+		<h2 align="left">2.原因分析</h2>
+		</p>
+		<p>
+		<h3 align="left">2.1超标频率分析</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">16.5MHz为音频时钟的主频，超标频率为音频时钟倍频，音频时钟线在板子上走线过长达到20cm，
+		根据超标频点181MHz到379MHz的全波长尺寸在165cm到79cm之间，当天线近似于1/4波长时就可以发射出最大的干扰，走线地层跨分割，音频信号回流阻抗大，
+		走线未特殊处理，无滤波、屏蔽，16.5MHz倍频通过走线发射出去，如图3所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_3.png">
+		</div>
+		<p>
+		<h3 align="center">图3  16.5MHz布线辐射</h3>
+		</p>
+		<p>
+		<h3 align="left">2.2 传感器异常报警分析</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">传感器报警条件为报警检测电路异常出现高压导致，报警检测电路原理如图4所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_4.png">
+		</div>
+		<p>
+		<h3 align="center">图4  报警检测电路原理</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">运放检测传感器状态，传感器正常时，运放输出高电平，异常时运放输出低电平，通过上拉电阻与门电路连接增加驱动能力后进入单片机检测引脚。
+		单片机根据检测到的电平状态判断是否报警。由此判断在静电放电过程中运放输出的电平信号被静电放电产生的感应电动势干扰造成了单片机的误报警。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">设备在对金属接头进行±6KV静电放电时，由于接头固定在侧面钣金上，钣金与接地线相连接，静电电流通过侧面钣金通过地线流入大地，
+		如图4红色箭头，查阅17626.2静电发生器特性的校验章节如表2所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_f2.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">由表1可知不同时段的放电电流，由于参数板采用了地分割技术，而运放与门电路分别位于模拟地与数字地区域，
+		固传感器状态报警信号的回流面积较大如图4红色虚线A区域，根据测量面积A为10cm*5cm/2约为25㎝2,测量可知R为10cm。根据法拉第感应定律A区域变化的磁通密度会产生感应电动势ε，
+		而变化的磁通可由磁感应强度B与时间决定，磁感应强度可根据安培定律由电流I与感应区域的距离R计算得出，如图5：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_5.png">
+		</div>
+		<p>
+		<h3 align="center">图5 磁感应强度计算</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">根据静电放电波形三个阶段的时间、电流及以上公式可计算出产生静电放电时，运放输出端产生的感应电压分别为：115V、2V、0.5V。
+                            实测感应电压波形如图6所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_6.png">
+		</div>
+		<p>
+		<h3 align="center">图6 实测感应电压波形</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由此可基本确定静电放电在传感器报警检测电路的回路面中产生的感应电压导致单片机检测到错误的电平产生误报警。
+		<p>
+		<h2 align="left">3.解决措施</h2>
+		</p>
+		<p>
+		<h3 align="left">3.1辐射发射整改</h3>
+		</p>
+		<p style="text-indent: 0em;padding: 3px 0px;">（1）软件整改
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">设备的音频功能仅仅为预留，实际生产机器并没有音频功能，建议关闭音频时钟，关闭音频时钟后测试通过。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">（2）硬件整改
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">如不关闭音频，则在音频时钟线加181MHz到379MHz合适阻抗磁珠滤波且增加地线良好回流，测试结果如图7所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_7.png">
+		</div>
+		<p>
+		<h3 align="center">图7 音频时钟滤波辐射发射测试</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_f3.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">整改后超标频点整体下降但仍未通过测试，查看PCB走线用频谱仪定位干扰高的区域后发现与音频时钟线并行走线的I2C数据线15cm，
+		而且由于设备采用上盖与下壳架构，上盖由显示屏、钣金组成，下壳为主板电路、参数电路、供电系统组成，机器上盖与下壳的GND仅仅用液晶屏FPC排线连接，I2C数据线未与时钟线走线按照3W原则，
+		I2C数据线与时钟线发生串扰，I2C数据线走线过长约40cm，通过FPC排线与上盖相连，信号回流阻抗大，将16.5MHz倍频发射出去，如图8所示。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_8.png">
+		</div>
+		<p>
+		<h3 align="center">图8  I2C数据线回流路径</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">显示屏线屏蔽、上下壳屏蔽良好、接地良好、在I2C线上串磁珠滤波，时钟线跟随一根地线，整改后测试结果如图9所示。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_9.png">
+		</div>
+		<p>
+		<h3 align="center">图9  整改后辐射发射</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case9_f3.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">进一步整改建议：高速时钟线、信号传输线串磁珠滤波可能会影响系统工作的稳定性，需进一步验证系统的稳定性，
+		建议进一步整改，更改PCB板，重新布局布线，尽量保证完整地层，预留时钟线滤波位置，时钟3W走线且包地处理，且时钟线尽量短，系统接地合理良好，且系统关键区域屏蔽良好。
+		</p>
+		<p>
+		<h3 align="left">3.2 静电放电整改</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">根据图5公式可知，减小放电电流，增大敏感电路与钣金的距离，减小敏感电路的回流面积都可以减少感应电动势。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于结构的限制，参数板位置不能改变，处于整体考虑对模拟地与数字地的桥接位置不能改变，
+		通过实验验证在运放输出与门电路输入处增加一个跟随地线，有效的降低回路面积可以减小感应电动势。
+		</p>
+		<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最终整改方案如下，以下方案任一更改都可解决此问题：</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、在靠近门电路输入引脚附近对地并联一个0.1uF电容，
+		为静电干扰电压提供一个低阻抗回路；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、更改PCB走线，将运放与门电路之间的信号线靠近模拟地与数字地桥接的位置走线减小回路面积；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、更改单片机程序采用多次采样取平均值或其他简单滤波算法滤除偶发干扰信号。
+		为静电干扰电压提供一个低阻抗回路；
+		</p>
+		<p>
+		<h2 align="left">4.经验总结</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1、无论是PCB走线还是内部连接线，无论其是否为干扰引号，只要有足够的长度都可能因为串扰的原因成为干扰信号的传播路径；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2、某些干扰不足以使单片机复位，却可以使其对输入状态的误判，这类干扰我们可以通过软件的滤波解决；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3、信号尽量不要跨分割如必须跨分割，可以考虑信号走线靠近地分割的桥接位置。
+		</p>
+	</div>
+  </body>
+</html>

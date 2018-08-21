@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>高速印制电路板中电源完整性的优化设计</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">高速印制电路板中电源完整性的优化设计</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：随着空空导弹高速图像信息处理板上DSP、FPGA等大规模数字集成电路的广泛应用，信号的频率也越来越高，图像信息处理板出现电源压降较大的问题。频率较低时，可将电源和地作为一个完整的参考平面，电源压降较小。但高频
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">随着空空导弹高速图像信息处理板上DSP、FPGA等大规模数字集成电路的广泛应用，信号的频率也越来越高，图像信息处理板出现电源压降较大的问题。频率较低时，可将电源和地作为一个完整的参考平面，电源压降较小。但高频时，由于分布电感ESL的影响，电源、地平面相当于一个谐振腔，具有谐振特性。电源平面其实可看成是由较多电感和电容构成的网络，也可看作是一个共振腔，在一定频率下，这些电容和电感会发生谐振现象，从而影响电源层的阻抗。随着频率的增加，电源阻抗是不断变化的，尤其是在并联谐振效应显著的时候，电源阻抗也随之明显，因此在瞬间电流通过时便会产生一定的电压降和电压摆动。而大部分数字电路器件对电源波动的要求在正常电压的±5%范围之内，因此造成数字电路器件不能正常工作。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本文将电源完整性理论和PCB设计实例相结合，在谐振、电源阻抗、避免重要信号线跨越平面层分割、直流压降等方面做了电源完整性方面的优化设计。
+		</p>
+		<h2 align="left">1 通过谐振分析优化印制板布局</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">谐振模式计算分析的是由PCB中电源和地的结构而可能引发的风险，包括叠层、板材以及地电分割等，目的是使印制电路板在所关注的频率范围内不发生谐振。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">观察PCB的谐振模式下的电压分布，尽量避免将大电流IC放置在谐振位置或其附近位置。图像信息处理板上电源和地的谐振图，如图1所示。
+		</p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/designemc12_1.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">从图中可知，印制电路板右上角谐振较大，因此在印制电路板布局时大电流IC器件尽量避免放置在印制板的右上角。
+		</p>
+		<h2 align="left">2 降低电源阻抗优化电路设计</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">系统电源部分的好坏直接影响到系统的稳定性，甚至可能使得系统逻辑错误。一个低阻抗的电源分布系统是比较理想的，至少在整个系统的工作频段内呈低阻抗，从而具有较小的压降。以图像处理板上的FPGA为例，供电电源为3.3 V，电压噪声限为5%，最大瞬间电流为0.15 A，则设计的最大电源阻抗如式（1）所示
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc12_2.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">对FPGA的3.3 V电源做电源阻抗仿真，图2所示为FPGA的3.3 V电源阻抗。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc12_3.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">从图中可看到，在357 MHz、765 MHz处谐振频点阻抗较高，需要选择合适的去耦电容，以改善电源阻抗特性。这里选取电容值为200 pF封装为0603的电容作为FPGA的去耦电容，因为它的特征曲线与电源阻抗曲线峰值频点一致，这样可将电源阻抗的峰值降低。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">200 pF的去耦电容布局选择在357 MHz谐振电压波动最大的位置处，因在此处谐振比较明显，同样在728 MHz处谐振频点电源阻抗也较高，因此再加上两个62 pF电容后，电源阻抗如图3实线所示，虚线为最初没有加电容的电源阻抗。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc12_4.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">从图3中可看到，电源阻抗有了较大改善，满足低于最大电源阻抗的要求。
+		</p>
+		<h2 align="left">3 避免高速信号线跨越平面层分割</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">电源和地分割、线宽以及过孔等都会造成PCB传输线的阻抗不连续，引起电源平面和地平面回流路径不理想，造成电源完整性问题。为得到更好的信号质量，可调节线宽和介质层的厚度以及电源和地的分割线来满足特性阻抗的要求。以FPGA_CLK为例，在当前PCB中，其的传输线阻抗如图4所示，阻抗在 43.5～54.7 Ω之间波动，波动过大。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc12_5.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">为改善传输线特性，对PCB层叠做优化。通过调节线宽，介质层的厚度以及不要跨平面层分割等来满足50 Ω特性阻抗的要求。优化后的传输线阻抗如图5所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc12_6.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">FPGA_CLK在层叠结构优化后，传输线阻抗在49.5～50.5 Ω之间，满足了阻抗匹配的要求。电源地网络和信号网络不是割裂的，而是紧紧耦合在一起的，所以电源地的噪声还会通过耦合影响信号线，或者辐射到外面，会产生EMI、EMC的问题。通过电磁辐射方面的对比。图6为没有优化时电磁辐射的波形，图7为优化后电磁辐射的波形。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc12_7.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过图中对比，电磁辐射明显降低。
+		</p>
+		<h2 align="left">4 直流压降</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">在PCB设计中，由于平面层的分割，不理想的电流路径和各种过孔信号线的分布，电源网络的直流供电时常受到影响。直流压降分析可显示整个PCB上电流的流向、电路密度以及直流压降等特性。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在产生3.3 V的芯片出口处设置电流源和电压源，在印制板右上方放置电流源的探针和电压源的探针，如图8所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc12_8.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">可看到深色区域表示电流密度过大，在两个DSP处红色比较明显，可减小隔离盘的大小，使电流通过，在3.3 V供电处可通过增大过孔的尺寸以及多打几个过孔的方法使电流在几个地方通过，以降低电流的密度。再对其做电压压降仿真，仿真图如图9所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc12_9.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">最低电压为3.285 V，压降为0.5%，满足系统电压波动在±10%要求。
+		</p>
+		<h2 align="left">5 结束语</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">电源完整性问题主要是由于去耦电容的设计不合理、回路影响严重、多电源/地平面的分割不好、地层设计不合理以及电流不均匀等问题引起的。通过电源完整性仿真，找到这些问题，然后通过以下方法解决电源完整性问题：（1）通过调整PCB叠层线宽、介质层的厚度满足特性阻抗的要求，调节叠层结构满足信号线回流路径短的原则，调整了电源/地平面的分割，避免了重要信号线跨分割的现象;（2）对印制板上用到的电源进行了电源阻抗分析，通过加入电容使其控制在目标阻抗之下;（3）在电流密度大的部分通过调整器件的位置，使电流从更宽的路径通过。
+		</p>
+	</div>
+
+</body>
+</html>

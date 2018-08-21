@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PCB布局时去耦电容摆放经验分享</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">PCB布局时去耦电容摆放经验分享</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：对于电容的安装，首先要提到的就是安装距离。容值最小的电容，有最高的谐振频率，去耦半径最小，因此放在最靠近芯片的位置。容值稍大些的可以距离稍远，最外层放置容值最大的。但是，所有对该芯片去耦的电容都尽量靠
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于电容的安装，首先要提到的就是安装距离。容值最小的电容，有最高的谐振频率，去耦半径最小，因此放在最靠近芯片的位置。容值稍大些的可以距离稍远，最外层放置容值最大的。但是，所有对该芯片去耦的电容都尽量靠近芯片。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">下面的图1就是一个摆放位置的例子。本例中的电容等级大致遵循10倍等级关系。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc14_1.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">还有一点要注意，在放置时，最好均匀分布在芯片的四周，对每一个容值等级都要这样。通常芯片在设计的时候就考虑到了电源和地引脚的排列位置，一般都是均匀分布在芯片的四个边上的。因此，电压扰动在芯片的四周都存在，去耦也必须对整个芯片所在区域均匀去耦。如果把上图中的680pF电容都放在芯片的上部，由于存在去耦半径问题，那么就不能对芯片下部的电压扰动很好的去耦。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电容的安装
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在安装电容时，要从焊盘拉出一小段引出线，然后通过过孔和电源平面连接，接地端也是同样。这样流经电容的电流回路为：电源平面->过孔->引出线->焊盘->电容->焊盘->引出线->过孔->地平面，图2直观的显示了电流的回流路径。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc14_2.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">放置过孔的基本原则就是让这一环路面积最小，进而使总的寄生电感最小。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">图3显示了几种过孔放置方法 
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc14_3.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">第一种方法从焊盘引出很长的引出线然后连接过孔，这会引入很大的寄生电感，一定要避免这样做，这是最糟糕的安装方式。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">第二种方法在焊盘的两个端点紧邻焊盘打孔，比第一种方法路面积小得多，寄生电感也较小，可以接受。 第三种在焊盘侧面打孔，进一步减小了回路面积，寄生电感比第二种更小，是比较好的方法。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">第四种在焊盘两侧都打孔，和第三种方法相比，相当于电容每一端都是通过过孔的并联接入电源平面和地平面，比第三种寄生电感更小，只要空间允许，尽量用这种方法。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">最后一种方法在焊盘上直接打孔，寄生电感最小，但是焊接是可能会出现问题，是否使用要看加工能力和方式。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">推荐使用第三种和第四种方法。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">需要强调一点：有些工程师为了节省空间，有时让多个电容使用公共过孔，任何情况下都不要这样做。最好想办法优化电容组合的设计，减少电容数量。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于印制线越宽，电感越小，从焊盘到过孔的引出线尽量加宽，如果可能，尽量和焊盘宽度相同。这样即使是0402封装的电容，你也可以使用20mil宽的引出线。引出线和过孔安装如图4所示，注意图中的各种尺寸。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc14_4.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于大尺寸的电容，比如板级滤波所用的钽电容，推荐用图5中的安装方法。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc14_5.jpg">
+		</div>
+	</div>
+
+</body>
+</html>

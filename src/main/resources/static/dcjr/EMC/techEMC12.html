@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>印刷电路板电源完整性及去耦电容优化</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">印刷电路板电源完整性及去耦电容优化 </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：电源完整性和信号完整性，在电路板设计中的重要程度不言而喻，本文简单介绍了电源完整性的仿真，在得到电源的阻抗曲线后，如何设置去耦电容，降低其在整个工作频段中的阻抗，从而达到降低EMI的目的。首先，我们选择一
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电源完整性和信号完整性，在电路板设计中的重要程度不言而喻，本文简单介绍了电源完整性的仿真，在得到电源的阻抗曲线后，如何设置去耦电容，降低其在整个工作频段中的阻抗，从而达到降低EMI的目的。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">首先，我们选择一块电路板。版图是公司的，所以这里涂黑了，大概知道是块板子就行了。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc12_1.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 我们选择一条5V的USB的走线，电源由右上角馈入，在左下角经过了4颗电容后到达USB接口。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc12_2.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">按照USB的标准，目前USB3.0的传输速度受硬盘影响，最高不超过1Gbps，因此我们关注的频率在100kHz—2GHz，这里将其设置为仿真频段，因为这根Net走线并不长，也没有蛇形的弯曲部分，所以预测其阻抗变化不是很大，为了给老板省成本，这里直选了3颗电容。首先得到仿真对象的spice模型。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc12_3.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">D9_1和JUSB1_1分别为馈入和馈出，相应的D9_4和JUSB1_5为GND管脚。设置电源内阻为0.1Ω，接下来进行电路连接，3颗电容的位置先空着，查看这条Net的电源阻抗特性。
+		</p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">待仿真结束后，得到这段电源走线的阻抗参数图，如下。
+	    </p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/techemc12_4.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">可以看到，由于这根USB走线相对较短，且布线相对比较规范，其阻抗在2GHz范围内变化并不是很大，最大391Ω。电源信号在该频段内存在几处明显的谐振，为了降低EMI，需要加加去耦电容。目标希望其在整个频段的阻抗降低到10Ω以下 。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc12_5.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">接下来，将3颗电容连接起来，分别为C1、C2、C3，初始容值均设置为1000pf，并串联3颗电阻，分别为R1、R2、R3。优化目标：100kHz—2GHz阻抗小于10Ω。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc12_6.jpg">
+		</div>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">接下来，将3颗电容连接起来，分别为C1、C2、C3，初始容值均设置为1000pf，并串联3颗电阻，分别为R1、R2、R3。优化目标：100kHz—2GHz阻抗小于10Ω。<br>
+		C1 = 3111.65 <br>
+		C1 = 3111.65 <br>
+		C3 = 3111.49 <br>
+		R1 = 7.14841 <br>
+		R2 = 16.6401<br>
+		R3 = 40.4783
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc12_7.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">上图为1号端口的Z1_1曲线，绿色曲线为优化后的结果，红色为初始结果。用了3颗电容感觉还没达到预定目标，但是从波形的平整度来看，确实要比开始好很多。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc12_8.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">上图为2号端口的Z2_2曲线，绿色为优化后的结果，基本上满足要求了，并且波形的平整度很不错。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">总结，layout板图在初始的设计过程就应该将电源完整性、信号完整性以及EMC问题考虑进去，这样会省去后续的大量的测试、整改及修改板图和工艺的时间及成本。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本文转载于电磁兼容(EMC)公众号，作者：小汤；转载需注明作者和出处，谢谢。
+		</p>
+	</div>
+
+</body>
+</html>

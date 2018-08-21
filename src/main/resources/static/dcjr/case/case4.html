@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>case4.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(case.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">电动汽车的系统级EMC设计  </h1>
+	</div>
+
+	<div id="content">
+	    <p style="text-indent: 2em;padding: 3px 0px;">本文在分析整车EMC设计现状的基础上，以大量部件和整车的设计、测试经验为支撑，借鉴学习国外一些车型的先进设计思路，从EMC工程设计角度，提出了一种电动汽车系统级EMC开发方法。该方法成功应用于各研发车型，改变 ... 
+		</p>
+		<h2 align="left">引言</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">电动汽车车载电器部件要满足相应EMC技术要求，就应考虑其内部元器件和导线的合理布排，并做相应的测试及优化工作。由于整车电气系统为各电器部件及连接线缆的集成体，设备之间的相互影响加剧了电磁环境的复杂性，部件级EMC测试和整车EMC测试关联解析难度大。同时各车型在功能、市场定位、系统架构与布局、零部件电磁特性、集成度等方面可能存在较大差异，很难给出一个或一组统一的定量化指标去适合于所有电动汽车。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在EMC设计、管理等方面，国内电动汽车厂普遍存在以下几方面问题：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">①EMC工作主要由EMC工程师开展，缺乏系统内协作；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">②EMC工作主要围绕电器部件及整车的EMC测试展开，EMC设计不足；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">③电器部件EMC设计和整车EMC设计脱节，EMC问题几乎全部由车载电器部件承担责任；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">④企业历史短，缺乏专业的EMC设计经验，缺乏规范的EMC研发、管理流程。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本文参考系统级电磁兼容设计思想，并借鉴国外电动汽车的优秀EMC设计方法，提出一种电动汽车系统级EMC开发方法，该方法建立的系统开发流程贯穿实施于车辆开发各流程中，整车一次性通过EMC法规测试，并做到了系统内的良好兼容性。
+		</p>
+		<h2 align="left">1、电动汽车系统级EMC设计思想</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">系统电磁兼容问题在分析方法、设计方法、试验方法方面，均为系统工程问题。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电动汽车系统级EMC设计思想：综合考虑电器部件性能及功能完整性、可靠性、技术成本、车身轻量化、产品上市周期等各种因素，确定布局和技术控制状态，选取材料、结构和工艺，在车辆研发的各阶段，以最低的成本、最有效的方式将接地、屏蔽及滤波等设计思想及具体措施实施到产品或系统中，在测试阶段做出详细的EMC测试评价、优化及管理，最终形成一套可行性高的正向开发设计方法或流程
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在产品质量前期策划（advancedproductqualityplanning，简称APQP）过程中，新产品研发过程一般由5个阶段组成：计划定义和项目、产品设计和开发验证、过程设计和开发验证、产品和过程确认，以及反馈、评估和纠正措施， 借鉴APQP流程，电动汽车系统级EMC开发流程可包括：EMC规划阶段、EMC系统架构布局阶段、EMC设计阶段、EMC系统测试及状态冻结阶段以及EMC评估、评审和优化阶段。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">上述各阶段需要车型设计总师、项目经理、EMC专家、EMC工程师、电气工程师、线束工程师、总布置工程师、结构工程师、测试工程师以及各电器部件供应商等协作参与，共同完成。
+		</p>
+		<h2 align="left">2、电动汽车系统级EMC设计开发流程</h2>
+		<h2 align="left">2.1 EMC规划阶段</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">本阶段工作内容是在分析整车技术规范（VehicleTechnicalSpecification，简称VTS）初稿的基础上，对表1中列举的内容进行研究，重点掌握现有电器部件EMC特性，并编写整车EMC设计指导书等报告，为EMC系统架构布局提供重要依据。
+		</p>
+		<h3 align="center">表1 EMC 规划阶段主要工作内容</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case4_1.png">
+		</div>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">本阶段是整车系统级EMC 开发流程中最为关键的一步，其核心工作内容可归结为“先由面建点，再由点连线”。
+		</p>
+		<h2 align="left">2.2 EMC 系统架构布局阶段段</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">本阶段是整车系统级EMC 开发流程中最为关键的一步，其核心工作内容可归结为“先由面建点，再由点连线”。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">“面”即为由车身、车身支架、12 V 蓄电池负极等建立的参考地。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">“点”为车载电器部件，以规划阶段编写的《高压部件布局布置指导性设计报告》、《CAN 网络线束布局布置指导性设计规范》等报告为指导，综合考虑车身数模及电器零部件初版数模，对车载关键电器部件进行布局。优先进行动力蓄电池布置；根据驱动方式、冷却系统、可安装位置、质心坐标等确定电机本体大致布置；结合功能性要求、碰撞安全性法规要求、IP 防护、安装便利性、美观等，确定其它电器部件布局。“点”还包括抽象的接地点，随着电器部件布局位置确认而确定。接地点的选取应以就近接地、系统接地网络的合理、可维护为原则。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">“线”即为前面建立的各“点”之间的互连线缆，是整车电气系统的重要组成部分。线缆布置的基本原则：尽量短、避免交叉、走向美观、安装固定方便。以i-MiEV 车底盘下线缆布局（见图2）为例，其线缆短、线缆无交叉的特点显而易见。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case4_2.jpg">
+		</div>
+	    <h3 align="center">图2 i-MiEV车底盘下线缆布局（网络资料）</h3>
+	    <p style="text-indent: 2em;padding: 3px 0px;">优先考虑系统布局这一策略是成本最划算的一种EMC设计方法，对系统进行布局划分，使对干扰电流的控制成为可能。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">整车EMC架构布局需要综合考虑各种技术要求，并将EMC技术融入到产品架构设计中去。图3为某型号电动汽车布局差异对比图，与图3（a）相比，图3（b）所示布局方案更合理，线缆走向更规范，整车碰撞安全性也更高。两种布置方案下电器部件壳体设计、连接器选型等均存在较大差异，说明若布局阶段“点”规划不合理，会导致整车电气系统架构布局的变更，其对整车设计成本、上市周期等均带来较大变化。整车设计初期，不建议所有电器部件都做出开模计划，同时从整车设计角度，“点”也应该符合“面”的规划，即使一些电器部件前期已开模且适用于一些车型，也应该根据本车型布置要求，在评审后重新制定开模计划。
+	    </p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/case4_3_1.png">
+		</div>
+	    <h3 align="center">（a）布局凌乱</h3>
+	      <div align="center">
+		<img alt="图片找不到" src="imgs/case4_3_2.jpg">
+		</div>
+	    <h3 align="center">图3某型号电动汽车布局差异对比（网络资料）   </h3>
+	    <p style="text-indent: 2em;padding: 3px 0px;">图4为某车型不合理的电机系统（电机和电机控制器）布局图，该布局导致U、V、W线缆过长，根据设计经验，该方案存在辐射发射超标风险，EMC评审不通过，该布局方案未获批准。
+	    </p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/case4_4.png">
+		</div>
+	    <h3 align="center"> 图4 某车型前期不合理的电机系统布局图</h3>
+		<h2 align="left">EMC 系统架构布局阶段主要输出报告：</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">《EMC 系统架构布局符合性评审报告》、《高低压线缆布置评审报告》、《高低压连接器位置优化设计分析报告》、《高压部件可用接地点评审方案》、《接地工艺设计需求分析报告》。
+		</p>
+		<h2 align="left">2.3 EMC设计阶段段</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">EMC设计虽然不是什么新鲜技术，但其需要大量专业设计、制造工艺以及管理等知识的支撑，并要参考一切可以指导团队和员工决策或行动的信息、标准、规范、法则及经验，最终形成用于指导生产的设计知识体系。EMC设计阶段主要围绕EMC三个措施（即接地、屏蔽和滤波）展开，本阶段主要的设计输出报告如表3所示。
+		</p>
+		<h2 align="left">EMC 设计阶段主要输出报告：</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">《整车电气系统电磁兼容控制技术方案》、《接地点变更、优化评审报告》、《接地设计（含接地线、接地螺栓及螺母、接地标识）设计方案评审报告》、《高压线束（含连接器）选型方案评审报告》、《高压线缆屏蔽效能测试分析报告》、《电器部件壳体屏蔽效能评审报告》、《某电器部件壳体全新开模设计方案评审报告》、《关键电器部件滤波器设计方案评审报告》、《EMC 系统设计符合性评审及优化报告》
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">接地设计主要包括接地线的工艺、接地螺栓和螺母选型、接地点防腐蚀处理工艺设计等。图 6为某型号电动汽车接地设计细节，可作为参考。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case4_6_1.png">
+		</div>
+	    <h3 align="center"> （a）接地线和接地螺栓</h3>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/case4_6_2.png">
+		</div>
+	    <h3 align="center">（b）接地线和接地螺母</h3>
+	    <h3 align="center"> 图6 某型号电动汽车接地设计（网络资料）</h3>
+	    <p style="text-indent: 2em;padding: 3px 0px;">屏蔽设计的关键之一在于高低压电器部件壳体设计，如何将工业设计等技术和壳体屏蔽设计技术巧妙结合在一起，体现EMC设计技术和艺术的完美结合，是本部分的难点。由于壳体开模成本较高，建议全新开模在评审通过后确定。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">应当指出，在选用屏蔽线缆时，不仅要考虑其屏蔽性能，还要考虑成本、机械强度等特性。当整个电缆受到过多的机械、天气和潮湿的影响时，影响最严重的屏蔽部分就是连接处，通常使用5年之后性能将下降一个数量级（20dB）。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">对于多电缆入口的机箱壳体，为保证屏蔽连接的连续性，电缆屏蔽连接方法可参考图7。
+	    </p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/case4_7_1.png">
+		</div>
+	    <h3 align="center">（a）接地线和接地螺栓</h3>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/case4_7_2.png">
+		</div>
+	    <h3 align="center">（b）线缆端连接夹具</h3>
+	    <h3 align="center">图 7 多电缆屏蔽层和壳体电连接（网络资料）</h3>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/case4_8.png">
+		</div>
+	    <h3 align="center">图8 某型号电动汽车电机系统设计（网络资料）</h3>
+	    <p style="text-indent: 2em;padding: 3px 0px;">若考虑成本，部件屏蔽设计难以做到完美，可考虑系统级解决措施。图8为某型号电动汽车电机系统设计，为降低 U、V、W 线缆可能带来的辐射发射问题，其在电机端增加一金属屏蔽盒，在提高 EMC 设计的同时提高了IP防护等级。
+	    </p>
+	    <h2 align="left">2.4 EMC 系统测试及状态冻结阶段：</h2>
+	    <p style="text-indent: 2em;padding: 3px 0px;">系统电磁兼容试验技术包括：试验规范制定、标准制定、项目选择、实施方法、场地建设、误差处理等技术和过程。为保证EMC测试的一致性，系统测试必须在标准的试验环境下进行。根据自身条件建立相应测试环境或选择测试机构，都是不错的选择，为节省测试费用而牺牲零部件或整车EMC性能的做法必将付出沉重的代价。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">若脱离整车测试验证环节，零部件EMC设计很可能出现设计不足或过设计问题。EMC 系统测试是系统级EMC设计流程中重要的环节，既用于验证整车 EMC 设计的合理性，又为设计方案优化、评审及冻结提供依据。在验证各电器部件EMC设计符合性的前提下，验证零部件EMC测试数据和整车测试数据的关联性，根据整车测试中暴露出来的问题，首先对整车系统内接地措施进行尝试性优化整改，在整改效果难以满足整车测试需求的前提下，对零部件EMC指标进行有针对性的更改，根据整改便利性、成本、可靠性、开发周期等因素确认零部件更改比重，并保证足够的裕量，从而降低因不确定性等因素带来的误差，保证整车测试的一致性。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">状态冻结阶段，需要随机抽样同一批次各电器部件多台进行测试，在测试数据一致性评审通过后，冻结零部件EMC设计。同样，只有整车测试具有足够的一致性和裕量，整车EMC 设计数据才能冻结。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">本阶段主要输出报告有：《电器部件 EMC 测试分 析报告》、《整车测试分析报告》、《系统设计优化分 析报告》、《XX 零部件EMC优化设计分析报告》、《接地线（含接地螺栓、螺母）盐雾等试验分析报告）》、《接地线阻抗测试报告》、《接地点防腐处理工艺设计评审 报告》、《接地点可维护性评审报告》、《电器部件壳体数模冻结报告》、《电器部件EMC设计方案冻结报告》、《XX 车型EMC设计方案冻结报告》等。
+	    </p>
+	    <h2 align="left">2.4 EMC 系统测试及状态冻结阶段：</h2>
+	    <p style="text-indent: 2em;padding: 3px 0px;">本阶段贯穿于系统级EMC设计的整个流程中，每个阶段的评估、评审和优化，必须保证零部件设计和整车设计具有一定的同步性。评估、评审时既要考虑功能完整性、技术先进性、可靠性、安全性等设计因素，还需要 EMC 专家的技术指导，同时又要综合考虑设计美 观度、可维护性、可工程化、成本等其它因素。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">简单合理的设计是最好的设计，这无疑在节约成本，提高产品良品率，加快上市时间的同时，让电动汽车EMC设计的风险降至最低，所以评估、评审阶段还应坚持简单的原则。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">电动汽车功率部件越来越呈现出小型化、集成化的技术趋势，功率部件的EMC设计仍将是整车EMC设计的重要内容之一。为提高续航里程而增大电池结构，从而使整车电器系统布局更紧凑，部件间EMI问题更突出。智能化、高频化等电子电器的安装加剧了整车通过GB 14023测试的难度，所以，评估、评审阶段还应坚持与时俱进的原则。
+	    </p>
+	    <h2 align="left">3、结语</h2>
+	    <p style="text-indent: 2em;padding: 3px 0px;">本文从工程应用设计的角度，对整车系统级EMC设计流程做了详细描述，而对设计细节以及EMC 指标的量化未做具体描述，但整个设计流程还是非常清晰的。采用系统方法，按照特定的逻辑来组织研发过程中模糊的、相互纠缠在一起的各种研发活动，最大程度地减少研发活动的反复和耦合，使复杂、模糊、混乱的EMC研发活动流程化，从而提高了EMC设计工作的效率和质量，缩短了开发周期，减少了研发成本及产品生命周期的总成本。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">在设计和选用电源滤波器的过程中，系统工程师发现，加了滤波器以后作用不大，甚至会发生某些频段的噪声变大。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">OBC 内部均设计了滤波单元，但由于滤波单元设计不专业（包括滤波器输出阻抗和 OBC 输入阻抗相互匹配、滤波器拓扑结构设计不合理等）或受布局空间所限安装位置不合理等原因，滤波器实际抑制干扰能力较差，传导发射超标现象较明显。
+	    </p>
+	    <h2 align="left">4、总结</h2>
+	    <p style="text-indent: 2em;padding: 3px 0px;">本文所述示例说明了接地、屏蔽以及滤波措施正确合理设计的重要性。目前电动汽车电子电器零部件越来越多，整车电气系统（包括各电器部件、互连线缆以及车身架构等）建立的电磁环境也越来越复杂，如何根据各电器部件自身EMC特性以及所处的电磁环境等因素，将EMC措施合理体现在整车设计中应是研究的重点和关键。
+	    </p>
+	</div>
+
+</body>
+</html>

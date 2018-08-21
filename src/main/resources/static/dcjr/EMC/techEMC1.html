@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>车载DVD的电磁兼容问题浅析</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">车载DVD的电磁兼容问题浅析</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：引言近年来随着我国汽车产业的蓬勃发展，与之相关的汽车多媒体技术也迅速发展起来。目前的汽车多媒体主要集中在视听技术方面。而DVD技术的成熟，给人们带来了清晰度更高、听觉感受更加完美、播放时间更长的视听效果，
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">引言
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">近年来随着我国汽车产业的蓬勃发展，与之相关的汽车多媒体技术也迅速发展起来。目前的汽车多媒体主要集中在视听技术方面。而DVD技术的成熟，给人们带来了清晰度更高、听觉感受更加完美、播放时间更长的视听效果，代表了当今汽车音响业界的发展方向。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">汽车音响设计比家用音响设计有着更高的要求：由于汽车音响使用空间小、干扰较多，这就要更多地考虑抗干扰设计。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本文介绍的车载DVD音响系统在FCC测试时遇到的问题及解决办法，从而使设备的抗外界干扰能力提高。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">系统结构
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">车载DVD音响系统的编/解码系统有两种基本实现方法：一种是采用高速通用微处理器如DSP芯片，由DSP芯片身兼编/解码功能与系统控制功能，具有较好的灵活性和适应性。然而对DSP性能、开发要求和成本要求高，不利于生产厂家批量生产。另一种是采用成熟的专用视频芯片与性能要求不高的主控CPU构建。采用第二种方案与采用DSP进行全面的自行开发设计相比，将大大地减少硬件规模，缩短开发周期，增强系统可靠性，减少生产成本。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc1_1.jpg">
+		</div>
+		<h3 align="center">图1 车载DVD原理框图</h3>
+	    <p style="text-indent: 2em;padding: 3px 0px;">本系统采用DVD处理器ES838与主控CPU TMP87CH47U作为主构件，能够实现CD、VCD、MP3、DVD等多种格式的音响播放。
+	    </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">ES838系列DVD处理器包括两个并行处理单元，一个RISC处理器，一个向量引擎，和额外的硬件资源来执行特定的编码/解码任务。这些资源与两个分立的数据总线连接。ES838内建视频DAC，视频编码，直接输出模拟视频信号，有效简化外围电路。伺服电路读出的数据经ES838直接输出模拟视频信号与数字音频信号；ES838以EPROM作为程序/数据外部存储器，以SDRAM作为显示存储器。由于ES838进行了所有关于音频/视频信号的处理，主控CPU并不需要地址/数据总线，所以主控CPU仅需控制ES838与处理LCD显示面板及遥控器操作。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">实现FCC电磁骚扰要求的技术对策
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">车体静电干扰与汽车本身和外部环境都有关，由于汽车行驶时车体与空气高速摩擦，在车体上形成不均匀分布的静电，静电放电会在车体上形成干扰电流，同时产生高频辐射，对汽车电子设备形成电磁干扰。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc1_2.jpg">
+		</div>
+		<h3 align="center">图2  初测曲线</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">从图2中可以看出车载DVD存在较为严重的辐射问题。为抑制车载DVD视盘机所产生的电磁骚扰，从而使其符合FCC的要求，首先必须分析一下DVD视盘机电磁骚扰的主要辐射源。通过近场探头测得主要来自电源、解码芯片、电路晶振、电源线、控制线及音视频线。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1.电源板  DVD视盘机的电源部分几乎都采用开关电源，其振荡频率在几十千赫，它所产生的高次谐波特别在150kHz至5MHz谐波较大，所以DVD视盘机的开关电源所产生的高次谐波是电源线传导骚扰的主要来源。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.解码板    解码板可以说是DVD视盘机的核心，它负责音视频解码，面板按键功能操作，应此板上有很多大规模集成电路，如解码芯片、微电脑处理器、EPROM等，这些数字电路需要晶体振荡器来提供时基、同步信号等。较常用的晶振频率为11MHz ，20MHz，27MHz，它们所产生的高次谐波是很大的，这主要原因一方面，振荡器所产生的不可能是纯正弦波而不含任何谐波成分，另一方面数字电路所处理的是0或1的开关电平，其波形是方波，从高等数学中傅立叶变换可知道其谐波成分是很丰富的，加上谐波频率越高，越容易通过辐射向外产生干扰。因此解码板是辐射骚扰的主要来源。
+		</p>
+	</div>
+
+</body>
+</html>

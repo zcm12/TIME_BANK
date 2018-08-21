@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tech21.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(tech.css)
+</style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">正确排查EMI问题的四大实用性技巧 </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">全世界几乎所有政府都在尝试控制他们国家生产的电子产品产生的有害电磁干扰（EMI）（见图1）。为了向用户提供一定的保护和安全等级，政府都会制订涉及电子产品设计的非常特殊的一些规则和规定。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_1.png">
+		</div>
+		<h3 align="center">  图1：信号中不断变化的电压和电流会产生电磁场</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">当然这是好事。但这也意味着为了尽量减少他们的EMI特征并通过官方的EMI认证测试，许多公司必须在产品设计和测试方面花费大量的人力物力。坏消息是，即使采用了好的设计原理、选择了高质量的元件并且仔细地表征了产品，当进行一致性测试时，如果测试并不是所有阶段都进展顺利，那么EMI故障仍有可能影响到产品的发布日程。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通常公司为了避免这样的情景出现，会在设计和原型建立阶段做一些“预先的一致性”测量。更好的做法是在产品发出去做一致性测试之前就能够确定和修复潜在的EMI问题。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">当然，大多数公司的实验室并不具备做绝对EMI测量所需的测试室条件。好消息是，无需复制测试室条件就确定和解决EMI问题是完全可行的。本文讨论的一些技术可以帮助你减少一个产品在测试室进行最终完整的EMC一致性评估时失败的风险。本文还举了一个确定信号特征和一致性以便找出EMI发射源的例子。
+		</p>
+		<h2 align="left">理解EMI报告</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">在讨论排查技术之前，介绍一下EMI测试报告是很有必要的。乍一看，EMI报告似乎直接提供了有关特定频率点故障的信息，因此事情看起来很简单，就是使用报告中的数据确定设计中的哪个元件包含问题源频率，并特别加以注意，以便通过下一轮测试。然而，虽然许多测试条件在报告中是明确表示的，但一些需要考虑的重要事情可能并不那么明显。在审查设计并试图判断问题源时，理解测试室如何生成这种报告是很有帮助的。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">请看图2所示的EMI测试报告，这份报告显示大约90MHz处有个故障。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_2.png">
+		</div>
+		<h3 align="center"> 图2：这份EMI测试报告显示大约90MHz处有个故障</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">图3是对应的列表数据报告，其中详细列出了测试频率、测量得到的幅度、校准后的校正因子以及调整后的场强。然后将调整后的场强与下一栏中的指标进行比较，确定余量或超额量，显示在最右栏。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在图3所示的余量栏中，你可以看到有一个峰值超出了这个规范标准在88.7291MHz处规定的极限，与规范相差-2.3。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_3.png">
+		</div>
+		<h3 align="center"> 图3：这个列表数据对应的是图2，它显示故障点位于88.7291MHz处，但有许多因素令人怀疑这是否是实际的频率</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">　你完工了，是吗？不，没这么快。不要让所有这些数字让你相信这是问题EMI源的精确频率。事实上，测试报告中给出的频率很有可能不是实际的源频率。国际无线电干扰特别委员会（CISPR）指出，在执行辐射发射测试时，依据具体的频率范围必须使用不同的测试方法。每种范围要求特定分辨率带宽的滤波器和检测器类型，如表1所示。滤波器带宽决定了解析实际感兴趣频率的能力；这意味着频率范围在排查问题源好多方面会有变化。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_4.png">
+		</div>
+		<h3 align="center">表1：CISPR测试要求根据不同频率范围而有所变化，并影响频率分辨率</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">这里需要着重指出的是，对某些频率范围，CISPR测试要求提倡使用准峰值（QP）这种检测器类型，这将掩盖实际频率。通常EMI部门或外部实验室一开始是使用简单的峰值检测器执行扫描来发现问题区域的。但当所发现的信号超过或接近规定极限时，他们也执行准峰值测量。准峰值是EMI测量标准定义的一种方法，用来检测信号包络的加权峰值。它根据信号的持续时间和重复率对信号进行加权，以便对从广播角度看解释为“骚扰”的信号施加更多的权重。与不频发的脉冲相比，发生频率更高的信号将导致更高的准峰值测量结果。换句话说，问题信号发生的越频繁，问题信号的绝对幅度就越可能被准峰值测量所屏蔽。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">好消息是，峰值和准峰值扫描对预先一致性测试来说仍然是有用的。图4给出了一个峰值和准峰值检测的例子。图中显示了峰值检测和准峰值检测中都能看到的脉宽为8μs、重复率为10ms的信号。结果准峰值的检测结果比峰值低了10.1dB。
+		</p>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_5.png">
+		</div>
+		<h3 align="center">图4：峰值检测和准峰值检测的比较</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">需要记住的一个好规则是，准峰值检测值总是小于或等于峰值检测值，永远不会大于峰值检测值。因此你可以使用峰值检测来开展你的EMI排查和诊断。你不需要达到与EMI部门或实验室扫描同等程度的精度，因为测量都是相对值。如果你的实验室报告中的准峰值检测值表明，设计超过了3dB，峰值检测值超过了 6dB，那么你就知道你需要的修复工作是将信号减小3dB或更多。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">测试室为出EMI报告而开展的扫描通常是在特殊条件下进行的，你的公司实验室也许无法复制这些条件。举例来说，待测设备（DUT）可能放在一个转盘上，以便于从多个角度收集信号。这种方位角信息是很有用的，因为它能指示问题发生的DUT区域。或者EMI测试室可能在校准过的射频房内开展他们的测量，并报告作为强场的测量结果。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">幸运的是，你并不需要完全复制测试室的条件才能排查EMI测试故障。与在高度受控的EMI测试线上执行的绝对测量不同，可以使用测试报告中的信息、深入理解用于产生报告的测量技术以及对待测设备周边的相对观察以隔离问题源并估计纠正有效性来开展问题的排查工作。
+		</p>
+		<h2 align="left">从哪里开始发现EMI辐射？</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">现在是把我们的目光专注到有害的EMI源上面的时候了。当我们从EMI的角度看任何一款产品时，整个设计可以被看作是能量源和天线的一个集合。EMI问题的常见（但绝不是唯一）源包括：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电源滤波器
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">地阻抗
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">没有足够的信号返回
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">LCD辐射
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">元件寄生参数
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电缆屏蔽不良
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">开关电源（DC/DC转换器）
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">内部耦合问题
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">金属外壳中的静电放电
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">不连续的返回路径
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">为了确定一块特定电路板上的能量源以及位于特定EMI问题中心的天线，你需要检查被观察信号的周期。信号的射频频率是多少？是脉冲式的还是连续的？这些信号特征可以使用基本的频谱分析仪进行监视。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">你还需要查看巧合性。待测设备（DUT）上的哪个信号与EMI事件是同时发生的？一般常见的做法是用示波器探测DUT上的电气信号。检查EMI问题与电气事件的巧合性无疑是EMI排查中最耗时间的工作。过去，将来自频谱分析仪和示波器的信息以同步方式关联在一起一直是很难做的一件事。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">然而，混合域示波器（MDO）的推出使情况有了改观，它能提供同步的而且与时间相关联的观察和测量功能。如图5所示的这种仪器能够相当容易地让我们观察哪个信号与哪个EMI事件同时发生，从而可以简化EMI排查过程。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_6.png">
+		</div>
+		<h3 align="center">图5：混合域示波器（MDO）将频谱分析仪、示波器和逻辑分析仪组合在一台仪表内，可以从全部三台仪器中产生同步的而且与时间关联的测量结果。图中显示的是泰克公司的MDO4000B</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">MDO将混合信号示波器的功能和频谱分析仪的功能整合在一起。借助这种组合，你能够自动显示模拟信号特征、数字时序、总线事务以及射频并在这些信息基础上实现触发。一些MDO还能捕获或观察频谱和时域轨迹，包括射频幅度对时间、射频相位对时间以及射频频率对时间的关系曲线。射频幅度与时间轨迹如图6所示。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_7.png">
+		</div>
+		<h3 align="center">  图6：这张图显示了MDO提供的时间关联观察功能，图中显示了射频幅度与时间的关系轨迹</h3>
+		<h2 align="left">用近场探测开展相对测量 </h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">虽然一致性测试过程设计用于产生绝对的校准过的测量，但排查工作很大程度上可以使用从待测设备发生的电磁场的相对测量方法。更有甚者，你可以使用MDO的频谱分析仪功能和射频通道探测近场中的波阻行为，从而找出能量源来。与此同时，你可以用示波器某个模拟通道上的无源探针探测信号，以便发现与射频关联的信号。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">不过首先你得了解一些有关待探测的电磁场区的一些背景知识。图7显示了处于近场和远场中的波阻行为以及两者之间的过渡区。从图中可以看到，在近场区中，场的范围可以从占主导地位的磁场到占主导地位的电场。在近场中，非辐射行为是主导的，因此波阻取决于源的性质和距源的距离。而在远场中，阻抗是固定不变的，测量不仅取决于在近场中可观察到的活动，而且取决于天线增益和测试条件等其它因素。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_8.png">
+		</div>
+		<h3 align="center"> 图7：这张图显示了近场和远场中的波阻行为以及两者之间的过渡区。近场测量可用于EMI排查。</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">近场测量是可用于EMI排查的一种测量，因为它不要求测试站点提供专门的条件就能让你查出能量源。然而，一致性测试是在远场中进行的，而不是近场。你通常不会使用远场，因为有太多的变量让它变得复杂起来：远场信号的强度不仅取决于源的强度，而且取决于辐射机制以及可能采取的屏蔽或滤波措施。根据经验需要记住，如果你能观察远场中的信号，那么应该能看到近场中的相同信号。（然而，能观察到近场中的信号而看不到远场中的相同信号是很可能的）
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">近场探针实际上就是设计用于拾取磁场（H场）或电场（E场）变化的天线。一般来说，近场探针没有校准数据，因此它们适合用于相对测量。如果你对用于测量H场和E场变化的探针不熟悉，那么最好了解一些近场探针设计和最佳使用方法：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">H场（磁场）探针具有独特的环路设计，如图8所示。重要的是，H场探针的方向是有利于环路平面与待测导体保持一致的，这样布置的环路可以使磁通量线直接穿过环路。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_9.png">
+		</div>
+		<h3 align="center"> 图8：将H场探针与电流流向保持一致可以使磁场线直接穿过环路</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">环路大小决定了灵敏度以及测量面积，因此在使用这类探针隔离能量源时必须十分小心。近场探针套件通常包含许多不同的环路大小，以便你使用逐渐减小的环路尺寸来缩小测量面积。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">H场探针在识别具有相对大电流的源时非常有用，比如：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">低阻抗节点和电路
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">传输线
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">　电源
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">端接导线和电缆
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">E场（电场）探针用作小型单极天线，并响应电场或电压的变化。在使用这类探针时，重要的是你要保持探针垂直于测量平面，如图9所示。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_10.png">
+		</div>
+		<h3 align="center">   图9：将E场探针垂直于导体放置以便观察电场</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">在实际应用中，E场探针最适合查找非常小的区域，并识别具有相对高电压的源以及没有端接的源，比如：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">高阻抗节点和电路
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">未端接的PCB走线
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电缆
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在低频段，系统中的电路节点阻抗可能变化很大；此时要求一定的电路或实验知识，以确定H场或E场能否提供最高的灵敏度。在较高频段，这些区别可能非常显著。在所有情况下，开展重复性的相对测量很重要，这样你就能肯定因为实现的任何变化引起的近场辐射结果能被精确再现。最重要的是，每次试验改变时近场探针的布局和方面要保持一致。
+		</p>
+		<h2 align="left">　跟踪EMI辐射源</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">在这个例子中，小型微控制器的EMI扫描指示有一个超限故障似乎来自于中心频率约为144MHz的宽带信号。借助MDO的频谱分析仪功能，第一步是将H场探针连接到射频输入端，用相对的近场测量定位能量源。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">如上所述，重要的一点是H场探针的方向要让环路平面与待测导体保持一致。在PCB周围移动H场探针，你就可以定位能量源。通过选择逐渐缩小孔径的探针，你可以将搜索定位在一个较小的区域内。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">一旦定位到明显的能量源，如图10所示的射频幅度与时间轨迹就能显示这个范围内所有信号的完整的功率与时间关系。利用这个轨迹线可以清楚地看到显示屏中有一个大的脉冲。移动频谱时间使其通过记录长度，很明显可以看到EMI事件（中心位于140MHz左右的宽带信号）直接对应于这个大脉冲。为了使测量稳定下来，打开射频功率触发器，然后增加记录长度以判断这个射频脉冲发生的频度。为了测量脉冲重复周期，打开测量标记并直接判断周期。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_11.png">
+		</div>
+		<h3 align="center"> 图10：MDO的射频幅度与时间轨迹（上图）显示在140MHz处有一个显著的脉冲。频谱图形（下图）显示了这个脉冲的频率内容</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">明确断定EMI源的下一步是利用MDO的示波器功能。保持相同的设置，打开示波器的模拟通道1，浏览PCB以寻找与EMI事件同时发生的信号源。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在利用示波器探针浏览信号一段时间后，就可以发现图11所示的信号：在这个案例中是一个电源滤波器。从显示屏上可以清晰地看到，连接示波器通道1的信号与EMI事件直接相关。现在就可以制订EMI修复计划了，以便在开展认证测试之前解决这个问题。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech21_12.png">
+		</div>
+		<h3 align="center">  图11：使用示波器模拟通道上的无源探针找出与射频关联的信号</h3>
+		<h2 align="left">本文小结 </h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">不能通过EMI一致性测试可能将产品开发计划置于风险之中。然而，预先一致性测试可以帮助你在到达这个阶段之前排除EMI问题。与高度受控的EMI测试线中的绝对测量不同，你可以使用EMI测试报告中的信息开展相对测量，并用它来隔离问题源，并估计修复效果。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">高效的EMI排查一般是利用近场探测方法寻找相对高的电磁场，判断它们的特征，然后使用混合域示波器将场活动与电路活动关联在一起来判断EMI源。本文概述的排查技术可以有效地帮助你隔离有害的能量源，以便于你在将设计提交给EMI认证之前修复这个问题。
+		</p>
+	</div>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>探究千兆赫超高速ADC的系统高效能</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">探究千兆赫超高速ADC的系统高效能</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：对电路设计者来说，研发千兆赫系统要面临多方面的挑战 -- 也就在处理千兆赫模拟频率和千兆样品取样率时，都会被要求非常精密的设计技术。种系统的每个部分都需要透过精细的设计来达到最优化的效能，任何一个设计拙劣
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对电路设计者来说，研发千兆赫系统要面临多方面的挑战 -- 也就是在处理千兆赫模拟频率和千兆样品取样率时，都会被要求非常精密的设计技术。这种系统的每个部分都需要透过精细的设计来达到最优化的效能，任何一个设计拙劣的模拟输入级或频率驱动电路和不恰当的布线，都将大幅缩减动态效能，而要在每秒钟数百兆位的频率下撷取数据，更是个让人头痛的问题。要达到高速度、高效能放大器或ADC的规格，需要具备多年的高速系统设计经验和精密的设计技术。
+		</p>
+		<h2 align="left">千兆赫超高速 ADC崛起之路</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">值得庆幸的是，现在设计者可以利用整合在全新的千兆赫超高速 ADC 组件中的许多优点，来简化系统的开发并缩短上市的时程。这种新类型的千兆赫模拟数字转换器，能实现通讯系统和量测设备的新架构。请见图1的ADC方块图。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc9_1.jpg">
+		</div>
+		<h3 align="center">图1:千兆赫ADC方块图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">在研发千兆赫ADC系统时，必须克服三个最基本的难题。本文将探索这些难题，并提供对应的解决方案。
+		</p>
+		<h2 align="left">模拟输入驱动级</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">ADC要求一个能在不超过额定范围条件下将ADC输入驱动至满刻度的输入驱动级，这个输入级必须具备很宽的动态区间，提供耦合低失真的增益与(或)衰减，而此失真必须比ADC的谐波失真低。设计者有两个选择，RF变压器适用于AC耦合应用，但是DC耦合架构却需要一个差动放大器。新型千兆赫ADC组件就能轻松同时满足以上二者的要求。它的缓冲模拟输入简化了驱动输入的任务，而且不需一般用于ADC输入取样的RC极。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">ADC输入端必需有一个精确DC共模电压；而当AC输入耦合模式被应用时，便会在芯片上提供此VCMO（共模输出电压）。在DC耦合模式中，VCMO接脚可用来设定输入讯号正确的DC模范共模电压。为逹到此目的，许多差动放大器都设有一个共同模式输出接脚，如图2所示。同时为了达到最大的动态效能，输入级必须能够驱动ADC至满刻度；输入满刻度的范围可选650 mVp-p或870 mVp-p，就像在操作正常模式下利用带有FSR（满刻度）控制脚位做出的选择一样。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">ADC输入端必需有一个精确DC共模电压；而当AC输入耦合模式被应用时，便会在芯片上提供此VCMO（共模输出电压）。在DC耦合模式中，VCMO接脚可用来设定输入讯号正确的DC模范共模电压。为逹到此目的，许多差动放大器都设有一个共同模式输出接脚，如图2所示。同时为了达到最大的动态效能，输入级必须能够驱动ADC至满刻度；输入满刻度的范围可选650 mVp-p或870 mVp-p，就像在操作正常模式下利用带有FSR（满刻度）控制脚位做出的选择一样。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc9_2.jpg">
+		</div>
+		<h3 align="center">图2:与新型千兆赫ADC组件耦合的差动输入DC</h3>
+		<h2 align="left">低抖动频率</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">高速度、高效能ADC要求一个非常稳定并带有最低相位噪声或抖动的输入频率讯号。ADC抖动的要求决定于ADC的分辨率、最大输入频率与相对于输入满刻度的最大输入信号震幅，允许抑制SNR中感应抖动的降低的最大抖动为︰ <br>tJ(MAX) = (VIN(p-p)/VINFSR) x (1/(2(N+1) x π x fIN))
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">其中tJ(MAX)是在几秒钟内所有抖动来源的 rms总和，VIN(p-p)是峰至峰模拟输入讯号，VINFSR是ADC的满刻度电压，“N”是以位计算的ADC分辨率，fIN是最大输入频率。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">另一项挑战是维持超高速频率的工作周期，因此新型千兆赫ADC组件可以选择将一个已校正工作周期的频率接收器作为输入频率周期的一部分。这种特性提供改善了的ADC频率，特别适用于双边取样（DES）模式。针对正常的和DES模式，此电路系统允许ADC以带有80 / 20 %工作周期比率讯号源来的频率。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">注意:DES模式允许新型千兆赫ADC组件的其中一个输出端（I或Q通道）以两个ADC来取样，因此在一个频率周期，一个讯号输入就被取样两次，使整体取样率逹到输入频率频率的两倍，换言之， 1.5 GHz的输入频率便可提供3 GSPS的取样率。在这种模式下，输出是交叉存取的，因此数据进行有效的1:4讯号分离。
+		</p>
+		<h2 align="left">在千兆赫的速度下撷取输出讯号</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">大家普遍都知道技术先进的FPGA可以处理的数据率最高达800Mbps，若超过了这个范围，就需要像8B10B这样的编码方式来保证良好的BER（误码率）。在处理这样高数据传输率时，电路板布局和设计是非常重要的一环，例如ADC输出和FPGA输入间的走线长度必须完全匹配；失配将引起时序偏差因而引发位错误。新型千兆赫ADC组件有一个DCLK（数据输出频率），可将输出至FPGA或ASIC的数据数据闩锁住，这个DCLK能在SDR（单数据传输率）或DDR（双数据传输率）模式下运作以协助进行撷取数据。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在新型千兆赫ADC组件可达到的、非常高的速度下，DCLK长度和数据在线的微小差别就代表着数据撷取成功和错误之间的区别。因此，新型千兆赫ADC组件提供了一个OutEdge接脚在DCLK边缘上撷取数据，此接脚最适用于应用电路和布局。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">多个ADC同步
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">ADC常透过交叉存取来增加取样频率，并超过单独装置所能应用的范围，一个经常面对的挑战是使ADC输出数据流同步。这个系统开发者必须确切知道在ADC输出下的哪些数字文字组与系统前端的讯号取样符合。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">为了简化交叉存取，ADC08DXXX系列具有将输入到DCLK输出的取样频率精确重置能力，就像由客户供应的DCL_RST 脉波一样。这就允许在同一个系统中的多个ADC，根据它们共享的、用于取样的CLK来促使DCLK（和数据）输出转换同步。图3显示了在DDR模式下DCLK重置频率。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc9_3.jpg">
+		</div>
+		<h3 align="center">图3:在DDR模式下DCLK重置频率</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于在FR04 PCB材料上，讯号以15 cm/ns的速度进行传播，因此如果这些ADC没有被很密集的布置在一起，图3中的设置时间将很难达到。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在这种情况下，输入频率能够有短时间的暂停（< 50 ns），因此在DCKL_Res确定的过程中保持AC耦合（注意推荐使用针对输入频率的耦合）。AC-耦合电容器的持续时间为50K(（内部偏置电阻器）x 4.7nF (外部AC-耦合电阻器) = 235 μs，因此不必担心频率在小于50ns的暂停下会明显地de-bias AC耦合电容。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在频率停止的过程中，DCLK Res可以同步确定。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">图4中展示了用在DCLK重置的简化框图。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc9_4.jpg">
+		</div>
+		<h3 align="center">图4:适用于多个ADC同步的框图DCLK 复位</h3>
+		<h2 align="left">结语</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">目前在市场上已推出了与Xilinx Virtex-4 FPGA合并的开发平台，这个平台利用功能模块来设计，其中包括ADC和FPGA、ADC和FPGA之间互联的LVDS、连接于使用平衡转换器和差动放大器的ADC的模拟输入网络、使用PLL和VCO的电路板上系统频率、完整的供电设计及温度控制电路。这些模块中的每一项都可以被设计者重复使用以便大幅加快研发进度﹗
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">此FPGA有数千个尚未使用的闸 、DSP和内存，设计师可针对适当的韧体开发对它们进行编程。一个并行总线扩展端口可轻易地连接到FPGA I/O，此端口带有一个高速逻辑分析仪的接头来辅助进行设计调整。上述的一切都允许设计者在不需要选择和测试每个组件和使用外部测试设备的情况下，同时开发硬件及FPGA逻辑设计。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">此FPGA有数千个尚未使用的闸 、DSP和内存，设计师可针对适当的韧体开发对它们进行编程。一个并行总线扩展端口可轻易地连接到FPGA I/O，此端口带有一个高速逻辑分析仪的接头来辅助进行设计调整。上述的一切都允许设计者在不需要选择和测试每个组件和使用外部测试设备的情况下，同时开发硬件及FPGA逻辑设计。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">作者简介：Nicholas Gray 任职于美国国家半导体公司数据转换系统部应用工程师，电子邮件:nicholas.gray@nsc.com
+		</p>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>test9.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+     <style type="text/css">
+	@import url(test.css)
+    </style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">TEM小室在电磁兼容检测中的应用</h1>
+	 </div>
+
+	 <div id="content">
+	   
+		<p style="text-indent: 2em;padding: 3px 0px;">摘要：随着电磁兼容检测技术的发展和提高，人们正针对不同的电子电器产品寻求更为简单的检测方法。该文介绍采用TEM小室进行辐射骚扰测试和辐射抗扰度测试的方法，使小尺寸的电子电器产品的电磁兼容测试更加便捷。</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">关键词：电磁兼容；电波暗室；横电磁波传输小室
+		</p>
+		<h2 align="left">1 现状</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">随着电磁兼容检测技术的发展和提高，人们正针对不同的电子电器产品寻求更为简单便捷的检测方法，尤其对于小型的电子产品，如：电动玩具、集成电路(PCB板)、汽车电子零部件等。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电磁兼容性的测量手段主要是由测试场地和测试仪器组成。常规的电磁兼容检测方法有屏蔽室法、开阔场法、电波暗室法等。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">开阔场：根据标准要求通常测试场地成椭圆形，长轴是焦距的两倍，短轴是焦距的倍，发射与接收天线分别置椭圆的两个焦点上。两个焦点的距离即是所要求的测量距离，根据现有标准可分为3米、10米和30米。我国现有标准大多数规定3米法测量，美国的FCC标准、英国的VDE标准要求10米法测量。开阔场一般选择远离市区、电磁环境较好的地方建造，但这给建造、试验、生活管理等带来了诸多不便，并且维修维护成本较高。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">屏蔽室：在EMC测试中，屏蔽室能提供环境电平低而恒定的电磁环境，它为测量精度的提高，测量的可靠性和重复性的改善带来了较大的潜力。但是由于被测设备在屏蔽室中产生的干扰信号通过屏蔽室的六个面产生无规则的漫反射，特别是在辐射发射测量和辐射敏感度测量中表现更严重，导致在屏蔽室内形成驻波而产生较大的测量误差。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电波暗室：通常所说的电波暗室在结构上大都由屏蔽室和吸波材料两部分组成。在工程应用中又分全电波暗室(fully anechoic chamber)( 六面装有吸波材料)和半电波暗室(semi anechoic chamber)( 地面为金属反射面)
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">全电波暗室可充当标准天线的校准场地，半电波暗室可作为EMC试验场地。电波暗室的主要性能指标有“静区”、“工作频率范围”等六个（静区是指射频吸波室内受反射干扰最弱的区域）。但建造电波暗室的成本、难度均相当高，因为暗室的工作频率的下限取决于暗室的宽度和吸收材料的长度、上限取决于暗室的长度和所充许的静区的最小截面积。且由于吸波材料的低频特性等原因，总的测试误差有时高达几十分贝，造价需几百万元。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于开阔场地、屏蔽室和电波暗室的诸多缺点和不足，1974年美国国家标准局(NBS)的专家首先系统地论述了横电磁波传输小室（简称TEM小室Transverse Electromagnetic Transmission Cell），其外形为上下两个对称梯形。横电磁波传输小室具有结构简单、制造成本低、检测方法简便等优点，其主要缺点是可用频率上限与可用空间存在矛盾。标准TEM小室的测量尺寸大约限定在设计的最小工作波长的四分之一范围，但对于小尺寸的被测件，可以满足测试的要求和技术指标。
+		</p>
+		<h2 align="left">2 TEM小室结构特点</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">标准TEM小室经常称之为CRAWFORD室（参见图1）。它是一个矩形双导体传输线结构。被测件EUT被安置在它的中隔板。TEM室的导体两端被削制成锥形。传输线是闭合的，虽然它没有对称轴，但经常被称之为同轴的。TEM小室有一个输入测量端口和一个输出测量端口，它的锥形端经过中段的过渡与50Ω端口同轴连接器相匹配。TEM小室有一个自由场所产生的高阶的模所决定的有限带宽。在敏感度/抗扰度试验中，EUT的最大高度不仅限制了场均匀度，而且还改变了EUT对室的耦合方式。在一个TEM小室中可以用来进行抗扰度试验的近似最大容积是：0.333乘以中隔板和上部表面的距离后的积再与0.333乘以TEM室宽度的积相乘，而且这个结果几乎还可以推至0.5X0.5。在一个典型的TEM小室中，它仍可能保持并获得一个±1dB的场均匀度。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test9_1.png">
+		</div>
+		<h3 align="center">图1 TEM小室结构</h3>
+		<h2 align="left">3 TEM小室辐射抗扰度测试</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">TEM类型的室是为了进行辐射敏感度的试验，同时成本上又较为经济的基础的发展起来的。TEM小室法辐射抗扰度测试示意图如图2。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test9_2.png">
+		</div>
+		<h3 align="center">图2 TEM小室法辐射抗扰度测试示意图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">TEM小室的输入端接信号源和功率放大器，另一端接50Ω的匹配负载，在小室内腔就可以形成高强度的电磁场，适合用来进行电磁抗扰度的测试。同时，在小室的接口板处还可接出监测设备，用于实时监测被测件EUT的工作状态。采用TEM小室法进行辐射抗扰度的测试，在其频率范围试验水平可高达400V/m。
+		</p>
+		<h2 align="left">4 TEM小室辐射骚扰测试</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">现在TEM小室也可以用来测量来自被测件EUT或集成电路PCB的辐射发射。TEM小室法辐射骚扰测试示意图如图3。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test9_3.png">
+		</div>
+		<h3 align="center">图3 TEM小室法辐射发射测试示意图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">源于被测件EUT的发射场通过小室的发射模进行耦合，并以此在室的一个端口耦合到一个电压。用TEM小室进行辐射骚扰测量的优点：由于它是在一个屏蔽室内进行的，因此把可能感应到的环境电压降到了极低的水平，一般地讲也就是测量设备的本底噪声。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test9_4.png">
+		</div>
+		<h3 align="center">图4 TEM小室本底噪声</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">由图4可知，TEM小室本底噪声至少低于限值20dB，远大于6dB的背景测试要求。目前，已有大众汽车企业标准TL965：2004开始采用TEM小室法进行汽车电子零部件辐射骚扰的测试。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">参考文献
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">[1] 大卫A·韦斯顿著. 王守三, 杨自佑译. 电磁兼容原理与应用. 2006, (1).
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">[2] ISO11452-3:2001 Road vehicles-Component test methods for electrical disturbances from narrowband radiated electromagnetic energy-Part 3: Transverse electromagnetic (TEM) cell.
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">[3] GB 18655:2002. 用于保护车载接收机的无线电骚扰特性的限值和测量方法.
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">[4] TL 965:2004 VOLKSWAGEN AG Test Standard-Transient Emission.
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">作者简介：熊炜 上海市计量测试技术研究院
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+		</p>
+  </body>
+</html>

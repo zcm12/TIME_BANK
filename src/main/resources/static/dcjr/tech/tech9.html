@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tech9.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(tech.css)
+</style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">让你从此远离EMC困扰的必备“干粮”！（下）</h1>
+	</div>
+
+	<div id="content">
+	<h3 align="left">接 让你从此远离EMC困扰的必备“干粮”！（上）</h3>
+	<h2 align="left">第三部分   电磁屏蔽理论 </h2>
+	<h3 align="left">1、 屏蔽效能的感念 </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">屏蔽是利用屏蔽体来阻挡或减小电磁能传输的一种技术，是抑制电磁干扰的重要手段之一。
+	屏蔽有两个目的，一是限值内部辐射的电磁能量泄漏出该内部区域，二是防止外来的辐射干扰进入某一区域。</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">电磁场通过金属材料隔离时，电磁场的强度将明显降低，这种现象就是金属材料的屏蔽作用。
+	我们可以用同一位置无屏蔽体时电磁场的强度与加屏蔽体之后电磁场的强度之比来表征金属材料的屏蔽作用，定义屏蔽效能（ShieldingEffectiveness，简称 SE）：</p>
+	<div align="center">
+		<img alt="图片找不到" src="techImg/tech9_1.png">
+	</div>
+	<h3 align="left">2、屏蔽体上孔缝的影响  </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">实际上，屏蔽体上面不可避免地存在各种缝隙、开孔以及进出电缆等各种缺陷，
+	这些缺陷将对屏蔽体的屏蔽效能有急剧的劣化作用。</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">上节中分析的理想屏蔽体在 30MHz 以上的屏蔽效能已经足够高，远远超过工程实际的需要。
+	真正决定实际屏蔽体的屏蔽效能的因素是各种电气不连续缺陷，包括：缝隙、开孔、电缆穿透等。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">屏蔽体上面的缝隙十分常见，特别是目前机柜、插箱均是采用拼装方式，其缝隙十分多，
+        如果处理不妥，缝隙将急剧劣化屏蔽体的屏蔽效能。
+    </p>
+    <h3 align="left">3、孔缝屏蔽的总体设计思想  </h3>
+    <p style="text-indent: 2em;padding: 3px 0px;">根据小孔耦合理论，决定孔缝泄漏量的因素主要有两个：孔缝面积和孔缝最大线度尺寸。
+        两者皆大，则泄漏最为严重；面积小而最大线度尺寸大则电磁泄漏仍然较大。如图所示为一典型机柜示意图，上面的孔缝主要分为四类：
+    </p>
+	<div align="center">
+		<img alt="图片找不到" src="techImg/tech9_2.png">
+	</div>
+    <p style="text-indent: 0em;padding: 3px 0px;">（1）机箱（机柜）接缝
+    </p>
+     <p style="text-indent: 2em;padding: 3px 0px;">该类缝虽然面积不大，但其最大线度尺寸即缝长却非常大，由于维修、开启等限制，
+     致使该类缝成为电子设备中屏蔽难度最大的一类孔缝，采用导电衬垫等特殊屏蔽材料可以有效地抑制电磁泄漏。该类孔缝屏蔽设计的关键在于：
+     合理地选择导电衬垫材料并进行适当的变形控制。
+    </p>
+     <p style="text-indent: 0em;padding: 3px 0px;">（2）通风孔
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">该类孔面积和最大线度尺寸较大，通风孔设计的关键在于通风部件的选择与
+    装配结构的设计。在满足通风性能的条件下，应尽可能选用屏效较高的屏蔽通风部件。
+    </p>
+     <p style="text-indent: 0em;padding: 3px 0px;">（3）观察孔与显示孔
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;"> 该类型孔面积和最大线度尺寸较大，其设计的关键在于屏蔽透光材料的选择与装配结构的设计。
+    </p>
+     <p style="text-indent: 0em;padding: 3px 0px;">（4）连接器与机箱接缝
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;"> 这类缝的面积与最大线度尺寸均不大，但由于在高频时导致连接器与机箱的接触阻抗急剧增大，从而使得屏蔽电缆的共模传导发射变大，往往导致整个设备的辐射发射出现超标，为此应采用导电橡胶等连接器导电衬垫。
+    </p>
+     <p style="text-indent: 2em;padding: 3px 0px;">由于辐射源分为近区的电场源、磁场源和远区的平面波，因此屏蔽体的屏蔽性能依据辐射源的不同，在材料选择、结构形状和对孔缝泄漏控制等方面都有所不同。在设计中要达到所需的屏蔽性能，则需首先确定辐射源，明确频率范围，再根据各个频段的典型泄漏结构，确定控制要素，进而选择恰当的屏蔽材料，设计屏蔽壳体。
+    </p>
+     <p style="text-indent: 2em;padding: 3px 0px;"> 综上所述，孔缝抑制的设计要点归纳为：
+    </p>
+     <p style="text-indent: 2em;padding: 3px 0px;">①合理选择屏蔽材料；
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">②合理设计安装互连结构。
+    </p>
+	<h3 align="left">4、孔洞泄露的评估  </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">机箱上不可避免地会有各种孔洞，这些孔洞最终决定了屏蔽体的屏蔽效能（假设没有电缆穿过机箱）。一般可以认为，屏蔽机箱在低频时的屏蔽效能主要取决于制造屏蔽体的材料，在高频时的屏蔽效能主要取决于机箱上的孔洞和缝隙。当电磁波入射到一个孔洞时，孔洞的作用是相当于一个偶极天线。当缝隙的长度达到1/2时，其辐射效率最高（与缝隙的宽度无关）。也就是说，它可以入射到缝隙的全部能量辐射出去，如图所示。
+    </p>
+    <div align="center">
+		<img alt="图片找不到" src="techImg/tech9_3.png">
+	</div>
+	<h3 align="center"> 孔缝的电磁泄漏  </h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">在远场区，如果孔洞的最大尺寸L小于λ/2，一个厚度为0的材料上的缝隙的屏蔽效能为：
+    </p>
+     <div align="center">
+		<img alt="图片找不到" src="techImg/tech9_4.png">
+	</div>
+    <p style="text-indent: 2em;padding: 3px 0px;"> 如果L大于λ/2，则SE=0（dB）。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">式中SE──屏蔽效能（dB）；
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">L──孔洞的长度（mm）；
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">H──孔洞的宽度（mm）；
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">f──入射电磁波的频率（MHz）。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;"> 这个公式计算的是最坏情况下（造成最大泄露的极化方向）的屏蔽效能，实际情况下屏蔽效能可能会更高一些。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">在近场区，孔洞的泄露还与辐射源是磁场源有关。当辐射源是电场源时，孔洞的泄露比远场小（屏蔽效能高）；而当辐射源是磁场源时，孔洞的泄露比远场大（屏蔽效能低）。对于不同电路阻抗Zc的辐射源，计算公式如下：
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">若ZC＞（7.9/Df）：（电场源）
+    </p>
+    <div align="center">
+		<img alt="图片找不到" src="techImg/tech9_5.png">
+	</div>
+    <p style="text-indent: 2em;padding: 3px 0px;">若ZC＜（7.9/Df）：（电场源）
+    </p>
+    <div align="center">
+		<img alt="图片找不到" src="techImg/tech9_6.png">
+	</div>
+    <p style="text-indent: 2em;padding: 3px 0px;">式中SE──屏蔽效能（dB）；
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">L──孔洞的长度（mm）；
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">H──孔洞的宽度（mm）；
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">f──入射电磁波的频率（MHz）。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;"> 这个公式计算的是最坏情况下（造成最大泄漏的极化方向）的屏蔽效能，实际情况下屏蔽效能可能会更高一些。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">需要注意的问题是，对于磁场辐射源，孔洞在近场区的屏蔽效能与电磁波的频率没有关系，也就是说，很小的孔洞也可能导致较大的泄漏。这时影响屏蔽效能的一个更重要参数是孔洞到辐射源的距离。孔洞距离辐射源越近，泄漏越大。这个特点往往导致屏蔽体发生意外的泄漏。因为在屏蔽体上开孔的一个目的是通风散热，这意味着会很自然地将孔洞设计在靠近发热源附近，而发热源往往是大电流的载体，在其周围有较强的磁场。结果，无意识地将孔洞开在强磁场辐射源的附近。因此，在设计中，要注意孔洞和缝隙要远离电流载体，例如线路板、电缆、变压器等。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">当N个尺寸相同的孔洞排列在一起，并且相距较近（距离小于λ/2）时，孔洞阵列的屏蔽效能会下降，下降数值为10lgN。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">因为孔洞的辐射有方向性，因此在不同面上的孔洞不会明显增加泄漏，利用这个特点可以在设计时将孔洞放在屏蔽机箱的不同面，避免某一个面的辐射过强。
+    </p>
+    <h3 align="left">5、电缆的屏蔽设计 </h3>
+    <p style="text-indent: 2em;padding: 3px 0px;">如果导体从屏蔽体中穿出去，将对屏蔽体的屏蔽效能产生显著的劣化作用。这种穿透比较典型的是电缆从屏蔽体中穿出。
+    </p>
+    <div align="center">
+		<img alt="图片找不到" src="techImg/tech9_7.png">
+	</div>
+    <p style="text-indent: 2em;padding: 3px 0px;">电缆穿透的作用是将屏蔽体内外通过导线连通，等效于两个背靠背的天线，对屏蔽体的屏蔽有极大的影响。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">为了避免电缆穿透对屏蔽体的影响，可以从几个方面采取措施：
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">1）采用屏蔽电缆时，屏蔽电缆在出屏蔽体时，采用夹线结构，保证电缆屏蔽层与屏蔽体之间可靠接地，提供足够低的接触阻抗。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">2）采用屏蔽电缆时，用屏蔽连接器转接将信号接出屏蔽体，通过连接器保证电缆屏蔽层的可靠接地。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">3） 采用非屏蔽电缆时，采用滤波连接器转接，保证电缆与屏蔽体之间有足够低的高频阻抗。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">4） 采用非屏蔽电缆时，电缆在屏蔽体的内侧（或者外侧）要足够短，使干扰信号不能有效地耦合出去，从而减小了电缆穿透的影响。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">5） 电源线通过电源滤波器出屏蔽体，保证电源线与屏蔽体之间有足够低的高频阻抗。
+    </p>
+    <h2 align="left">第四部分 接地设计  </h2>
+    <p style="text-indent: 2em;padding: 3px 0px;">接地是抑制电磁干扰、提高电子设备电磁兼容性的重要手段之一。正确的接地既能抑制干扰的影响，又能抑制设备向外辐射干扰；反之错误的接地反而会引入严重的干扰，甚至使电子设备无法正常工作。
+    </p>
+    <h3 align="left">1、接地的概念 </h3>
+    <p style="text-indent: 2em;padding: 3px 0px;">②合理设计安装互连结构。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">②合理设计安装互连结构。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">②合理设计安装互连结构。
+    </p>
+    <h3 align="left">1、接地的概念 </h3>
+    <p style="text-indent: 2em;padding: 3px 0px;">电子设备中的“地”通常有两种含义：一种是“大地”，另一种是“系统基准地”。接地就是指在系统的某个选定点与某个电位基准间建立低阻的导电通路。“接大地”就是以地球的电位作为基准，并以大地作为零电位，把电子设备的金属外壳、线路选定点等通过接地线、接地极等组成的接地装置与大地相连接。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">“系统基准地”是指信号回路的基准导体（电子设备通常以金属底座、机壳、屏蔽罩或粗铜线、铜带作为基准导体），并设该基准导体电位为相对零电位，但不是大地零电位，简称为系统地。②合理设计安装互连结构。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">接地的目的有两个：一是为了安全，称为保护接地。电子设备的金属外壳必须接大地，这样可以避免因事故导致金属外壳上出现过高对地电压而危及操作人员和设备的安全。二是为电流返回其源提供低阻抗通道。
+    </p>
+    <h3 align="left">2、接地的种类 </h3>
+    <p style="text-indent: 2em;padding: 3px 0px;">实际上，各种地线都存在电气上或是物理上的联系，不一定有明确的划分。在地系统中，有时一个地既承担保护地，又承当防雷地的作用；或既承担工作地，又承当保护地的作用。而不同功能的地连接，针对的电气对象不同，其处理方
+式的侧重点还会有所差异。
+    </p>
+    <p style="text-indent: 0em;padding: 3px 0px;">a. 保护接地 
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">保护接地是为了保护设备、装置、电路及人身的安全，防止雷击、静电损坏设备，或在设备故障情况下，保护人身安全。因此在设备、装置、电路的底盘及金属机壳一定要采取保护接地。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">保护地保护原理是：通过把带故障电压的设备外壳短路到大地或地线端，保护过程中产生的短路电流使熔丝或空气开关断开，从而达到保护设备和人员安全的作用。
+    </p>
+    <p style="text-indent: 0em;padding: 3px 0px;">b. 工作接地
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">工作地是单板、母板或系统之间信号的等电位参考点或参考平面，它给信号回流提供了低的阻抗通道。信号质量很大程度上依赖于工作接地质量的好坏。由于受接地材料特性和其他技术因素的影响，接地导体的连接或搭接无论做的如何好，总有一定的阻抗，信号的回流会在工作地线上产生电压降，形成地纹波，对信号质量产生影响；信号越弱，信号频率越高，这种影响就越严重。尽管如
+此，在设计和施工中最大限度地降低工作接地导体的阻抗仍然是非常重要的。
+    </p>
+    <h2 align="left">第五部分  滤波设计  </h2>
+    <h3 align="left">1、 滤波电路的基本概念   </h3>
+    <p style="text-indent: 2em;padding: 3px 0px;"> 滤波电路是由电感、电容、电阻、铁氧体磁珠和共模线圈构成的频率选择性网络，低通滤波器是电磁兼容抑制技术中普遍应用的滤波器。为了减小电源和信号线缆对外辐射，接口电路和电源电路必须进行滤波设计。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;"> 滤波电路的效能取决于滤波电路两边的阻抗特性，在低阻抗电路中，简单的电感滤波电路可以得到 40dB 的衰减，而在高阻抗电路中，几乎没有作用；在高阻抗电路中，简单的电容滤波电路可以得到很好的滤波效果，在低阻抗电路中几乎不起作用。在滤波电路设计中，电容靠近高阻抗电路设计，电感靠近低阻抗电路设计。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;"> 电容器的插入损耗随频率的增加而增加，直到频率达到自谐振频率后，由于在导线和电容器电极的电感在电路上与电容串联，于是插入损耗开始下降。
+    </p>
+    <h3 align="left">2、 电源EMI滤波器   </h3>
+    <p style="text-indent: 2em;padding: 3px 0px;">电源 EMI 滤波器是一种无源双向网络，它一端接电源，另一端接负载。在所关心的衰减频带的较高频段，可把电源 EMI 滤波器看作是“阻抗失配网络”。
+    </p>
+     <div align="center">
+		<img alt="图片找不到" src="techImg/tech9_8.png">
+	</div>
+    <p style="text-indent: 2em;padding: 3px 0px;">  网络分析结果表明，滤波器阻抗两侧端口阻抗失配越大，对电磁干扰能量的衰减就越是有效。由于电源线侧的共模阻抗一般比较低，所以滤波器电源侧的阻抗一般比较高。为了得到较好的滤波效果，对低阻抗的电源侧，应配高输入阻抗的滤波器；对高输入阻抗的负载侧，则应配低输出阻抗的滤波器。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">普通的电源滤波器对于数十兆以下的干扰信号有较好的滤波作用,在较高频段,由于电容的电感效应,其滤波性能将会下降。对于频率较高的干扰情况，要使用馈通式滤波器。该滤波器由于其结构特点，具有良好的滤波特性，其有效频段可以扩展到 GHz，因此在无线产品中使用较多。
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">滤波器的使用，最重要的问题是接地问题。只有接地良好的滤波器才能发挥其滤波作用，否则是没有价值的。滤波器使用要注意以下问题：
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">1） 滤波器放置在电源的入口位置；
+    </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">2）  馈通滤波器要放置在机箱（机柜）的金属壁上；
+    </p>
+   <p style="text-indent: 2em;padding: 3px 0px;">3）  滤波器直接与机柜紧密连接，滤波器下面不能涂保护漆；
+   </p>
+    <p style="text-indent: 2em;padding: 3px 0px;">4）  滤波器的输入输出引线不能并行，交叉。
+    </p>
+    
+	</div>
+  </body>
+</html>

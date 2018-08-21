@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>EMC在军用液晶显示器结构设计中的应用</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">EMC在军用液晶显示器结构设计中的应用</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">摘要：本文首先阐述了由EMI引起的EMC问题及EMI产生的机理和传播途径，据此有针对性地介绍如何从结构设计方面提高产品的EMC，并以军用液晶显示器的结构设计为例加以说明。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">关键词：电磁兼容（EMC）；电磁干扰（EMI）；结构优化；军用液晶显示器
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">0  引 言
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 随着高科技革命的兴起，各种电器、电子产品蜂拥而至，遍布于人们生活的各个角落；由于每种产品都不是一个封闭的独立体，因此都会产生一定的电磁辐射，使人们及各种仪器、设备都处在各种电器、电子产品相互的电磁干扰中，不仅影响了人们的身心健康，也极大影响了人们的正常工作。尤为突出的是高科技引发的“电子战”给军队装备设备提出了更高的电磁兼容性要求。因此如何生产出价格低而电磁兼容性能高的产品，将成为各电器、电子行业竞争的热点。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1  EMC概念及EMI传播的途径
+		</p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">EMC是指一种器件、设备或系统的性能，它可以使其在自身环境下正常工作，并且同时不会对此环境中任何其他设备产生强烈电磁干扰（IEEE C63.12-1987）。
+	    </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">EMC问题的出现是由于EMI的产生；EMI有两条途径离开或进入一个电路：辐射和传导。信号辐射是通过外壳的缝、槽、开孔或其他缺口泄漏出去；而信号传导则通过耦合到电源、信号和控制线线离开外壳，在开放的空间中自由辐射，从而产生干扰。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2  提高EMC的方法依据
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由以上分析可知EMI产生的过程是：干扰源通过各种途径和传播介质对其周围环境产生影响，同时也可能受到外来干扰的影响。因此要有效抑制EMI，首先要从源头入手：可通过屏蔽、过滤或接地将干扰产生电路隔离以增强敏感电源的抗干扰能力等来实现。其次是切断干扰传播途径：例如可通过合理的结构设计形成外壳型屏蔽罩，然后接地来实现。最后是屏蔽被干扰源：一方面屏蔽被干扰源不受干扰源影响，同时也屏蔽被干扰源对前者产生影响，原理如图1所示：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc1_1.jpg">
+		</div>
+		<h3 align="center"> 图１屏蔽原理图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">由图可见，只要有效屏蔽各干扰要素，切断三者间的联系路径（如图中在a、b、c、d、e、f处断开），其相互间就不会发生关系；剩下所要考虑的仅仅是各个要素内部自身的影响了，因此可以说屏蔽是一种效能高而非常有用的方法。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3  EMC在军用液晶显示器结构设计中的应用
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3.1  结构设计中的屏蔽原理
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过合理的结构设计可以提高产品的EMC，而结构优化设计又能促进EMC的提高。现以军用液晶显示器结构设计为例说明如何通过结构优化设计尽可能地提高EMC。由于军用产品尤其对于航天件要求遵循轻小型的原则，而且要求产品的性能稳定性、抗振性及EMC都非常高，因此，在此结构设计时要兼顾各方面要求，以达到最优。从结构设计方面进行屏蔽我们遵循的一个原则是外壳屏蔽和缝隙屏蔽结合的方式，即把每一个组成部件看作相对独立个体，在结构设计中运用外壳与缝隙相结合的原则使其在外部形成一个封闭的屏蔽罩，内部采用缝隙屏蔽的方法阻止个体内部的相互干扰；然后通过外壳接地的方式达到屏蔽的效果。显示器的结构组成见图2所示：主要有显示模块、驱动功能电路组件及外壳构成。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc1_2.jpg">
+		</div>
+		<h3 align="center">图２显示器结构图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">此显示器结构外壳后盖板等外部件都采用硬铝合金材料，铝合金不仅质轻、硬度高，而且导电性好；经阳极化及导电氧化处理后的产品件表面，其耐磨性、硬度及导电性均大幅提高；是航空产品首选的材料。由图2可以看出：产品在整体上几乎是一封闭的金属壳体，只要我们把各配合对接处的缝隙密封并对输入、输出端屏蔽密封同时加以滤波，就在整体上形成了一个密封的屏蔽罩，这样就切断了其与外界相互影响的途径，从而达到外壳屏蔽的效果。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3.2  外壳屏蔽的具体处理方法
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">首先需要重点屏蔽的部位是输出端，即前面板开口显示处；处理方法可采用在显示模块与显示器开口面板间加一导电屏蔽玻璃（此玻璃经特殊镀涂处理），并通过导电胶和导电衬垫粘接的方式固定此屏蔽玻璃；导电胶有粘接、固定导电衬垫的作用，而导电衬垫能缓冲玻璃与金属间的冲击及弥补两接合面间缝隙，防止产生漏磁现象（见图3）。注意保证参数b-a＞k（k＞0），k的取值根据产品型号大小及所要求屏蔽效能确定；在条件许可的情况下以较大值为宜。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc1_3.jpg">
+		</div>
+		<h3 align="center">图３面板开口屏蔽图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">其次需考虑的部位是信号接口1、2处；其思想也是把隔开的两端各看作一个相对独立部分并各自形成屏蔽体。方法是采用有压缩弹性的屏蔽衬垫密封；衬垫的选取可参照以下性能参数：（1）特定频率范围的屏蔽效率；（2）安装方法和密封强度；（3）与外罩电流兼容性以及对外部环境的抗腐蚀能力；（4）工作温度范围；（5）成本。然后根据所选衬垫尺寸及其最佳屏蔽效果一般在压缩量为30%~70%的状况，合理设计衬垫沟槽尺寸。如图4所示：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc1_4.jpg">
+		</div>
+		<h3 align="center">图４信号接口屏蔽图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于特殊成批件所需衬垫，设计者可根据需要自行设计衬垫外形尺寸，然后交于生产商定做加工。这样可满足不同规格产品的需要。同理此衬垫使用方法也可用于后盖板与显示器外壳的密封、屏蔽上。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3.3  缝隙屏蔽处理方法
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">事实上由于加工、连接及特种工作需求，外壳不可能做成完全封闭型，这时就要采用缝隙屏蔽方法来处理；例如对后盖板来说，按航空件要求，应在满足强度、抗振性及屏蔽厚度的前提下，在需通风、散热处做成多孔薄型屏蔽层；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">但应注意孔间距与孔大小的设计；所需设计参数的确定可根据屏蔽效能及相关规定参数来定。此种处理方法也可用于在制造面板连线、通风口、外部监测窗口以及面板安装组件等需要在“屏蔽罩”上打孔的屏蔽问题。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">最后在整体装配时，要在显示模块与显示器外壳间填充导电介质（如经济许可，兼具导热性的材料会更好），以保证两者导电接触良好，形成一个导体，同时兼具缓冲两金属间的撞击及减缓两金属面间的摩擦作用，再把外壳与固定基架连接并接地，达到形成屏蔽罩的效果。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">4 结束语
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本文以军用液晶显示器结构及EMC设计为例具体说明了在结构设计中如何处理EMC问题的方法。例中的这些方法都是经实际工作检验后得出的，实用性较强。虽然文中所用方法只是所有方法其中之一，而且并不是全能的，但结构与垫片的结合设计方法，以其独特的优势是保持长期屏蔽以实现EMC的重要因素之一。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">参考文献：<br>
+		[1] 东南大学机械系. 机械设计网络教程，1998. <br>
+		[2] 吴宗泽. 机械结构设计[M]. 北京：机械工业出版社，1988. <br>
+		[3] 李建明. 耐磨与减磨材料[M]. 北京：机械工业出版社, 1987. </p>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tech15.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(tech.css)
+</style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">数字电路PCB的EMI控制技术</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">简介：从系统设备EMC/EMI设计的观点来看,在设备的PCB设计阶段处理好EMC/EMI问题,
+		是使系统设备达到电磁兼容标准最有效、成本最低的手段。本文介绍数字电路PCB设计中的EMI控制技术。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">随着IC器件集成度的提高、设备的逐步小型化和器件的速度愈来愈高,电子产品中的EMI问题也更加严重。从系统设备EMC/EMI设计的观点来看,在设备的PCB设计阶段处理好EMC/EMI问题,是使系统设备达到电磁兼容标准最有效、成本最低的手段。本文介绍数字电路PCB设计中的EMI控制技术。
+		</p>
+		<h2 align="left">一、EMI的产生及抑制原理</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">EMI的产生是由于电磁干扰源通过耦合路径将能量传递给敏感系统造成的。它包括经由导线或公共地线的传导、通过空间辐射或通过近场耦合三种基本形式。EMI的危害表现为降低传输信号质量，对电路或设备造成干扰甚至破坏，使设备不能满足电磁兼容标准所规定的技术指标要求。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">为抑制EMI，数字电路的EMI设计应按下列原则进行：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●根据相关EMC/EMI技术规范,将指标分解到单板电路,分级控制。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●从EMI的三要素即干扰源、能量耦合途径和敏感系统这三个方面来控制，使电路有平坦的频响，保证电路正常、稳定工作。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●从设备前端设计入手,关注EMC/EMI设计,降低设计成本。
+		</p>
+		<h2 align="left">二、数字电路PCB的 EMI控制技术</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">在处理各种形式的EMI时，必须具体问题具体分析。在数字电路的PCB设计中，可以从下列几个方面进行EMI控制。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1．器件选型
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在进行EMI设计时，首先要考虑选用器件的速率。任何电路，如果把上升时间为5ns的器件换成上升时间为2.5ns的器件，EMI会提高约4倍。EMI的辐射强度与频率的平方成正比，最高EMI频率（fknee）也称为EMI发射带宽，它是信号上升时间而不是信号频率的函数：fknee =0.35/Tr (其中Tr为器件的信号上升时间)
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">这种辐射型EMI的频率范围为30MHz到几个GHz，在这个频段上，波长很短，电路板上即使非常短的布线也可能成为发射天线。当EMI较高时,电路容易丧失正常的功能。因此,在器件选型上，在保证电路性能要求的前提下,应尽量使用低速芯片，采用合适的驱动/接收电路。另外，由于器件的引线管脚都具有寄生电感和寄生电容，因此在高速设计中，器件封装形式对信号的影响也是不可忽视的，因为它也是产生EMI辐射的重要因素。一般地,贴片器件的寄生参数小于插装器件，BGA封装的寄生参数小于QFP封装。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2．连接器的选择与信号端子定义
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">连接器是高速信号传输的关键环节,也是易产生EMI的薄弱环节。在连接器的端子设计上可多安排地针,减小信号与地的间距,减小连接器中产生辐射的有效信号环路面积,提供低阻抗回流通路。必要时,要考虑将一些关键信号用地针隔离。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3．叠层设计
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在成本许可的前提下，增加地线层数量，将信号层紧邻地平面层可以减少EMI辐射。对于高速PCB，电源层和地线层紧邻耦合，可降低电源阻抗，从而降低EMI。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">4．布局
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">根据信号电流流向，进行合理的布局，可减小信号间的干扰。合理布局是控制EMI的关键。布局的基本原则是：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●模拟信号易受数字信号的干扰,模拟电路应与数字电路隔开；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●时钟线是主要的干扰和辐射源,要远离敏感电路,并使时钟走线最短；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●大电流、大功耗电路尽量避免布置在板中心区域，同时应考虑散热和辐射的影响；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●连接器尽量安排在板的一边，并远离高频电路；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●输入/输出电路靠近相应连接器,去耦电容靠近相应电源管脚；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●充分考虑布局对电源分割的可行性，多电源器件要跨在电源分割区域边界布放，以有效降低平面分割对EMI的影响；
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●回流平面（路径）不分割。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">5．布线
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●阻抗控制:高速信号线会呈现传输线的特性,需要进行阻抗控制，以避免信号的反射、过冲和振铃，降低EMI辐射。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●将信号进行分类，按照不同信号（模拟信号、时钟信号、I/O信号、总线、电源等）的EMI辐射强度及敏感程度，使干扰源与敏感系统尽可能分离，减小耦合。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●严格控制时钟信号(特别是高速时钟信号)的走线长度、过孔数、跨分割区、端接、布线层、回流路径等。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●信号环路，即信号流出至信号流入形成的回路，是PCB设计中EMI控制的关键，在布线时必须加以控制。要了解每一关键信号的流向，对于关键信号要靠近回流路径布线,确保其环路面积最小。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对低频信号,要使电流流经电阻最小的路径；对高频信号,要使高频电流流经电感最小的路径,而非电阻最小的路径(见图1)。对于差模辐射,EMI辐射强度(E)正比于电流、电流环路的面积以及频率的平方。(其中I是电流、A是环路面积、f是频率、r是到环路中心的距离,k为常数。)
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">因此当最小电感回流路径恰好在信号导线下面时,可以减小电流环路面积,从而减少EMI辐射能量。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●关键信号不得跨越分割区域。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●高速差分信号走线尽可能采用紧耦合方式。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●确保带状线、微带线及其参考平面符合要求。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●去耦电容的引出线应短而宽。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●所有信号走线应尽量远离板边缘。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech15_1.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">  ●对于多点连接网络，选择合适的拓扑结构，以减小信 号反射，降低EMI辐射。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">6．电源平面的分割处理
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●电源层的分割
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在一个主电源平面上有一个或多个子电源时,要保证各电源区域的连贯性及足够的铜箔宽度。分割线不必太宽,一般为20～50mil线宽即可,以减少缝隙辐射。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●地线层的分割
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">地平面层应保持完整性,避免分割。若必须分割，要区分数字地、模拟地和噪声地,并在出口处通过一个公共接地点与外部地相连。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">为了减小电源的边缘辐射,电源/地平面应遵循20H设计原则，即地平面尺寸比电源平面尺寸大20H（见图2），这样边缘场辐射强度可下降70% 。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech15_2.png">
+		</div>
+		<h2 align="left">三、EMI的其它控制手段</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">1. 电源系统设计
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●设计低阻抗电源系统，确保在低于fknee频率范围内的电源分配系统的阻抗低于目标阻抗。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●使用滤波器，控制传导干扰。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●电源去耦。在EMI设计中,提供合理的去耦电容，能使芯片可靠工作，并降低电源中的高频噪声，减少EMI。由于导线电感及其它寄生参数的影响，电源及其供电导线响应速度慢，从而会使高速电路中驱动器所需要的瞬时电流不足。合理地设计旁路或去耦电容以及电源层的分布电容,能在电源响应之前，利用电容的储能作用迅速为器件提供电流。正确的电容去耦可以提供一个低阻抗电源路径，这是降低共模 EMI的关键。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2. 接地
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">接地设计是减少整板EMI的关键。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●确定采用单点接地、多点接地或者混合接地方式。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●数字地、模拟地、噪声地要分开,并确定一个合适的公共接地点。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●双面板设计若无地线层,则合理设计地线网格很重要,应保证地线宽度>电源线宽度>信号线宽度。也可采用大面积铺地的方式,但要注意在同一层上的大面积地的连贯性要好。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●对于多层板设计,应确保有地平面层,减小共地阻抗。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3. 串接阻尼电阻
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在电路时序要求允许的前提下，抑制干扰源的基本技术是在关键信号输出端串入小阻值的电阻，通常采用22～33Ω的电阻。这些输出端串联小电阻能减慢上升/下降时间并能使过冲及下冲信号变得较平滑，从而减小输出波形的高频谐波幅度，达到有效地抑制EMI的目的。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech15_3.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">4．屏蔽
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●关键器件可以使用EMI屏蔽材料或屏蔽网。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●对关键信号的屏蔽，可以设计成带状线或在关键信号的两侧以地线相隔离。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">5．扩频
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">扩展频谱（扩频）的方法是一种新的降低EMI的有效方法。扩展频谱是将信号进行调制,把信号能量扩展到一个比较宽的频率范围上。实际上,该方法是对时钟信号的一种受控的调制,这种方法不会明显增加时钟信号的抖动。实际应用证明扩展频谱技术是有效的,可以将辐射降低7到20dB。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">6．EMI分析与测试
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●仿真分析
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">完成PCB布线后,可以利用EM I仿真软件及专家系统进行仿真分析,模拟EMC/EMI环境，以评估产品是否满足相关电磁兼容标准要求。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">●扫描测试
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">利用电磁辐射扫描仪,对装联并上电后的机盘扫描,得到PCB中电磁场分布图(如图3,图中红色、绿色、青白色区域表示电磁辐射能量由低到高),根据测试结果改进PCB设计。
+		</p>
+		<h2 align="left">四、结语</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">随着新的高速芯片的不断开发与应用，信号频率也越来越高，而承载它们的PCB板可能会越来越小。PCB设计将面临更加严峻的EMI挑战，唯有不断探索、不断创新，才能使PCB板的EMC/EMI设计取得成功。
+		</p>
+	</div>
+  </body>
+</html>

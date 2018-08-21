@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>如何有效地进行无线辐射杂散调试</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">如何有效地进行无线辐射杂散调试 </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;"> 导读：随着5G时代的推进，智能终端产品作为宽带射频应用最大的消费市场面临着一系列开发与验证的问题。其中，越来越小的设计空间与电磁辐射杂散性能之间的矛盾，将是商业研究人员开发和验证中面临的巨大挑战。若要以更高的
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 随着5G时代的推进，智能终端产品作为宽带射频应用最大的消费市场面临着一系列开发与验证的问题。其中，越来越小的设计空间与电磁辐射杂散性能之间的矛盾，将是商业研究人员开发和验证中面临的巨大挑战。若要以更高的精度、更强的自信探索开创性的概念，来推动现有技术发展、以创新创造革命、将 5G 愿景转变为现实的过程中，我们不得不在工作中选择更为适合我们的调试、测试解决方案。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 克服这些难题需要对智能终端设备进行有效的测试和测量，这样能确保准确地生成和分析信号，从而正确地测试和测量通信链路（如发射机和接收机）。采用的信号生成和分析解决方案应当提供快速的测量时间和切换速度，并且具有可扩展性，让测试工具可以适应用户不断变化的测试需要。另外解决方案还应具有灵活性，以确保它们支持当前和未来的制式。有了这些解决方案后，我们才能放心的在研发、调试、验证中寻找出合适的、较优的、低成本的方案从而缩短开发周期，进而抢先获得消费市场认可。是德科技在测试测量领域有着悠久的历史，从1938年第一台谐波分析仪面世（彼时还时HP公司）到如今110GHz毫米波测试测量方案的开发，一直为我们产品研发领域的验证带来不同的惊喜。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 以下通过一个案例，使用是德科技测试测量解决方案，完成无线智能终端产品的辐射杂散的最终优化。
+		</p>
+		
+		
+		<h2 align="left">某无线智能终端案例要点：</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">● GSM850 RSE测试三次谐波辐射超标</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">● 2.2GHz频率裕量较小</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_1.jpg">
+		</div>
+		<h3 align="center">图1 调试前辐射杂散测试结果</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_2.jpg">
+		</div>
+		<h3 align="center">图2 调试前传导辐射测试结果</h3>
+		<h2 align="left">调试设备：</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">● Keysight CXA N9000A+ N9311X 套件</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">首先，针对三次谐波分析杂散辐射来源是否通过传导传播，通过测试验证此频率下传导杂讯的裕量在9dB以上。接下来的思路转移到了辐射的杂讯上。
+		</p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">针对辐射问题，我们要寻找出干扰的噪声，使用频谱分析仪在频域分析会更快速精准的找出方案。这里我们使用性价比较高的CXA N9000A频谱分析仪，搭配使用N9311X 套件中的磁场环形探针来扫描手机的近场杂讯。通过使用较低灵敏度的环形探头可以发现在天线区域存在较大的谐波，如图3所示 2.55GHz峰值达到了 -43.29dBm。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">从测试结果来看，谐波超标很严重，这一点与天线区域的杂讯信号很相似，考虑到传导嫌疑已经排除，因此分析的重点集中到了天线区域的非线性器件。从如图4所示原理图可以看出，天线的调谐开关是正常工作的，由于天线开关本身是非线性器件，因此首先确认天线开关的影响。将天线开关旁路（天线仍然正常）如图5所示，发现此时2.55GHz的杂讯可以降低到-55.7dBm左右，因此可以确定天线区域的杂讯就是调谐开关造成的。
+	    </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在这里由于仅GSM850的三次谐波出现问题，且能较快确定最强辐射范围，因此无需再进一步使用高灵敏度的磁场环形探头进一步精确定位。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_3.jpg">
+		</div>
+		<h3 align="center">图3 调试前2.55GHz近场辐射结果</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_4.jpg">
+		</div>
+		<h3 align="center">图4 调谐开关旁路</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_5.jpg">
+		</div>
+		<h3 align="center">图5 调试后2.55GHz近场辐射结果</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">接下来针对2.2GHz频点处辐射杂散的裕量不足，可先用N9311X 套件中的低灵敏度磁场环形探针以及来扫描及点测手机的近场杂讯，如图6所示发现该频率以及750MHz的信号最强近场辐射区域集中在PCB的下半部分其中一个电源网络，此电源网络会经过较多高频成分的芯片以及杂讯较多的LED以及按键区域。经过查阅电源和芯片文档得知其开关频率的大约为1.9M，该频率成分的电源噪声会在调制过程中频移到信号频率两侧。然而由于使用较低灵敏度的探头智能确定处板上下半部分都是可能的辐射杂散信号源，却无法定位精确的位置。此时我们需要进一步使用套件中精度更高的磁场环形探头或者垂直向磁场探头来确定最强区域。最终发现在750MHz+/-17MHz在红色框标示区域最强。测试结果请参考图7所示，此处750MHz附近的近场辐射为-83.21dBm，2.25GHz处最大近场辐射为-44.18dBm。
+		</p>
+	    
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_6.jpg">
+		</div>
+		<h3 align="center">图6 调试前750MHz及2.25GHz近场辐射最强区域</h3>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_7_1.jpg">
+		</div>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_7_2.jpg">
+		</div>
+		<h3 align="center">图7  调试前750MHz及2.25GHz近场辐射测试结果</h3>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">由于2.25GH大约是750MHz的三次谐波，因此我们首先针对750MHz做滤波设计。为了克服这种干扰应该对基带信号加以滤波，阻止高频成分传播和搬移。如图8所示是一种推荐电路，其中电容C1、C2和L2可作为备选，将此电路加在图6黄色框图标示的电源入射端口附近做滤波。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_8.jpg">
+		</div>
+		<h3 align="center">图8 建议增加滤波电路</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">采用此滤波方案后的再进行近场扫描Max Hold的结果可参考图9所示近场辐射结果，此处750MHz附近的近场辐射已经下降到了-92.42dBm，2.25GHz处最大近场辐射下降到了-53.08dBm：
+		</p>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_9_1.jpg">
+		</div>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_9_2.jpg">
+		</div>
+		<h3 align="center">图9  调试后750MHz及2.25GHz近场辐射测试结果</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">最后我们再进入暗室完成一次全频带范围内的辐射杂散扫描和传导扫描，最终结果请参考图10和图11所示。可以看出辐射杂散结果有明显改善，同时传导辐射也有所改善。
+		</p>
+	
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_10.jpg">
+		</div>
+		<h3 align="center">图10  调试后辐射杂散测试结果</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/topemc1_11.jpg">
+		</div>
+		<h3 align="center">图11  调试后传导辐射测试结果</h3>
+		
+		<h2 align="left">总结</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">本案例向我们揭示了一种通过使用频谱仪和近场探头测试解决方案来完成无线智能通讯设备的辐射杂散调试的方法。一个快速精准及高性价比的设备往往能够高效的完成研发验证。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">作者简介：李松 是德科技公司</p>
+		
+	</div>
+
+</body>
+</html>

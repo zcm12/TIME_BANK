@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>case14.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<style type="text/css">
+@import
+url(case.css)
+</style>
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">GPS接口浪涌案例分析——TVS单向和双向选择</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">在TVS的应用上，许多人都会纠结：该选择单向管还是双向管？
+		使用双向和使用单向管有什么样的差别？本文从客户实例中讲解单向TVS管与双向TVS管的应用特点。
+		</p>
+		<p>
+		<h2 align="left">一、概述</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">TVS在板级的应用极为广泛，总的来说，这个器件就是干精细活的，一般都是出现在需要防护电路的前方，
+		TVS具有快速响应、低残压、高稳定性等特点，这也是其他过压防护器件类所不能替代的原因之一。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在TVS的应用上，许多人都会纠结：该选择单向管还是双向管？
+		使用双向和使用单向管有什么样的差别？本文从客户实例中讲解单向TVS管与双向TVS管的应用特点。
+		</p>
+		<p>
+		<h2 align="left">二、问题描述</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">某客户的环境监控无线设备的GPS天馈口，在测试共模3KA@8/20μs±5T，但实际1T雷击测试后LDO芯片损坏，
+		无法正常工作，图1为我司为客户初步推荐的方案，图2为客户现有板子。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case14_1.png">
+		</div>
+		<p>
+		<h3 align="center">图1 原有防护图</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case14_2.png">
+		</div>
+		<p>
+		<h3 align="center">图2  现有实物</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">据了解，GPS天馈口的防护需要从两个方面进行防雷：一个是对射频信号进行防护，另一个是对内馈直流电源进行防护。
+		本案例主要故障是在电源部分，主要损坏的是LDO芯片，即低压差线性稳压器，位于电源的输出端，当浪涌电流注入，如果没有防护，首当其冲的就是这个芯片，这个芯片损坏，则电源无法输出。
+		按照这个思路，我们规划了原始方案的理想浪涌电流路径如图3所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case14_3.png">
+		</div>
+		<p>
+		<h3 align="center">图3理想浪涌电流路径图</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case14_4.png">
+		</div>
+		<p>
+		<h3 align="center">图4推测实际损坏电流路径</h3>
+		</p>
+		<p>
+		<h2 align="left">三、原因分析</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">浪涌测试一次，LDO芯片就损坏了，也就是说，浪涌电流没有按照我们规划的路径流动，
+		而是往LDO芯片走了一部分，这个部分电流造成了LDO芯片损坏，于是我们推测：是否是LDO芯片的反向耐压不足导致损坏？其浪涌电流路径是否如图4所示？
+		基于以上推测，我们在BV-SMBJ6CA与LDO芯片之间增加一个二极管，来提高后级回路的耐压水平，图5为整改后图:
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case14_5.png">
+		</div>
+		<p>
+		<h3 align="center">图5 增加二极管实物图</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">整改完成后，通过实际测试，该GPS口能满足正向5次共模3KA@8/20μs的浪涌测试，而负向浪涌测试时，一次就失效了，
+		查到的原因还是LDO芯片损坏。继续分析路径，正向浪涌能通过测试，说明增加了单向二极管的效果是有的，反向时，TVS是6V才开启，而LDO芯片加新增的二极管只需要0.7+0.3V=1V即开启了，
+		他们远远早于TVS的动作电压，所以电流应该是按照图6流走的路径，而LDO芯片的通流能力比较弱，所以损坏了。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case14_6.png">
+		</div>
+		<p>
+		<h3 align="center">图6 负向浪涌损坏路径图</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">基于以上原因，我们需要一个比这两个器件正向导通电压之和还低的器件来做反向的防护，
+		于是，我们选择了单向的TVS，其反向开启电压在0.7V左右，通过这么改动，该方案的浪涌路径如图7所示。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case14_7.png">
+		</div>
+		<p>
+		<h3 align="center">图7  更改成单向TVS的路径</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过再次进行浪涌验证，正向、负向浪涌均能满足共模 3KA@8/20μs±5T测试要求，致此，整改完成。
+		</p>
+		<p>
+		<h2 align="left">四、经验总结</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">浪涌防护设计中路径分析最重要的环节是了解浪涌电流路径！当我们了解了浪涌电流路径之后，我们也就能很好的给浪涌电流搭建一条合理的泄放路径。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在本文中，由于后级的特殊性——LDO芯片的反向耐压及正向通流都比较脆弱，所以，在选择TVS时，就应该要利用好单向TVS的不对称性，
+		一个方向为TVS的钳位特性，另一方向为二极管正向导通特性，使防护电路起到应有的作用。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">从该案例中，在单向管与双向管的选择时，主要考虑的是浪涌路径的搭建，如果后级的反向耐压、通流都有足够的余量，
+		一般双向或是单向都不会有太大问题，当后级的耐压及通流都较小时，单向管具有一定的优势。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于GPS天馈口为高频信号，当频率越高，对初级的GDT的结电容要求也越高，在选型时，结电容是一个相对重要的参数之一。
+		BX091N能满足该端口的结电容要求，同时，体积及通流都有较好的优势。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">整改的二极管我们推荐选择肖特基二极管，这类管子的正向导通电压较低，约为0.3V，也就是正常工作时他消耗电源的功率较小，
+		该案例我们推荐的是一个通流为3A&反向耐压40V的肖特基二极管。
+		</p>
+	</div>
+  </body>
+</html>

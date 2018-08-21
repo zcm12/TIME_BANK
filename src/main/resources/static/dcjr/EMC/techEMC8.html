@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>关于光通信模块中电磁兼容性能的研究</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">关于光通信模块中电磁兼容性能的研究</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：1 引 言随着通信技术的发展，光模块以及设备的数量和种类不断增加，使电磁环境日益复杂，电磁污染越来越严重。在这种复杂的电磁环境中，如何减少各种电子设备之间的电磁骚扰，提高光模块的电磁兼容性能，使各种设备可
+		</p>
+		<h2 align="left">1 引 言</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">随着通信技术的发展，光模块以及设备的数量和种类不断增加，使电磁环境日益复杂，电磁污染越来越严重。在这种复杂的电磁环境中，如何减少各种电子设备之间的电磁骚扰，提高光模块的电磁兼容性能，使各种设备可以共存并能正常工作，已成为电子产品设计中的一项关键内容。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电磁兼容EMC（Electromagnetic Compatibility）设计的目的是：电子设备或系统能在预期的电磁环境中正常工作，无性能降低或故障；同时，对该电磁环境不是一个污染源。为了实现电磁兼容，首先要分析形成电磁干扰的因素，才能找到解决问题的方法。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">形成电磁干扰必须同时具备以下三因素：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">① 电磁骚扰源，指产生电磁骚扰的元件、器件、设备、分系统、系统或自然现象。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">② 耦合途径或称耦合通道，指把能量从骚扰源耦合（或传输）到敏感设备上的通路或媒介。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">③ 敏感设备，指对电磁骚扰发生响应的设备。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">针对以上三个因素，有多种途径可以抑制电磁干扰的影响，而从光模块结构设计的角度出发，采用电磁屏蔽的方法来切断电磁骚扰的耦合途径，是改善其电磁兼容性能的关键而行之有效的技术手段之一。
+		</p>
+		<h2 align="left">2 电磁屏蔽结构分析</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.1 屏蔽效能
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电磁屏蔽就是对两个空间区域之间进行金属的隔离，以控制电场、磁场和电磁波由一个区域对另一个区域的感应和辐射。具体讲，就是用屏蔽体将元部件、电路、组合件、电缆或整个系统的骚扰源包围起来，防止骚扰电磁场向外扩散；用屏蔽体将接收电路、设备或系统包围起来，防止它们受到外界电磁场的影响。因为屏蔽体对来自导线、电缆、元部件、电路或系统等外部的骚扰电磁波和内部电磁波均起着吸收能量、反射能量和抵消能量的作用，所以屏蔽体具有减弱骚扰的功能。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">屏蔽体对辐射骚扰的抑制能力用电场屏蔽效能SE或磁场屏蔽效能SH来表示：<br>
+		SE=20lg(E1/E2)<br>
+		SH=20lg(H1/H2)<br>
+		式中E1、H1分别为未屏蔽时测得的电场强度和磁场强度；E2、H2分别为屏蔽后测得的电场强度和磁场强度。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.2 屏蔽材料
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">要确定应该使用什么材料制造屏蔽体，需要知道材料的屏蔽效能和材料的什么参数有关。根据屏蔽的机理可以将屏蔽分为三大类：电场屏蔽、磁场屏蔽和电磁场屏蔽。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电场屏蔽是为降低骚扰电场对敏感电路的耦合电压，在骚扰源和敏感电路之间设置导电性好的金属屏蔽体，并将金属屏蔽体接地。只要设法使金属屏蔽体良好接地，就能使骚扰电场对敏感电路的耦合电压变得很小。电场屏蔽以反射为主，因此屏蔽体的厚度不必过大，可采用薄层屏蔽或者在塑料上镀一层薄的导电层。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">磁场屏蔽有低频和高频之分。低频磁场屏蔽是利用高导磁率的材料构成低磁阻通路，使大部分磁场被集中在屏蔽体内。因此屏蔽体的导磁率越高，厚度越大，磁阻越小，磁场屏蔽的效果越好。当磁场频率较高时，高导磁材料的导磁率下降，磁损增加，而应采用高导电率材料产生的涡流的反向磁场来抵消骚扰磁场来实现屏蔽。用来屏蔽磁场的屏蔽体均不需接地。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">电磁场屏蔽一般采用高导电率的材料作屏蔽体，并将屏蔽体接地。它是利用高导电率材料产生的涡流的反向磁场来抵消骚扰磁场，又因屏蔽体接地而实现电场屏蔽。由于随着频率的增高，波长变得和屏蔽体上的孔缝尺寸接近，因而电磁场屏蔽的关键除了要采用高导电率材料，还要控制屏蔽体的孔缝泄漏。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">屏蔽材料的导电性能和导磁性能分别用相对电导率σr和相对磁导率μr来衡量，表1中列出了常用屏蔽材料的σr及μr值[1]。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_1.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">由此可见，为了提高屏蔽效能，高导电率材料可采用铝、铜，或者铝镀铜，要求更高时，还可再镀层银。高导磁率材料可采用不锈钢或者铁，同时可适当增加材料的厚度。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.3 屏蔽设计
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">有两个因素会影响屏蔽体的屏蔽效能：第一，屏蔽体必须是完整的，表面可连续导电；第二，不能有直接穿透屏蔽体的导体，防止造成天线效应。但是在实际应用中屏蔽体上往往有散热孔，或者屏蔽体本身由若干个零件组成，存在装配间隙。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">缝隙或孔洞是否会泄漏电磁波，取决于缝隙或孔洞相对于电磁波波长的尺寸。当波长远大于孔缝尺寸时，并不会产生明显的泄漏;当孔缝尺寸等于半波长的整数倍时，电磁泄漏最大。一般要求孔缝尺寸小于最短波长的1/10～1/2。因此，当骚扰的频率较高时，波长较短，须关注这个问题。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于装配而成的屏蔽体，有以下几种改善屏蔽效能的方式：<br>
+		① 应使接触面尽量平整，以减小接触阻抗。<br>
+		② 在接触面上增加弹性导电材料防止电磁波的缝隙泄漏。如导电泡棉或者金属簧片衬垫。<br>
+		③ 由螺钉联接的组装件，可减小安装螺钉的间距，以减小缝隙长度。<br>
+		④ 将接触面做成单止口或者双止口的装配方式，以增加屏蔽体密闭性，如图1所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_2.jpg">
+		</div>
+		<h3 align="center">图1 止口结构示意图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">对于通风孔的设计，可以使用几个小圆孔代替一个大孔，并且保证通风孔之间的间距大于1/2波长。如图2所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_3.jpg">
+		</div>
+		<h3 align="center">图2 通风孔示意图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">3 测试结果及分析
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">以公司产品为试验平台，在XFP模块管壳结构设计中综合运用上述方法进行优化，制作出模块样品，并针对该样品进行了实际的测试。样品结构如图3所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_4.jpg">
+		</div>
+		<h3 align="center">图3 XFP模块外形图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">根据FCC 47 CFR Part 15 Subpart B section 15.109（a），电磁骚扰场强的峰值限值为74 dBμV/m，平均值限值为54 dBμV/m。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">改善前的XFP模块电磁骚扰场强在水平方向的测试结果如图4和表2所示：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_5.jpg">
+		</div>
+		<h3 align="center">图4 改善前水平方向测试图</h3>
+		<h3 align="center">表2 改善前水平方向测试数据</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_6.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">改善前的XFP模块电磁骚扰场强在垂直方向的测试结果如图5和表3所示：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_7.jpg">
+		</div>
+		<h3 align="center">图5 改善前垂直方向测试图</h3>
+		<h3 align="center">表3 改善前垂直方向测试数据</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_8.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">改善后的XFP模块电磁骚扰场强在水平方向的测试结果如图6和表4所示：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_9.jpg">
+		</div>
+		<h3 align="center">图6 改善后水平方向测试图</h3>
+		<h3 align="center">表4 改善后水平方向测试数据</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_10.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">改善后的XFP模块电磁骚扰场强在垂直方向的测试结果如图7和表5所示：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_11.jpg">
+		</div>
+		<h3 align="center">图7 改善后垂直方向测试图</h3>
+		<h3 align="center">表5 改善后垂直方向测试数据</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/techemc8_12.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">由以上测试数据可见，改善后的电磁骚扰场强最大峰值下降了近2dBμV/m，平均值下降了近6dBμV/m。
+		</p>
+		<h2 align="left">4 结束语</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">在光收发合一模块的结构设计中，必须要将电磁屏蔽设计作为重点考虑的内容。具体展开屏蔽设计时，应先确定骚扰源的特征，再选择合适的屏蔽材料，然后结合适当的屏蔽方式以求达到最佳的屏蔽效果。通过样品的测试结果表明，模块的电磁兼容性能得到了很大的改善，且模块各项工作性能指标没有受到任何影响。
+		</p>
+	</div>
+
+</body>
+</html>

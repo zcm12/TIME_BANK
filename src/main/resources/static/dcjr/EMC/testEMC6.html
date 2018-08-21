@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>test6.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+@import
+url(test.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">天线法与CDN法在辐射骚扰测试中的优势比对</h1>
+	</div>
+	<p style="text-indent: 2em;padding: 3px 0px;">随着电气电子产品种类的多样化和时钟频率的不断提高，电磁环境日趋复杂，其产品的电磁兼容性能极大地影响了人们的健康和生活品质。在全球“低辐射、高环保”的理念下，如何减少其电磁干扰，成为关注重点。</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">对于电气照明设备等小型受试物，根据CISPR 15和相关国家标准要求，天线法和耦合去耦网络（CDN）法是测量其辐射骚扰的两种方法。
+	</p>
+	<h2 align="left">（1）天线法</h2>
+	<p style="text-indent: 2em;padding: 3px 0px;">天线法辐射骚扰测试应在满足CISPR22标准要求的开阔场或电波暗室中进行，在30MHz-300MHz频率范围内根据CISPR22第10章规定的测试方法进行测试。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">对于30MHz以上产品的辐射发射，由于辐射发射结果与产品布置的关系尤为密切，精确测试时需要按照标准要求进行受试设备、辅助设备和所有连接电缆的布置。测试设备主要包括EMI接收机、接收天线、测试软件、其他辅助设备（如转台、天线塔）等。测试分别在垂直、水平两种天线极化方向下进行，EUT随转台360度转动，天线在1~ 4m高度范围内升降，寻找辐射最大值。
+	</p>
+	<div align="center">
+		<img alt="图片找不到" src="testImg/test6_1.png">
+	</div>
+	<h3 align="center">天线法辐射发射测试布置图</h3>
+	<div align="center">
+		<img alt="图片找不到" src="testImg/test6_2.png">
+	</div>
+	<h3 align="center">天线法辐射发射测试实景图</h3>
+	<h2 align="left">（2）CDN替代法</h2>
+	<p style="text-indent: 2em;padding: 3px 0px;">由于电波暗室对场地和资金投入的要求比较高，而CDN法可以在电磁屏蔽室内进行，节省场地费用。当受试物满足CISPR15标准附录B中的相关要求时，CDN法则可作为设备在30MHz-300MHz频率上的辐射骚扰测量的替代方法。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">CDN法的原理是对于小型EUT，引线上由共模电流引起的辐射发射远远大于受试物表面向外的辐射。由于CDN能提供稳定的共模阻抗，因此可以通过测量共模电压推导出辐射发射，同时缩短了测试时间。
+	</p>
+	<p style="text-indent: 2em;padding: 3px 0px;">CDN法布置如下图所示。受试设备放置在非导电的高度为10cm的木块上，木块放置在接地金属板上，金属板尺寸比EUT至少大20cm。EUT通过一根长为20cm左右的电源线缆与适当的耦合/去耦网络相连接。应使用非导电的支撑件使得电缆离金属板的距离为4cm。CDN安放在金属板上，其RF输出端通过一个6dB、50Ω衰减器连接到测量接收机。
+	</p>
+	<div align="center">
+		<img alt="图片找不到" src="testImg/test6_3.png">
+	</div>
+	<h3 align="center">CDN法辐射发射测试布置图</h3>
+	<p style="text-indent: 2em;padding: 3px 0px;">天线法与CDN法之间存在不同的测试原理、测试场地和测量设备等，以及客观存在的不确定度，导致两者之间的差异必然客观存在。相对于传统的天线法，CDN法应该不是一种完美的替代，第三方电磁兼容检测机构对CDN法的使用仍然相对谨慎，在30MHz-300MHz频率范围内电磁兼容辐射骚扰测试主要还是以天线法进行。虽然CDN法与天线法之间存在一定的差异，但CDN法在产品设计初期仍有其不可忽视的优势，在明确产品特性的前提下，可以考虑该方法。
+	</p>
+</body>
+</html>

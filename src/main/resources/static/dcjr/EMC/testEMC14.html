@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>test14.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <style type="text/css">
+	@import url(test.css)
+    </style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+     <div>
+		<h1 align="center">蓝牙模块选择及EMI一致性测试 </h1>
+	 </div>
+
+	 <div id="content">
+	    
+		<p style="text-indent: 2em;padding: 3px 0px;">一切皆因连接而起，物联网IoT正在加速进入到我们的日常生活与各行各业之中，人与物、物与物之间的连接互动越来越智能便捷，无线通信成为物联网连接中的无形桥梁，蓝牙、WiFi、ZigBee等主流通信技术在物联网应用中各有千秋，成为物联网落地的强力支撑。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">泰克“物联网无线通信测试专题”，将由泰克专家分享蓝牙、WiFi、ZigBee设计中的模块选择、EMI测试等关键设计与测试经验，帮助众多设计公司和工程师搞定设计难题。
+		</p>
+		<h2 align="left">选择蓝牙模块：三个考虑因素</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">在为物联网(IoT)设备或某些其他项目选择蓝牙或其他RF模块时，您可能发现市场上可行的方案比你想象得要多得多。在正常情况下，模块制造商或供应商会根据传输速率、传输距离、频段、认证、包装尺寸等对提供的数千个模块分类。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">全方位考虑固然很重要，但某些因素要更加关键。通过把最主要的重点放在传输速率、传输距离(或覆盖范围)和功耗上，您可以有效地缩小选择范围。对这些因素做出平衡取舍之之后，在此基础上选择一个模块，可以帮助您制订直接影响最终用户体验的决策。我们将快速考察这些参数，及其怎样影响您的器件性能。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1）传输速率
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">传输速率或数据速率通常是设计人员和开发人员考虑的第一件事，因为它会迫使设计人员和开发人员考虑器件之间需要传送的信息类型。例如，把高质量音乐传送到耳机所需的数据速率，与基本心跳监护仪所需的数据速率就有着很大的差别。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在理论上，低能耗蓝牙的传输速率不支持自己的最大带宽(1 MHz)，因为低能耗蓝牙的重点是简单的信息传输。如果以高速率传输数据，那么低能耗蓝牙会消耗更大的功率，这和最初设计概念是矛盾的。如果需要高速传输，那么应考虑速率更高的EDR蓝牙或Wi-Fi。任何速率提高几乎都不可避免地会消耗更多的功率。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test14_1.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">2）功率类别和传输距离覆盖范围
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在制造商和分销商网站上，蓝牙模块是按类别划分的，这里的类别是指功率类别。功率类别越高，传输所能到达的地方越远。与任何其他无线技术一样，蓝牙网络的距离有限。传输距离随不同版本变化。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test14_2.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">在同一版本中，支持的传输距离仍会随着不同的功率类别变化。 实际信号传输距离随着具体环境条件变化，如传输条件、材料、制造偏差、天线和电池。除蓝牙标准中规定的要求外，设备还需要满足本地政府频谱法规机构规定的功率要求。如需与这些要求有关的更多信息，请查看我们前面的博文。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3）功耗
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">功耗主要与传输速率和距离有关。由于蓝牙设备一般是通过电池供电的，因此设备的工作电流/电压是一个重要考虑因素，因为它直接决定着充电时间和电池续航周期。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">通过把模块进一步划分成不同版本，蓝牙SIG简化了这一前期决策。蓝牙技术版本分为经典版本和低能耗(LE)版本。经济蓝牙版本1、2和3是为数据传输速率优化的。在经典版本中，它分成基本速率(BR)、增强数据速率(EDR)和高速。低能耗蓝牙则把更多的重点放在简单的信息传输上，同时尽可能延长电子器件的续航时间。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="testImg/test14_3.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">除了这些分类之外，制造商会列出发送和接收电流和/或功率，主要用于模块选择中。如果您能够测试预计的最终设备用途，那么您可以更简便地评估模块，在具体应用中平衡各种因素。我们的功耗博文中进一步介绍了这类测试。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">找到适当的蓝牙模块首先要平衡传输速率、传输距离和功耗。一旦缩小了选择范围，那么可以根据成本、空间和兼容能力进一步缩小范围。最后，预计您可以使用测试设备对模块做一些评测。下载怎样选择蓝牙模块应用指南，更详细地了解这一测试。
+		</p>
+		<h2 align="left">确保蓝牙设计通过EMI一致性测试</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">在支持蓝牙的任何新型设备上市前，不管是完善的通信设备还是简单的USB加密狗，它都必须满足FCC制订的严格的EMI辐射要求。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">过去，设计人员一般要等到设计周期结束，才能把产品送到测试机构，进行正式的一致性测试。遗憾的是，更多的情况下，很多蓝牙设计都不会一遍就过。几次跑到测试机构的成本会非常高，视不同的根本原因，很容易会导致工期延误，不能按期完工。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">一种好得多的方法是提前执行预一致性检查，从而可以识别和校正任何EMI问题。凭直觉，许多设计人员认为他们没有设备或专业知识，来足以完成预一致性测试。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">而现在，通过基于PC的现代频谱分析软件及泰克经济的基于USB的频谱分析仪，如RSA306或RSA 500/600系列，执行这些检查变得轻松快捷。下面的视频“蓝牙器件基本EMI预一致性测试”说明了在实验室中怎样使用泰克RSA607A实时频谱分析仪，来执行带内辐射和杂散信号测试。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">预一致性测试具有重要意义，可以保证您在测试机构通过EMI/EMC一致性测试。通过使用适当的设备，还可以简便地执行蓝牙无线测试。观看这个视频，了解怎样测试蓝牙器件正确启动和传送信息。确保下载我们的RF信号电子指引，迅速识别您正在查找的信号。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本篇介绍了蓝牙模块的选择和EMI预一致性测试，这是工程师在蓝牙模块设计时经常面临的问题，也是经常令人头疼的问题。可选的方案比想象的要多得多，选择重点要放在传输速率、传输距离(或覆盖范围)和功耗上，这样可以有效地缩小选择范围。而EMI预一致性测试可以有效降低设计开发时间和成本。
+		</p>
+  </body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>case7.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(case.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">路由器辐射骚扰分析与整改案例 </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">在CPU和AFE之间的clock上串33ohm，并10pf到地，10pf电容的地和AFE_PLL_AVDD2P5的地要直接连接在一起，两者之间的Rx（从CPU传输到AFE的信号数据线）上用33ohm电阻,以上措施可以抑制200MHz到1GHz的每个10MHz就有的频点 ... 
+		</p>
+		<h2 align="left">1　问题描述</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">某款路由器辐射骚扰测试结果如下图1所示：
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case7_1.jpg">
+		</div>
+		<p>
+		<h3 align="center">图1  路由器原始辐射骚扰测试结果</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">从图中可以看出，主要问题如下：
+		</p>
+		<p style="text-indent: 3em;padding: 3px 0px;">
+		（1）200MHz-1GHz的范围每隔10MHz都有一个窄频信号，且多处点超标，源点为CPU到AFE的clock和data线；<br>     
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2）200MHz-700MHz的范围内宽带噪声较高，部分区域少于6dB裕量，原点为SLIC部分和DSL部分的地隔离太长，U13（12V转1.2V DC-DC芯片），12V输入靠近电源口处；<br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（3）125MHz及其倍频较高，375MHz、875MHz等频点超过限值，主要源点5G无线卡和LAN口；<br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（4）983MHz超标，源点为SLIC处驱动高压MOS的电路；<br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（5）960MHz超标，源点为HPNA线路内部两个IC的clock线。
+		</p>
+	
+		<h2 align="left">2　改进措施</h2>
+	   	<p>
+		<h3 align="left">措施一：</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在CPU和AFE之间的clock上串33ohm，并10pf到地，10pf电容的地和AFE_PLL_AVDD2P5的地要直接连接在一起（图2），两者之间的Rx（从CPU传输到AFE的信号数据线）上用33ohm电阻（图3）,以上措施可以抑制200MHz到1GHz的每个10MHz就有的频点；
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case7_2_3.jpg">
+		</div>
+		<p>
+		<h3 align="left">措施二：</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在SLIC的地和DSL的地之间加两个接触点（图4），200MHz到700MHz处的噪声可以有3~5dB的下降。电源端口处加100pf电容滤除500MHz附近的噪声（图5），C135处的地与外界的地直接连接，改进300MHz附近的噪声（图5）。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case7_4_5.jpg">
+		</div>
+        <p>
+		<h3 align="left">措施三：</h3>
+		</p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/case7_6_7.jpg">
+		</div>
+	    <p>
+		<h3 align="left">措施四：</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">SLIC 的驱动MOS产生高压的脚上并联10pF电容（图8），解决983MHz噪声。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case7_8.jpg">
+		</div>
+		<h3 align="left">措施五：</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">AR271改成33ohm（图9），压低960MHz噪声。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case7_9.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">经过以上改进后，测试结果见图10所示：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case7_10.jpg">
+		</div>
+		<h3 align="center"> 图10  首次改进后辐射骚扰测试结果 </h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">从改进后测试结果看，水平和垂直都可以符合FCC ClassB的限值。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">将前面改进需求落实后，CPU和AFE之间的数据线上电阻用排阻代替，节约PCB空间，增加地的面积，然后调节电源层，减小不必要的电源平面（图11）。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case7_11.jpg">
+		</div>
+		<h3 align="center">图11 </h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+第二层布线挪到其它层：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case7_12.jpg">
+		</div>
+		<h3 align="center">图12 </h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+去掉无用的线N49819393，节约CPU和AFE之间的空间，经过以上改进措施后，测试结果如图13所示：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case7_13.jpg">
+		</div>
+		<h3 align="center">图13 </h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+从测试结果可以看出，由于5G无线卡从2.4GHz的上方挪到了DSL电路的上方，出现375MHz的频点，其他噪声基本消失。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+将EPHY RXCLK R294和5G TXCLK R377 改成33ohm。375MHz有较大的改善，能通过FCC Part15B的测试。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">
+由于5G无线卡下面加了导热垫和主板接触，导致5G无线卡变形，875MHz较高，在更换了软的导热垫后可以通过FCC Part15测试。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case7_14.jpg">
+		</div>
+		<h3 align="center">图14 </h3>
+		<h2 align="left">3    总结</h2>
+		<p style="text-indent: 3em;padding: 3px 0px;">
+		（1）当不同区域因为防串扰要求把地分割后，需要在适当的点预留连接点，可以减小信号的回路；<br>     
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2）在噪声源上串联电阻，减小信号的电流，降低倍频幅度；；<br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（3）所有的高频信号线尽量以地平面为参考面，降低回流阻抗，较小回流面积；<br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（4）从芯片出来的电源线上的旁路电容的地脚尽量和芯片的地直接连接在一起，这要求地平面在芯片下面不要有布线，不要有成排过孔导致地平面分裂的情况；<br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（5）天线不要从芯片上方走线，特别是有鳍片散热片的芯片，即使天线上有磁环也不能完全隔离噪声；<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（6）母板与子板相对应的部分，如果可以预留接地点，使用弹片连接时弹片的高度要超过两板的距离，使弹片有形变，减小接触阻抗。
+		</p>
+	
+	
+		
+	</div>
+
+</body>
+</html>

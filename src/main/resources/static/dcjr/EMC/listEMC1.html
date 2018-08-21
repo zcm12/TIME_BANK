@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>汽车电子设备电磁兼容性改进措施</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">汽车电子设备电磁兼容性改进措施</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：随着汽车电控技术的不断发展，汽车电子设备数量大大增加，工作频率逐渐提高，功率逐渐增大，使得汽车工作环境中充斥着电磁波，导致电磁干扰问题日益突出，轻则影响电子设备的正常工作，重则损坏相应的电器元件。因此
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 随着汽车电控技术的不断发展，汽车电子设备数量大大增加，工作频率逐渐提高，功率逐渐增大，使得汽车工作环境中充斥着电磁波，导致电磁干扰问题日益突出，轻则影响电子设备的正常工作，重则损坏相应的电器元件。因此，汽车电子设备的电磁兼容性能越来越受重视,目前迫切要求能广泛应用针对汽车子设备的电磁改进技术。
+		</p>
+
+		<h2 align="left">电磁干扰的来源</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">汽车电子设备工作在行驶环境不断变化的汽车上，环境中电磁能量构成的复杂性和多变性，意味着系统所受到的电磁干扰来源比较广泛。按照电磁干扰的来源分类，可分为车外电磁干扰、车体静电干扰和车内电磁干扰。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1. 车外电磁干扰
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">车外电磁干扰是汽车行驶中经历各种外部电磁环境时所受的干扰。这类干扰存在于特定的空间或是特定的时间。如高压输电线、高压变电站和大功率无线电发射站的电磁干扰，以及雷电、太阳黑子辐射电磁干扰，等等。环境中其它临近的电子设备工作时也会产生干扰，例如行驶中相距较近的汽车。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2. 车体静电干扰
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">车体静电干扰与汽车和外部环境都有关。由于汽车行驶时车体与空气高速摩擦，在车体上形成不均匀分布的静电。静电放电会在车体上形成干扰电流，同时产生高频辐射，对汽车电子设备形成电磁干扰。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3.车内电磁干扰
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">车内电磁干扰是汽车电子设备工作时内部的相互干扰，包括电子元器件产生的电子噪声，电机运行中换向电刷产生的电磁干扰以及各种开关工作时的放电干扰，最严重的是汽车点火系统产生的高频辐射，其干扰能量最大。
+		</p>
+		
+		<h2 align="left">电磁干扰的途径及原理</h2>
+		 <p style="text-indent: 2em;padding: 3px 0px;">电磁干扰按干扰途径分类，主要分为传导干扰、感应干扰和辐射干扰，对应的干扰原理如下。
+		 </p>
+		 <p style="text-indent: 2em;padding: 3px 0px;">传导干扰
+		 </p>
+		 <p style="text-indent: 2em;padding: 3px 0px;">传导干扰主要通过电路的共用导体传播，典型的结构是共电源线和共地线，图1是典型传导干扰电路示意图。R为电源线上电阻，Z为地线上电阻，U为支路电压，I为支路电流。
+		 </p>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc8_6.jpg">
+		</div>
+		<h3 align="center">图5：混合域示波器(MDO)将频谱分析仪、示波器和逻辑分析仪组合在一台仪表内，可以从全部三台仪器中产生同步的而且与时间关联的测量结果。图中显示的是泰克公司的MDO4000B。</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">MDO将混合信号示波器的功能和频谱分析仪的功能整合在一起。借助这种组合，你能够自动显示模拟信号特征、数字时序、总线事务以及射频并在这些信息基础上实现触发。一些MDO还能捕获或观察频谱和时域轨迹，包括射频幅度对时间、射频相位对时间以及射频频率对时间的关系曲线。射频幅度与时间轨迹如图6所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc1_1.jpg">
+		</div>
+		<h3 align="center">图1 传导干扰电路</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于各设备工作电压为
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc1_2.jpg">
+		</div>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">因此任意一个设备电流变化都会导致其它设备电压变化，产生干扰。要降低设备间的相互影响，需要减小R、Z和I值。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">感应干扰
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">感应干扰分为电感应干扰和磁感应干扰两种，其基本电路图如图2和图3。U1为导线1的电压，I1为导线1上电流，U2为导线2上的干扰电压，C12为两导线间的电容，C1g和C2g为导线1、导线2与地的电容，M12为两回路间互感，R为各电路的电阻。
+		</p>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc1_3.jpg">
+		</div>
+		<h3 align="center">图2  电感应干扰电路</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc1_4.jpg">
+		</div>
+		<h3 align="center">图3  磁感应干扰电路</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">对电感应电路，
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc1_5.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">，要减小U2可以减小C12、U1和R，或增大C2g;首要措施是减小C12，方法是增大导线距离或改变导线间介电参数。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对电感应电路,U2=M12(dI1/dt)，要减小U2，可以减小M12或减小I1变化率，基本措施是减小M12，对典型的两回路，
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc1_6.jpg">
+		</div>
+
+		<p style="text-indent: 2em;padding: 3px 0px;">，L1、L2为两回路长度，m0为真空磁导率，r为两回路导线段距离。因此增大r和减小回路面积都能减小M12。
+		
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">辐射干扰
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">辐射干扰由天线发射，由于通电的导线和电缆可视为等效天线，因此汽车电子设备的线束辐射干扰非常严重。根据Maxwell方程，典型单极天线的辐射电磁场为
+		</p>
+	
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc1_7.jpg">
+		</div>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">为球坐标，I为天线电流，l为天线长度，r为天线至场点的距离，w为角频率，e0为空气介电常数，，l为电磁波长。要减小H和E，可以减小I、l，或增大r。
+        </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">综上所述，车外电磁干扰随作用距离增大而减小，只有当其本身能量非常大，才能对相距较远的汽车电子设备产生影响。多年研究结果表明，大能量的电磁效应对人体健康存在危害，目前已经制定各种相应的电磁标准来限制这类干扰，使得汽车电子设备受其的影响减小。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">车体静电干扰和车内电磁干扰，因为干扰作用距离近，干扰时间长，干扰强度相对较大。由于汽车电子设备形成以蓄电池和交流发电机为核心电源以及车体为公共地的电气网络，各部分线束都会通过电源和地线彼此传导干扰，相邻导线间又有感应干扰，而不相邻导线间也因天线效应而辐射干扰，这就使得车内干扰综合了三种途径，干扰组成较多，覆盖的干扰频率较广，是汽车电子设备受到的主要电磁干扰。解决这两种电磁干扰问题，能同时提高汽车电子设备对车外电磁干扰的抗干扰能力，从而降低设备工作失常或是损坏的可能性。
+		</p>
+		<h2 align="left">提高电子设备电磁兼容性能的措施</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">汽车电子设备的电磁兼容性能包括两方面，一是电磁发射，衡量系统产生的电磁干扰的发射水平;二是电磁敏感度，衡量系统在工作时为实现预期技术指标而需要的抵抗电磁干扰的能力。根据前面的分析，要综合提高汽车电子设备的电磁性能，可以从三方面考虑，一是减小设备发射电磁干扰的强度;二是抑制电磁干扰的传输;三是降低设备电磁敏感部件接收干扰的强度。
+		</p>
+		<h2 align="left">减小设备的电磁干扰强度</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">优化设备的电气结构：汽车电子设备中闪光器是继电器触点结构，可以在触点前加电弧抑制器;电机为感性负载，可通过内部滤波电路降低电流噪声;各种电控单元的印刷电路板，要优化布线，降低电磁发射水平。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">选用合适的电子元器件：汽车上的各种控制单元，采用较低频的芯片有利于减少辐射干扰。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">降低设备的功率：在满足功能需求的情况下，降低设备的功率，可以减小干扰电压和电流，从而减小干扰强度。
+		</p>
+		<h2 align="left">抑制干扰的传输</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">屏蔽干扰源设备和相关线束：汽车中主要的电控系统使用的电控单元，应该采用屏蔽壳体封装。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">增加线束滤波：对较长的线束，为减小传导和辐射干扰，应在线束上增加滤波，比较方便的是套接合适的铁氧体磁环。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">合理规划线束：线束布置上使小功率敏感电路紧靠信号源，大功率干扰电路紧靠负载，尽可能分开小功率电路和大功率电路，减小线束间的感应干扰和辐射干扰。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">改进设备的接地：良好的接地布置和改进的地线搭接可以降低高频阻抗。汽车电子设备接地主要是就近接到车体以及线束屏蔽层接地。
+		</p>
+		<h2 align="left">降低设备接收干扰的强度</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">减小设备接收干扰的面积：线束应设计成最小长度、最小阻抗和最小环路面积，最好采用双绞线等回路面积小的供电方式。增大设备到干扰源的距离：在干扰设备布置不变的情况下，改造敏感部件的安装位置，增大到干扰源的距离。
+		</p>
+		<h2 align="left">电磁兼容性改进措施的试验研究</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">目前，电磁兼容仿真计算通常用来对车体结构的电磁性能进行初步估计。汽车电子设备的电磁性能主要以测试为依据，因此对改进措施着重进行试验研究。根据汽车整车及零部件的电磁兼容性法规GB18655-2002《用于保护汽车接收机的无线电骚扰特性的限值和测量方法》，对国内一种商务车型的电子设备进行了电磁兼容性测试，采用了综合改进措施，试验结果可以比较各种措施在实车运用中的效果。
+		</p>
+		<h2 align="left">雨刮电机的结构调整和内部滤波</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">雨刮电机是设备中典型的感性负载干扰源，功率较大，采用零部件测试方式对其测量，先对电机的换向器结构做了调整，并在电机内部对电路做了滤波处理。图4、图5是改进前后的结果，射频段干扰也有明显改进。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc1_8.jpg">
+		</div>
+		<h2 align="left">闪光器的电路滤波</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">闪光器是汽车设备中典型的触点型器件，工作时通断频繁，在线束上产生较大传导干扰，并由此产生较大辐射干扰。通过在闪光器附近加接0.1mF的电容，并在线束上套铁氧体磁环，构成低通滤波器，抑制其传导干扰，同时减小辐射干扰。测量采用整车测试的方式，图6、图7是改进前后的测试结果，在10MHz以上降低了干扰水平。
+		</p>
+		<h2 align="left">结语</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">汽车电子设备的电磁兼容性能在国内日益受到重视，它对提高国内汽车产品的竞争力也相当重要。通过对电子设备干扰源的分析，表明车内电磁干扰是设备所受的主要干扰，为减少系统的电磁干扰，需要采用文中的改进措施来提高汽车电子设备的电磁兼容性能，测试表明改进效果都比较明显。对大多数电气设备，增强电路滤波是比较通用的改进措施。
+		</p>
+		
+	</div>
+
+</body>
+</html>

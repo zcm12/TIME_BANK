@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PSR开关电源设计之EMC设计技巧</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">PSR开关电源设计之EMC设计技巧</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：本文是作者多年从事PSR原边反馈开关电源设计总结出的经验，上一章介绍了PSR原边反馈开关电源设计中变压器的“独特”设计方法，本章将继续为大家分享PSR原边反馈开关电源中的EMC设计技巧，希望能给大家的实际设计带来
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本文是作者多年从事PSR原边反馈开关电源设计总结出的经验，上一章介绍了PSR原边反馈开关电源设计中变压器的“独特”设计方法，本章将继续为大家分享PSR原边反馈开关电源中的EMC设计技巧，希望能给大家的实际设计带来帮助。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">先谈谈PCB Layout注意点：
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">大家都知道，EMC对地线走线毕竟有讲究，针对PSR的初级地线，可以分为4个地线，如图中所标示的三角地符号。这4个地线需采用“一点接地”的布局。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc5_1.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">先上电路图：<br>
+		1.C8的地线为电源输入地。<br>
+		2.R5的地为功率地。<br>
+		3.C2的地为小信号地。<br>
+		4.变压器PIN3的地为屏蔽地。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">这4个地的交接点为C8的负端，即：输入电压经整流桥后过C1到C8地，R5和变压器PIN3的地分别采用单独连线直接引致C8负端相连，连线尽量短；R5地线因考虑到压降和干扰应尽量宽些。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">C5,R10,U1PIN7和PIN8地线汇集致C2负端再连接于C8负端。
+		</p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">若为双面板，以上4条地线尽量不要采用过孔连接，不得以可以采用多个过孔阵列以减小过孔压降。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">以上地线布局恰当，产品的共模干扰会很小。
+	    </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">因PSR线路负载时工作在PFM状态下的DCM模式，DI/DT的增大和频率的提升，所以较难处理的是传导150K~5M差模干扰。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">就依图从左到右针对有影响EMC的元件进行逐个分析。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">1.保险丝
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">将保险丝换用保险电阻理论上来讲对产品效率是有负面影响的，但实际表现并不明显，所以保险丝可以采用10/1W的保险电阻来降低150K附近的差模干扰，对通过5级能耗并无太大影响，且成本也有所降低。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">2.C1,L2,C8
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">PSR工作在DCM模式，相对而言其输入峰值电流会大很多，所以输入滤波很重要。峰值电流的增大会导致低压输入时母线电压较低，且C8的温升也会增加；为了提高母线电压和降低C8的温升，需提高C1的容量和使用LOWESR的C1和C8。因为提高C1的容量后，C1和C8的工作电压会上升，在输出功率不变的情况下，输入的峰值电流就会降低。因L2的作用，实际表现为增加C1的容量比增加C8的容量抑制EMC会更有效。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">一般取C1为6.8uF，C8为4.7uF效果较好，若受空间限制，采用8.2u与3.3u也比采用2个2.7u的EMC抑制效果好。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">L2一般从成本考虑采用色环电感，因色环电感的功率有限，电感量太大会严重影响效率，一般取330u~2mH,L2一般从成本考虑采用色环电感，因色环电感的功率有限，电感量太大会严重影响效率，一般取330u~2mH,
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">因为“一点接地”的布局汇集点在C8的负端，在C8负端输入电流的方向是经过C1和BD1流回输入端，根据传导测试的原理，这样产生消极影响，所以需在 C1与C8的地线上作处理，有空间的可以再中间增加磁珠跳线，空间受限可以采用PCBlayout曲线来实现，虽然效果会弱些，但相比直线连接会改善不 少。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">3.R6,D2,R2,C4
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">RCD吸收对EMC的影响大家都应该已经了解，这里主要说下R6与D2对EMC的影响。R6的加入和D2采用恢复时间较慢的1N4007对空间辐射有一定的负作用，但对传导有益。所以在整改EMC时此处的修改对空间辐射与传导的取舍还得引起注意。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">4.R5
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">R5既为电流检测点也是限功率设置点。所以R5的取值会影响峰值电流也会影响OPP保护点。建议在OPP满足的情况下尽量取大些。一般不低于2R，建议取2.2R。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">5.R4,R10,D3,R3,C2
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在前部分有提到VCC电压的升高对EMC有恶性影响。因IC内部的检测有采用积分电路，所以当VCC电压设置过高，就需要更长的积分时间，在周期不变的 情况下，TON的时间就会增加，输出功率不变的情况下MOS的峰值电流就会增加，在RCD和D4的吸收R7,C11上的峰值都会增加，且D3,R3,C2 也对VCC有下拉和吸收作用，会使输出电压的过冲加剧，同时影响延时检测的开启时间。这一系列的变化对EMC的影响是不可忽视的。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">根据经验，结合变压器漏感考虑，VCC电压在满载事最大值不宜超过19V，所以为使空载时VCC不至于太低导致荡机，建议VCC电压设计在15V，变压器漏感最大不宜超过15%.
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">6.C5
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">C5是IC内部延时检测补偿设置端。C5的取值大了会导致电压检测的周期加长，小了会导致电压检测的周期变短。检测周期的变化会影响电压的采样率，也就会影响整个产品各处的电流纹波，对EMC也会造成一定影响，一般选取0.01~0.1uF。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">7.C3,C7
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">前面提到C3和C7的容量取值对输出电压过冲的抑制作用和维持产品的稳定性。但C3,C7的容量也不是越大越好，它会对EMC起消极作用。C3,C7容量的加大同样会导致第5点讲到的峰值电流加大，所以不能盲目选择。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">对PSR原边反馈控制开关电源的设计和调试经验讲解到此就告一段落了，希望能给大家的实际设计带来帮助。
+		</p>
+	</div>
+
+</body>
+</html>

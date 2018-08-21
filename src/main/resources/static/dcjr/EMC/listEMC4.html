@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>开关电源变压器屏蔽层抑制共模EMI的研究</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">开关电源变压器屏蔽层抑制共模EMI的研究 </h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;"> 导读：　摘要： 以反激式开关电源为例，在分析其高频变压器形成共模传导EMI 机理的基础上，探讨了在变压器设计中设置屏蔽层以抑制共模传导EMI 的原理。给出了具体的设计方法，并应用于具体产品的设计中。试验测试表明，屏蔽
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 摘要： 以反激式开关电源为例，在分析其高频变压器形成共模传导EMI 机理的基础上，探讨了在变压器设计中设置屏蔽层以抑制共模传导EMI 的原理。给出了具体的设计方法，并应用于具体产品的设计中。试验测试表明，屏蔽层的设置可以有效地抑制高频开关电源的共模传导EMI。由此进一步研究了屏蔽层在其他类型开关电源中应用的可行性。
+		</p>
+		
+		<h2 align="left"> 0 引言</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 电磁兼容（ Electromagnetic Compatibility，EMC）是指电子设备或系统在电磁环境下能正常工作，且不对该环境中任何事物构成不能承受的电磁骚扰的能力。它包括电磁干扰（EMI）和电磁敏感（EMS） 两方面。由于开关电源中存在很高的di /dt 和du /dt，因此，所有拓扑形式的开关电源都有电磁干扰的问题。目前克服电磁干扰的技术手段主要有：在电源的输入、输出端设置无源或有源滤波器，设置屏蔽外壳并接地，采用软开关技术和变频控制技术等。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">开关管开通后，变压器一次侧电流逐渐增加，磁芯储能也随之增加。当开关管关断后，二次侧整流二极管导通，变压器储能被耦合到二次侧，给负载供电。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_1.jpg">
+		</div>
+		<h3 align="center">图1 反激变换器</h3>
+
+	    <p style="text-indent: 2em;padding: 3px 0px;"> 在开关电源中，输入整流后的电流为尖脉冲电流，开关开通和关断时变换器中电压、电流变化率很高，这些波形中含有丰富的高频谐波。另外，在主开关管开关过程和整流二极管反向恢复过程中，电路的寄生电感、电容会发生高频振荡，以上这些都是电磁干扰的来源。开关电源中存在大量的分布电容，这些分布电容给电磁干扰的传递提供了通路，如图2 所示。图2 中，LISN 为线性阻抗稳定网络，用于线路传导干扰的测量。干扰信号通过导线、寄生电容等传递到变换器的输入、输出端，形成了传导干扰。变压器的各绕组之间也存在着大量的寄生电容，如图3 所示。图3 中，A、B、C、D 4 点与图1 中标识的4点相对应。
+	    </p>
+
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_2.jpg">
+		</div>
+		<h3 align="center">图2 反激式开关电源寄生电容典型的分布</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_3.jpg">
+		</div>
+		<h3 align="center">图3 变压器中寄生电容的分布</h3>
+	    <p style="text-indent: 2em;padding: 3px 0px;"> 在图1 所示的反激式开关电源中，变换器工作于连续模式时，开关管VT 导通后，B 点电位低于A 点，一次绕组匝间电容便会充电，充电电流由A 流向B;VT 关断后，寄生电容反向充电，充电电流由B 流向A。这样，变压器中便产生了差模传导EMI。同时，电源元器件与大地之间的电位差也会产生高频变化。由于元器件与大地、机壳之间存在着分布电容，便产生了在输入端与大地、机壳所构成回路之间流动的共模传导EMI 电流。
+	    </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">具体到变压器中，一次绕组与二次绕组之间的电位差也会产生高频变化，通过寄生电容的耦合，从而产生了在一次侧与二次侧之间流动的共模传导EMI 电流。交流等效回路及简化等效回路如图4所示。图4 中：ZLISN为线性阻抗稳定网络的等效阻抗；CP为变压器一次绕组与二次绕组间的寄生电容；ZG为大地不同点间的等效阻抗；CSG为输出回路与地间的等效电容；Z 为变压器以外回路的等效阻抗。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_4.jpg">
+		</div>
+		<h3 align="center">图4 变压器中共模传导EMI 的流通回路</h3>
+	
+		<h2 align="left">2 变压器中共模传导EMI 数学模型</h2>
+		 <p style="text-indent: 2em;padding: 3px 0px;">以图3 所示的变压器为例，最上层一次绕组与二次绕组间的寄生电容最大，是产生共模传导EMI 的主要原因，故以下主要分析这两层间分布电容对共模传导EMI 的影响，忽略变压器其他绕组对共模传导EMI 的影响。
+		 </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">设一次绕组有3 层，每层m 匝，二次绕组仅一层，为n 匝。当变压器磁芯中的磁通发生变化，便会同时在一次侧和次级产生感应电动势。根据叠加定理，可认为这是仅一次绕组有感应电动势、二次绕组电动势为零和仅二次绕组有感应电动势、一次绕组电动势为零两种情况的叠加。仅一次绕组有感应电动势、二次绕组电动势为零的情况如图5 所示。图5 中：e1为每匝一次绕组的感应电动势；C1x为一匝最外层一次绕组与二次绕组间的寄生电容。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_5.jpg">
+		</div>
+		<h3 align="center">图5 仅一次绕组有感应电动势的情况</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">在此情况下，由一次侧流向次级的共模电流为：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_6.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">在仅二次绕组有感应电动势、一次绕组电动势为零的情况如图6 所示。图6 中：e2为每匝二次绕组的感应电动势；C2x为一匝二次绕组与一次绕组最外层间的寄生电容。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_7.jpg">
+		</div>
+		<h3 align="center">图6 仅二次绕组有感应电动势的情况</h3>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">在此情况下，由次级流向一次侧的共模电流为：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_8.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 根据叠加原理，可得在一次侧最外层绕组和次级间流动的共模电流：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_9.jpg">
+		</div>
+		
+		<h2 align="left">3 屏蔽绕组抑制共模传导EMI 原理</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">根据图3 所示的结构。绕制变压器，并在交流整流滤波后增设13 mH 差模滤波电感和6. 8差模滤波电容，对开关电源进行传导EMI 测试，结果如图6 所示。由图6 可见，传导EMI 非常严重，不能通过电磁干扰测试。在交流整流前增设35 mH 共模滤波电感，传导EMI 测试结果如图7 所示，产品即可通过测试。比较测试结果可得出：在图3 所示的电路中，主要是由于大量共模传导EMI，才使电源不能通过电磁干扰测试。
+		</p>
+
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_10.jpg">
+		</div>
+		<h3 align="center">图7 变压器内部不设置屏蔽的传导EMI 测试结果</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">去掉共模滤波电感，在变压器中增设一次侧屏蔽绕组如图8 所示，并将E 与A 点（电容Cin正极）相连。此时，一次侧屏蔽绕组代替了原一次绕组的最外层，假设一次侧屏蔽绕组与二次绕组间的寄生电容与原变压器一次侧最外层绕组与二次绕组的寄生电容相同，则：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_11.jpg">
+		</div>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_12.jpg">
+		</div>
+		<h3 align="center">图8 变压器内部不设置屏蔽在电路中增设共模滤波电感的传导EMI 测试结果</h3>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">由式（4） 可知：在电路工作情况不变的状况下，共模电流i1的第一项减小为原来的1 /（2m +1），故传导EMI 减小了，测试结果如图9 所示。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于在共模传导EMI 的模型中输入滤波电容Cin是短路的，因此，若将E 与电容Cin负极相连，屏蔽绕组对传导EMI 的抑制效果与E 点、A 点相连的情况是一致的，测试结果如图10 和图11 所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_13.jpg">
+		</div>	
+		<h3 align="center">图9 变压器内部增设一次侧屏蔽绕组</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_14.jpg">
+		</div>
+		<h3 align="center">图10 变压器内部设置一次侧屏蔽绕组并将出线与输入滤波电容正极相连的传导EMI 测试结果</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_15.jpg">
+		</div>	
+		<h3 align="center">图11 变压器内部设置一次侧屏蔽绕组并将出线与输入滤波电容负极相连的传导EMI 测试结果</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">在变压器内部再增设次级屏蔽绕组如图12所示，并将E 点与A 点相连，将F 点与C 点相连，此时，一次侧屏蔽绕组与次级屏蔽绕组的感应电动势和寄生电容分布情况是基本一致的，近似有：
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_16.jpg">
+		</div>	
+		<p style="text-indent: 2em;padding: 3px 0px;">式（5）中：Cx为一侧屏蔽绕组与另一屏蔽绕组间的寄生电容值。结合式（3） 可知，通过两屏蔽绕组耦合的共模电流近似为零，但一次侧与次级屏蔽绕组不可能完全一致，因此，屏蔽绕组之间仍会有共模干扰电流，但得到了极大的衰减，测试结果如图13 所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_17.jpg">
+		</div>	
+		<h3 align="center">图12 变压器内部设置一次侧屏蔽绕组和次级屏蔽绕组</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_18.jpg">
+		</div>	
+		<h3 align="center">图13 变压器内部设置2 层屏蔽绕组的传导EMI 测试结果</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">如果将2 层屏蔽绕组换为2 层屏蔽铜箔，由于两层屏蔽铜箔感应电动势和寄生电容分布的分布更为相似，因此，对共模传导电流就有更好的抑制效果，测试结果如图14 所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc4_19.jpg">
+		</div>	
+		<h3 align="center">图14 变压器内部设置两层屏蔽铜箔的传导EMI 测试结果</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 理论及试验结果均表明：在变压器中增加屏蔽层，可以对共模传导EMI 起抑制作用，尤以两层铜箔的屏蔽效果最好。具体设计中，可根据电源共模传导EMI 的严重程度来选择相应的屏蔽措施。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于各类变换器中产生共模传导EMI 的机理是相同的，所以，上述共模传导干扰的模型和屏蔽层的设计方法同样适用于其他拓扑。
+		</p>
+		<h2 align="left">4 结语</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">4 结语
+		</p>
+		
+	</div>
+
+</body>
+</html>

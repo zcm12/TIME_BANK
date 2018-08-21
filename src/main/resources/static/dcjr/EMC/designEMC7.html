@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>高分辨率ADC应用要领</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">高分辨率ADC应用要领</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：当16位高分辨率ADC是由运算放大器 (op amp) 所驱动时，为了使复合式ADC和放大器能达到16位性能，在其它条件相同的状况下，驱动放大器必须具有远超过1LSB或0.0015%的增益精度。为了要达到这种精度水平，在选择放大器时当16位高分辨率ADC是由运算放大器 (op amp) 所驱动时，为了使复合式ADC和放大器能达到16位性能，在其它条件相同的状况下，驱动放大器必须具有远超过1LSB或0.0015%的增益精度。为了要达到这种精度水平，在选择放大器时有两个其增益误差有关的限制。
+		</p>
+		<h2 align="left">与放大器死循环增益</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">当16位高分辨率ADC是由运算放大器 (op amp) 所驱动时，为了使复合式ADC和放大器能达到16位性能，在其它条件相同的状况下，驱动放大器必须具有远超过1LSB或0.0015%的增益精度。为了要达到这种精度水平，在选择放大器时有两个其增益误差有关的限制。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">与放大器死循环增益相关的两个增益误差来源： 1. 因为放大器的有限环路增益而引起的增益误差 2. 因为死循环频宽不够所导致的增益误差在选择放大器时，都必须事先考虑以上两种误差来源 。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc7_1.jpg">
+		</div>
+		<h3 align="center">图1 表现AVO，β，1/Β和AVO及 β间关系的波德图  </h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">图1波德图例证了开回路增益 (AVO)，回授衰减元素 (β)，噪声增益 (1/ β)，和回路增益Aβ（或 AVO β @DC）间的关系，为非反相运算放大器电路的频率的功能。在非常低的频率下，开回路增益为100dB。这个放大器的主极点补偿位于10Hz 与100Hz间的极点上。在一个十进制数之后，这个开回路增益的坡度在增长的频度下为-20dB/十进制。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">回路增益Aβ的定义是开回路增益与闭回路增益之差；回路增益在回授理论中有特别的用途，可以告诉我们正在产生多少可用于控制讯号的开回路增益，它与增益误差或电路精度直接相关。如果一个放大器的开回路增益和回路增益很大，那么回授讯号βVOUT就将变成与输入讯号相似的复制结果。这就解释了为什么运算放大器的两个终端在使用大量的负电流回授时变得近乎相等。回授越大，回路增益越大，各输入之间就越紧密，所得的差数就是增益误差了。注意Aβ与开回路增益AVO一样，取决于频率，随频率的降低而降低。更高的回路增益相当于更高的精度。
+		</p>
+		<h2 align="left">有限闭回路增益误差所产生的闭回路误差 </h2>
+	    <p style="text-indent: 2em;padding: 3px 0px;">根据有限的开回路增益，可直接评估错误，在图1中，开回路增益(Aβ)被描述成开回路增益和噪声增益间的差。对于一个闭回路增益，噪声增益是40dB，因此，在AVO β @DC下，这个开回路增益为110dB 40dB = 70Db。注意回授元素β是固定的，但是因为AVO 随着频率的降低而降低，所以开回路增益也必须随着频率的降低而降低。因此，由于增益精度或增益误差是回路增益的功能，那它也成为频率的功能。上面的例子中，于1Hz时的开回路增益为70dB，这显示了1/1000或者0.03%（12位精度）的增益误差。然而，在1Hz的频率下，对于一个40dB的开回路增益，AVO 已降至80dB或者1.0% （6位精度）。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">如果放大器作为一个整体增益缓冲器来配置，整体上会达到开回路增益，此时开回路增益应该等于AVO。因此，在1kHz，我们具有完全的80dB的开回路增益，误差降低到0.01%，这个误差要大于13位精度的误差。然而，在100kHz下，我们又回到了1%的误差。这个问题是由于精度随着频率在降低，误差以20dB/decade的速率迅速积聚。因此对于每十位数的频率增长，误差以10或10N的形式增长，其中N是取自参考频率增长的十位数量。如果需要达到更好的性能，对应的解决方案应是采用一个带有更大频宽的放大器。
+	    </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">作者简介：Nicholas Gray 任职于美国国家半导体公司数据转换系统部应用工程师，电子邮件:nicholas.gray@nsc.com
+		</p>
+		
+	</div>
+
+</body>
+</html>

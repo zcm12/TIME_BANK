@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>tech3.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(tech.css)
+</style>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">非常好的静电保护(ESD)原理和设计（上）</h1>
+	</div>
+	
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">一直想给大家讲讲ESD的理论，很经典。但是由于理论性太强，任何理论都是一环套一环的，如果你不会画鸡蛋，注定了你就不会画大卫。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 先来谈静电放电(ESD: Electrostatic Discharge)是什么？这应该是造成所有电子元器件或集成电路系统过度电应力破坏的主要元凶。
+		因为静电通常瞬间电压非常高(>几千伏)，所以这种损伤是毁灭性和永久性的，会造成电路直接烧毁。所以预防静电损伤是所有IC设计和制造的头号难题。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 静电，通常都是人为产生的，如生产、组装、测试、存放、搬运等过程中都有可能使得静电累积在人体、仪器或设备中，甚至元器件本身也会累积静电，
+		当人们在不知情的情况下使这些带电的物体接触就会形成放电路径，瞬间使得电子元件或系统遭到静电放电的损坏(这就是为什么以前修电脑都必须要配戴静电环托在工作桌上，防止人体的静电损伤芯片)，
+		如同云层中储存的电荷瞬间击穿云层产生剧烈的闪电，会把大地劈开一样，而且通常都是在雨天来临之际，因为空气湿度大易形成导电通到。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech3_1.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 那么，如何防止静电放电损伤呢？首先当然改变坏境从源头减少静电(比如减少摩擦、少穿羊毛类毛衣、控制空气温湿度等)，当然这不是我们今天讨论的重点。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">  我们今天要讨论的时候如何在电路里面涉及保护电路，当外界有静电的时候我们的电子元器件或系统能够自我保护避免被静电损坏(其实就是安装一个避雷针)。
+		这也是很多IC设计和制造业者的头号难题，很多公司有专门设计ESD的团队，今天我就和大家从最基本的理论讲起逐步讲解ESD保护的原理及注意点，你会发现前面讲的PN结/二极管、三极管、MOS管、snap-back全都用上了。。。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 以前的专题讲解PN结二极管理论的时候，就讲过二极管有一个特性：正向导通反向截止，而且反偏电压继续增加会发生雪崩击穿而导通，
+		我们称之为钳位二极管(Clamp)。这正是我们设计静电保护所需要的理论基础，我们就是利用这个反向截止特性让这个旁路在正常工作时处于断开状态，而外界有静电的时候这个旁路二极管发生雪崩击穿而形成旁路通路保护了
+		内部电路或者栅极(是不是类似家里水槽有个溢水口，防止水龙头忘关了导致整个卫生间水灾)。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 那么问题来了，这个击穿了这个保护电路是不是就彻底死了？难道是一次性的？答案当然不是。PN结的击穿分两种，分别是电击穿和热击穿，
+		电击穿指的是雪崩击穿(低浓度)和齐纳击穿(高浓度)，而这个电击穿主要是载流子碰撞电离产生新的电子-空穴对(electron-hole)，所以它是可恢复的。但是热击穿是不可恢复的，因为热量聚集导致硅(Si)被熔融烧毁了。
+		所以我们需要控制在导通的瞬间控制电流，一般会在保护二极管再串联一个高电阻。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">另外，大家是不是可以举一反三理解为什么ESD的区域是不能form Silicide的？还有给大家一个理论，ESD通常都是在芯片输入端的Pad旁边，
+		不能在芯片里面，因为我们总是希望外界的静电需要第一时间泄放掉吧，放在里面会有延迟的(关注我前面解剖的那个芯片PAD旁边都有二极管。甚至有放两级ESD的，达到双重保护的目的。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech3_2.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 在讲ESD的原理和Process之前，我们先讲下ESD的标准以及测试方法，根据静电的产生方式以及对电路的损伤模式不同通常分为四种测试方式：
+		人体放电模式(HBM: Human-Body Model)、机器放电模式(Machine Model)、元件充电模式(CDM: Charge-Device Model)、电场感应模式(FIM: Field-Induced Model)，
+		但是业界通常使用前两种模式来测试(HBM, MM)。
+		</p>
+		<h2 align="left"> 1、人体放电模式(HBM)：</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">就是人体摩擦产生了电荷突然碰到芯片释放的电荷导致芯片烧毁击穿，秋天和别人触碰经常触电就是这个原因。业界对HBM的ESD标准也有迹可循
+		(MIL-STD-883C method 3015.7，等效人体电容为100pF，等效人体电阻为1.5Kohm)，或者国际电子工业标准(EIA/JESD22-A114-A)也有规定，看你要follow哪一份了。
+		如果是MIL-STD-883C method 3015.7，它规定小于<2kV的则为Class-1，在2kV~4kV的为class-2，4kV~16kV的为class-3。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech3_3.png">
+		</div>
+		<h2 align="left">2、机器放电模式(MM)：</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">就是机器(如robot)移动产生的静电触碰芯片时由pin脚释放，次标准为EIAJ-IC-121 method 20(或者标准EIA/JESD22-A115-A)，
+		等效机器电阻为0 (因为金属)，电容依旧为100pF。由于机器是金属且电阻为0，所以放电时间很短，几乎是ms或者us之间。但是更重要的问题是，由于等效电阻为0，所以电流很大，
+		所以即使是200V的MM放电也比2kV的HBM放电的危害大。而且机器本身由于有很多导线互相会产生耦合作用，所以电流会随时间变化而干扰变化。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech3_4.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">  ESD的测试方法类似FAB里面的GOI测试，指定pin之后先给他一个ESD电压，持续一段时间后，然后再回来测试电性看看是否损坏，
+		没问题再去加一个step的ESD电压再持续一段时间，再测电性，如此反复直至击穿，此时的击穿电压为ESD击穿的临界电压(ESD failure threshold Voltage)。通常我们都是给电路打三次电压(3 zaps)，
+		为了降低测试周期，通常起始电压用标准电压的70% ESD threshold，每个step可以根据需要自己调整50V或者100V。
+		</p>
+			<div align="center">
+			<img alt="图片找不到" src="techImg/tech3_5.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">另外，因为每个chip的pin脚很多，你是一个个pin测试还是组合pin测试，所以会分为几种组合：I/O-pin测试(Input and Output pins)、
+		pin-to-pin测试、Vdd-Vss测试(输入端到输出端)、Analog-pin。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">  1. I/O pins：就是分别对input-pin和output-pin做ESD测试，而且电荷有正负之分，所以有四种组合：input+正电荷、
+		input+负电荷、output+正电荷、output+负电荷。测试input时候，则output和其他pin全部浮接(floating)，反之亦然。
+		</p>
+			<div align="center">
+			<img alt="图片找不到" src="techImg/tech3_6.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">   2. pin-to-pin测试: 静电放电发生在pin-to-pin之间形成回路，但是如果要每每两个脚测试组合太多，
+		因为任何的I/O给电压之后如果要对整个电路产生影响一定是先经过VDD/Vss才能对整个电路供电，所以改良版则用某一I/O-pin加正或负的ESD电压，其他所有I/O一起接地，但是输入和输出同时浮接(Floating)。
+		</p>
+			<div align="center">
+			<img alt="图片找不到" src="techImg/tech3_7.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 3、Vdd-Vss之间静电放电：只需要把Vdd和Vss接起来，所有的I/O全部浮接(floating)，这样给静电让他穿过Vdd与Vss之间。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech3_8.png">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 4、Analog-pin放电测试：因为模拟电路很多差分比对(Differential Pair)或者运算放大器(OP AMP)都是有两个输入端的，
+		防止一个损坏导致差分比对或运算失效，所以需要单独做ESD测试，当然就是只针对这两个pin，其他pin全部浮接(floating)。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="techImg/tech3_9.png">
+		</div>
+		<h3 align="left">未完待续：非常好的静电保护(ESD)原理和设计（下）</h3>
+	</div>
+  </body>
+</html>

@@ -1802,6 +1802,76 @@ public class UsersExample {
             return (Criteria) this;
         }
 
+        public Criteria andUserCurrentaddrIsNull() {
+            addCriterion("USER_CURRENTADDR is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrIsNotNull() {
+            addCriterion("USER_CURRENTADDR is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrEqualTo(String value) {
+            addCriterion("USER_CURRENTADDR =", value, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrNotEqualTo(String value) {
+            addCriterion("USER_CURRENTADDR <>", value, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrGreaterThan(String value) {
+            addCriterion("USER_CURRENTADDR >", value, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrGreaterThanOrEqualTo(String value) {
+            addCriterion("USER_CURRENTADDR >=", value, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrLessThan(String value) {
+            addCriterion("USER_CURRENTADDR <", value, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrLessThanOrEqualTo(String value) {
+            addCriterion("USER_CURRENTADDR <=", value, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrLike(String value) {
+            addCriterion("USER_CURRENTADDR like", value, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrNotLike(String value) {
+            addCriterion("USER_CURRENTADDR not like", value, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrIn(List<String> values) {
+            addCriterion("USER_CURRENTADDR in", values, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrNotIn(List<String> values) {
+            addCriterion("USER_CURRENTADDR not in", values, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrBetween(String value1, String value2) {
+            addCriterion("USER_CURRENTADDR between", value1, value2, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCurrentaddrNotBetween(String value1, String value2) {
+            addCriterion("USER_CURRENTADDR not between", value1, value2, "userCurrentaddr");
+            return (Criteria) this;
+        }
+
         public Criteria andUserIdimageZIsNull() {
             addCriterion("USER_IDIMAGE_Z is null");
             return (Criteria) this;

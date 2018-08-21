@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>高精确度与分辨率模拟数字转换器布线技术</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">高精确度与分辨率模拟数字转换器布线技术</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;">导读：转换器在新设计型态改进下，大多模拟数字转换器多变成数字式。即使如此的改变，电路布线的设计并无改变，本文将介绍使用连续逼近缓存器型与Sigma-Delta型的模拟数字转换器之布线方式。最初模拟数字转换器在芯片中大部
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">转换器在新设计型态改进下，大多模拟数字转换器多变成数字式。即使如此的改变，电路布线的设计并无改变，本文将介绍使用连续逼近缓存器型与Sigma-Delta型的模拟数字转换器之布线方式。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">最初模拟数字转换器在芯片中大部份仍为模拟的电路组成。由于新设计型态的改进，慢速的模拟数字转换器大多变成数字式。即使在芯片中从模拟变成数字，电路板布线工作并没有改变。目前仍如此，布线设计者在处理混合讯号电路时，想使布线成效良好，仍需基本的布线常识。本文将探讨使用连续逼近缓存器型（SAR）与Sigma-Delta型的模拟数字转换器之电路板布线方式。连续逼近缓存器型转换器布线
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">SAR 模拟数字转换器之分辨率有 8 位、10 位、12 位、16 位，有时也有 18 位。起初，些转换器之制造程序和结构，分别是双载子及 R-2R阶梯电阻网络。但最近这些组件已变成为使用电容充电分配技术的 CMOS 制造程序，这些转换器的系统布线方式，不会随这个转变而改变。除高分辨率组件外，布线的基本方式仍然不变。这些组件需要多加注意，以避免转换器串行或并列输出接口的数字回授。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">就电路系统与芯片上不同的方块结构来评估，SAR 转换器显然是属于模拟装置。
+		</p>
+	    <div align="center">
+		<img alt="图片找不到" src="imgs/designemc10_1.jpg">
+		</div>
+		<h3 align="center">图一 所示为 12 位CMOS SAR 转换器的方块图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">本转换器使用充电分配至电容数组图一12 位CMOS SAR 模拟数字转换器的方块图在本方块图中，取样/保持、比较器、大部份的数字模拟转换器及12位SAR都是模拟；其余电路部份是数字。结果，本转换器内之模拟电路耗用大部份的电源与电流，除数字模拟转换器与接口中发生的小量切换电流外，数字电路的消耗电流极少。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">这类转换器具有数支接地与电源接脚。这些接脚名称经常被误解为可依其脚位名称来区别数字或模拟。但这些脚位名称并明确无表示，与系统和电路板连接之意义，它们是区别数字与模拟电流如何流出芯片。知道这项信息并了解芯片主要组成部份是模拟，让电源与接地线放在同一平面上，例如模拟面就变得有意义。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">例如，10 位与 12 位转换器典型样本的脚位排列如图二所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc10_2.jpg">
+		</div>
+		<h3 align="center">图二 MCP3201和MCP3008 芯片脚位排列图</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">不管分辨率高低，通常至少有两个接地连结：AGND 与 DGND；此处图解的转换器为Microchip 的 MCP4008 与 MCP3001图二SAR 转换器
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">这些组件通常有两支接地脚从芯片拉出：AGND 与 DGND。电源只用一只脚位。进行这种芯片之电路板布线时，AGND 与 DGND 应连至模拟接地面；模拟与数字电源接脚也应连接至模拟电源层，或至少连接至模拟电源走线，加入适当的旁路电容且尽可能靠近接地与电源接脚端。这些组件如同 MCP3201只有一支接地脚及一支电源接脚的唯一原因，是因为包装脚数之限制。但是，若将数字与模拟接脚分开会使转换器得到良好的精确度与重现性。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">所有转换器的电源布线方式是：连接所有接地、正与负电源接脚至模拟面。此外，连接与输入信号相关的「COM」或「IN」接脚时应尽可能靠近信号接地。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">高分辨率的 SAR 转换器 （16 与 18 位转换器），需要考虑从安静之模拟转换器与电源层分离出数字噪声。当连接这些组件至微控制器时，应使用外部数字缓冲器以达到干净的操作环境；虽然这些类型的SAR转换器通常在数字输出端具有内部双缓冲器，外部缓冲器的使用进一步将转换器内的模拟电路与数字总线噪声隔离。对这种系统适当电源处理方式如图三所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/designemc10_3.jpg">
+		</div>
+		<h3 align="center">图三  SAR转换器内部结构</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">使用高分辨率 SAR 模拟数字转换器，转换器电源与接地应连接至模拟面。模拟数字转换器的数字输出应有缓冲器，使用外部三态输出缓冲器。这些缓冲器隔开模拟面与数字面，并提供高驱动能力。图三使用高分辨率 SAR 模拟数字转换器，转换器电源与接地应连接至模拟面
+		</p>
+		<h2 align="left">精确的Sigma-Delta布线方式</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">精确的Sigma-Delta 型模拟数字转换器在芯片内绝大多数是数字。早期在制造出这种转换器时，使用者藉由电路板铜箔面将数字噪声与模拟噪声分开。SAR 模拟数字转换器则可能有多支模拟接地脚、数字接地脚与电源接脚。再一次，数字或模拟设计工程师的一般倾向是将这些接脚分别接到各个接地或电源面上。很不幸的，这个倾向会产生误导，特别是在解 16 至 24 位精确组件的噪声问题时。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">一具有10Hz数据转换率的高分辨率Sigma-Delta转换器，其频率（内部或外部）可以高达 10MHz 或 20MHz。这个高频频率用以维持调变器与超取样引擎电路之运转。如同SAR 转换器的情形，这个组件的AGND 与 DGND 接脚是接到同一接地面上。此外，模拟与数字之电源接脚应连接在一起，而且在电路板之同一层上更好。模拟与数字对电源面的要求条件与高分辨率 SAR 转换器相同。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">接地面是一定需要的，也就是说至少需使用双层板。在这块双层板上，接地面应覆盖至少 75％ 的范围。这个接地面的目的是，降低接地电阻及电感，并隔离电磁干扰与无线电波干扰。如果无法避免信号走线通过电路板的接地面上，信号走线尽可能地短并与接地电流返回路径垂直。
+		</p>
+		<h2 align="left">结论</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">无须分开低分辨率模拟数字转换器──例如6位、8位，或甚至可能是10位转换器的模拟与数字接脚。但随着选用的转换器分辨率/精确度的增加，布线条件也变得更严格。高分辨率SAR与 Sigma-Delta模拟数字转换器， 这两种组件必须直接连接到较低噪声的模拟接地与电源层。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">本文原文刊载于零组件杂志，作者任职于Microchip Technology
+		</p>
+	</div>
+
+</body>
+</html>

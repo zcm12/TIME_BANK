@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>case1.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(case.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">医疗产品静电抗扰度案例 </h1>
+	</div>
+
+	<div id="content">
+		<h2 align="left">1. 现象描述</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 医疗器械操作键盘按键处如图1所示，在对按键进行空气放电±8KV时，如图2所示，出现主控系统复位现象，但系统断电重启后可正常工作。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case1_1.png">
+		</div>
+		<h3 align="center">图1 操作键盘</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case1_2.png">
+		</div>
+	    <h3 align="center"> 图2 键盘按键静电放电测试图</h3>
+		<h2 align="left">2. 原因分析</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 根据实验现象分析，对键盘按键进行空气放电使主控板出现复位现象的原因有两种：
+		</p>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">  其一，静电干扰经信号线传导进入主控板，主控板静电防护不到位，使主控板复位；<br>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 其二，静电放电的过程中产生瞬间大电流，干扰以空间辐射的方式干扰到主控板，主控板抗辐射干扰性能差，导致复位拆开样机，如图3所示，观察发现，键盘
+
+   排线连接至主控板，且只有一根地线放在排线一侧，如图4所示；现对干扰路径进行判断，首先判断静电干扰是经信号排线传导进入主控板，还是干扰以空间辐射的方式干扰主控板，措施如下：<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先，将系统复位，开机使其恢复正常功能，然后拔掉排线，对键盘按键进行±8Kv空气放电，放电完成后将排线恢复原始位置，发现主控工作正常，说明拔掉信号排线后，对键盘按键进行空气放电，主控未受影响；<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其次，将信号排线恢复原样后对键盘按键进行±8Kv空气放电，发现主控板复位；由此可判定，静电干扰是经信号排线以传导的方式进入主控板，使主控板复位。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case1_3.png">
+		</div>
+		<h3 align="center">图3键盘按键背部电路图</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case1_4.png">
+		</div>
+		<h3 align="center">图4 电路板经扁平排线与键盘连接</h3>
+		<h2 align="left">3. 改进措施</h2>
+	    <p style="text-indent: 2em;padding: 3px 0px;"> 由于静电干扰经信号排线进入主控板，使其复位；由此可采用两种方案，
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 方案一：切断干扰信号的传导路径，即对线缆进行处理，由于排线仅有一根地线放在排线一侧，不能为静电干扰信号提供良好的地回路，以泄放干扰；故用导电胶带对信号排线进行屏蔽处理，并使其接地，如图5所示，以此为干扰信号提供低阻抗的回路，进而减少进入主控板的干扰；
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case1_5.png">
+		</div>
+		<h3 align="center">图5对扁平线缆进行处理</h3>
+	    <p style="text-indent: 2em;padding: 3px 0px;">  方案二：经查看，扁平排线连接器处无静电防护器件，考虑在连接器处放置静电防护器件，提高主控板抗静电水平，在各信号线处增加对地电容，如图6所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/case1_6.png">
+		</div>
+		<h3 align="center">图6对电路连接器处信号进行防护</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">对上述两种方案分别进行验证，对方案一验证，发现对信号排线进行屏蔽接地处理，在对键盘按键进行±8Kv空气放电时，主控板依旧出现复位现象；对方案二进行验证，对每根信号线加对地电容2.2nF，对键盘按键进行空气±8Kv静电放电，发现主控板无复位现象，但键盘按键不灵敏，部分按键延时，怀疑电容值过大引起，将2.2nF电容换成1nF后重新进行试验，发现主控无复位现象出现，同时键盘按键反应灵敏，正常工作。
+		</p>
+	    <p style="text-indent: 2em;padding: 3px 0px;"> 最终对信号排线与线路板连接器处进行防护，在屏幕排线与控制板接口信号线处的信号线各增加1nF对地电容，最终顺利通过空气放电±8KV测试。
+		</p>
+		<h2 align="left">4.思考与启示</h2>
+		 <p style="text-indent: 2em;padding: 3px 0px;"> （1）信号排线尽可能地采用S-G-S-G的方式，以保证为干扰信号提供低阻抗的回路；<br>
+
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2）在电路板的I/O连接器处应放置静电防护器件，或预留防护器件位置，以便于处理可能出现的静电问题。
+		</p>
+		
+	</div>
+
+</body>
+</html>

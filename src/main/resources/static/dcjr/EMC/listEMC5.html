@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>EMC技术在DSP控制系统中的应用</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+<style type="text/css">
+	@import url(emc.css)
+</style>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+	<div>
+		<h1 align="center">EMC技术在DSP控制系统中的应用</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 2em;padding: 3px 0px;"> 导读：摘 要：本文深入细致地分析了DSP控制系统的信号完整性问题,从PCB设计和软件设计两方面,提出电磁兼容性设计的方案。在教学过程中增加该实例的讲解,使得抽象的电磁兼容理论具体化。这样,学生的知识面得到扩展,对电磁兼
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 摘 要：本文深入细致地分析了DSP控制系统的信号完整性问题,从PCB设计和软件设计两方面,提出电磁兼容性设计的方案。在教学过程中增加该实例的讲解,使得抽象的电磁兼容理论具体化。这样,学生的知识面得到扩展,对电磁兼容理论的理解会更加透彻,电磁兼容性设计的能力也会相应提高。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 关键词：电磁兼容;电磁干扰;信号完整性
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 电磁兼容EMC是电子、电气设备或系统的一种重要技术性能。所谓电磁兼容性是指设备或系统能在所处的电磁环境中正常工作,同时又不对该环境中的其他任何事物构成干扰的能力。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;"> 基于DSP的控制系统是一个高速复杂的数模混合系统,在工业过程中会受到各种干扰,使得系统不能正常运行。同时,DSP系统又不可避免地向外辐射电磁波,对周围的电子设备产生干扰。因此,抑制系统的电磁干扰,提高系统电磁兼容性,成为设计DSP控制系统必须考虑的因素[1]。笔者在教学中发现,学生对EMC的理解不够透彻,对EMC设计了解太少。本文旨在通过对DSP控制系统中EMC设计实例的分析,加深学生对电磁兼容技术的理解。
+		</p>
+		<h2 align="left">1 电磁兼容技术</h2>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">电磁兼容主要包括两方面内容:电磁干扰EMI和电磁耐受性EMS,如图1所示。从图1可以看出,电磁兼容问题主要从传导和辐射两方面进行分析。电子系统电磁兼容设计的目标就是找到一种性价比最优的方式,来降低受试设备[2]EUT对外发射的电磁干扰强度,并提高受试设备自身的电磁干扰耐受性。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc5_1.jpg">
+		</div>
+		<h3 align="center">图1 电磁兼容基本内容</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">无论是复杂的系统还是简单的电子元件,任何一个电磁干扰的产生都必须具备三要素[3]:电磁干扰源、传播途径和敏感设备。其传播途径包括无线辐射、有线传导及地线耦合,如图2所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc5_2.jpg">
+		</div>
+		<h3 align="center">图2 电磁干扰三要素</h3>
+		
+		
+		<p style="text-indent: 2em;padding: 3px 0px;"> 上图给出三要素之间的关系,电磁干扰源产生的电磁干扰,在一定条件下,通过一定的传播途径到达敏感设备,从而对敏感设备产生干扰。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">为分析和设计电子系统或设备的电磁兼容性,必须分清这三要素。复杂的系统中干扰源和敏感设备间并没有明显的界线,很可能同时存在多个干扰源。干扰的传播也会存在很多渠道,既有传导耦合,也有辐射耦合。
+		</p>
+		
+		<h2 align="left">2 高速电子系统的信号完整性</h2>
+		
+	    <p style="text-indent: 2em;padding: 3px 0px;"> 信号完整性[4]是指传输的信号质量及信号定时的准确性,即在要求的时间内信号完整地从始端传输到终端。信号完整性缺失不是由单一元素引起的,而是系统中的多个因素共同决定的。
+	    </p>
+	    <p style="text-indent: 2em;padding: 3px 0px;">在高速数字系统中,导线已不仅是单纯的导体,而是一条具有分布参数的传输线。高速数字系统的信号互连较复杂,布线密度大。系统中各导体间的串扰、多电源间的干扰、D/A间的干扰等都成为影响信号完整性的因素。
+	    </p>
+	    <h2 align="left">3 DSP控制系统的电磁兼容性设计</h2>
+	    <p style="text-indent: 2em;padding: 3px 0px;">典型的DSP控制系统如图3所示。该系统由DSP芯片(包括DSP控制核心、DSP片内外设ADC模块和I/O模块等)、同DSP片内外设I/O模块相连的驱动模块、信号采集模块以及被控制对象组成。
+	    </p>
+		
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc5_3.jpg">
+		</div>
+		<h3 align="center">图3 典型DSP控制系统</h3>
+	    
+	    <h2 align="left">3.1 DSP控制系统的电磁干扰分析</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">DSP控制系统的电磁干扰信号会通过多种渠道进入系统,既可以以场的形式从空间耦合到系统,也可以沿各种线路侵入系统。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">DSP控制系统的工作频率较高,使得系统的中各分布电容和分布电感对系统的影响不可忽视。外界以及系统内部间的信号可以通过导体间的分布电容和分布电感耦合到其他回路,耦合原理如图4和图5所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc5_4.jpg">
+		</div>
+		<h3 align="center">图4 电容耦合原理</h3>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc5_5.jpg">
+		</div>
+		<h3 align="center">图5 电感耦合原理</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">图4所示导体1和导体2可以分别表示印刷电路板的时钟线和数据线,两导体对地都有分布电容C1g和C2g,两导体之间有分布电容C。分布电容C把两导体连接在一个电路中,使得流经两导体的信号产生串扰。假设图示的等效电路中,干扰源电压为Ui,则其耦合到导体回路2中的电压为
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc5_6.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">式中,X是Ui的角频率;R是导体2的电阻值。若R很小,且满足
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc5_7.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">上式表明,在导体2低阻时,电容耦合干扰只与两导体间的耦合电容C有关,在干扰源电压和频率恒定的情况下,我们可以通过导体的合适接地、屏蔽或隔离来减小C从而减小耦合电压U2。若R很大,且满足 
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc5_8.jpg">
+		</div>
+	    <p style="text-indent: 2em;padding: 3px 0px;">上式表明在导体2高阻时,电容耦合干扰不仅与导体间耦合电容C有关,还与导体2对地的容C2g有关。
+	    </p>
+		<p style="text-indent: 2em;padding: 3px 0px;">图5表示回路1中有交变电流I1流过时,产生的交变磁通通过回路2产生感应电动势,对回路2产生电磁干扰。
+		</p>
+	
+		 <p style="text-indent: 2em;padding: 3px 0px;">图中干扰源I1在负载阻抗Z1和Z2上产生的干扰电压分别为
+		 </p>
+		 
+		<p style="text-indent: 2em;padding: 3px 0px;">为了确定一块特定电路板上的能量源以及位于特定EMI问题中心的天线，你需要检查被观察信号的周期。信号的射频频率是多少？是脉冲式的还是连续的？这些信号特征可以使用基本的频谱分析仪进行监视。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">你还需要查看巧合性。待测设备(DUT)上的哪个信号与EMI事件是同时发生的？一般常见的做法是用示波器探测DUT上的电气信号。检查EMI问题与电气事件的巧合性无疑是EMI排查中最耗时间的工作。过去，将来自频谱分析仪和示波器的信息以同步方式关联在一起一直是很难做的一件事。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">然而，混合域示波器(MDO)的推出使情况有了改观，它能提供同步的而且与时间相关联的观察和测量功能。如图5所示的这种仪器能够相当容易地让我们观察哪个信号与哪个EMI事件同时发生，从而可以简化EMI排查过程。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc5_9.jpg">
+		</div>
+		<p style="text-indent: 2em;padding: 3px 0px;">式中,M为互感系数,S为回路2的回路面积,B为角频率为X的正弦磁通密度有效值,H为磁通与回路2的夹角。
+		</p>
+		
+		<p style="text-indent: 2em;padding: 3px 0px;">由式(4)和式(5)可知,减小B、S和cosH可以减小电感耦合干扰。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">另外,系统内部的数字电源和模拟电源引起的电磁干扰也非常严重。由于电源内阻的存在,干扰信号都会通过电源内阻或地耦合电阻形成互扰,即所谓的公共阻抗干扰[5],如图6所示。
+		</p>
+		<div align="center">
+		<img alt="图片找不到" src="imgs/emc5_10.jpg">
+		</div>
+		<h3 align="center">图6 公共阻抗耦合</h3>
+		<p style="text-indent: 2em;padding: 3px 0px;">从图6可知,电路1和电路2的电流流经公共阻抗Z时,在其上产生的压降会使两个电路彼此产生耦合,从而恶化系统的电磁兼容性。
+		</p>
+		<h2 align="left">3.2 DSP控制系统抗干扰设计</h2>
+		<p style="text-indent: 2em;padding: 3px 0px;">3.2.1合理设计PCB板减小系统串扰
+		</p>
+	
+		<p style="text-indent: 2em;padding: 3px 0px;">串扰会随着印刷电路板导线布局密度的增加越趋严重,在PCB设计中要尽量做到以下几点,以此减小串扰的影响。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(1)为防止外界干扰通过图3所示的信号采集模块进入系统,可采用某些器件对信号进行隔离。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(2)为减小如图4所示的两相邻导体间的互电容C,可在导体间加接地屏蔽通路,在PCB相邻层上的布线要互相垂直,以防止层间的电容耦合。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(3)为改善电感耦合干扰,要尽量减小PCB中元件的物理尺寸[6]、并行信号线的长度和信号线到地的参考距离间隔,或增大信号线间距。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(4)电路元件要远离I/O接口及易受干扰的区域,做到敏感器件(如模拟器件)、强干扰元件(如功率器件)和数字器件合理分开;让电源线和地线单独引出,在电源供给处汇集到一点。必要时,加滤波器以隔离不同区域的噪声。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">(5)PCB布线时模拟电源引脚VCCA和VSSA要区别于数字电源引脚。采用单点接地[7],引脚的引线尽量短。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于干扰的存在,DSP控制系统程序可能会跳转到某些未知区域,导致程序跳转错位。实际应用中,我们可以采取以下措施来提高系统的电磁兼容性。<br>
+		(1)在软件的所有模块设置看门狗,一旦软件跳转会自动产生复位。<br>
+		(2)对于输入的开关信号进行延时防抖动,并辅之硬件低通滤波。<br>
+		(3)A/D转换采用数字滤波,以防止突发性干扰。如采用平均法和比较平均法[8]等。<br>
+		(4)利用特有的外设控制字,设置合理的信号边沿有效作用检测时间。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">参考文献：<br>
+		[1] 扬克俊.电磁兼容原理与设计技术[M].北京:人民邮电出版社,2004<br>
+		[2] 马永剑.EMC设计工程实务[M].北京:国防工业出版社,2008.10<br>
+		[3] 林福星,李化.电磁兼容设计原理及应用[M].北京:机械工业出版社,2009.4[4] 白同云.电磁兼容设计实例精选[M].北京:中国电力出版社,2008<br>
+		[5] 山崎弘郎.电子电路的抗干扰技术[M].北京:北京科学出版社,1989年<br>
+		[6] 曾峰.印刷电路板设计与制作[M].北京:北京电子工业出版社,2005<br>
+		[7] 郑崇勋.数字系统故障对策与可靠性技术[M].北京:国防工业出版社,1995<br>
+		[8] 俞斌,贾雅琼.基于DSP的语音信号处理系统中的抗干扰技术[J].西安:国外电子元器件,2006(10):30-32
+		</p>
+
+		
+	</div>
+
+</body>
+</html>

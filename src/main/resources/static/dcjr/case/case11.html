@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>case11.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.5, minimum-scale=1.0, user-scalable=yes">
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<style type="text/css">
+@import
+url(case.css)
+</style>
+  </head>
+  
+  <body>
+    <div>
+		<h1 align="center">使用接地解决地环路干扰传导骚扰案例</h1>
+	</div>
+
+	<div id="content">
+		<p style="text-indent: 0em;padding: 3px 0px;">摘要：良好的接地设计不仅能保证电路内部互不干扰，而且可以减少电路的干扰发射，接地技术是解决电磁兼容问题的常用技术，成本低效果明显。
+		然而，不恰当的接地方式也会给电路引入干扰，如地环路干扰。本文介绍电机控制器传导发射整改过程中遇到的地环路干扰案例，希望给后续EMC设计与整改带来经验和帮助。<br>
+		关键词：电机控制器  多点接地  地环路干扰
+		</p>
+		<p>
+		<h2 align="left">1. 地环路干扰问题的产生</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">在电机控制器的EMC测试整改过程中，测试传导发射低压侧正极时，32M、41M、65M出现超标，
+		如图1所示；调试低压侧滤波参数效果不明显，考虑电机控制器在整车的安装环境以及之前的整改经验，将电机控制器外壳增加接地点，变成两点接地，32M、65M明显降低，6.1M出现超标，
+		如图2所示，接下来针对6.1M频点做整改。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case11_1.png">
+		</div>
+		<p>
+		<h3 align="center">图1  初扫结果</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case11_2.png">
+		</div>
+			<p>
+		<h3 align="center">图2  增加接地点后扫描结果，6.1M超标</h3>
+		</p>
+		<p>
+		<h2 align="left">2.地环路干扰问题的试验和分析</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">用频谱分析仪和近场探头定位噪声点，确定干扰来自电机控制器的DCDC输出线。DCDC模块是电机控制器内的最大干扰源，
+		干扰很容易通过输出线缆向外传导或者直接通过空间向外辐射，甚至耦合到其他电源线、信号线，此外，DCDC输出负极通过钣金件直接接机壳，即已经和接地参考平面相连，如果处理不好，就可能导致地电位不稳。
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">由于电机控制器传导发射低压侧只要求测试12V/24V电源线，并不直接测试DCDC输出线，
+		故推测6.1M干扰是DCDC模块通过线束耦合到12V/24V电源线。首先在DCDC模块的相关信号线上套铁氧体磁环，对6.1M频点没有改善；
+		用铜箔将信号线包裹起来并粘接机壳内壁，同样没有效果；在DCDC模块的CAN通讯线上套铁氧体磁环，没有效果......
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">试验N多方法仍然对6.1M频点束手无策，回忆6.1M频点到底从何而来，猜想会不会是因为增加接地点引起的呢，
+		于是尝试去掉增加的接地点，6.1M频点马上变好，如图3所示。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case11_3.png">
+		</div>
+		<p>
+		<h3 align="center">图3 去掉接地点后扫描结果</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">将增加的接地点恢复，6.1M又超标，可以复原现象，说明6.1M处干扰确实是接地问题引起的。
+		观察增加的接地点位置，正好在DCDC输出线正负极之间，如图4所示，机器初始的接地点如图5所示，使用铜带编织网接接地参考平面，两点接地会引起地环路干扰，6.1M超标很有可能是地环路干扰引起的。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case11_4.png">
+		</div>
+		<p>
+		<h3 align="center">图4 增加的接地点的实物位置</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case11_5.png">
+		</div>
+		<p>
+		<h3 align="center">图5 控制器初始接地位置</h3>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">当DCDC模块工作时，DC+和DC-输出线会携带很强的干扰电流，DC-直接与机壳相连。
+		测试模型图如图6所示，当没有接地点B时，干扰电流主要通过DC输出线与接地参考平面之间的杂散电容形成回路；当在DC+和DC-之间增加接地点B时，
+		恰好为干扰电流提供了直接的低阻抗通路，就会出现地环路电流，导致更大的共模电流，进而出现传导发射超标的现象。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case11_6.png">
+		</div>
+		<p>
+		<h3 align="center">图6 测试系统模型图（接地点C是测试标准要求的：低压蓄电池负极接地）</h3>
+		</p>
+		<p>
+		<h2 align="left">3.地环路干扰问题的解决</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">地环路干扰产生的内在原因是地环路电流的存在，地环路电流是因为两个接地点的电位不同形成电压导致的。
+		常用的解决地环路干扰问题的方法有单点接地，采用隔离变压器或光耦隔离器隔离，安装共模扼流圈增加地环路阻抗等。在本整改测试试验中，只需要将增加的接地点远离DCDC输出线，
+		保证两个接地点的电位相近，就可以避免和减弱地环路干扰。如图7所示，将增加的接地点布置在机器的另一侧，远离干扰输出端，就可以避免6.1M超标同时抑制32M、41M和65M干扰点，
+		如图8所示，结合其他措施，就可以通过传导发射试验。
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case11_7.png">
+		</div>
+		<p>
+		<h3 align="center">图7 分析后增加的接地点位置</h3>
+		</p>
+		<div align="center">
+			<img alt="图片找不到" src="imgs/case11_8.png">
+		</div>
+		<p>
+		<h3 align="center">图8 更改接地点位置之后的扫描结果</h3>
+		</p>
+		<p>
+		<h2 align="left">4.总结</h2>
+		</p>
+		<p style="text-indent: 2em;padding: 3px 0px;">两点接地和多点接地很容易引起地环路干扰问题，在机器外壳有输出线缆时应尤为注意，防止接地点的电位相差过大，
+		当频率比较低时，应尽量选择单点接地。接地技术是解决电磁兼容问题最简便成本最低的技术，同时也是最有讲究的技术，所以在设计前期多考虑接地方式、接地位置对后续EMC测试与整改会有很大帮助。
+		</p>
+	</div>
+  </body>
+</html>
