@@ -285,6 +285,12 @@ public class AppUserResponseController {
         Users users1=GetCurrentUsers(message);
 
         String reqGuid = reqest.getReqGuid();
+        /*reqGuid对应的reqest*/
+        ReqestExample reqestExample = new ReqestExample();
+        reqestExample.or().andReqGuidEqualTo(reqGuid);
+        List<Reqest> reqests = reqestMapper.selectByExample(reqestExample);
+        Reqest reqest1 = reqests.get(0);
+
         String resAcceptAddress = respond.getResAcceptAddress();
 
         RespondExample respondExample = new RespondExample();
@@ -302,9 +308,13 @@ public class AppUserResponseController {
             //响应接受时间
             Date date = new Date();
             respond.setResAcceptTime(date);
+            //响应对应请求的title
+            respond.setResReqTitle(reqest1.getReqTitle());
+            //响应对应请求的经纬度地址
+            respond.setResReqAddr(reqest1.getReqAddress());
             //响应接受地址
             respond.setResAcceptAddress(resAcceptAddress);
-            //只要是申请就是通过，不需要审核
+            //TODO:只要是申请就是通过，不需要审核
             respond.setResTypeGuidProcessStatus("88888888-94e3-4eb7-aad3-111111111111");
             int insert = respondMapper.insert(respond);
             return new ResultModel(insert, "申请服务成功,可在\"我的服务\"中查看");

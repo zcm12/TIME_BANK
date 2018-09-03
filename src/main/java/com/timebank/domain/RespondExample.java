@@ -914,6 +914,216 @@ public class RespondExample {
             addCriterion("RES_PROCESS_USER_GUID not between", value1, value2, "resProcessUserGuid");
             return (Criteria) this;
         }
+
+        public Criteria andResReqAddrIsNull() {
+            addCriterion("RES_REQ_ADDR is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrIsNotNull() {
+            addCriterion("RES_REQ_ADDR is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrEqualTo(String value) {
+            addCriterion("RES_REQ_ADDR =", value, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrNotEqualTo(String value) {
+            addCriterion("RES_REQ_ADDR <>", value, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrGreaterThan(String value) {
+            addCriterion("RES_REQ_ADDR >", value, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrGreaterThanOrEqualTo(String value) {
+            addCriterion("RES_REQ_ADDR >=", value, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrLessThan(String value) {
+            addCriterion("RES_REQ_ADDR <", value, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrLessThanOrEqualTo(String value) {
+            addCriterion("RES_REQ_ADDR <=", value, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrLike(String value) {
+            addCriterion("RES_REQ_ADDR like", value, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrNotLike(String value) {
+            addCriterion("RES_REQ_ADDR not like", value, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrIn(List<String> values) {
+            addCriterion("RES_REQ_ADDR in", values, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrNotIn(List<String> values) {
+            addCriterion("RES_REQ_ADDR not in", values, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrBetween(String value1, String value2) {
+            addCriterion("RES_REQ_ADDR between", value1, value2, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqAddrNotBetween(String value1, String value2) {
+            addCriterion("RES_REQ_ADDR not between", value1, value2, "resReqAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleIsNull() {
+            addCriterion("RES_REQ_TITLE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleIsNotNull() {
+            addCriterion("RES_REQ_TITLE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleEqualTo(String value) {
+            addCriterion("RES_REQ_TITLE =", value, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleNotEqualTo(String value) {
+            addCriterion("RES_REQ_TITLE <>", value, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleGreaterThan(String value) {
+            addCriterion("RES_REQ_TITLE >", value, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("RES_REQ_TITLE >=", value, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleLessThan(String value) {
+            addCriterion("RES_REQ_TITLE <", value, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleLessThanOrEqualTo(String value) {
+            addCriterion("RES_REQ_TITLE <=", value, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleLike(String value) {
+            addCriterion("RES_REQ_TITLE like", value, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleNotLike(String value) {
+            addCriterion("RES_REQ_TITLE not like", value, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleIn(List<String> values) {
+            addCriterion("RES_REQ_TITLE in", values, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleNotIn(List<String> values) {
+            addCriterion("RES_REQ_TITLE not in", values, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleBetween(String value1, String value2) {
+            addCriterion("RES_REQ_TITLE between", value1, value2, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqTitleNotBetween(String value1, String value2) {
+            addCriterion("RES_REQ_TITLE not between", value1, value2, "resReqTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesIsNull() {
+            addCriterion("RES_EVALUATE_DES is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesIsNotNull() {
+            addCriterion("RES_EVALUATE_DES is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesEqualTo(String value) {
+            addCriterion("RES_EVALUATE_DES =", value, "resEvaluateDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesNotEqualTo(String value) {
+            addCriterion("RES_EVALUATE_DES <>", value, "resEvaluateDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesGreaterThan(String value) {
+            addCriterion("RES_EVALUATE_DES >", value, "resEvaluateDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesGreaterThanOrEqualTo(String value) {
+            addCriterion("RES_EVALUATE_DES >=", value, "resEvaluateDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesLessThan(String value) {
+            addCriterion("RES_EVALUATE_DES <", value, "resEvaluateDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesLessThanOrEqualTo(String value) {
+            addCriterion("RES_EVALUATE_DES <=", value, "resEvaluateDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesLike(String value) {
+            addCriterion("RES_EVALUATE_DES like", value, "resEvaluateDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesNotLike(String value) {
+            addCriterion("RES_EVALUATE_DES not like", value, "resEvaluateDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesIn(List<String> values) {
+            addCriterion("RES_EVALUATE_DES in", values, "resEvaluateDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesNotIn(List<String> values) {
+            addCriterion("RES_EVALUATE_DES not in", values, "resEvaluateDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesBetween(String value1, String value2) {
+            addCriterion("RES_EVALUATE_DES between", value1, value2, "resEvaluateDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andResEvaluateDesNotBetween(String value1, String value2) {
+            addCriterion("RES_EVALUATE_DES not between", value1, value2, "resEvaluateDes");
+            return (Criteria) this;
+        }
     }
 
     /**

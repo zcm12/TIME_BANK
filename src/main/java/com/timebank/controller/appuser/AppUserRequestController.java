@@ -213,16 +213,17 @@ public class AppUserRequestController {
             reqestRecordList.add(reqest1);
         }
 
-        /*根据发布时间排序*/
-        reqestRecordList.sort((o1, o2) -> {
-            int flag = o2.getReqIssueTime().compareTo(o1.getReqIssueTime());
-            System.out.println("flag:" + flag);
-            return flag;
-        });
+        if (reqestRecordList.size() != 0) {
+            /*根据发布时间排序*/
+            reqestRecordList.sort((o1, o2) -> {
+                int flag = o2.getReqIssueTime().compareTo(o1.getReqIssueTime());
+                System.out.println("flag:" + flag);
+                return flag;
+            });
 
-        Date reqIssueTime = reqestRecordList.get(0).getReqIssueTime();
-        System.out.println("发布时间："+reqIssueTime);
-
+            Date reqIssueTime = reqestRecordList.get(0).getReqIssueTime();
+            System.out.println("发布时间："+reqIssueTime);
+        }
         //全部符合要求的数据的数量
         int total = reqests.size();
         //将所得集合打包
@@ -353,7 +354,9 @@ public class AppUserRequestController {
 
         RespondExample respondExample = new RespondExample();
         respondExample.clear();
-        respondExample.or().andResReqGuidEqualTo(reqGuid);
+        //查询所有对应请求的响应，且响应状态不包含“撤销”
+        respondExample.or().andResReqGuidEqualTo(reqGuid)
+                .andResTypeGuidProcessStatusNotEqualTo("77777777-94e3-4eb7-aad3-555555555555");
         List<Respond> responds = respondMapper.selectByExample(respondExample);
         List<Respond> respondRecordList = new ArrayList<>();
         for (int i = 0; i < responds.size(); i++) {
@@ -385,6 +388,26 @@ public class AppUserRequestController {
             return null;
         }
     }
+
+    //评价志愿者
+    @RequestMapping(value = "/appUpdateResEvaluate")
+    @ResponseBody
+    public int updateResEvaluate(String resEvaluate,String resEvaluateDes,String resGuid) {
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+
+        RespondExample respondExample = new RespondExample();
+        respondExample.or().andResGuidEqualTo(resGuid);//找到评价的respond
+        List<Respond> responds = respondMapper.selectByExample(respondExample);
+        Respond respond = responds.get(0);
+        respond.setResEvaluate(Integer.valueOf(resEvaluate));
+        respond.setResEvaluateDes(resEvaluateDes);
+        int update = respondMapper.updateByPrimaryKeySelective(respond);
+        return update;
+    }
+
+
 
     //查看详情界面中的  申请启动按钮
     @RequestMapping(value = "/appStartReq")

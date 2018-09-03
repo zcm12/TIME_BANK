@@ -5,18 +5,18 @@ package com.timebank.appmodel;
  */
 
 public class TransferApp {
-    private String transToUserGuid;
+    private String transToUserAccount;
 
     private String transCurrency;
 
     private String transDesp;
 
-    public String getTransToUserGuid() {
-        return transToUserGuid;
+    public String getTransToUserAccount() {
+        return transToUserAccount;
     }
 
-    public void setTransToUserGuid(String transToUserGuid) {
-        this.transToUserGuid = transToUserGuid;
+    public void setTransToUserAccount(String transToUserAccount) {
+        this.transToUserAccount = transToUserAccount;
     }
 
     public String getTransCurrency() {
@@ -38,7 +38,7 @@ public class TransferApp {
     @Override
     public String toString() {
         return "TransferApp{" +
-                "transToUserGuid='" + transToUserGuid + '\'' +
+                "transToUserAccount='" + transToUserAccount + '\'' +
                 ", transCurrency='" + transCurrency + '\'' +
                 ", transDesp='" + transDesp + '\'' +
                 '}';

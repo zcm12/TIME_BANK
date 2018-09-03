@@ -2011,6 +2011,206 @@ public class UsersExample {
             addCriterion("USER_IDIMAGE_F not between", value1, value2, "userIdimageF");
             return (Criteria) this;
         }
+
+        public Criteria andUserAvatarIsNull() {
+            addCriterion("USER_AVATAR is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarIsNotNull() {
+            addCriterion("USER_AVATAR is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarEqualTo(String value) {
+            addCriterion("USER_AVATAR =", value, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarNotEqualTo(String value) {
+            addCriterion("USER_AVATAR <>", value, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarGreaterThan(String value) {
+            addCriterion("USER_AVATAR >", value, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarGreaterThanOrEqualTo(String value) {
+            addCriterion("USER_AVATAR >=", value, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarLessThan(String value) {
+            addCriterion("USER_AVATAR <", value, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarLessThanOrEqualTo(String value) {
+            addCriterion("USER_AVATAR <=", value, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarLike(String value) {
+            addCriterion("USER_AVATAR like", value, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarNotLike(String value) {
+            addCriterion("USER_AVATAR not like", value, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarIn(List<String> values) {
+            addCriterion("USER_AVATAR in", values, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarNotIn(List<String> values) {
+            addCriterion("USER_AVATAR not in", values, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarBetween(String value1, String value2) {
+            addCriterion("USER_AVATAR between", value1, value2, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserAvatarNotBetween(String value1, String value2) {
+            addCriterion("USER_AVATAR not between", value1, value2, "userAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageIsNull() {
+            addCriterion("USER_IDIMAGE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageIsNotNull() {
+            addCriterion("USER_IDIMAGE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageEqualTo(String value) {
+            addCriterion("USER_IDIMAGE =", value, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageNotEqualTo(String value) {
+            addCriterion("USER_IDIMAGE <>", value, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageGreaterThan(String value) {
+            addCriterion("USER_IDIMAGE >", value, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageGreaterThanOrEqualTo(String value) {
+            addCriterion("USER_IDIMAGE >=", value, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageLessThan(String value) {
+            addCriterion("USER_IDIMAGE <", value, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageLessThanOrEqualTo(String value) {
+            addCriterion("USER_IDIMAGE <=", value, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageLike(String value) {
+            addCriterion("USER_IDIMAGE like", value, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageNotLike(String value) {
+            addCriterion("USER_IDIMAGE not like", value, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageIn(List<String> values) {
+            addCriterion("USER_IDIMAGE in", values, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageNotIn(List<String> values) {
+            addCriterion("USER_IDIMAGE not in", values, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageBetween(String value1, String value2) {
+            addCriterion("USER_IDIMAGE between", value1, value2, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdimageNotBetween(String value1, String value2) {
+            addCriterion("USER_IDIMAGE not between", value1, value2, "userIdimage");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordIsNull() {
+            addCriterion("USER_TRANS_PASSWORD is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordIsNotNull() {
+            addCriterion("USER_TRANS_PASSWORD is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordEqualTo(Integer value) {
+            addCriterion("USER_TRANS_PASSWORD =", value, "userTransPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordNotEqualTo(Integer value) {
+            addCriterion("USER_TRANS_PASSWORD <>", value, "userTransPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordGreaterThan(Integer value) {
+            addCriterion("USER_TRANS_PASSWORD >", value, "userTransPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordGreaterThanOrEqualTo(Integer value) {
+            addCriterion("USER_TRANS_PASSWORD >=", value, "userTransPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordLessThan(Integer value) {
+            addCriterion("USER_TRANS_PASSWORD <", value, "userTransPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordLessThanOrEqualTo(Integer value) {
+            addCriterion("USER_TRANS_PASSWORD <=", value, "userTransPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordIn(List<Integer> values) {
+            addCriterion("USER_TRANS_PASSWORD in", values, "userTransPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordNotIn(List<Integer> values) {
+            addCriterion("USER_TRANS_PASSWORD not in", values, "userTransPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordBetween(Integer value1, Integer value2) {
+            addCriterion("USER_TRANS_PASSWORD between", value1, value2, "userTransPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTransPasswordNotBetween(Integer value1, Integer value2) {
+            addCriterion("USER_TRANS_PASSWORD not between", value1, value2, "userTransPassword");
+            return (Criteria) this;
+        }
     }
 
     /**

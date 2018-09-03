@@ -90,7 +90,7 @@ public class AppUserController {
             Community community = communityMapper.selectByPrimaryKey(users2.getUserCommGuid());
             users2.setUserCommGuid(community.getCommTitle());
         }
-        System.out.println(users2.getUserTypeAccountStatus());
+        System.out.println(users2.getUserBirthdate());
         return users2;
     }
 
@@ -111,6 +111,7 @@ public class AppUserController {
     @ResponseBody
     public ResultModel appUpdateUserInfo(Users u) {
 
+        System.out.println("birth:"+u.getUserBirthdate());
         Subject account = SecurityUtils.getSubject();
         String userAccount = (String) account.getPrincipal();
         UsersExample usersExample = new UsersExample();
@@ -288,8 +289,37 @@ public class AppUserController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/imageUpload")
-    public Object imageUpload(HttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {
+    @RequestMapping(value = "/avatarUpload")
+    public Object avatarUpload(HttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {
+        Subject account = SecurityUtils.getSubject();
+        String message = (String) account.getPrincipal();
+        Users users1 = GetCurrentUsers(message);
+
+
+//        ShiroHttpServletRequest shiroRequest = (ShiroHttpServletRequest) request;
+//        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+//        MultipartHttpServletRequest req = commonsMultipartResolver.resolveMultipart((HttpServletRequest) shiroRequest.getRequest());
+        MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
+        MultipartFile multipartFile =  req.getFile("userAvatar");
+        String realPath = "F:/userAvatar";
+        try {
+            File dir = new File(realPath);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            File file  =  new File(realPath,users1.getUserName()+"_userAvatar.jpg");
+            multipartFile.transferTo(file);
+        } catch (IOException | IllegalStateException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    @ResponseBody
+    @RequestMapping(value = "/idimageUpload")
+    public Object idimageUpload(HttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {
+        Subject account = SecurityUtils.getSubject();
+        String message = (String) account.getPrincipal();
+        Users users1 = GetCurrentUsers(message);
 
 
 //        ShiroHttpServletRequest shiroRequest = (ShiroHttpServletRequest) request;
@@ -297,13 +327,13 @@ public class AppUserController {
 //        MultipartHttpServletRequest req = commonsMultipartResolver.resolveMultipart((HttpServletRequest) shiroRequest.getRequest());
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("userIdimage");
-        String realPath = "F:/image";
+        String realPath = "F:/userIdimage";
         try {
             File dir = new File(realPath);
             if (!dir.exists()) {
                 dir.mkdir();
             }
-            File file  =  new File(realPath,"aaa.jpg");
+            File file  =  new File(realPath,users1.getUserName()+"_userIdimage.jpg");
             multipartFile.transferTo(file);
         } catch (IOException | IllegalStateException e) {
             e.printStackTrace();
