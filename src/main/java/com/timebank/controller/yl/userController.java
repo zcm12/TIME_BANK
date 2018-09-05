@@ -169,8 +169,8 @@ public class userController {
         String dboPath="/img/"+fileName;
         String dboPath1="/img/"+fileName1;
 //        byte[] a=(byte)dboPath;
-        users.setUserIdimageZ(dboPath);
-        users.setUserIdimageF(dboPath1);
+//        users.setUserIdimageZ(dboPath);
+//        users.setUserIdimageF(dboPath1);
         usersMapper.updateByPrimaryKeySelective(users);
 
         //从数据库中获取前台提交的字段
@@ -233,12 +233,17 @@ public class userController {
     @RequestMapping(value = "/jquery/exist4.do")
     @ResponseBody
     public String checkUserEmail(String userMail){
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+        String GUID=users1.getUserGuid();
         UsersExample usersExample=new UsersExample();
         List<Users> users=usersMapper.selectByExample(usersExample);
         boolean result = true;
         Map<String, Boolean> map = new HashMap<>();
         for(Users it:users){
-            if(it.getUserMail()!=null&&it.getUserMail().equals(userMail)){
+            if(!it.getUserGuid().equals(GUID)&&it.getUserMail()!=null&&it.getUserMail().equals(userMail)){
                 result=false;
             }
         }
@@ -259,12 +264,17 @@ public class userController {
     @RequestMapping(value = "/jquery/exist3.do")
     @ResponseBody
     public String checkUserPhone(String userPhone){
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+        String GUID=users1.getUserGuid();
         UsersExample usersExample=new UsersExample();
         List<Users> users=usersMapper.selectByExample(usersExample);
         boolean result = true;
         Map<String, Boolean> map = new HashMap<>();
         for(Users it:users){
-            if(it.getUserPhone()!=null&&it.getUserPhone().equals(userPhone)){
+            if(!it.getUserGuid().equals(GUID)&&it.getUserPhone()!=null&&it.getUserPhone().equals(userPhone)){
                 result=false;
             }
         }
