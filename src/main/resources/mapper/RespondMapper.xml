@@ -18,7 +18,7 @@
     <result column="RES_EARN_CURRENCY" jdbcType="DOUBLE" property="resEarnCurrency" />
     <result column="RES_PROCESS_USER_GUID" jdbcType="CHAR" property="resProcessUserGuid" />
     <result column="RES_REQ_ADDR" jdbcType="NVARCHAR" property="resReqAddr" />
-    <result column="RES_REQ_TITLE" jdbcType="NVARCHAR" property="resReqTitle" />
+    <result column="RES_REQ_TITLE" jdbcType="NCHAR" property="resReqTitle" />
     <result column="RES_EVALUATE_DES" jdbcType="NVARCHAR" property="resEvaluateDes" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -157,7 +157,7 @@
       #{resAcceptTime,jdbcType=TIMESTAMP}, #{resAcceptAddress,jdbcType=NVARCHAR}, #{resServiceStartTime,jdbcType=TIMESTAMP}, 
       #{resServiceEndTime,jdbcType=TIMESTAMP}, #{resTypeGuidProcessStatus,jdbcType=CHAR}, 
       #{resEvaluate,jdbcType=INTEGER}, #{resEarnCurrency,jdbcType=DOUBLE}, #{resProcessUserGuid,jdbcType=CHAR}, 
-      #{resReqAddr,jdbcType=NVARCHAR}, #{resReqTitle,jdbcType=NVARCHAR}, #{resEvaluateDes,jdbcType=NVARCHAR}
+      #{resReqAddr,jdbcType=NVARCHAR}, #{resReqTitle,jdbcType=NCHAR}, #{resEvaluateDes,jdbcType=NVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.timebank.domain.Respond">
@@ -248,7 +248,7 @@
         #{resReqAddr,jdbcType=NVARCHAR},
       </if>
       <if test="resReqTitle != null">
-        #{resReqTitle,jdbcType=NVARCHAR},
+        #{resReqTitle,jdbcType=NCHAR},
       </if>
       <if test="resEvaluateDes != null">
         #{resEvaluateDes,jdbcType=NVARCHAR},
@@ -309,7 +309,7 @@
         RES_REQ_ADDR = #{record.resReqAddr,jdbcType=NVARCHAR},
       </if>
       <if test="record.resReqTitle != null">
-        RES_REQ_TITLE = #{record.resReqTitle,jdbcType=NVARCHAR},
+        RES_REQ_TITLE = #{record.resReqTitle,jdbcType=NCHAR},
       </if>
       <if test="record.resEvaluateDes != null">
         RES_EVALUATE_DES = #{record.resEvaluateDes,jdbcType=NVARCHAR},
@@ -337,7 +337,7 @@
       RES_EARN_CURRENCY = #{record.resEarnCurrency,jdbcType=DOUBLE},
       RES_PROCESS_USER_GUID = #{record.resProcessUserGuid,jdbcType=CHAR},
       RES_REQ_ADDR = #{record.resReqAddr,jdbcType=NVARCHAR},
-      RES_REQ_TITLE = #{record.resReqTitle,jdbcType=NVARCHAR},
+      RES_REQ_TITLE = #{record.resReqTitle,jdbcType=NCHAR},
       RES_EVALUATE_DES = #{record.resEvaluateDes,jdbcType=NVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -384,7 +384,7 @@
         RES_REQ_ADDR = #{resReqAddr,jdbcType=NVARCHAR},
       </if>
       <if test="resReqTitle != null">
-        RES_REQ_TITLE = #{resReqTitle,jdbcType=NVARCHAR},
+        RES_REQ_TITLE = #{resReqTitle,jdbcType=NCHAR},
       </if>
       <if test="resEvaluateDes != null">
         RES_EVALUATE_DES = #{resEvaluateDes,jdbcType=NVARCHAR},
@@ -409,7 +409,7 @@
       RES_EARN_CURRENCY = #{resEarnCurrency,jdbcType=DOUBLE},
       RES_PROCESS_USER_GUID = #{resProcessUserGuid,jdbcType=CHAR},
       RES_REQ_ADDR = #{resReqAddr,jdbcType=NVARCHAR},
-      RES_REQ_TITLE = #{resReqTitle,jdbcType=NVARCHAR},
+      RES_REQ_TITLE = #{resReqTitle,jdbcType=NCHAR},
       RES_EVALUATE_DES = #{resEvaluateDes,jdbcType=NVARCHAR}
     where RES_GUID = #{resGuid,jdbcType=CHAR}
   </update>

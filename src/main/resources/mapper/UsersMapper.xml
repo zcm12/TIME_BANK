@@ -29,11 +29,9 @@
     <result column="USER_EMERCONTACT" jdbcType="NVARCHAR" property="userEmercontact" />
     <result column="USER_EMERPERSON" jdbcType="NVARCHAR" property="userEmerperson" />
     <result column="USER_BIRTHDATE" jdbcType="DATE" property="userBirthdate" />
-    <result column="USER_CURRENTADDR" jdbcType="NVARCHAR" property="userCurrentaddr" />
-    <result column="USER_IDIMAGE_Z" jdbcType="NVARCHAR" property="userIdimageZ" />
-    <result column="USER_IDIMAGE_F" jdbcType="NVARCHAR" property="userIdimageF" />
-    <result column="USER_AVATAR" jdbcType="NVARCHAR" property="userAvatar" />
     <result column="USER_IDIMAGE" jdbcType="NVARCHAR" property="userIdimage" />
+    <result column="USER_CURRENTADDR" jdbcType="NVARCHAR" property="userCurrentaddr" />
+    <result column="USER_AVATAR" jdbcType="NVARCHAR" property="userAvatar" />
     <result column="USER_TRANS_PASSWORD" jdbcType="INTEGER" property="userTransPassword" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -111,8 +109,7 @@
     USER_TYPE_ACCOUNT_STATUS, USER_SALT, USER_OWN_CURRENCY, USER_PRE_CONSUME_CURRENCY, 
     USER_ADDRESS, USER_PROVINCE, USER_CITY, USER_DISTRICT, USER_COORDINATE, USER_COMM_GUID, 
     USER_ROLE, USER_IDNUM, USER_PHONE, USER_MAIL, USER_EMERCONTACT, USER_EMERPERSON, 
-    USER_BIRTHDATE, USER_CURRENTADDR, USER_IDIMAGE_Z, USER_IDIMAGE_F, USER_AVATAR, USER_IDIMAGE, 
-    USER_TRANS_PASSWORD
+    USER_BIRTHDATE, USER_IDIMAGE, USER_CURRENTADDR, USER_AVATAR, USER_TRANS_PASSWORD
   </sql>
   <select id="selectByExample" parameterType="com.timebank.domain.UsersExample" resultMap="BaseResultMap">
     <!--
@@ -172,9 +169,9 @@
       USER_CITY, USER_DISTRICT, USER_COORDINATE, 
       USER_COMM_GUID, USER_ROLE, USER_IDNUM, 
       USER_PHONE, USER_MAIL, USER_EMERCONTACT, 
-      USER_EMERPERSON, USER_BIRTHDATE, USER_CURRENTADDR, 
-      USER_IDIMAGE_Z, USER_IDIMAGE_F, USER_AVATAR, 
-      USER_IDIMAGE, USER_TRANS_PASSWORD)
+      USER_EMERPERSON, USER_BIRTHDATE, USER_IDIMAGE, 
+      USER_CURRENTADDR, USER_AVATAR, USER_TRANS_PASSWORD
+      )
     values (#{userGuid,jdbcType=CHAR}, #{userName,jdbcType=NVARCHAR}, #{userAccount,jdbcType=NVARCHAR}, 
       #{userPassword,jdbcType=NVARCHAR}, #{userFromRoleGuid,jdbcType=CHAR}, #{userTypeGuidGender,jdbcType=CHAR}, 
       #{userTypeAccountStatus,jdbcType=CHAR}, #{userSalt,jdbcType=NVARCHAR}, #{userOwnCurrency,jdbcType=DOUBLE}, 
@@ -182,9 +179,9 @@
       #{userCity,jdbcType=NVARCHAR}, #{userDistrict,jdbcType=NVARCHAR}, #{userCoordinate,jdbcType=NVARCHAR}, 
       #{userCommGuid,jdbcType=CHAR}, #{userRole,jdbcType=NVARCHAR}, #{userIdnum,jdbcType=NVARCHAR}, 
       #{userPhone,jdbcType=NVARCHAR}, #{userMail,jdbcType=NVARCHAR}, #{userEmercontact,jdbcType=NVARCHAR}, 
-      #{userEmerperson,jdbcType=NVARCHAR}, #{userBirthdate,jdbcType=DATE}, #{userCurrentaddr,jdbcType=NVARCHAR}, 
-      #{userIdimageZ,jdbcType=NVARCHAR}, #{userIdimageF,jdbcType=NVARCHAR}, #{userAvatar,jdbcType=NVARCHAR}, 
-      #{userIdimage,jdbcType=NVARCHAR}, #{userTransPassword,jdbcType=INTEGER})
+      #{userEmerperson,jdbcType=NVARCHAR}, #{userBirthdate,jdbcType=DATE}, #{userIdimage,jdbcType=NVARCHAR}, 
+      #{userCurrentaddr,jdbcType=NVARCHAR}, #{userAvatar,jdbcType=NVARCHAR}, #{userTransPassword,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.timebank.domain.Users">
     <!--
@@ -262,20 +259,14 @@
       <if test="userBirthdate != null">
         USER_BIRTHDATE,
       </if>
+      <if test="userIdimage != null">
+        USER_IDIMAGE,
+      </if>
       <if test="userCurrentaddr != null">
         USER_CURRENTADDR,
       </if>
-      <if test="userIdimageZ != null">
-        USER_IDIMAGE_Z,
-      </if>
-      <if test="userIdimageF != null">
-        USER_IDIMAGE_F,
-      </if>
       <if test="userAvatar != null">
         USER_AVATAR,
-      </if>
-      <if test="userIdimage != null">
-        USER_IDIMAGE,
       </if>
       <if test="userTransPassword != null">
         USER_TRANS_PASSWORD,
@@ -351,20 +342,14 @@
       <if test="userBirthdate != null">
         #{userBirthdate,jdbcType=DATE},
       </if>
+      <if test="userIdimage != null">
+        #{userIdimage,jdbcType=NVARCHAR},
+      </if>
       <if test="userCurrentaddr != null">
         #{userCurrentaddr,jdbcType=NVARCHAR},
       </if>
-      <if test="userIdimageZ != null">
-        #{userIdimageZ,jdbcType=NVARCHAR},
-      </if>
-      <if test="userIdimageF != null">
-        #{userIdimageF,jdbcType=NVARCHAR},
-      </if>
       <if test="userAvatar != null">
         #{userAvatar,jdbcType=NVARCHAR},
-      </if>
-      <if test="userIdimage != null">
-        #{userIdimage,jdbcType=NVARCHAR},
       </if>
       <if test="userTransPassword != null">
         #{userTransPassword,jdbcType=INTEGER},
@@ -457,20 +442,14 @@
       <if test="record.userBirthdate != null">
         USER_BIRTHDATE = #{record.userBirthdate,jdbcType=DATE},
       </if>
+      <if test="record.userIdimage != null">
+        USER_IDIMAGE = #{record.userIdimage,jdbcType=NVARCHAR},
+      </if>
       <if test="record.userCurrentaddr != null">
         USER_CURRENTADDR = #{record.userCurrentaddr,jdbcType=NVARCHAR},
       </if>
-      <if test="record.userIdimageZ != null">
-        USER_IDIMAGE_Z = #{record.userIdimageZ,jdbcType=NVARCHAR},
-      </if>
-      <if test="record.userIdimageF != null">
-        USER_IDIMAGE_F = #{record.userIdimageF,jdbcType=NVARCHAR},
-      </if>
       <if test="record.userAvatar != null">
         USER_AVATAR = #{record.userAvatar,jdbcType=NVARCHAR},
-      </if>
-      <if test="record.userIdimage != null">
-        USER_IDIMAGE = #{record.userIdimage,jdbcType=NVARCHAR},
       </if>
       <if test="record.userTransPassword != null">
         USER_TRANS_PASSWORD = #{record.userTransPassword,jdbcType=INTEGER},
@@ -509,11 +488,9 @@
       USER_EMERCONTACT = #{record.userEmercontact,jdbcType=NVARCHAR},
       USER_EMERPERSON = #{record.userEmerperson,jdbcType=NVARCHAR},
       USER_BIRTHDATE = #{record.userBirthdate,jdbcType=DATE},
-      USER_CURRENTADDR = #{record.userCurrentaddr,jdbcType=NVARCHAR},
-      USER_IDIMAGE_Z = #{record.userIdimageZ,jdbcType=NVARCHAR},
-      USER_IDIMAGE_F = #{record.userIdimageF,jdbcType=NVARCHAR},
-      USER_AVATAR = #{record.userAvatar,jdbcType=NVARCHAR},
       USER_IDIMAGE = #{record.userIdimage,jdbcType=NVARCHAR},
+      USER_CURRENTADDR = #{record.userCurrentaddr,jdbcType=NVARCHAR},
+      USER_AVATAR = #{record.userAvatar,jdbcType=NVARCHAR},
       USER_TRANS_PASSWORD = #{record.userTransPassword,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -592,20 +569,14 @@
       <if test="userBirthdate != null">
         USER_BIRTHDATE = #{userBirthdate,jdbcType=DATE},
       </if>
+      <if test="userIdimage != null">
+        USER_IDIMAGE = #{userIdimage,jdbcType=NVARCHAR},
+      </if>
       <if test="userCurrentaddr != null">
         USER_CURRENTADDR = #{userCurrentaddr,jdbcType=NVARCHAR},
       </if>
-      <if test="userIdimageZ != null">
-        USER_IDIMAGE_Z = #{userIdimageZ,jdbcType=NVARCHAR},
-      </if>
-      <if test="userIdimageF != null">
-        USER_IDIMAGE_F = #{userIdimageF,jdbcType=NVARCHAR},
-      </if>
       <if test="userAvatar != null">
         USER_AVATAR = #{userAvatar,jdbcType=NVARCHAR},
-      </if>
-      <if test="userIdimage != null">
-        USER_IDIMAGE = #{userIdimage,jdbcType=NVARCHAR},
       </if>
       <if test="userTransPassword != null">
         USER_TRANS_PASSWORD = #{userTransPassword,jdbcType=INTEGER},
@@ -641,11 +612,9 @@
       USER_EMERCONTACT = #{userEmercontact,jdbcType=NVARCHAR},
       USER_EMERPERSON = #{userEmerperson,jdbcType=NVARCHAR},
       USER_BIRTHDATE = #{userBirthdate,jdbcType=DATE},
-      USER_CURRENTADDR = #{userCurrentaddr,jdbcType=NVARCHAR},
-      USER_IDIMAGE_Z = #{userIdimageZ,jdbcType=NVARCHAR},
-      USER_IDIMAGE_F = #{userIdimageF,jdbcType=NVARCHAR},
-      USER_AVATAR = #{userAvatar,jdbcType=NVARCHAR},
       USER_IDIMAGE = #{userIdimage,jdbcType=NVARCHAR},
+      USER_CURRENTADDR = #{userCurrentaddr,jdbcType=NVARCHAR},
+      USER_AVATAR = #{userAvatar,jdbcType=NVARCHAR},
       USER_TRANS_PASSWORD = #{userTransPassword,jdbcType=INTEGER}
     where USER_GUID = #{userGuid,jdbcType=CHAR}
   </update>

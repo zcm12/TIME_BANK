@@ -2,10 +2,26 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="basepage :: common_header(~{::title},~{::script})">
     <title>审核用户信息</title>
+    <script th:inline="javascript">
+        var message1 = [[${message1}]];
+        //        var message2 = [[${message2}]];
 
+        //        alert("图片不出来请尝试刷新")
+    </script>
+    <script   LANGUAGE="JavaScript">
+        function   fresh()
+        {
+            if(location.href.indexOf("?reload=true")<0)
+            {
+                location.href+="?reload=true";
+            }
+        }
+        setTimeout("fresh()",50)
+    </script>
     <script type="text/javascript">
 
         $(document).ready(function() {
+            document.getElementById('imgInit1').src = message1;
             $('#USERSInputForm').bootstrapValidator({
                 message: 'This value is not valid',
                 feedbackIcons: {
@@ -209,6 +225,21 @@
                                     <input id="userCommGuid" name="userCommGuid" type="text" class="form-control" th:value="${users.userCommGuid}"  disabled="disabled"/>
                                 </div>
                             </div>
+                            <div class="id_img_wp">
+                                <input type="file" accept="image/*"  style="display:none" value="" id="img_z" name="img_z" />
+                                <input type="file" accept="image/*" value="" id="img_f" name="img_f" style="display:none"/>
+                                <div class="img_wp" >
+                                    <!--<img src="/img/qie.jpg" id="zmz"  />-->
+                                    <img src=""  id="imgInit1">
+                                    <p class="img_intro">身份证正面照</p>
+                                </div>
+
+                                <!--<div class="img_wp">-->
+                                <!--<img src="" id="imgInit2"/>-->
+                                <!--<p class="img_intro">身份证反面照</p>-->
+                                <!--</div>-->
+                                <div class="cf"></div>
+                            </div><br>
 
                         </div>
                         <div class="form-actions">
@@ -241,6 +272,15 @@
 //        //得到二级目录
 //        var getOption = getSelect.getElementsByTagName('option');
 //        getOption[0].innerText = message;
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            $('.img_wp img').height($('.img_wp img').width()*0.4);
+            $(window).resize(function(){
+                $('.img_wp img').height($('.img_wp img').width()*0.4);
+            })
+        })
+
     </script>
     <div class="row clearfix">
         <div class="col-md-12 bg-primary">

@@ -81,6 +81,7 @@ public class ShiroConfiguration {
 
 
 
+
         filterChainDefinitionMap.put("/css/**","anon");
         filterChainDefinitionMap.put("/fonts/**","anon");
         filterChainDefinitionMap.put("/jquery/**","anon");

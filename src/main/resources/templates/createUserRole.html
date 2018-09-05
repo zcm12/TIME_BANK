@@ -2,40 +2,42 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="basepage :: common_header(~{::title},~{::script})">
     <meta charset="UTF-8">
-    <title>审核用户信息</title>
-    <!--<script language="javascript">-->
-        <!--function tongguo(){-->
-<!--//            document.USERSInputForm.action="/passSubmit";-->
-<!--//            $("USERSInputForm").removeAttr('action');-->
-<!--//            $("USERSInputForm").attr('action',)-->
-<!--//            document.USERSInputForm.submit();-->
-            <!--document.USERSInputForm.action="{:U('/passSubmit')}";-->
-            <!--document.USERSInputForm.submit();-->
-        <!--}-->
-        <!--function bohui(){-->
-            <!--document.USERSInputForm.action="sendtaskook.asp";-->
-            <!--document.USERSInputForm.submit();-->
-        <!--}-->
-    <!--</script>-->
-    <!--<script type="text/javascript">-->
-        <!--function test(val){-->
-            <!--//判断参数-->
-            <!--if(val==1){  //发布文章的方法-->
-                <!--var url = "/passSubmit";-->
-                <!--var params = $("#USERSInputForm").serialize();-->
-                <!--//异步处理-->
-                <!--$.post(url,params);-->
-            <!--}-->
-            <!--if(val==2){  //保存到草稿箱-->
-                <!--var url = "去到草稿箱的Action";-->
-                <!--var params = $("#myFrm").serialize();-->
-                <!--//异步处理-->
-                <!--$.post(url,params);-->
-            <!--}-->
-        <!--}-->
-    <!--</script>-->
+    <title>信息详情</title>
+    <script th:inline="javascript">
+        var message1 = [[${message1}]];
+//        var message2 = [[${message2}]];
+
+        //        alert("图片不出来请尝试刷新")
+    </script>
+    <script   LANGUAGE="JavaScript">
+        function   fresh()
+        {
+            if(location.href.indexOf("?reload=true")<0)
+            {
+                location.href+="?reload=true";
+            }
+        }
+        setTimeout("fresh()",50)
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
+            document.getElementById('imgInit1').src = message1;
+//            document.getElementById('imgInit2').src = message2;
+
+//            $(function(){
+//                $("#按钮id").click(function(){
+//                    refresh();
+//                });
+//            });
+//            //点击按钮调用的方法
+//            function refresh(){
+//                window.location.reload();//刷新当前页面.
+//
+//                //或者下方刷新方法
+//                //parent.location.reload()刷新父亲对象（用于框架）--需在iframe框架内使用
+//                // opener.location.reload()刷新父窗口对象（用于单开窗口
+//                //top.location.reload()刷新最顶端对象（用于多开窗口）
+//            }
 
             $('#USERSInputForm').bootstrapValidator({
                 message: 'This value is not valid',
@@ -114,7 +116,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        审核用户角色
+                        信息详情
                     </h3>
                 </div>
                 <!--action=""-->
@@ -232,37 +234,26 @@
                                     <input id="userCommGuid" name="userCommGuid" type="text" class="form-control" th:value="${users.userCommGuid}"  disabled="disabled"/>
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6"  >
-                                <label class="control-label col-lg-3" for="ceshi1" hidden="hidden">图片地址1：</label>
-                                <div class="col-lg-9">
-                                    <input id="ceshi1" name="ceshi1" type="text" class="form-control" th:value="${message1}"  />
-                                </div>
-                            </div>
-                            <div class="form-group  col-lg-6"  hidden="hidden">
-                                <label class="control-label col-lg-3" for="ceshi2" >图片地址2：</label>
-                                <div class="col-lg-9">
-                                    <input id="ceshi2" name="ceshi2" type="text" class="form-control" th:value="${message2}"  disabled="disabled"/>
-                                </div>
-                            </div>
                             <div class="id_img_wp">
-                                <input type="file" accept="image/*"  style="display:none" value="" id="img_z" name="img_z"/>
+                                <input type="file" accept="image/*"  style="display:none" value="" id="img_z" name="img_z" />
                                 <input type="file" accept="image/*" value="" id="img_f" name="img_f" style="display:none"/>
                                 <div class="img_wp" >
-                                    <!--<img src="/img/qie.jpg" id="zmz"  />-->
                                     <img src=""  id="imgInit1">
                                     <p class="img_intro">身份证正面照</p>
                                 </div>
 
-                                <div class="img_wp">
-                                    <img src="" id="imgInit2"/>
-                                    <p class="img_intro">身份证反面照</p>
-                                </div>
                                 <div class="cf"></div>
-                            </div>
+                            </div><br>
                         </div>
                         <div class="form-actions">
-                            <input id="btnSubmit1" class="btn btn-primary" type="submit" value="保存" />
-                            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+                            <input id="btnSubmit1" class="btn btn-primary" type="submit" value="通过" />
+
+                            <a href="https://mail.126.com/" target=_blank>
+                               <input id="anniu"  onclick="window.location.href('https://mail.126.com/')" class="btn btn-primary" type="button" value="不通过"/>
+                            </a>
+
+
+                            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-2)"/>
                             <!--<input id="btnSubmit2" class="btn btn-primary" type="button" value="驳回" onclick="test(2)"/>-->
                         </div>
                     </form>
@@ -277,10 +268,7 @@
                 $('.img_wp img').height($('.img_wp img').width()*0.4);
             })
         })
-        var A=document.getElementById("ceshi1").value;
-        document.getElementById('imgInit1').src = A;
-        var B=document.getElementById("ceshi2").value;
-        document.getElementById('imgInit2').src = B;
+
     </script>
     <div class="row clearfix">
         <div class="col-md-12 bg-primary">

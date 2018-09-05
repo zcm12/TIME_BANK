@@ -14,11 +14,24 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,76 +91,6 @@ public class TouristController {
         }
         return users;
     }
-//    //修改游客信息
-//   @RequestMapping(value="/modifyTouristInformationView")
-//    public String TouristInformationView(Model model){
-//       Subject account = SecurityUtils.getSubject();
-//       String message=(String) account.getPrincipal();
-//       Users users=GetCurrentUsers(message);
-//       String role=users.getUserRole();
-//       model.addAttribute("role",role);
-//       model.addAttribute("users",users);
-//       //所属小区
-//       CommunityExample communityExample = new CommunityExample();
-//       List<Community> communities = communityMapper.selectByExample(communityExample);
-//       model.addAttribute("communities",communities);
-//       //加载性别
-//       TypeExample typeExample = new TypeExample();
-//       typeExample.or().andTypeGroupIdEqualTo(1);
-//       List<Type> types = typeMapper.selectByExample(typeExample);
-//       model.addAttribute("types",types);
-//
-//        return "updateTouristInformation";
-//    }
-//    //查看游客信息
-//    @RequestMapping(value="/touristInformationView")
-//    public String touristInformationView(Model model){
-//        Subject account = SecurityUtils.getSubject();
-//        String message=(String) account.getPrincipal();
-//        Users users2=GetCurrentUsers(message);
-//        String role=users2.getUserRole();
-//        model.addAttribute("role",role);
-//        if (users2.getUserTypeGuidGender()!= null)
-//        {
-//            //处理性别
-//            Type type = typeMapper.selectByPrimaryKey(users2.getUserTypeGuidGender());
-//            users2.setUserTypeGuidGender(type.getTypeTitle());
-//        }
-//        if (users2.getUserCommGuid()!=null)
-//        {
-//            //所属小区
-//            Community community = communityMapper.selectByPrimaryKey(users2.getUserCommGuid());
-//            users2.setUserCommGuid(community.getCommTitle());
-//        }
-//        model.addAttribute("users",users2);
-//        return "touristInformationView";
-//    }
-//    //保存按钮
-//    @RequestMapping(value = "/updateTouristSubmit")
-//    public String updateREQESTSave(Users users, Model model){
-//        Subject account = SecurityUtils.getSubject();
-//        String message=(String) account.getPrincipal();
-//        Users users1=GetCurrentUsers(message);
-//        String role=users1.getUserRole();
-//        model.addAttribute("role",role);
-//        usersMapper.updateByPrimaryKeySelective(users);
-//        Users users2 = usersMapper.selectByPrimaryKey(users.getUserGuid());
-//
-//        //处理性别
-//        Type type = typeMapper.selectByPrimaryKey(users2.getUserTypeGuidGender());
-//        users2.setUserTypeGuidGender(type.getTypeTitle());
-//        /*//用户持有时间
-//        users.setUserOwnCurrency(users1.getUserOwnCurrency());*/
-//        //用户状态
-//        Type type1 = typeMapper.selectByPrimaryKey(users2.getUserTypeAccountStatus());
-//        users2.setUserTypeAccountStatus(type1.getTypeTitle());
-//        //所属小区
-//        Community community = communityMapper.selectByPrimaryKey(users2.getUserCommGuid());
-//        users2.setUserCommGuid(community.getCommTitle());
-//        model.addAttribute("users",users2);
-//
-//        return "touristInformationView";
-//    }
     /***************************小区管理员审核游客功能区**************************************/
     //游客列表界面
     @RequestMapping(value = "/createUserRole/{num}")
@@ -245,39 +188,6 @@ public class TouristController {
     //查看详情界面   进行审核
     @RequestMapping(value="/Tourist/{userGuid}")
     public String getTourstListJsonData(Model model,@PathVariable String userGuid){
-//        Subject account = SecurityUtils.getSubject();
-//        String message=(String) account.getPrincipal();
-//        Users users=GetCurrentUsers(message);
-//        String role=users.getUserRole();
-//        model.addAttribute("role",role);
-//
-//        UsersExample usersExample1=new UsersExample();
-//        usersExample1.or().andUserGuidEqualTo(userGuid);
-//        List<Users> users1=usersMapper.selectByExample(usersExample1);
-//        Users use=users1.get(0);
-//
-//
-//
-//        String gender=use.getUserTypeGuidGender();
-//        TypeExample typeExample=new TypeExample();
-//        typeExample.or().andTypeGuidEqualTo(gender);
-//        List<Type> types=typeMapper.selectByExample(typeExample);
-//        use.setUserTypeGuidGender(types.get(0).getTypeTitle());
-//
-//        String comm=use.getUserCommGuid();
-//        CommunityExample communityExample=new CommunityExample();
-//        communityExample.or().andCommGuidEqualTo(comm);
-//        List<Community> communities=communityMapper.selectByExample(communityExample);
-//        use.setUserCommGuid(communities.get(0).getCommTitle());
-//
-//        String status=use.getUserTypeAccountStatus();
-//        typeExample.clear();
-//        typeExample.or().andTypeGuidEqualTo(status);
-//        List<Type> types1=typeMapper.selectByExample(typeExample);
-//        use.setUserTypeAccountStatus(types1.get(0).getTypeTitle());
-//
-//        model.addAttribute("users",use);
-//        return "userInformation";
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
@@ -312,36 +222,17 @@ public class TouristController {
             Community community = communityMapper.selectByPrimaryKey(users1.getUserCommGuid());
             users1.setUserCommGuid(community.getCommTitle());
         }
-//        String status=use.getUserTypeAccountStatus();
-//        typeExample.clear();
-//        typeExample.or().andTypeGuidEqualTo(status);
-//        List<Type> types1=typeMapper.selectByExample(typeExample);
-//        use.setUserTypeAccountStatus(types1.get(0).getTypeTitle());
 
-//        String A="/img/qie.jpg";
-        String A=users1.getUserIdimageZ();
-        String B=users1.getUserIdimageZ();
-//        String A1=A.replaceAll(,)
-//        A.replaceAll("\\\\","\\");
+        String A=users1.getUserIdimage();
+//        String B=users1.getUserIdimageZ();
         model.addAttribute("message1",A);
-        System.out.println(A);
-        model.addAttribute("message2",B);
+//        System.out.println(A);
+//        model.addAttribute("message2",B);
 
         model.addAttribute("users",users1);
 
         return "createUserRole";
     }
-    //保存按钮 通过审核
-//    @RequestMapping(value = "/passSubmit")
-//    public String updateTouristInformationSubmit(Model model,Users users){
-//        Subject account = SecurityUtils.getSubject();
-//        String message=(String) account.getPrincipal();
-//        Users users1=GetCurrentUsers(message);
-//        String role=users1.getUserRole();
-//        model.addAttribute("role",role);
-//        usersMapper.updateByPrimaryKeySelective(users);
-//        return "touristList";
-//    }
     //添加自动发送邮件  通过按钮
     @RequestMapping(value = "/passSubmit")
     public String updateTouristInformationSubmit (Model model1,Users users) throws Exception{
@@ -358,14 +249,15 @@ public class TouristController {
         //模板邮件
         MimeMessage message = null;
         try {
+
             message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom("18765924730@163.com");
             helper.setTo(mail);
             helper.setSubject("主题：时间银行审核邮件");
-
             Map<String, Object> model = new HashedMap();
             model.put("usename", name);
+
             if(users.getUserRole().equals("USE")) {
                 //修改 application.properties 文件中的读取路径
                 FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
@@ -374,8 +266,12 @@ public class TouristController {
                 Template template = freeMarkerConfigurer.getConfiguration().getTemplate("mail.html");
                 String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
                 helper.setText(html, true);
+                //发送图片
+                File file = ResourceUtils.getFile("classpath:static/img/wxgzh.jpg");
+                helper.addInline("springcloud", file);
                 model1.addAttribute("num",2);
                 mailSender.send(message);
+
             }else{
                 SimpleMailMessage message3 = new SimpleMailMessage();
                 message3.setFrom("18765924730@163.com");
@@ -393,31 +289,6 @@ public class TouristController {
             return "touristList";
         }catch (Exception e){
         return "fail";}
-//
-//        SimpleMailMessage message1 = new SimpleMailMessage();
-//        if(users.getUserRole().equals("USE")) {
-//
-//            message1.setFrom("18765924730@163.com");
-//            message1.setTo("977758778@qq.com");
-////            message1.setTo(mail);
-//            message1.setSubject("主题：时间银行审核邮件");
-////            message1.setText("您好，您已经通过审核，请登录“http://localhoast:8080”查看");
-//            model.addAttribute("num",2);
-//        }else{
-//            message1.setFrom("18765924730@163.com");
-//            message1.setTo("977758778@qq.com");
-////            message1.setTo(mail);
-//            message1.setSubject("主题：时间银行审核邮件");
-////            message1.setText("您好，您的审核未通过,请你按照提示正确填写信息");
-//            model.addAttribute("num",1);
-//        }
-//        try {
-//
-//            return "touristList";
-//        }catch(Exception e){
-//            return "fail";
-//        }
-
     }
     /***************************平台管理员管理员审核游客功能区**************************************/
     //用户游客列表
@@ -521,6 +392,13 @@ public class TouristController {
         List<Type> types1=typeMapper.selectByExample(typeExample);
         use.setUserTypeAccountStatus(types1.get(0).getTypeTitle());
 
+        //读取图片位置路径
+        String A=use.getUserIdimage();
+//        String B=users1.getUserIdimageZ();
+        model.addAttribute("message1",A);
+//        System.out.println(A);
+//        model.addAttribute("message2",B);
+
         model.addAttribute("users",use);
         return "createUserRoleByAdmin";
     }
@@ -535,5 +413,6 @@ public class TouristController {
         usersMapper.updateByPrimaryKeySelective(users);
         return "usersListByAdmin";
     }
+
 
 }
