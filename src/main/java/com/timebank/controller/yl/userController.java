@@ -112,6 +112,7 @@ public class userController {
     @RequestMapping(value = "/modifyUserInformationView")
     public String modifyUserInformationView(Model model)
     {
+//        System.out.println("完善个人信息");
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
@@ -128,12 +129,23 @@ public class userController {
         List<Type> types = typeMapper.selectByExample(typeExample);
         model.addAttribute("types",types);
         model.addAttribute("message","请按实际情况填写个人信息");
-        return "updateUserInformation";
+        if(users1.getUserIdimage()!=null){
+//            System.out.println("zoule");
+            model.addAttribute("message1",users1.getUserIdimage());
+        }else{
+//            System.out.println("为空");
+           model.addAttribute("message1","/img/qie.jpg");
+        }
+        if(users1.getUserRole().equals("Tourist")){
+            return "updateUserInformation";
+        }else{
+            return "updateInformation";
+        }
     }
     //修改用户个人信息界面中保存按钮
     @RequestMapping(value = "/updateUserInformationSubmit")
 //    @ResponseBody
-    public String updateREQESTSave(@ModelAttribute @Valid Users users, Model model,@RequestParam(value="img_z") MultipartFile file,@RequestParam(value="img_f") MultipartFile file1) throws IOException {
+    public String updateREQESTSave(@ModelAttribute @Valid Users users, Model model,@RequestParam(value="img_z") MultipartFile file) throws IOException {
         System.out.println("这里");
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
@@ -148,11 +160,11 @@ public class userController {
         String absPath=resource.getURL().getPath();
         String absPath1=resource.getURL().getPath();
         String fileName=file.getOriginalFilename();
-        String fileName1=file1.getOriginalFilename();
-        System.out.println(1111111);
-        System.out.println(absPath);
-        System.out.println(absPath1);
-        System.out.println(fileName);
+//        String fileName1=file1.getOriginalFilename();
+//        System.out.println(1111111);
+//        System.out.println(absPath);
+//        System.out.println(absPath1);
+//        System.out.println(fileName);
 
         //将用户传上去的图片下载到主机 正面
         BufferedOutputStream outputStream=new BufferedOutputStream(new FileOutputStream(absPath+"/"+fileName));
@@ -160,17 +172,18 @@ public class userController {
         outputStream.flush();
         outputStream.close();
         //反面
-        BufferedOutputStream outputStream1=new BufferedOutputStream(new FileOutputStream(absPath1+"/"+fileName1));
-        outputStream1.write(file1.getBytes());
-        outputStream1.flush();
-        outputStream1.close();
+//        BufferedOutputStream outputStream1=new BufferedOutputStream(new FileOutputStream(absPath1+"/"+fileName1));
+//        outputStream1.write(file1.getBytes());
+//        outputStream1.flush();
+//        outputStream1.close();
         //将图片的相对路径保存到数据库
 //        String dboPath=absPath+"/"+fileName;
         String dboPath="/img/"+fileName;
-        String dboPath1="/img/"+fileName1;
+//        String dboPath1="/img/"+fileName1;
 //        byte[] a=(byte)dboPath;
 //        users.setUserIdimageZ(dboPath);
 //        users.setUserIdimageF(dboPath1);
+        users.setUserIdimage(dboPath);
         usersMapper.updateByPrimaryKeySelective(users);
 
         //从数据库中获取前台提交的字段

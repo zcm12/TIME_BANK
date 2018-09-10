@@ -223,18 +223,46 @@ public class YluserController {
 /*****************前端拾取坐标*******************************/
     @RequestMapping(value = "/mybank")
     public String demomapp(Model model) {
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+        model.addAttribute("role",role);
+        System.out.println(users1.getUserGuid());
+        model.addAttribute("guid",users1.getUserGuid());
 
         return "demo_map1";
     }
     //将经纬度提交到后台
    @RequestMapping(value = "/aass")
-    public String SDAS(String jd,String wd){
-       System.out.println(11);
-        System.out.println(jd);
-       System.out.println(wd);
-       System.out.println(22);
-        return  "test";
+    public String SDAS(String jd,String wd,String cityName,String Guid,Model  model){
+       Subject account = SecurityUtils.getSubject();
+       String message=(String) account.getPrincipal();
+       Users users1=GetCurrentUsers(message);
+       String role=users1.getUserRole();
+       model.addAttribute("role",role);
+       StringBuilder stringBuilder=new StringBuilder();
+       stringBuilder.append(jd);
+       stringBuilder.append(",");
+       stringBuilder.append(wd);
+       stringBuilder.append(",");
+       stringBuilder.append(cityName);
+       System.out.println("拼接完成："+stringBuilder);
+        String address=""+stringBuilder;
+       String[] parts = address.split(",");
+       model.addAttribute("address",parts[2]);
+       model.addAttribute("jd",parts[0]);
+       model.addAttribute("wd",parts[1]);
+       TypeExample typeExample = new TypeExample();
+       typeExample.or().andTypeGroupIdEqualTo(4);
+       List<Type> types = typeMapper.selectByExample(typeExample);
+       model.addAttribute("types",types);
+       //选择请求紧急程度
+       typeExample.clear();
+       typeExample.or().andTypeGroupIdEqualTo(5);
+       List<Type> typex = typeMapper.selectByExample(typeExample);
+       model.addAttribute("typex",typex);
+        return  "apply";
 }
-
 
 }

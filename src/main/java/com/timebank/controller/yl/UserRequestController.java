@@ -102,9 +102,34 @@ public class UserRequestController {
         }
 
     }
-    //保存按钮
+    //发布需求保存按钮
+//    @RequestMapping(value = "/applySubmit")
+//    public String applySubmit(Model model,Reqest reqest)
+//    {    System.out.println("hahahahah");
+//        Subject account = SecurityUtils.getSubject();
+//        String message=(String) account.getPrincipal();
+//        Users users1=GetCurrentUsers(message);
+//        String role=users1.getUserRole();
+//        model.addAttribute("role",role);
+//
+//        //请求提交
+//        UUID guid=randomUUID();
+//        reqest.setReqGuid(guid.toString());
+//        reqest.setReqIssueUserGuid(users1.getUserGuid());
+//        //请求提出的时间设定为当前时间
+//        Date date = new Date();
+//        reqest.setReqIssueTime(date);
+//        //将请求批准状态先置为待审核
+//        Type type = typeMapper.selectByPrimaryKey("88888888-94e3-4eb7-aad3-333333333333");
+//        reqest.setReqTypeApproveStatus(type.getTypeGuid());
+//        //将请求处理状态先置为未启动
+//        Type type1 = typeMapper.selectByPrimaryKey("33333333-94e3-4eb7-aad3-111111111111");
+//        reqest.setReqTypeGuidProcessStatus(type1.getTypeGuid());
+//        reqestMapper.insert(reqest);
+//        return "applyListView";
+//    }
     @RequestMapping(value = "/applySubmit")
-    public String applySubmit(Reqest reqest, Model model)
+    public String applySubmit(Reqest reqest, Model model,String jd,String wd)
     {
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
@@ -125,6 +150,15 @@ public class UserRequestController {
         //将请求处理状态先置为未启动
         Type type1 = typeMapper.selectByPrimaryKey("33333333-94e3-4eb7-aad3-111111111111");
         reqest.setReqTypeGuidProcessStatus(type1.getTypeGuid());
+
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(jd);
+        stringBuilder.append(",");
+        stringBuilder.append(wd);
+        stringBuilder.append(",");
+        stringBuilder.append(reqest.getReqAddress());
+        String add=""+stringBuilder;
+        reqest.setReqAddress(add);
         reqestMapper.insert(reqest);
         return "applyListView";
     }
@@ -150,7 +184,7 @@ public class UserRequestController {
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
-        String role=users11.getUserRole();
+//        String role=users11.getUserRole();
 //        model.addAttribute("role",role);
 
         ReqestExample reqestExample=new ReqestExample();

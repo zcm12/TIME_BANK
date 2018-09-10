@@ -1,5 +1,7 @@
 package com.timebank.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Reqest {
@@ -28,6 +30,8 @@ public class Reqest {
      *
      * @mbg.generated
      */
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reqIssueTime;
 
     /**
@@ -73,6 +77,7 @@ public class Reqest {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reqDispatchTime;
 
     /**
@@ -91,6 +96,7 @@ public class Reqest {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reqAvailableStartTime;
 
     /**
@@ -100,6 +106,7 @@ public class Reqest {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reqAvailableEndTime;
 
     /**
@@ -127,6 +134,7 @@ public class Reqest {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reqStartTime;
 
     /**
@@ -136,6 +144,7 @@ public class Reqest {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reqEndTime;
 
     /**

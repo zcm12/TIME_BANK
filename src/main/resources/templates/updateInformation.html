@@ -16,9 +16,19 @@
     <script type="text/javascript" src="/region/distpicker.js"></script>
 
     <script th:inline="javascript">
-        message = [[${message}]];
-       var message1=[[${message1}]];
-        alert(message);
+//        message = [[${message}]];
+        var message1=[[${message1}]];
+
+    </script>
+    <script   LANGUAGE="JavaScript">
+        function   fresh()
+        {
+            if(location.href.indexOf("?reload=true")<0)
+            {
+                location.href+="?reload=true";
+            }
+        }
+        setTimeout("fresh()",50)
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -317,10 +327,10 @@
                                 </div>
                             </div>
                             <!--<div class="form-group  col-lg-6">-->
-                                <!--<label class="control-label col-lg-3" for="userBirthdate" >出生日期：</label>-->
-                                <!--<div class="col-lg-6">-->
-                                    <!--<input  class="form-control laydate-icon"  id="userBirthdate" name="userBirthdate"  type="text" placeholder="选择您的出生日期" />-->
-                                <!--</div>-->
+                            <!--<label class="control-label col-lg-3" for="userBirthdate" >出生日期：</label>-->
+                            <!--<div class="col-lg-6">-->
+                            <!--<input  class="form-control laydate-icon"  id="userBirthdate" name="userBirthdate"  type="text" placeholder="选择您的出生日期" />-->
+                            <!--</div>-->
                             <!--</div>-->
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userCommGuid" >所属小区：</label>
@@ -334,16 +344,16 @@
                                 <label class="control-label col-lg-4">居住区域：</label>
                                 <div class="form-group  col-lg-4" data-toggle="distpicker">
                                     <!--<div class="form-group">-->
-                                        <label class="control-label col-lg-4">省：</label>
-                                        <select class="form-control col-lg-4" id="userProvince"  name="userProvince" data-province="---- 选择省 ----"></select>
+                                    <label class="control-label col-lg-4">省：</label>
+                                    <select class="form-control col-lg-4" id="userProvince"  name="userProvince" data-province="---- 选择省 ----"></select>
                                     <!--</div>-->
                                     <!--<div class="form-group">-->
-                                        <label class="control-label col-lg-4" for="userCity">市：</label>
-                                        <select class="form-control col-lg-4" id="userCity"  name="userCity" data-city="---- 选择市 ----"></select>
+                                    <label class="control-label col-lg-4" for="userCity">市：</label>
+                                    <select class="form-control col-lg-4" id="userCity"  name="userCity" data-city="---- 选择市 ----"></select>
                                     <!--</div>-->
                                     <!--<div class="form-group">-->
-                                        <label class="control-label col-lg-4" for="userCity">区：</label>
-                                        <select class="form-control col-lg-4" id="userDistrict" name="userDistrict" data-district="---- 选择区 ----"></select>
+                                    <label class="control-label col-lg-4" for="userCity">区：</label>
+                                    <select class="form-control col-lg-4" id="userDistrict" name="userDistrict" data-district="---- 选择区 ----"></select>
                                     <!--</div>-->
                                 </div>
                             </div>
@@ -377,8 +387,8 @@
                                 </div>
 
                                 <!--<div class="img_wp" onclick="fanmian()">-->
-                                    <!--<img src="/img/qie.jpg" id="fmz"/>-->
-                                    <!--<p class="img_intro">身份证反面照</p>-->
+                                <!--<img src="/img/qie.jpg" id="fmz"/>-->
+                                <!--<p class="img_intro">身份证反面照</p>-->
                                 <!--</div>-->
                                 <div class="cf"></div>
                             </div>
@@ -489,20 +499,20 @@
             }
         }
 
-//        //反面
-//        function fanmian(){
-//            $('#img_f').click();
-//        }
-//        function getfImg(imgFile){
-//
-//            var file = imgFile.files[0];
-//
-//            var reader = new FileReader();
-//            reader.readAsDataURL(file);
-//            reader.onload = function(e){
-//                $("#fmz").attr("src",e.target.result);
-//            }
-//        }
+        //        //反面
+        //        function fanmian(){
+        //            $('#img_f').click();
+        //        }
+        //        function getfImg(imgFile){
+        //
+        //            var file = imgFile.files[0];
+        //
+        //            var reader = new FileReader();
+        //            reader.readAsDataURL(file);
+        //            reader.onload = function(e){
+        //                $("#fmz").attr("src",e.target.result);
+        //            }
+        //        }
         //申请
         function checkForm(){
             if($('#img_z').val()==null||$('#img_z').val()==''){
