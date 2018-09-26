@@ -6,38 +6,16 @@
     <script th:inline="javascript">
         var message1 = [[${message1}]];
 //        var message2 = [[${message2}]];
-
+//            alert(message1)
         //        alert("图片不出来请尝试刷新")
-    </script>
-    <script   LANGUAGE="JavaScript">
-        function   fresh()
-        {
-            if(location.href.indexOf("?reload=true")<0)
-            {
-                location.href+="?reload=true";
-            }
-        }
-        setTimeout("fresh()",50)
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
-            document.getElementById('imgInit1').src = message1;
+//            document.getElementById('imgInit1').src = message1;
 //            document.getElementById('imgInit2').src = message2;
-
-//            $(function(){
-//                $("#按钮id").click(function(){
-//                    refresh();
-//                });
-//            });
-//            //点击按钮调用的方法
-//            function refresh(){
-//                window.location.reload();//刷新当前页面.
-//
-//                //或者下方刷新方法
-//                //parent.location.reload()刷新父亲对象（用于框架）--需在iframe框架内使用
-//                // opener.location.reload()刷新父窗口对象（用于单开窗口
-//                //top.location.reload()刷新最顶端对象（用于多开窗口）
-//            }
+            if(message1!=null){
+                document.getElementById('imgInit1').src = message1;
+            }
 
             $('#USERSInputForm').bootstrapValidator({
                 message: 'This value is not valid',
@@ -164,12 +142,12 @@
                                     <input id="userPhone" name="userPhone" type="tel" class="form-control" th:value="${users.userPhone}" disabled="disabled"/>
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="userBirthdate" >出生日期：</label>
-                                <div class="col-lg-9">
-                                    <input id="userBirthdate" name="userBirthdate"  class="form-control" th:value="${users.userBirthdate}"  disabled="disabled"/>
-                                </div>
-                            </div>
+                            <!--<div class="form-group  col-lg-6">-->
+                                <!--<label class="control-label col-lg-3" for="userBirthdate" >出生日期：</label>-->
+                                <!--<div class="col-lg-9">-->
+                                    <!--<input id="userBirthdate" name="userBirthdate"  class="form-control" th:value="${users.userBirthdate}"  disabled="disabled"/>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userEmerperson" >紧急联系人：</label>
                                 <div class="col-lg-9">
@@ -234,17 +212,25 @@
                                     <input id="userCommGuid" name="userCommGuid" type="text" class="form-control" th:value="${users.userCommGuid}"  disabled="disabled"/>
                                 </div>
                             </div>
+                            <!--<div class="id_img_wp">-->
+                                <!--<input type="file" accept="image/*"  style="display:none" value="" id="img_z" name="img_z" />-->
+                                <!--&lt;!&ndash;<input type="file" accept="image/*" value="" id="img_f" name="img_f" style="display:none"/>&ndash;&gt;-->
+                                <!--<div class="img_wp" >-->
+                                    <!--<img src=""  id="imgInit1">-->
+                                    <!--<p class="img_intro">手持身份证正面照</p>-->
+                                <!--</div>-->
+
+                                <!--<div class="cf"></div>-->
+                            <!--</div>-->
                             <div class="id_img_wp">
-                                <input type="file" accept="image/*"  style="display:none" value="" id="img_z" name="img_z" />
-                                <input type="file" accept="image/*" value="" id="img_f" name="img_f" style="display:none"/>
-                                <div class="img_wp" >
-                                    <img src=""  id="imgInit1">
+                                <input type="file" accept="image/*" onchange="getzImg(this)" style="display:none" value="" id="img_z" name="img_z"/>
+                                <!--<input type="file" accept="image/*" onchange="getfImg(this)" value="" id="img_f" name="img_f" style="display:none"/>-->
+                                <div class="img_wp" onclick="zhengmian()">
+                                    <img src="/img/qie.jpg" id="imgInit1" name="tupian" />
                                     <p class="img_intro">身份证正面照</p>
                                 </div>
 
-                                <div class="cf"></div>
-                            </div><br>
-                        </div>
+                            </div>
                         <div class="form-actions">
                             <input id="btnSubmit1" class="btn btn-primary" type="submit" value="通过" />
 

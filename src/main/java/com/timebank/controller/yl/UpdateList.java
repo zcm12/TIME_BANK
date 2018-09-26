@@ -10,6 +10,25 @@ public class UpdateList {
     private int waitId;
     private int evaluateId;
     private int shenhe;
+    private double jd;
+
+    public double getJd() {
+        return jd;
+    }
+
+    public void setJd(double jd) {
+        this.jd = jd;
+    }
+
+    public double getWd() {
+        return wd;
+    }
+
+    public void setWd(double wd) {
+        this.wd = wd;
+    }
+
+    private  double wd;
 
     public int getShenhe() {
         return shenhe;

@@ -59,7 +59,8 @@ public class UserResponseController {
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
-        return "applyViewOfVolunteer";
+        model.addAttribute("guid",users11.getUserGuid());
+        return "startmap1";
     }
     /**
      * 得到几天前的时间

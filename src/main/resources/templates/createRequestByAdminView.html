@@ -198,10 +198,10 @@
                             notEmpty: {
                                 message: '请求实际消耗货币不能为空'
                             },
-                             regexp: {
-                                    regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
-                                    message: '请求实际消耗货币只能包含正浮点数'
-                             }
+                            regexp: {
+                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
+                                message: '请求实际消耗货币只能包含正浮点数'
+                            }
                         }
                     },
                     reqActualDurationTime: {
@@ -272,7 +272,7 @@
                     }
                 },
                 submitHandler: function (validator, form, submitButton) {
-                        alert("submit");
+                    alert("submit");
                 }
 
             });
@@ -312,13 +312,6 @@
                                     />
                                 </div>
                             </div>
-                            <!--<div class="form-group  col-lg-6" hidden="hidden">-->
-                                <!--<label class="control-label col-lg-3" for="reqIssueUserGuid" >请求者ID：</label>-->
-                                <!--<div class="col-lg-9">-->
-                                    <!--<input id="reqIssueUserGuid" name="reqIssueUserGuid" type="text" class="form-control" placeholder="录入请求者ID"-->
-                                    <!--/>-->
-                                <!--</div>-->
-                            <!--</div>-->
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqIssueUserGuid" >请求者账户名：</label>
                                 <div class="col-lg-9">
@@ -326,48 +319,34 @@
                                     />
                                 </div>
                             </div>
-                            <!--<div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="reqIssueTime" >设定提出请求的时间：</label>
-                                <div class="col-lg-9">
-                                    <input id="reqIssueTime" name="reqIssueTime" class="form_datetime form-control" type="text"  placeholder="录入提出请求的时间"
-                                    />
-                                </div>
-                            </div>-->
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqAddress" >请求提出地址：</label>
                                 <div class="col-lg-9">
-                                    <input id="reqAddress" name="reqAddress" type="select" class="form-control" placeholder="录入请求提出地址"
+                                    <input id="reqAddress" name="reqAddress" type="text" class="form-control" placeholder="录入请求提出地址"
                                     />
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqTitle" >请求的标题：</label>
                                 <div class="col-lg-9">
-                                    <input id="reqTitle" name="reqTitle" type="select" class="form-control" placeholder="录入请求的标题"
+                                    <input id="reqTitle" name="reqTitle" type="text" class="form-control" placeholder="录入请求的标题"
                                     />
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="reqDesp" >请求描述：</label>
-                                <div class="col-lg-9">
-									<textarea rows="5" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\u4E00-\u9FA5]/g,''))"id="reqDesp" name="reqDesp" class="form-control" placeholder="录入请求描述" onmousedown="s(event,this)">
-                                    </textarea>
-                                </div>
+                                 <label class="control-label col-lg-3" for="reqDesp" >请求描述：</label>
+                                    <div class="col-lg-9">
+                                        <textarea rows="5" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\u4E00-\u9FA5]/g,''))"id="reqDesp" name="reqDesp" class="form-control" placeholder="录入请求描述" onmousedown="s(event,this)">
+                                        </textarea>
+                                    </div>
                             </div>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="reqComment" >请求补充：</label>
-                                <div class="col-lg-9">
-									<textarea rows="5" id="reqComment" name="reqComment" class="form-control" placeholder="录入亲请求补充" onmousedown="s(event,this)">
-                                    </textarea>
-                                </div>
+                                    <label class="control-label col-lg-3" for="reqComment" >请求补充：</label>
+                                        <div class="col-lg-9">
+                                            <textarea rows="5" id="reqComment" name="reqComment" class="form-control" placeholder="录入亲请求补充" onmousedown="s(event,this)">
+                                            </textarea>
+                                        </div>
                             </div>
-                            <!--<div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="reqDispatchTime" >设定请求发布时间：</label>
-                                <div class="col-lg-9">
-                                    <input id="reqDispatchTime" name="reqDispatchTime" class="form_datetime form-control" type="text"  placeholder="录入请求发布时间"
-                                    />
-                                </div>
-                            </div>-->
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqTypeGuidClass" >选择请求分类：</label>
                                 <div class="col-lg-9">
@@ -391,18 +370,18 @@
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="reqRreDurationTime" >预计持续时间：</label>
-                                <div class="col-lg-9">
-                                    <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqRreDurationTime" name="reqRreDurationTime" type="text" class="form-control" placeholder="录入预计持续时间"
-                                    /><b>小时</b>
-                                </div>
+                            <label class="control-label col-lg-3" for="reqRreDurationTime" >预计持续时间：</label>
+                            <div class="col-lg-9">
+                            <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqRreDurationTime" name="reqRreDurationTime" type="text" class="form-control" placeholder="录入预计持续时间"
+                            /><b>小时</b>
+                            </div>
                             </div>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="reqPreCunsumeCurrency" >估计消耗货币：</label>
-                                <div class="col-lg-9">
-                                    <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqPreCunsumeCurrency" name="reqPreCunsumeCurrency" type="text" class="form-control" placeholder="格式为正浮点数"
-                                    /><b>元</b>
-                                </div>
+                            <label class="control-label col-lg-3" for="reqPreCunsumeCurrency" >估计消耗货币：</label>
+                            <div class="col-lg-9">
+                            <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqPreCunsumeCurrency" name="reqPreCunsumeCurrency" type="text" class="form-control" placeholder="格式为正浮点数"
+                            /><b>元</b>
+                            </div>
                             </div>
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqStartTime" >设定请求服务开始时间：</label>
@@ -419,7 +398,7 @@
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6" hidden="hidden">
-                                <label class="control-label col-lg-3" for="reqActualConsumeCurrency" >请求实际消耗货币：</label>
+                                <label class="control-label col-lg-3" for="reqActualConsumeCurrency"  >请求实际消耗货币：</label>
                                 <div class="col-lg-9">
                                     <input id="reqActualConsumeCurrency" name="reqActualConsumeCurrency" type="text" class="form-control" placeholder="录入请求实际消耗货币"
                                     /><b>元</b>
@@ -433,19 +412,12 @@
                                     </select>
                                 </div>
                             </div>
-                            <!--<div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="reqTargetsUserGuid" >接收请求人的ID：</label>
-                                <div class="col-lg-9">
-									<textarea rows="5" id="reqTargetsUserGuid" name="reqTargetsUserGuid" class="form-control" placeholder="录入接收请求人的ID" onmousedown="s(event,this)">
-                                    </textarea>
-                                </div>
-                            </div>-->
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="reqActualDurationTime" >请求持续时间长度：</label>
-                                <div class="col-lg-9">
-                                    <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqActualDurationTime" name="reqActualDurationTime" type="text" class="form-control" placeholder="录入请求持续时间长度"
-                                    /><b>小时</b>
-                                </div>
+                            <label class="control-label col-lg-3" for="reqActualDurationTime" >请求持续时间长度：</label>
+                            <div class="col-lg-9">
+                            <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqActualDurationTime" name="reqActualDurationTime" type="text" class="form-control" placeholder="录入请求持续时间长度"
+                            /><b>小时</b>
+                            </div>
                             </div>
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqPersonNum" >请求需要人数：</label>

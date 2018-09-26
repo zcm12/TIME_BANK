@@ -155,8 +155,9 @@ public class MainController {
                     Community community = communityMapper.selectByPrimaryKey(users2.getUserCommGuid());
                     users2.setUserCommGuid(community.getCommTitle());
                 }
+                model.addAttribute("guid",users2.getUserGuid());
                 model.addAttribute("users", users2);
-                return "userInformation";
+                return "startmap1";
             }
             //小区管理员
             if (subject.hasRole("ADMIN")) {

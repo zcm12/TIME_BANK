@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
 
-    <classPathEntry location="C:\Users\97775\.IntelliJIdea2017.2\config\jdbc-drivers\SQL Server\6.0.8112.100\sqljdbc42-6.0.8112.100.jar"/>
+    <classPathEntry location="C:\Users\004\.IntelliJIdea2017.2\config\jdbc-drivers\SQL Server\7.0.0\mssql-jdbc-7.0.0.jre8.jar"/>
 
     <context id="context" targetRuntime="MyBatis3">
         <commentGenerator>

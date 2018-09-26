@@ -1,0 +1,200 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head  th:include="basepage :: common_header(~{::title},~{::script})">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script th:inline="javascript">
+        var message = [[${guid}]];
+    </script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZsT9uATUVFSWeXgFMQDsH4hP5UbQD2YC"></script>
+    <title>定位</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-2 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-10 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        完善用户信息
+                    </h3>
+                </div>
+    <div class="panel-body">
+        <form id="mapform" action="/aass" method="post" role="form">
+
+            <div class="form-group  col-lg-6">
+                    <label class="control-label col-lg-3"  >地址：</label>
+                    <div class="col-lg-9">
+                        <input id="cityName" name="cityName"  type="text"    />
+                    </div>
+            </div>
+
+            <div class="form-group  col-lg-6">
+                <label class="control-label col-lg-3"  >经度：</label>
+                <div class="col-lg-9">
+                    <input type="text" id="jd" name="jd"/>
+                </div>
+            </div>
+            <div class="form-group  col-lg-6">
+                <label class="control-label col-lg-3"  >纬度：</label>
+                <div class="col-lg-9">
+                    <input type="text" id="wd" name="wd"/>
+                </div>
+            </div>
+            <div class="form-group  col-lg-6">
+                <label class="control-label col-lg-3"  >guid：</label>
+                <div class="col-lg-9">
+                    <input type="text" id="Guid" name="Guid"/>
+                </div>
+            </div>
+            <div class="form-group  col-lg-6">
+                <label class="control-label col-lg-3"  >后台传过来的数据：</label>
+                <div class="col-lg-9">
+                    <input type="text" id="shuju" name="shuju"/>
+                </div>
+            </div>
+            <div class="form-group  col-lg-6">
+                <div class="col-lg-9">
+                    <input type="button" value="查询" id="send" onclick="theLocation()" />
+                </div>
+            </div>
+            <div class="form-actions">
+                <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+            </div>
+
+            <div class="form-group  col-lg-6" id="allmap" style="width:900px;height:600px">
+            </div>
+            <div class="form-group  col-lg-6" id="r-result">
+            </div>
+        </form>
+
+    </div>
+             </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    document.getElementById('Guid').value = message;
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(50.331398,39.897445);
+    map.centerAndZoom(point,11);
+    //ip定位到当前城市
+    function myFun(result){
+        var cityName = result.name;
+        map.setCenter(cityName);
+//        alert("当前定位城市:"+cityName);
+        document.getElementById("cityName").value=cityName;
+    }
+    var myCity = new BMap.LocalCity();
+    var aa;
+    myCity.get(myFun);
+    // 创建地址解析器实例 输入文字地址，在地图上标识，然后获取经纬度
+    var myGeo = new BMap.Geocoder();
+    // 将地址解析结果显示在地图上,并调整地图视野
+    function theLocation(){
+        var city = document.getElementById("cityName").value;
+        if(city != ""){
+
+            myGeo.getPoint(city, function(point){
+                if (point) {
+                    map.centerAndZoom(point, 16);
+                    map.addOverlay(new BMap.Marker(point));
+//                    var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300,157));
+////                    var myIcon = new BMap.Icon("http://api.map.baidu.com/img/marker.png", new BMap.Size(300,157));
+//
+//                    var marker2 = new BMap.Marker(point,{icon:myIcon});  // 创建标注
+//                    map.addOverlay(marker2);
+                    //经纬度
+                    document.getElementById('wd').value=point.lat;
+                    document.getElementById('jd').value=point.lng;
+                    $.ajax({
+                        type: "post",
+                        url: "/css/testajax",
+                        data: {wd:$('#wd').val(),jd:$('#jd').val() },
+                        dataType: "json",
+                        async:false,
+                        success: function(data){
+                            //获取信息
+//                                 alert(data.rows[0].reqGuid),
+                            //获取总数
+//                                 alert(data.total)
+//                            alert(myArray1[0])
+//                            alert($('#wd').val())
+                            //动态添加标注
+                            for(var i=0;i<data.total;i++){
+
+                                aa=data.rows[i].reqAddress;
+                                myArray1=aa.split(",");
+                                pt = new BMap.Point(myArray1[1],myArray1[0]);
+                                reqGuid=data.rows[i].reqGuid;
+                               var  marker= new BMap.Marker(pt);
+                                map.addOverlay(marker);
+                                //动态添加信息窗 标题 地址 描述 开始时间 结束时间 人数
+                                title=data.rows[i].reqTitle;
+                                des=data.rows[i].reqDesp;
+                                //时间格式的转换
+                                reqstartTime=new Date(data.rows[i].reqAvailableStartTime);
+                                reqendTime=new Date(data.rows[i].reqAvailableEndTime);
+                                startTime=reqstartTime.toLocaleString();
+                                endTime=reqendTime.toLocaleString();
+                                num=data.rows[i].reqPersonNum;
+                                opts = {
+                                    width : 200,
+                                    height: 300,
+                                    title :"<strong style=\"font-size:16px;font-weight:bold\">" + "标题:" +title+ "</strong>" , // 信息窗口标题
+                                    enableMessage:true,
+                                    message:""
+                                };
+                                //动态设置 opts的标题和showInfo的内容
+                                showInfo = "地址：" + myArray1[2] + "<br/>" + "描述：" + des + "<br/>开始时间："
+                                    + startTime +  "<br/>结束时间：" + endTime +"<br/>人数: " +num+"<br/><span style='display: none'>reqGuid:"+reqGuid+"</span><br/>"+
+                                    '<input onclick="jieshou(this)" type=\"button\" id=\"btn1\" value=\"接受\"' +
+                                    ' style=\"width: 100px;height:30px;margin-top: 20px;margin-left: 120px;\">'+
+                                    '<input onclick="chakan(this)" type=\"button\" id=\"btn1\" value=\"查看详情\" ' +
+                                    'style=\"width: 100px;height:30px;margin-top: 20px;margin-left: 120px;\">';
+                                infoWindow = new BMap.InfoWindow(showInfo,opts);  // 创建信息窗口对象
+                                marker.infoWindow=infoWindow;//给当前标注新增一个属性以便保存窗口信息infoWindow
+                                marker.addEventListener("click", function(e){
+                                    this.openInfoWindow(e.target.infoWindow);//点击标注时，打开改标注对
+                                    arry1=e.target.infoWindow.getContent().split("<br/>");
+//                                    alert(arry1[5])
+                                    arry2=arry1[5].split(":");
+//                                    alert(arry2[2])
+                                    arry3=arry2[2].split("<");
+                                    aa=arry3[0];
+//                                    alert(aa)
+                                });
+                                };
+                        }
+                         });
+                }else{
+                    alert("您选择地址没有解析到结果!");
+                }
+            });
+        }else{
+            alert("请输入地址，再搜索");
+        }
+    }
+
+
+    map.addControl(new BMap.NavigationControl());
+    map.enableScrollWheelZoom(true);
+//    function jieshou(name) {
+    //        window.location.href="/css"+message;
+    //    }
+    function chakan(name) {
+        window.location.href="/css1/aaa/"+aa;
+    }
+
+</script>

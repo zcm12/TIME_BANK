@@ -226,7 +226,7 @@ public class TouristController {
         String A=users1.getUserIdimage();
 //        String B=users1.getUserIdimageZ();
         model.addAttribute("message1",A);
-//        System.out.println(A);
+        System.out.println(A);
 //        model.addAttribute("message2",B);
 
         model.addAttribute("users",users1);

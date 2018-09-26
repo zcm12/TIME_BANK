@@ -1,5 +1,6 @@
 package com.timebank.controller.sxq;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timebank.controller.yl.UpdateList;
 import com.timebank.domain.*;
@@ -111,7 +112,35 @@ public class activitycontroller {
         model.addAttribute("role",role);
         return "publishactivity";
     }
+    @RequestMapping(value="/seeUsersAdd")
+    public String seeUsersAddMap(Model model){
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
 
+        String commit=users.getUserCommGuid();
+
+        //遍历本小区用户 得到所有的实时位置  不为空
+        UsersExample usersExample=new UsersExample();
+        List<Users> usersList=usersMapper.selectByExample(usersExample);
+        List<Users> usersList1=new ArrayList<>();
+        for(Users it:usersList){
+            if(it.getUserCurrentaddr()!=null&&it.getUserCommGuid().equals(commit)){
+                usersList1.add(it);
+            }
+        }
+        ObjectMapper objectMapper=new ObjectMapper();
+        TableRecordsJson tableRecordsJson=new TableRecordsJson(usersList1,usersList1.size());
+        try {
+            String JSON=objectMapper.writeValueAsString(tableRecordsJson);
+            model.addAttribute("message",JSON);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "seeUserAddress";
+    }
     //发布活动插入数据库请求
     @RequestMapping(value = "/activityinsert")
     private String activityInsert(@ModelAttribute @Valid Activity activity, Errors errors, Model model) {
@@ -843,12 +872,7 @@ public class activitycontroller {
         String role=users.getUserRole();
         model.addAttribute("role",role);
 
-
-
-
-
         UsersExample usersExample1 = new UsersExample();
-
         TypeExample typeExample = new TypeExample();
         CommunityExample communityExample = new CommunityExample();
         ActpartExample actpartExample = new ActpartExample();
@@ -896,7 +920,7 @@ public class activitycontroller {
         TableRecordsJson tableRecordsJson = new TableRecordsJson(usersList, total);
         try {
             String json1 = mapper.writeValueAsString(tableRecordsJson);
-            System.out.println(json1);
+//            System.out.println(json1);
             return json1;
         } catch (Exception e) {
             return null;
@@ -928,7 +952,7 @@ public class activitycontroller {
         //TODO:打分完成后修改处理状态的字段  改成33333333-94E3-4EB7-AAD3-777777777777
         Activity activity=activityMapper.selectByPrimaryKey(id);
         ActpartExample actpartExample1=new ActpartExample();
-        actpartExample1.or().andActpartUserGuidEqualTo(id);
+        actpartExample1.or().andActpartActivityGuidEqualTo(id);
         List<Actpart> actpartList=actpartMapper.selectByExample(actpartExample1);
         int num=0;
         int num2=0;

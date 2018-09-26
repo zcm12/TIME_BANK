@@ -104,14 +104,14 @@ public class AdminRequestController {
 
     //代发请求界面中的 “保存”按钮  将数据插入到数据库
     @RequestMapping(value = "/createRequestByAdmin")
-    public String insertRequest(@ModelAttribute @Valid Reqest reqest, Model model,Errors errors) {
+    public String insertRequest( Reqest reqest, Model model,Errors errors) {
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
 
-        if (!errors.hasErrors()) {
+//        if (!errors.hasErrors()) {
 
 //            model.addAttribute("role",role);
 
@@ -140,7 +140,7 @@ public class AdminRequestController {
             reqest.setReqTypeApproveStatus("88888888-94e3-4eb7-aad3-111111111111");
             reqest.setReqTypeGuidProcessStatus("33333333-94e3-4eb7-aad3-111111111111");
             reqestMapper.insert(reqest);
-        }
+//        }
         return "listRequestByAdminView";
     }
 

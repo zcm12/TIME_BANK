@@ -1,26 +1,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head>
+<!--th:include="basepage :: common_header(~{::title},~{::script})"-->
+<head  >
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <script th:inline="javascript">
     var message = [[${guid}]];
     var address=[[${address}]];
-//    alert(message)
 </script>
-    <!--<script type="text/javascript">-->
-        <!--$(document).ready(function () {-->
-
-            <!--})-->
-            <!--</script>-->
     <style type="text/css">
         body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
         #allmap{height:500px;width:100%;}
         #r-result{width:100%; font-size:14px;}
     </style>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZsT9uATUVFSWeXgFMQDsH4hP5UbQD2YC"></script>
-
-
     <title>定位</title>
 </head>
 <body>
@@ -28,7 +20,7 @@
 <div id="allmap"></div>
 <div id="r-result">
 
-       <div class="panel-body">
+       <div >
            <form id="mapform" action="/aass" method="post" role="form">
        <div>
             填写详细地址: <input id="cityName" name="cityName"  type="text" style="width:220px; margin-right:10px;" placeholder="请按地图正确提示填写"  />
@@ -61,20 +53,24 @@
     var myCity = new BMap.LocalCity();
     myCity.get(myFun);
 
-    //手动输入检索地址获得经纬度
+
+    //点击地图获得经纬度
     map.addEventListener("click",function(e){
         var input =  document.getElementById('wd');
         var input2 =  document.getElementById('jd');
         input.value = e.point.lng;
         input2.value= e.point.lat;
     });
+
+
+
     map.addControl(new BMap.NavigationControl());
     map.enableScrollWheelZoom(true);
 
     var local = new BMap.LocalSearch(map, {
         renderOptions:{map: map}
     });
-//    点击查询按钮
+//    点击查询按钮   显示几个标注
     function theLocation(){
         var city = document.getElementById("cityName").value;
         if(city != ""){
@@ -91,4 +87,7 @@
             document.getElementById("cityName").value=addComp.province  + addComp.city  + addComp.district +  addComp.street  + addComp.streetNumber;
         });
     });
+
+
+
 </script>

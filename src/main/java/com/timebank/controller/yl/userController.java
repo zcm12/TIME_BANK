@@ -112,7 +112,6 @@ public class userController {
     @RequestMapping(value = "/modifyUserInformationView")
     public String modifyUserInformationView(Model model)
     {
-//        System.out.println("完善个人信息");
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
@@ -158,31 +157,19 @@ public class userController {
         ClassPathResource resource;
         resource = new ClassPathResource("static/img");
         String absPath=resource.getURL().getPath();
-        String absPath1=resource.getURL().getPath();
+
         String fileName=file.getOriginalFilename();
-//        String fileName1=file1.getOriginalFilename();
-//        System.out.println(1111111);
-//        System.out.println(absPath);
-//        System.out.println(absPath1);
-//        System.out.println(fileName);
+        System.out.println(absPath);
+
 
         //将用户传上去的图片下载到主机 正面
         BufferedOutputStream outputStream=new BufferedOutputStream(new FileOutputStream(absPath+"/"+fileName));
         outputStream.write(file.getBytes());
         outputStream.flush();
         outputStream.close();
-        //反面
-//        BufferedOutputStream outputStream1=new BufferedOutputStream(new FileOutputStream(absPath1+"/"+fileName1));
-//        outputStream1.write(file1.getBytes());
-//        outputStream1.flush();
-//        outputStream1.close();
+
         //将图片的相对路径保存到数据库
-//        String dboPath=absPath+"/"+fileName;
         String dboPath="/img/"+fileName;
-//        String dboPath1="/img/"+fileName1;
-//        byte[] a=(byte)dboPath;
-//        users.setUserIdimageZ(dboPath);
-//        users.setUserIdimageF(dboPath1);
         users.setUserIdimage(dboPath);
         usersMapper.updateByPrimaryKeySelective(users);
 

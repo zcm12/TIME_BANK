@@ -263,6 +263,6 @@ public class YluserController {
        List<Type> typex = typeMapper.selectByExample(typeExample);
        model.addAttribute("typex",typex);
         return  "apply";
-}
+    }
 
 }

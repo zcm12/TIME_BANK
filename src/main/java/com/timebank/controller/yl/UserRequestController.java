@@ -1,5 +1,6 @@
 package com.timebank.controller.yl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timebank.appmodel.ReqestApp;
 import com.timebank.appmodel.ResultModel;
@@ -98,6 +99,8 @@ public class UserRequestController {
             model.addAttribute("types",types);
             model.addAttribute("users", users1);
             model.addAttribute("message","请先完善个人信息");
+            model.addAttribute("message1",users1.getUserIdimage());
+
             return "updateUserInformation";
         }
 
@@ -323,7 +326,7 @@ public class UserRequestController {
             updateList.setWaitId(0);
             updateList.setEvaluateId(0);
             model.addAttribute("updateList",updateList);
-        }else if(approveId == "88888888-94E3-4EB7-AAD3-222222222222")
+        }else if(approveId.equals("88888888-94E3-4EB7-AAD3-222222222222"))
         {
             System.out.println("逻辑判断请求批准状态为驳回");
             //TODO 请求批准状态为驳回
@@ -832,5 +835,83 @@ public class UserRequestController {
         model.addAttribute("updateList",updateList);
         return "listRequestModel";
     }
+    //申请需求  查询按钮
+    @RequestMapping("/css/testajax")
+    @ResponseBody
+    public String AAAA(String jd,String wd,Model model) throws JsonProcessingException {
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+        model.addAttribute("role",role);
+        double JD=Double.parseDouble(jd);
+        double WD=Double.parseDouble(wd);
+        UpdateList updateList=new UpdateList();
+        ReqestExample reqestExample=new ReqestExample();
+        List<Reqest> reqestList=reqestMapper.selectByExample(reqestExample);
+        List<Reqest> reqestList1=new ArrayList<>();
+        int num=0;
+        for(Reqest it:reqestList){
+            if(it.getReqAddress()!=null) {
+                String Address = it.getReqAddress();
+                String[] parts = Address.split(",");
+                double dbowd = Double.parseDouble(parts[0]);
+                double dbojd = Double.parseDouble(parts[1]);
+                double d=GetDistance(JD, WD, dbojd, dbowd);
+                if (d <= 10) {
+                    reqestList1.add(it);
+                    num++;
+                }
+            }
+        }
+        //将类的集合封装成json
+        ObjectMapper mapper = new ObjectMapper();
+        com.timebank.controller.sxq.TableRecordsJson tableRecordsJson = new com.timebank.controller.sxq.TableRecordsJson(reqestList1, num);
+        String json1 = mapper.writeValueAsString(tableRecordsJson);
+        System.out.println(json1);
+        return json1;
+    }
+    /*计算经纬度距离*/
+    private static double EARTH_RADIUS = 6378.137;
 
+    private static double rad(double d) {
+        return d * Math.PI / 180.0;
+    }
+
+    public static double GetDistance(double lng1, double lat1, double lng2, double lat2) {
+        double radLat1 = rad(lat1);
+        double radLat2 = rad(lat2);
+        double a = radLat1 - radLat2;
+        double b = rad(lng1) - rad(lng2);
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
+                + Math.cos(radLat1) * Math.cos(radLat2)
+                * Math.pow(Math.sin(b / 2), 2)));
+        s = s * EARTH_RADIUS;
+        s = Math.round(s * 10000d) / 10000d;
+        return s; //单位km
+    }
+    //申请请求界面  查看详情按钮
+    @RequestMapping(value="/css1/aaa/{message}")
+    public String chaKanXiangQing(Model model, @PathVariable String message){
+        //用户guid
+        System.out.println(11111);
+        System.out.println(message);
+        //请求
+        Subject account = SecurityUtils.getSubject();
+        String message1=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message1);
+        String role=users11.getUserRole();
+        model.addAttribute("role",role);
+        Reqest reqest = reqestMapper.selectByPrimaryKey(message);
+        //处理紧急状态
+        String urgencyId = reqest.getReqTypeGuidUrgency();
+        Type type = typeMapper.selectByPrimaryKey(urgencyId);
+        reqest.setReqTypeGuidUrgency(type.getTypeTitle());
+        //处理选择分类
+        String typeId = reqest.getReqTypeGuidClass();
+        Type type1 = typeMapper.selectByPrimaryKey(typeId);
+        reqest.setReqTypeGuidClass(type1.getTypeTitle());
+        model.addAttribute("reqest",reqest);
+        return "detailsViewOfVolunteer";
+    }
 }
