@@ -509,7 +509,8 @@ public class UserResponseController {
         //将实体类转换成json数据并返回
         try {
             String json1 = mapper.writeValueAsString(tableRecordsJson);
-            // System.out.println(json1);
+            System.out.println(11111);
+             System.out.println(json1);
             return json1;
         }catch (Exception e){
             return null;
@@ -518,16 +519,21 @@ public class UserResponseController {
 
 /*
     //查看服务列表后向后台数据索要数据
-    @RequestMapping(value="/getRESPONDListJsonData",produces = "application/json;charset=UTF-8")
+    @RequestMapping(value="/getRESPONDListJsonData")
     @ResponseBody
-    public String getRESPONDListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder){
-
+    public String getRESPONDListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder,Model model){
+        System.out.println("11111111111");
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
-//        model.addAttribute("role",role);
         RespondExample respondExample=new RespondExample();
+        model.addAttribute("role",role);
+        //判断自己响应过哪些请求
+        String ownId = users11.getUserGuid();
+        respondExample.or().andResUserGuidEqualTo(ownId);
+        List<Respond> responds=respondMapper.selectByExample(respondExample);
+
         respondExample.clear();
         //处理排序信息
         if(sortName!=null){
@@ -536,10 +542,7 @@ public class UserResponseController {
             //将排序信息添加到example中
             respondExample.setOrderByClause(order);
         }
-        //判断自己响应过哪些请求
-        String ownId = users11.getUserGuid();
-        respondExample.or().andResUserGuidEqualTo(ownId);
-        List<Respond> responds=respondMapper.selectByExample(respondExample);
+
         List<Respond> respondRecordList=new ArrayList<>();
         for(int i=offset;i< offset+limit&&i < responds.size();i++){
             Respond respond1=responds.get(i);

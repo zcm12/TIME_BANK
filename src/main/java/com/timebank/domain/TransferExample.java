@@ -795,76 +795,6 @@ public class TransferExample {
             return (Criteria) this;
         }
 
-        public Criteria andTransToUserAccountIsNull() {
-            addCriterion("TRANS_TO_USER_ACCOUNT is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountIsNotNull() {
-            addCriterion("TRANS_TO_USER_ACCOUNT is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountEqualTo(String value) {
-            addCriterion("TRANS_TO_USER_ACCOUNT =", value, "transToUserAccount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountNotEqualTo(String value) {
-            addCriterion("TRANS_TO_USER_ACCOUNT <>", value, "transToUserAccount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountGreaterThan(String value) {
-            addCriterion("TRANS_TO_USER_ACCOUNT >", value, "transToUserAccount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountGreaterThanOrEqualTo(String value) {
-            addCriterion("TRANS_TO_USER_ACCOUNT >=", value, "transToUserAccount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountLessThan(String value) {
-            addCriterion("TRANS_TO_USER_ACCOUNT <", value, "transToUserAccount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountLessThanOrEqualTo(String value) {
-            addCriterion("TRANS_TO_USER_ACCOUNT <=", value, "transToUserAccount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountLike(String value) {
-            addCriterion("TRANS_TO_USER_ACCOUNT like", value, "transToUserAccount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountNotLike(String value) {
-            addCriterion("TRANS_TO_USER_ACCOUNT not like", value, "transToUserAccount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountIn(List<String> values) {
-            addCriterion("TRANS_TO_USER_ACCOUNT in", values, "transToUserAccount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountNotIn(List<String> values) {
-            addCriterion("TRANS_TO_USER_ACCOUNT not in", values, "transToUserAccount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountBetween(String value1, String value2) {
-            addCriterion("TRANS_TO_USER_ACCOUNT between", value1, value2, "transToUserAccount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTransToUserAccountNotBetween(String value1, String value2) {
-            addCriterion("TRANS_TO_USER_ACCOUNT not between", value1, value2, "transToUserAccount");
-            return (Criteria) this;
-        }
-
         public Criteria andTransFromUserAccountIsNull() {
             addCriterion("TRANS_FROM_USER_ACCOUNT is null");
             return (Criteria) this;
@@ -932,6 +862,76 @@ public class TransferExample {
 
         public Criteria andTransFromUserAccountNotBetween(String value1, String value2) {
             addCriterion("TRANS_FROM_USER_ACCOUNT not between", value1, value2, "transFromUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountIsNull() {
+            addCriterion("TRANS_TO_USER_ACCOUNT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountIsNotNull() {
+            addCriterion("TRANS_TO_USER_ACCOUNT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountEqualTo(String value) {
+            addCriterion("TRANS_TO_USER_ACCOUNT =", value, "transToUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountNotEqualTo(String value) {
+            addCriterion("TRANS_TO_USER_ACCOUNT <>", value, "transToUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountGreaterThan(String value) {
+            addCriterion("TRANS_TO_USER_ACCOUNT >", value, "transToUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountGreaterThanOrEqualTo(String value) {
+            addCriterion("TRANS_TO_USER_ACCOUNT >=", value, "transToUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountLessThan(String value) {
+            addCriterion("TRANS_TO_USER_ACCOUNT <", value, "transToUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountLessThanOrEqualTo(String value) {
+            addCriterion("TRANS_TO_USER_ACCOUNT <=", value, "transToUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountLike(String value) {
+            addCriterion("TRANS_TO_USER_ACCOUNT like", value, "transToUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountNotLike(String value) {
+            addCriterion("TRANS_TO_USER_ACCOUNT not like", value, "transToUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountIn(List<String> values) {
+            addCriterion("TRANS_TO_USER_ACCOUNT in", values, "transToUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountNotIn(List<String> values) {
+            addCriterion("TRANS_TO_USER_ACCOUNT not in", values, "transToUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountBetween(String value1, String value2) {
+            addCriterion("TRANS_TO_USER_ACCOUNT between", value1, value2, "transToUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransToUserAccountNotBetween(String value1, String value2) {
+            addCriterion("TRANS_TO_USER_ACCOUNT not between", value1, value2, "transToUserAccount");
             return (Criteria) this;
         }
     }

@@ -6,7 +6,7 @@
 	<groupId>com.timebank</groupId>
 	<artifactId>timebank</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>timebank</name>
 	<description>Demo project for Spring Boot</description>
@@ -30,6 +30,11 @@
 
 	<dependencies>
 
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+			<!--<scope>provided</scope>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -62,6 +67,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<!--<exclusions>-->
+				<!--<exclusion>-->
+					<!--<groupId>org.springframework.boot</groupId>-->
+					<!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+				<!--</exclusion>-->
+			<!--</exclusions>-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -147,6 +158,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>timebank</finalName>
 	</build>
 
 

@@ -15,20 +15,19 @@
 
     <script th:inline="javascript">
 //        message = [[${message}]];
-        message = [[${message}]];
         var message1=[[${message1}]];
 
     </script>
-    <script   LANGUAGE="JavaScript">
-        function   fresh()
-        {
-            if(location.href.indexOf("?reload=true")<0)
-            {
-                location.href+="?reload=true";
-            }
-        }
-        setTimeout("fresh()",50)
-    </script>
+    <!--<script   LANGUAGE="JavaScript">-->
+        <!--function   fresh()-->
+        <!--{-->
+            <!--if(location.href.indexOf("?reload=true")<0)-->
+            <!--{-->
+                <!--location.href+="?reload=true";-->
+            <!--}-->
+        <!--}-->
+        <!--setTimeout("fresh()",50)-->
+    <!--</script>-->
     <script type="text/javascript">
         $(document).ready(function() {
             if(message1!=null){
@@ -380,7 +379,7 @@
                             <div class="form-group  col-lg-6">
                                 <input type="file" accept="image/*" onchange="getzImg(this)"  value="" id="img_z" name="img_z"/>
                                 <div class="img_wp" onclick="zhengmian()">
-                                    <img src="" id="zmz" name="tupian" />
+                                    <img src="/img/qie.jpg" id="zmz" name="tupian" />
                                     <p class="img_intro">身份证正面照</p>
                                 </div>
                             </div>

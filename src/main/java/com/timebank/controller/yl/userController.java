@@ -161,11 +161,11 @@ public class userController {
         ClassPathResource resource;
         resource = new ClassPathResource("static/img");
         String absPath=resource.getURL().getPath();
-
-        String fileName=file.getOriginalFilename();
+        UUID guid=UUID.randomUUID();
+        String fileName=file.getOriginalFilename()+guid;
         System.out.println(absPath);
 
-
+        absPath = absPath.replace("%20", " ");
         //将用户传上去的图片下载到主机 正面
         BufferedOutputStream outputStream=new BufferedOutputStream(new FileOutputStream(absPath+"/"+fileName));
         outputStream.write(file.getBytes());

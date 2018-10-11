@@ -9,7 +9,7 @@ import com.timebank.mapper.CommunityMapper;
 import com.timebank.mapper.TypeMapper;
 import com.timebank.mapper.UsersMapper;
 import com.timebank.shiro.ShrioRegister;
-import org.apache.catalina.User;
+//import org.apache.catalina.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.mgt.SecurityManager;

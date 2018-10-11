@@ -69,6 +69,12 @@ public class ShiroConfiguration {
         // 配置访问权限
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //注册，登录界面引入文件
+//         <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+//    <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css"  />
+//    <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
+//    <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+//    <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
+
         filterChainDefinitionMap.put("/bootstrap-3.3.7-dist/**","anon");
         filterChainDefinitionMap.put("/bootstrapvalidator-0.4.5/**","anon");
         filterChainDefinitionMap.put("/jquery-3.1.1/**","anon");
@@ -96,6 +102,28 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/registerUser","anon");
         filterChainDefinitionMap.put("/appRegisterUser","anon");
         filterChainDefinitionMap.put("/**","authc");
+
+
+
+        filterChainDefinitionMap.put("/wxlogin","anon");
+        filterChainDefinitionMap.put("/wxQueryServiceMy","anon");
+        filterChainDefinitionMap.put("/wxQueryReqMy","anon");
+        filterChainDefinitionMap.put("/wxUserInfo","anon");
+        filterChainDefinitionMap.put("/wxQueryActivityMyByUser","anon");
+        filterChainDefinitionMap.put("/wxQueryActivityByUser","anon");
+        filterChainDefinitionMap.put("/wxInsertReq","anon");
+        filterChainDefinitionMap.put("/wxInsertRes","anon");
+        filterChainDefinitionMap.put("/wxQueryServiceList","anon");
+        filterChainDefinitionMap.put("/wximageUpload","anon");
+        filterChainDefinitionMap.put("/wxQueryTransferRemit","anon");
+        filterChainDefinitionMap.put("/wximageUpload","anon");
+        filterChainDefinitionMap.put("/wxQueryTransferPW","anon");
+        filterChainDefinitionMap.put("/wxInsertTransferPW","anon");
+        filterChainDefinitionMap.put("/wxQueryTransferGather","anon");
+        filterChainDefinitionMap.put("/wxQueryTransferRemit","anon");
+        filterChainDefinitionMap.put("/wxgetopenid","anon");
+
+
         filterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         log.info("shiroFilter注册完成");
         return filterFactoryBean;

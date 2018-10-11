@@ -10,7 +10,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>注册界面</title>
     <script type="text/javascript">
-//        <script type="text/javascript">
+        //        <script type="text/javascript">
         $(document).ready(function() {
             $('#Form').bootstrapValidator({
                 message: 'This value is not valid',
@@ -115,61 +115,91 @@
 
         })
     </script>
-
+    <style>
+        .bg{
+            width: 100%;
+            height: 100%;
+            align:center;
+            /*line-height: 600px;*/
+        }
+        .container {
+            padding-right: 5px;
+            padding-top: 15px;
+            margin-top: 80px;
+        }
+        .row{
+            margin-left: 600px;
+            text-color:#F00;
+        }
+        .panel-body{
+            background-color: rgba(0,0,0,0.3);
+        }
+    </style>
 </head>
-<body>
-<form id="Form" name="Form" action="/registerUser"  method="get" data-bv-message="This value is not valid"
-      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
-    <!--<div class="row">-->
-    <div class="form-group ">
-        <label  for="userAccount">账户名</label>
-        <input name="userAccount" type="text" class="form-control" id="userAccount" placeholder="登录名"/>
-        <!--<span id="tishi"></span>-->
-    </div>
-    <div class="form-group">
-        <label for="userName">用户名</label>
-        <!--<span>请填写真实姓名</span>-->
-        <input name="userName" type="text" class="form-control" id="userName" placeholder="填写真实姓名"/>
-    </div>
-    <div class="form-group">
-        <label for="userPassword">密码</label>
-        <input type="password" name="userPassword" class="form-control" id="userPassword" placeholder="Password"/>
-    </div>
-    <div class="form-group">
-        <label for="userPassword">确认密码</label>
-        <input type="password" name="userPassword1" class="form-control" id="userPassword1" placeholder="Password"/>
-    </div>
-    <div class="row">
-        <div class="form-group ">
-            <label class="control-label col-lg-3" for="userTypeGuidGender" >选择用户性别：</label>
-            <div class="col-lg-9">
-                <select name="userTypeGuidGender" id="userTypeGuidGender" class="form-control">
-                    <option th:each="typex:${types}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" ></option>
-                </select>
-            </div>
+<body class="bg center-block" background="/img/老人7.png" >
+<div class="container center-block" >
+    <div class="col-md-6">
+        <div class="panel-body">
+            <form id="Form" name="Form" action="/registerUser"  method="get" data-bv-message="This value is not valid"
+                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                <!--<div class="row">-->
+                <div class="form-group ">
+                    <label  for="userAccount">账户名</label>
+                    <input name="userAccount" type="text" class="form-control" id="userAccount" placeholder="登录名"/>
+                    <!--<span id="tishi"></span>-->
+                </div>
+                <div class="form-group">
+                    <label for="userName">用户名</label>
+                    <!--<span>请填写真实姓名</span>-->
+                    <input name="userName" type="text" class="form-control" id="userName" placeholder="填写真实姓名"/>
+                </div>
+                <div class="form-group">
+                    <label for="userPassword">密码</label>
+                    <input type="password" name="userPassword" class="form-control" id="userPassword" placeholder="Password"/>
+                </div>
+                <div class="form-group">
+                    <label for="userPassword">确认密码</label>
+                    <input type="password" name="userPassword1" class="form-control" id="userPassword1" placeholder="Password"/>
+                </div>
+                <div class="form-group ">
+                    <label class="control-label col-xs-2" for="userTypeGuidGender" >性别:</label>
+                    <div class="col-xs-3">
+                        <select name="userTypeGuidGender" id="userTypeGuidGender" class="form-control">
+                            <option th:each="typex:${types}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" ></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-lg-3" for="userCommGuid" >所属小区：</label>
+                    <div class="col-lg-4">
+                        <select name="userCommGuid" id="userCommGuid" class="form-control">
+                            <option th:each="communities:${communities}" th:value="${communities.commGuid}" th:text="${communities.commTitle}" ></option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <button id="tj" type="submit" class="btn btn-default" disabled="disabled" >提交</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label class="control-label col-lg-3" for="userCommGuid" >所属小区：</label>
-            <div class="col-lg-9">
-                <select name="userCommGuid" id="userCommGuid" class="form-control">
-                    <option th:each="communities:${communities}" th:value="${communities.commGuid}" th:text="${communities.commTitle}" ></option>
-                </select>
-            </div>
-        </div>
     </div>
+</div>
+<!--<div class="row" th:fragment="contextfooter">
 
-    <!--<div class="form-group">-->
-        <!--<input name="confirm" type="checkbox"  checked onclick="agree();" id="cb"/>同意-->
-        <!--<a th:href="@{/agreementAdress}" target="_blank"> 时间银行注册协议</a>-->
-    <!--</div>-->
+    <font color="#FF0000" >
+        时间银行系统
+    </font>
 
-
-    <button id="tj" type="submit" class="btn btn-default" disabled="disabled">提交</button>
-</form>
-
-
+</div>-->
+<!--<div id="foot">
+    <p style="padding-top: 12px;">
+      &lt;!&ndash;  <a href="/82/20140512103027_38.html" target="_blank">关于南沙时间银行</a>　|　<a href="/71/20140417090646_14.html" target="_blank">客户服务</a>　|　<a href="/72/20140416175619_13.html" target="_blank">帮助中心</a>　|　<a href="/timebank/joinement/front/toCreate.action" target="_blank">爱心合作</a>　|　<a href="/timebank/note/front/toCreate.action" target="_blank">给我留言</a>　|　<a href="/74/20140416165523_1.html" target="_blank">法律声明</a>&ndash;&gt;
+        &lt;!&ndash;<br>&ndash;&gt;
+        <span>版权所有&copy;广州市南沙国际技术合作服务中心 粤ICP备14067686号-2 <a href="http://www.nstimebank.org.cn/timebank/welcome/tologin.action">后台管理</a></span><br />
+        建议在谷歌、360或IE8以上浏览器使用
+    </p>
+</div>-->
 </body>
 
 </html>

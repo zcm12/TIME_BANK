@@ -39,6 +39,7 @@ public class Respond {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date resAcceptTime;
 
     /**
@@ -57,6 +58,7 @@ public class Respond {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date resServiceStartTime;
 
     /**
@@ -66,6 +68,7 @@ public class Respond {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date resServiceEndTime;
 
     /**
@@ -367,6 +370,7 @@ public class Respond {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Double getResEarnCurrency() {
         return resEarnCurrency;
     }
