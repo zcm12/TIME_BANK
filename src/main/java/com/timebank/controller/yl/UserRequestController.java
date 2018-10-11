@@ -134,12 +134,17 @@ public class UserRequestController {
     @RequestMapping(value = "/applySubmit")
     public String applySubmit(Reqest reqest, Model model,String jd,String wd)
     {
+
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
         String role=users1.getUserRole();
         model.addAttribute("role",role);
-
+        System.out.println(jd);
+        System.out.println(wd);
+        if(jd==null||wd==null){
+            return "apply";
+        }
         //请求提交
         UUID guid=randomUUID();
         reqest.setReqGuid(guid.toString());

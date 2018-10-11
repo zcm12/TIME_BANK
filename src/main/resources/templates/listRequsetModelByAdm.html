@@ -214,15 +214,36 @@
                             </div>
                         </form>
                     </div>
-
-
                     <div class="form-group  col-lg-12">
-                        <!--<a th:href="@{/updateREQEST1}"><input id="updateRequest" class="btn btn-primary"type="button" value="更新请求"/></a>-->
-                        <!--<input id="updateRequestValue" name="updateRequestValue" type="text" class="form-control" th:value="${updateList.updateId}" disabled="disabled"/>-->
-                        <a th:href="@{/volunteerListOfApply1}"><input id="viewVolRequest" class="btn btn-primary" type="button" value="查 看 志 愿 者" onclick="viewVolRequest()" /></a>
-                       <!-- <a th:href="@{/changestatuesa}"><input id="changestatues1" class="btn btn-primary"type="button" value="通过"/></a>-->
-                       <!-- <a th:href="@{/changestatuesb}"><input id="changestatues2" class="btn btn-primary"type="button" value="驳回"/></a>-->
+                        <form id="form" name="form" method="post" class="form-horizontal"
+                              action="/volunteerListOfApply1" role="form"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="form-group  col-lg-6" hidden="hidden">
+                                    <!--<label class="control-label col-lg-3" for="activityGuid11">活动ID：</label>-->
+                                    <div class="col-lg-9">
+                                        <input id="reqGuidvolunteer" name="reqGuidvolunteer" type="text" class="form-control"
+                                               placeholder="录入活动ID"
+                                               th:value="${reqest.reqGuid}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <input id="seeVolun" class="btn btn-primary" type="submit" value="查看志愿者"/>&nbsp;
+                            </div>
+                        </form>
                     </div>
+
+                    <!--<div class="form-group  col-lg-12">-->
+                        <!--&lt;!&ndash;<a th:href="@{/updateREQEST1}"><input id="updateRequest" class="btn btn-primary"type="button" value="更新请求"/></a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<input id="updateRequestValue" name="updateRequestValue" type="text" class="form-control" th:value="${updateList.updateId}" disabled="disabled"/>&ndash;&gt;-->
+                        <!--<a th:href="@{/volunteerListOfApply1}"><input id="viewVolRequest" class="btn btn-primary" type="button" value="查 看 志 愿 者" onclick="viewVolRequest()" /></a>-->
+                       <!--&lt;!&ndash; <a th:href="@{/changestatuesa}"><input id="changestatues1" class="btn btn-primary"type="button" value="通过"/></a>&ndash;&gt;-->
+                       <!--&lt;!&ndash; <a th:href="@{/changestatuesb}"><input id="changestatues2" class="btn btn-primary"type="button" value="驳回"/></a>&ndash;&gt;-->
+                    <!--</div>-->
 
                     <div class="form-group  col-lg-12">
                         <input id="deleteRequest" class="btn btn-primary" type="button" value="撤 销" data-toggle="modal" data-target="#deletemodel"  />

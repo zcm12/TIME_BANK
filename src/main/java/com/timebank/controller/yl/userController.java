@@ -2,7 +2,7 @@ package com.timebank.controller.yl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.deploy.nativesandbox.comm.Request;
+//import com.sun.deploy.nativesandbox.comm.Request;
 import com.timebank.domain.*;
 import com.timebank.mapper.*;
 import org.apache.shiro.SecurityUtils;
@@ -162,7 +162,7 @@ public class userController {
         resource = new ClassPathResource("static/img");
         String absPath=resource.getURL().getPath();
         UUID guid=UUID.randomUUID();
-        String fileName=file.getOriginalFilename()+guid;
+        String fileName=guid+file.getOriginalFilename();
         System.out.println(absPath);
 
         absPath = absPath.replace("%20", " ");

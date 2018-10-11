@@ -108,7 +108,23 @@
                                 message: '请求紧急程度不能为空'
                             }
                         }
-                    }
+                    },
+                    jd:{
+                        message: '请求紧急程度验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '经度不能为空'
+                            }
+                        }
+                    },
+                    wd:{
+                        message: '请求紧急程度验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '纬度不能为空'
+                            }
+                        }
+                    },
 
                 }
 
@@ -151,7 +167,7 @@
                                 </div>
                             </div>
                             <li><a th:href="@{/mybank}"> 点击进行定位</a></li>
-                            <div class="form-group  col-lg-6">
+                            <div class="form-group  col-lg-6" hidden="hidden">
                                 <label class="control-label col-lg-3"  >经度：</label>
                                 <div class="col-lg-9">
                                     <input  id="jd" name="jd" class="form-control" value="经度"  >
@@ -159,10 +175,10 @@
 
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6">
+                            <div class="form-group  col-lg-6" hidden="hidden">
                                 <label class="control-label col-lg-3"  >纬度：</label>
                                 <div class="col-lg-9">
-                                    <input id="wd" name="wd" class="form-control"  value="纬度">
+                                    <input id="wd" name="wd" class="form-control"  value="纬度" >
                                     </input>
                                 </div>
                             </div>

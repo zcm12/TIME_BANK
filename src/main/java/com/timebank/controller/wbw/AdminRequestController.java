@@ -37,7 +37,7 @@ public class AdminRequestController {
     @Autowired
     private RespondMapper respondMapper;
 
-       String updateRequestGuid1 = null;
+    String updateRequestGuid1 = null;
     private Users GetCurrentUsers(String message){
 
         UsersExample usersExample=new UsersExample();
@@ -129,7 +129,7 @@ public class AdminRequestController {
             reqest.setReqIssueTime(date);
             reqest.setReqDispatchTime(date);
             //TODO：接收请求的用户的guid    此处暂时无法处理    应该根据数据库实时位置（坐标）字段来判断谁可以看到   此处先随机添加一个已知的用户
-            reqest.setReqTargetsUserGuid("6807de66-a917-4aa6-aca5-6673245684ed");
+//            reqest.setReqTargetsUserGuid("6807de66-a917-4aa6-aca5-6673245684ed");
             //管理员的guid
             reqest.setReqProcessUserGuid(userId);
             //管理员代发请求,无需审核,请求批准状态和请求处理状态为"通过"和"未启动"
@@ -516,22 +516,22 @@ public class AdminRequestController {
     }
     //查看志愿者接单情况
     @RequestMapping(value = "/volunteerListOfApply1")
-    public String volunteerListOfApply1 (Model model) {
+    public String volunteerListOfApply1 (Model model,String reqGuidvolunteer) {
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
-        model.addAttribute("message",updateRequestGuid1);
+        model.addAttribute("message",reqGuidvolunteer);
 //        reqGuidOfVol = reqGuid6;
         return "volunteerListByAd";
     }
     //查看志愿者接单情况 从后台获取数据
     @RequestMapping(value="/getVolunteerListJsonData1",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getVolunteerListJsonData1(@RequestParam int offset, int limit, String sortName, String sortOrder){
+    public String getVolunteerListJsonData1(@RequestParam int offset, int limit, String sortName, String sortOrder,String reqGuid){
         System.out.println(222222);
-        System.out.println(updateRequestGuid1);
+        System.out.println(reqGuid);
         RespondExample respondExample=new RespondExample();
         respondExample.clear();
         //处理排序信息
@@ -541,7 +541,7 @@ public class AdminRequestController {
             //将排序信息添加到example中
             respondExample.setOrderByClause(order);
         }
-        respondExample.or().andResReqGuidEqualTo(updateRequestGuid1);
+        respondExample.or().andResReqGuidEqualTo(reqGuid);
 //        respondExample.or().andResReqGuidEqualTo();
         List<Respond> responds=respondMapper.selectByExample(respondExample);
         List<Respond> respondRecordList=new ArrayList<>();
