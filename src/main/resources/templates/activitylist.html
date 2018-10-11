@@ -4,7 +4,7 @@
     <title>ACTIVITY</title>
 
     <!--<input id="buttonId" name="buttonId" th:value="${buttonId}" />-->
-   <!--<input id="buttonId33" name="buttonId33" value="" />-->
+    <!--<input id="buttonId33" name="buttonId33" value="" />-->
     <script th:inline="javascript">
         var button = [[${buttonid}]];
         console.log(button);
@@ -29,7 +29,7 @@
             var $table = $('#ACTIVITY');
             $('#ACTIVITY').bootstrapTable({
                 columns:[
-                    {
+                    /*{
                         title:'活动ID',
                         field:'activityGuid',
                         align: 'center',
@@ -37,7 +37,7 @@
                         visible:false,
                         sortable: true
 
-                    },
+                    },*/
                     {
                         title:'活动标题',
                         field:'activityTitle',
@@ -204,20 +204,20 @@
                 </div>
                 <div class="panel-body" >
                     <div class="table-responsive">
-                    <table id="ACTIVITY" name="ACTIVITY" class="table table-bordered table-hover table-striped"
-                           data-toolbar="#toolbar"
-                           data-show-refresh="true"
-                           data-show-toggle="true"
-                           data-show-columns="true"
-                           data-detail-view="false"
-                           data-minimum-count-columns="2"
-                           data-show-pagination-switch="true"
-                           data-pagination="true"
-                           data-id-field="applyId"
-                           data-page-list="[5, 10, 25, 50, 100, ALL]"
-                           data-show-footer="false"
-                           data-side-pagination="server">
-                    </table>
+                        <table id="ACTIVITY" name="ACTIVITY" class="table table-bordered table-hover table-striped"
+                               data-toolbar="#toolbar"
+                               data-show-refresh="true"
+                               data-show-toggle="true"
+                               data-show-columns="true"
+                               data-detail-view="false"
+                               data-minimum-count-columns="2"
+                               data-show-pagination-switch="true"
+                               data-pagination="true"
+                               data-id-field="applyId"
+                               data-page-list="[5, 10, 25, 50, 100, ALL]"
+                               data-show-footer="false"
+                               data-side-pagination="server">
+                        </table>
                     </div>
                 </div>
             </div>

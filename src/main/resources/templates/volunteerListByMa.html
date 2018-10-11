@@ -30,13 +30,13 @@
 //                        checkbox : true,
 //                        formatter : stateFormatter
 //                    },
-                    {
+                  /*  {
                         title:'活动ID',
                         field:'activityid',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
-                    },
+                    },*/
                     {
                         title:'用户姓名',
                         field:'userName',
@@ -123,7 +123,7 @@
                     },
                     {
                         field:'userGuid',
-                        title:'评分',
+                        title:'操作',
                         align:'center',
                         sortable:true,
                         formatter: operateFormatter
@@ -214,6 +214,7 @@
                            data-show-footer="false"
                            data-side-pagination="server">
                     </table>
+                        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
                     </div>
                 </div>
             </div>

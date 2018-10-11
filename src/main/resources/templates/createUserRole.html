@@ -175,13 +175,35 @@
                                     <input id="userDistrict" name="userDistrict" type="text" class="form-control col-lg-4" th:value="${users.userDistrict}" disabled="disabled"/>
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6">
+                            <div class="form-group  col-lg-6" th:if="${role1} == 'USE'">
+                                <label class="control-label col-lg-3" for="userRole" >用户角色：</label>
+                                <select id="userRole" name="userRole">
+                                    <option value="USE">USE</option>
+                                    <option value="Tourist">Tourist</option>
+                                    <!--<option value="Tourist">Tourist</option>
+                                    <option value="USE">USE</option>-->
+                                </select>
+                            </div>
+                            <div class="form-group  col-lg-6" th:if="${role1} == 'Tourist'">
                                 <label class="control-label col-lg-3" for="userRole" >用户角色：</label>
                                 <select id="userRole" name="userRole">
                                     <option value="Tourist">Tourist</option>
                                     <option value="USE">USE</option>
                                 </select>
                             </div>
+
+
+
+
+                            <!--<div class="form-group  col-lg-6">
+                            <label class="control-label col-lg-3" for="userRole" >用户角色：</label>
+                            <select id="userRole" name="userRole">
+                                <option value="USE">USE</option>
+                                <option value="Tourist">Tourist</option>
+                                &lt;!&ndash;<option value="Tourist">Tourist</option>
+                                <option value="USE">USE</option>&ndash;&gt;
+                            </select>
+                        </div>-->
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userTypeGuidGender" >性别：</label>
                                 <div class="col-lg-9">

@@ -256,7 +256,7 @@ public class userActivityRequestController {
     //已参加活动按钮对应后台请求数据
     @RequestMapping(value="/getApplyActivityListByUserViewJsonData",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getApplyActivityListByUserViewJsonData(@RequestParam int offset, int limit, String sortName,String sortOrder){
+    public String getApplyActivityListByUserViewJsonData(@RequestParam int offset, int limit, String sortName,String sortOrder, String searchText){
 
         ActivityExample activityExample=new ActivityExample();
         Subject account = SecurityUtils.getSubject();
@@ -276,6 +276,12 @@ public class userActivityRequestController {
                 activitys.add(activities1.get(0));
             }
         }
+        /**10.9添加*/
+        if (searchText == "") {
+            searchText = null;
+        }
+        /**10.9添加*/
+
         //处理排序信息.
         if(sortName!=null){
             //拼接字符串
@@ -285,7 +291,8 @@ public class userActivityRequestController {
         }
 
         List<Activity> activityRecordList=new ArrayList<>();
-        for(int i=offset;i< offset+limit&&i < activitys.size();i++){
+//        for(int i=offset;i< offset+limit&&i < activitys.size();i++){
+        for(int i=0;i < activitys.size();i++){
             Activity activity1=activitys.get(i);
             CommunityExample communityExample = new CommunityExample();
             String activityFromCommGuid=activity1.getActivityFromCommGuid();
@@ -296,13 +303,38 @@ public class userActivityRequestController {
             //活动处理状态
             Type type = typeMapper.selectByPrimaryKey(activity1.getActivityTypeProcessStatus());
             activity1.setActivityTypeProcessStatus(type.getTypeTitle());
-            activityRecordList.add(activity1);
+//            activityRecordList.add(activity1);
+
+            /**10.9添加*/
+            if (searchText != null) {
+                String activityId = activity1.getActivityGuid();
+                String activityTile = activity1.getActivityTitle();
+                String activityDes = activity1.getActivityDesp();
+                String activityCom = activity1.getActivityComment();
+                if (activityId.contains(searchText) || activityTile.contains(searchText) || activityDes.contains(searchText) || activityCom.contains(searchText)) {
+                    activityRecordList.add(activity1);
+                }
+            } else {
+                activityRecordList.add(activity1);
+            }
+        /**10.9添加*/
         }
+
+        /**10.9添加*/
+        List<Activity> activityReturn = new ArrayList<>();
+        for (int i = offset;i<offset+limit&&i<activityRecordList.size();i++){
+            activityReturn.add(activityRecordList.get(i));
+        }
+        /**10.9添加*/
+
+
         //全部符合要求的数据的数量
-        int total=activitys.size();
+//        int total=activitys.size();
+        int total =activityRecordList.size();
         //将所得集合打包
         ObjectMapper mapper = new ObjectMapper();
-        TableRecordsJson tableRecordsJson=new TableRecordsJson(activityRecordList,total);
+//        TableRecordsJson tableRecordsJson=new TableRecordsJson(activityRecordList,total);
+        TableRecordsJson tableRecordsJson=new TableRecordsJson(activityReturn,total);
         //将实体类转换成json数据并返回
         try {
             String json1 = mapper.writeValueAsString(tableRecordsJson);

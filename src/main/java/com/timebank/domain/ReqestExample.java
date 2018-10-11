@@ -1764,6 +1764,76 @@ public class ReqestExample {
             addCriterion("REQ_PROCESS_USER_GUID not between", value1, value2, "reqProcessUserGuid");
             return (Criteria) this;
         }
+
+        public Criteria andReqTargetsUserAccountIsNull() {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountIsNotNull() {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountEqualTo(String value) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT =", value, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountNotEqualTo(String value) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT <>", value, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountGreaterThan(String value) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT >", value, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountGreaterThanOrEqualTo(String value) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT >=", value, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountLessThan(String value) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT <", value, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountLessThanOrEqualTo(String value) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT <=", value, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountLike(String value) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT like", value, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountNotLike(String value) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT not like", value, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountIn(List<String> values) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT in", values, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountNotIn(List<String> values) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT not in", values, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountBetween(String value1, String value2) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT between", value1, value2, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqTargetsUserAccountNotBetween(String value1, String value2) {
+            addCriterion("REQ_TARGETS_USER_ACCOUNT not between", value1, value2, "reqTargetsUserAccount");
+            return (Criteria) this;
+        }
     }
 
     /**

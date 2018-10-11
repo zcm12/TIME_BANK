@@ -25,16 +25,24 @@
             var $table = $('#RESPOND');
             $('#RESPOND').bootstrapTable({
                 columns:[
-                    {
-                        title:'响应ID',
-                        field:'resGuid',
+//                    {
+//                        title:'响应ID',
+//                        field:'resGuid',
+//                        align: 'center',
+//                        valign: 'middle',
+//                        sortable: true
+//                    },
+                 /*   {
+                        title:'请求响应ID',
+                        field:'resReqGuid',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
-                    },
+                    },*/
+
                     {
-                        title:'请求响应ID',
-                        field:'resReqGuid',
+                        title:'请求名称',
+                        field:'resReqTitle',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
@@ -149,7 +157,7 @@
                     '<div class="row">',
                     '<a class="btn btn-default" href="/RESPOND/'+
                     String(row.resGuid) +
-                    '" title="查看详情">查看详情',
+                    '" title="删除">删除',
                     '</a>  '+
                     '</div>'
                 ].join('');
@@ -172,7 +180,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        志愿者列表
+                        请求服务用户列表
                     </h3>
                 </div>
                 <div class="panel-body" >
@@ -191,6 +199,7 @@
                            data-show-footer="false"
                            data-side-pagination="server">
                     </table>
+                        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
                     </div>
                 </div>
             </div>

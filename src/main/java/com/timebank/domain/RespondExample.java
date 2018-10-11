@@ -1124,6 +1124,76 @@ public class RespondExample {
             addCriterion("RES_EVALUATE_DES not between", value1, value2, "resEvaluateDes");
             return (Criteria) this;
         }
+
+        public Criteria andResReqStartUserAccountIsNull() {
+            addCriterion("RES_REQ_START_USER_ACCOUNT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountIsNotNull() {
+            addCriterion("RES_REQ_START_USER_ACCOUNT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountEqualTo(String value) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT =", value, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountNotEqualTo(String value) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT <>", value, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountGreaterThan(String value) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT >", value, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountGreaterThanOrEqualTo(String value) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT >=", value, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountLessThan(String value) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT <", value, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountLessThanOrEqualTo(String value) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT <=", value, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountLike(String value) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT like", value, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountNotLike(String value) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT not like", value, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountIn(List<String> values) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT in", values, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountNotIn(List<String> values) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT not in", values, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountBetween(String value1, String value2) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT between", value1, value2, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andResReqStartUserAccountNotBetween(String value1, String value2) {
+            addCriterion("RES_REQ_START_USER_ACCOUNT not between", value1, value2, "resReqStartUserAccount");
+            return (Criteria) this;
+        }
     }
 
     /**

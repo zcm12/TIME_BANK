@@ -1,7 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="basepage :: common_header(~{::title},~{::script})">
-    <title>COMMUNITY</title>
+    <title>分数</title>
+    <style type="text/css">
+        *{margin:0;padding:0;list-style-type:none;}
+        a,img{border:0;}
+        body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";}
+        p{margin:20px 0 10px 0;}
+    </style>
+    <meta charset="UTF-8">
+    <script th:inline="javascript">
+        var activityid = [[${activityid}]];
+        var userid = [[${userid}]];
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
             function changeDateFormat(cellval) {
@@ -15,71 +26,37 @@
                     var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
                     return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
                 }
-            };
+            }
 
-            var $table = $('#COMMUNITY');
-            $('#COMMUNITY').bootstrapTable({
+            var $table = $('#ACTPART');
+
+            $('#ACTPART').bootstrapTable({
                 columns:[
-                   /* {
-                        title:'小区ID',
-                        field:'commGuid',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },*/
                     {
-                        title:'小区名字',
-                        field:'commTitle',
+                        title:'分数',
+                        field:'actpartEvaluate',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
-                    {
-                        title:'小区地址',
-                        field:'commAddress',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },
-                    {
-                        title:'小区描述',
-                        field:'commDesp',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },
-                   /* {
-                        title:'小区坐标',
-                        field:'commCoordinate',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },*/
-                    {
-                        field: 'commGuid',
-                        title: '操作',
-                        align: 'center',
-                        sortable: true,
-                        formatter: operateFormatter
-                    }
+
+
                 ],
-                url: "/getCOMMUNITYListJsonData", //请求后台的URL（*）
+                url: "/getEvalListScoreJsonData", //请求后台的URL（*）
                 method: "get",
                 striped: true,     //是否显示行间隔色
                 cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-                search:true,
-                searchAlign:"left",
-                searchOnEnterKey:true,
                 pagination: true,  //是否显示分页（*）
                 sortable: true,    //是否启用排序
-                sortOrder: "asc",  //排序方式
+                sortOrder: "asc",  //排序方式,
                 queryParams:function(params){
                     var limitApply={
                         limit:params.limit,
                         offset:params.offset,
-                        searchText:params.search,
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
+                        activityid:activityid,
+                        userid:userid
                     };
                     return limitApply;
                 },//传递参数
@@ -87,32 +64,37 @@
                 pageNumber:1,  //初始化加载第一页，默认第一页
                 pageSize: 20,  //每页的记录行数（*）
                 pageList:[5,10,20,30,40,50],
-                sortName:"commGuid",
+                sortName:"actpartUserGuid",
                 showColumns: true,  //是否显示所有的列
                 showRefresh: true,  //是否显示刷新按钮
                 minimumCountColumns: 2, //最少允许的列数
                 clickToSelect: true,//是否启用点击选中行
                 toolbar:"#toolbar"
+
             });
             setTimeout(function () {
                 $table.bootstrapTable('resetView');
             }, 200);
-            function operateFormatter1(value, row, index) {
-                var ti=new Date(value);
-                var val=ti.toLocaleString() ;
-                return val;
-            };
-            function operateFormatter(value, row, index) {
-                return [
-                    '<div class="row">',
-                    '<a class="btn btn-default" href="/COMMUNITY/'+
-                    String(row.commGuid) +
-                    '" title="查看详情">查看详情',
-                    '</a>  '+
-                    '</div>'
-                ].join('');
-            }
         });
+
+        function rat(star,result,m){
+            star= '#' + star;
+            result= '#' + result;
+            $(result).hide();//将结果DIV隐藏
+
+            $(star).raty({
+                hints: ['10','20', '30', '40', '50','60', '70', '80', '90', '100'],
+                path: "/jquery-rank-score/css/img",
+                starOff: 'star-off-big.png',
+                starOn: 'star-on-big.png',
+                size: 24,
+                start: 40,
+                showHalf: true,
+                target: result,
+                targetKeep : true,//targetKeep 属性设置为true，用户的选择值才会被保持在目标DIV中，否则只是鼠标悬停时有值，而鼠标离开后这个值就会消失
+            });
+        }
+
     </script>
 </head>
 <body>
@@ -130,26 +112,28 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        COMMUNITY表
+                        分数显示
                     </h3>
                 </div>
                 <div class="panel-body" >
                     <div class="table-responsive">
-                    <table id="COMMUNITY" name="COMMUNITY" class="table table-bordered table-hover table-striped"
-                           data-toolbar="#toolbar"
-                           data-show-refresh="true"
-                           data-show-toggle="true"
-                           data-show-columns="true"
-                           data-detail-view="false"
-                           data-minimum-count-columns="2"
-                           data-show-pagination-switch="true"
-                           data-pagination="true"
-                           data-id-field="applyId"
-                           data-page-list="[5, 10, 25, 50, 100, ALL]"
-                           data-show-footer="false"
-                           data-side-pagination="server">
-                    </table>
+                        <table id="ACTPART" name="ACTPART" class="table table-bordered table-hover table-striped"
+                               data-toolbar="#toolbar"
+                               data-show-refresh="true"
+                               data-show-toggle="true"
+                               data-show-columns="true"
+                               data-detail-view="false"
+                               data-minimum-count-columns="2"
+                               data-show-pagination-switch="true"
+                               data-pagination="true"
+                               data-id-field="applyId"
+                               data-page-list="[5, 10, 25, 50, 100, ALL]"
+                               data-show-footer="false"
+                               data-side-pagination="server">
+                        </table>
+                        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -160,5 +144,7 @@
         </div>
     </div>
 </div>
+
 </body>
+
 </html>

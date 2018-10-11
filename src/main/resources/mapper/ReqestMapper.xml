@@ -30,6 +30,7 @@
     <result column="REQ_FROM_WEIGHT_GUID" jdbcType="CHAR" property="reqFromWeightGuid" />
     <result column="REQ_TYPE_GUID_PROCESS_STATUS" jdbcType="CHAR" property="reqTypeGuidProcessStatus" />
     <result column="REQ_PROCESS_USER_GUID" jdbcType="CHAR" property="reqProcessUserGuid" />
+    <result column="REQ_TARGETS_USER_ACCOUNT" jdbcType="NVARCHAR" property="reqTargetsUserAccount" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -106,7 +107,8 @@
     REQ_COMMENT, REQ_DISPATCH_TIME, REQ_TYPE_GUID_CLASS, REQ_AVAILABLE_START_TIME, REQ_AVAILABLE_END_TIME, 
     REQ_RRE_DURATION_TIME, REQ_PRE_CUNSUME_CURRENCY, REQ_START_TIME, REQ_END_TIME, REQ_ACTUAL_CONSUME_CURRENCY, 
     REQ_TYPE_APPROVE_STATUS, REQ_TARGETS_USER_GUID, REQ_ACTUAL_DURATION_TIME, REQ_PERSON_NUM, 
-    REQ_TYPE_GUID_URGENCY, REQ_FROM_WEIGHT_GUID, REQ_TYPE_GUID_PROCESS_STATUS, REQ_PROCESS_USER_GUID
+    REQ_TYPE_GUID_URGENCY, REQ_FROM_WEIGHT_GUID, REQ_TYPE_GUID_PROCESS_STATUS, REQ_PROCESS_USER_GUID, 
+    REQ_TARGETS_USER_ACCOUNT
   </sql>
   <select id="selectByExample" parameterType="com.timebank.domain.ReqestExample" resultMap="BaseResultMap">
     <!--
@@ -168,7 +170,8 @@
       REQ_TYPE_APPROVE_STATUS, REQ_TARGETS_USER_GUID, 
       REQ_ACTUAL_DURATION_TIME, REQ_PERSON_NUM, REQ_TYPE_GUID_URGENCY, 
       REQ_FROM_WEIGHT_GUID, REQ_TYPE_GUID_PROCESS_STATUS, 
-      REQ_PROCESS_USER_GUID)
+      REQ_PROCESS_USER_GUID, REQ_TARGETS_USER_ACCOUNT
+      )
     values (#{reqGuid,jdbcType=CHAR}, #{reqIssueUserGuid,jdbcType=CHAR}, #{reqIssueTime,jdbcType=TIMESTAMP}, 
       #{reqAddress,jdbcType=NVARCHAR}, #{reqTitle,jdbcType=NVARCHAR}, #{reqDesp,jdbcType=NVARCHAR}, 
       #{reqComment,jdbcType=NVARCHAR}, #{reqDispatchTime,jdbcType=TIMESTAMP}, #{reqTypeGuidClass,jdbcType=CHAR}, 
@@ -178,7 +181,8 @@
       #{reqTypeApproveStatus,jdbcType=CHAR}, #{reqTargetsUserGuid,jdbcType=NVARCHAR}, 
       #{reqActualDurationTime,jdbcType=INTEGER}, #{reqPersonNum,jdbcType=INTEGER}, #{reqTypeGuidUrgency,jdbcType=CHAR}, 
       #{reqFromWeightGuid,jdbcType=CHAR}, #{reqTypeGuidProcessStatus,jdbcType=CHAR}, 
-      #{reqProcessUserGuid,jdbcType=CHAR})
+      #{reqProcessUserGuid,jdbcType=CHAR}, #{reqTargetsUserAccount,jdbcType=NVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.timebank.domain.Reqest">
     <!--
@@ -259,6 +263,9 @@
       <if test="reqProcessUserGuid != null">
         REQ_PROCESS_USER_GUID,
       </if>
+      <if test="reqTargetsUserAccount != null">
+        REQ_TARGETS_USER_ACCOUNT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="reqGuid != null">
@@ -332,6 +339,9 @@
       </if>
       <if test="reqProcessUserGuid != null">
         #{reqProcessUserGuid,jdbcType=CHAR},
+      </if>
+      <if test="reqTargetsUserAccount != null">
+        #{reqTargetsUserAccount,jdbcType=NVARCHAR},
       </if>
     </trim>
   </insert>
@@ -424,6 +434,9 @@
       <if test="record.reqProcessUserGuid != null">
         REQ_PROCESS_USER_GUID = #{record.reqProcessUserGuid,jdbcType=CHAR},
       </if>
+      <if test="record.reqTargetsUserAccount != null">
+        REQ_TARGETS_USER_ACCOUNT = #{record.reqTargetsUserAccount,jdbcType=NVARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -458,7 +471,8 @@
       REQ_TYPE_GUID_URGENCY = #{record.reqTypeGuidUrgency,jdbcType=CHAR},
       REQ_FROM_WEIGHT_GUID = #{record.reqFromWeightGuid,jdbcType=CHAR},
       REQ_TYPE_GUID_PROCESS_STATUS = #{record.reqTypeGuidProcessStatus,jdbcType=CHAR},
-      REQ_PROCESS_USER_GUID = #{record.reqProcessUserGuid,jdbcType=CHAR}
+      REQ_PROCESS_USER_GUID = #{record.reqProcessUserGuid,jdbcType=CHAR},
+      REQ_TARGETS_USER_ACCOUNT = #{record.reqTargetsUserAccount,jdbcType=NVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -539,6 +553,9 @@
       <if test="reqProcessUserGuid != null">
         REQ_PROCESS_USER_GUID = #{reqProcessUserGuid,jdbcType=CHAR},
       </if>
+      <if test="reqTargetsUserAccount != null">
+        REQ_TARGETS_USER_ACCOUNT = #{reqTargetsUserAccount,jdbcType=NVARCHAR},
+      </if>
     </set>
     where REQ_GUID = #{reqGuid,jdbcType=CHAR}
   </update>
@@ -570,7 +587,8 @@
       REQ_TYPE_GUID_URGENCY = #{reqTypeGuidUrgency,jdbcType=CHAR},
       REQ_FROM_WEIGHT_GUID = #{reqFromWeightGuid,jdbcType=CHAR},
       REQ_TYPE_GUID_PROCESS_STATUS = #{reqTypeGuidProcessStatus,jdbcType=CHAR},
-      REQ_PROCESS_USER_GUID = #{reqProcessUserGuid,jdbcType=CHAR}
+      REQ_PROCESS_USER_GUID = #{reqProcessUserGuid,jdbcType=CHAR},
+      REQ_TARGETS_USER_ACCOUNT = #{reqTargetsUserAccount,jdbcType=NVARCHAR}
     where REQ_GUID = #{reqGuid,jdbcType=CHAR}
   </update>
 </mapper>

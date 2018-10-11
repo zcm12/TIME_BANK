@@ -19,16 +19,23 @@
             var $table = $('#TRANSFER');
             $('#TRANSFER').bootstrapTable({
                 columns:[
-                    {
+                    /*{
                         title:'转账ID',
                         field:'transGuid',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
-                    },
-                    {
+                    },*/
+                    /*{
                         title:'发起转账者ID',
                         field:'transFromUserGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },*/
+                    {
+                        title:'发起转账者',
+                        field:'transFromUserAccount',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
@@ -83,6 +90,9 @@
                 method: "get",
                 striped: true,     //是否显示行间隔色
                 cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                search:true,//10.10添加/
+                searchAlign: "left",//10.10添加/
+                searchOnEnterKey: true, //回车查询//10.10添加/
                 pagination: true,  //是否显示分页（*）
                 sortable: true,    //是否启用排序
                 sortOrder: "asc",  //排序方式
@@ -90,6 +100,7 @@
                     var limitApply={
                         limit:params.limit,
                         offset:params.offset,
+                        searchText:params.search,//10.10添加/
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
                     };
@@ -100,6 +111,7 @@
                 pageSize: 20,  //每页的记录行数（*）
                 pageList:[5,10,20,30,40,50],
                 sortName:"transGuid",
+                searchText: '',//10.10添加/
                 showColumns: true,  //是否显示所有的列
                 showRefresh: true,  //是否显示刷新按钮
                 minimumCountColumns: 2, //最少允许的列数

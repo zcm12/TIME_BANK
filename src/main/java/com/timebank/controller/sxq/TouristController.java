@@ -153,6 +153,9 @@ public class TouristController {
         List<Users> usersList = new ArrayList<Users>();
         //遍历，处理其中的一些字段
         for (int i = offset; i < offset + limit && i < users2.size(); i++) {
+            System.out.println("游客列表分页打桩");
+            System.out.println(offset);
+            System.out.println(limit);
             //处理性别
             Users it=users2.get(i);
             String gender=it.getUserTypeGuidGender();
@@ -228,6 +231,8 @@ public class TouristController {
         model.addAttribute("message1",A);
         System.out.println(A);
 //        model.addAttribute("message2",B);
+        String role1=users1.getUserRole();
+        model.addAttribute("role1",role1);
 
         model.addAttribute("users",users1);
 

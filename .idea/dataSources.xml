@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="TIME_BANK@localhost" uuid="5100e6c2-1a60-479d-8905-513634d773a4">
+    <data-source source="LOCAL" name="TIME_BANK@localhost" uuid="290b5fc9-f31c-4f07-b074-5fe655846627">
       <driver-ref>sqlserver.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://localhost\j11-004:1433;database=TIME_BANK</jdbc-url>
+      <jdbc-url>jdbc:sqlserver://localhost\WO:1433;database=TIME_BANK</jdbc-url>
       <driver-properties>
         <property name="applicationName" value="DataGrip" />
       </driver-properties>

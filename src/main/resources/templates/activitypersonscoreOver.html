@@ -11,9 +11,10 @@
     <meta charset="UTF-8">
     <script th:inline="javascript">
         var activityid = [[${activityid}]];
+        var name=[[${joinId}]];
     </script>
     <script type="text/javascript">
-    $(document).ready(function() {
+        $(document).ready(function() {
             function changeDateFormat(cellval) {
                 var dateVal = cellval + "";
                 if (cellval != null) {
@@ -27,11 +28,7 @@
                 }
             }
 
-
-            //   var set=[];
-
-//        alert(activityid)
-        var $table = $('#USERS');
+            var $table = $('#USERS');
 
             $('#USERS').bootstrapTable({
                 columns:[
@@ -131,14 +128,23 @@
                         valign: 'middle',
                         sortable: true
                     },
+//                    {
+//                        title:'分数',
+//                        field:'aaa',
+//                        align: 'center',
+//                        valign: 'middle',
+//                        sortable: true,
+//                        formatter: scoreFormatter
+//                    },
                     {
                         //       field:'evaluate',
                         field:'userGuid',
-                        title:'评分',
+                        title:'分数',
                         align:'center',
                         sortable:true,
-                        events : operateEvents1,
-                        formatter: scoreFormatter
+//                        events : operateEvents1,
+//                        formatter: scoreFormatter
+                        formatter: operateFormatter
                     }
                 ],
                 url: "/getUSERSListScoreJsonData", //请求后台的URL（*）
@@ -173,51 +179,18 @@
             setTimeout(function () {
                 $table.bootstrapTable('resetView');
             }, 200);
-        });
+            function operateFormatter(value, row, index) {
+                return [
+                    '<div class="row">',
+//                    原来是删除的函数：/UserGuid/
+                    '<a class="btn btn-default" href="/LookScoreForPerson2/'+  String(row.userGuid) +","+ activityid+
+                    '" title="查看">查看',
+                    '</a>  '+
+                    '</div>'
+                ].join('');
 
-        function rat(star,result,m){
-            star= '#' + star;
-            result= '#' + result;
-            $(result).hide();//将结果DIV隐藏
-
-            $(star).raty({
-                hints: ['10','20', '30', '40', '50','60', '70', '80', '90', '100'],
-                path: "/jquery-rank-score/css/img",
-                starOff: 'star-off-big.png',
-                starOn: 'star-on-big.png',
-                size: 24,
-                start: 40,
-                showHalf: true,
-                target: result,
-                targetKeep : true,//targetKeep 属性设置为true，用户的选择值才会被保持在目标DIV中，否则只是鼠标悬停时有值，而鼠标离开后这个值就会消失
-                click: function (score, evt) {
-                    //第一种方式：直接取值
-                    //   alert('你的评分是'+score*m+'分');
-                    document.getElementById("scored").textContent = "您的评分为："+score*m+"分";
-                    document.getElementById("finalScore").value =score*m;
-
-                }
-            });
-        }
-
-        //点击每个人的按钮获取该人的GUID
-        window.operateEvents1 = {
-            'click .getPersonId' : function(e, value, row, index) {
-                document.getElementById("thisPerson1").value =row.userGuid;
-                document.getElementById("id").value=(activityid);
             }
-        };
-        //出现评分按钮并弹出模态框
-        function scoreFormatter(value,row,index) {
-            rat('star1','result1',10);
-            return [
-                '<div class="row">',
-                '<a class="getPersonId btn btn-default" data-toggle="modal" data-target="#Mymodel"'+
-                ' title="打分">打分',
-                '</a> '+
-                '</div>'
-            ].join('');
-        }
+        });
     </script>
 </head>
 <body>
@@ -240,21 +213,20 @@
                 </div>
                 <div class="panel-body" >
                     <div class="table-responsive">
-                    <table id="USERS" name="USERS" class="table table-bordered table-hover table-striped"
-                           data-toolbar="#toolbar"
-                           data-show-refresh="true"
-                           data-show-toggle="true"
-                           data-show-columns="true"
-                           data-detail-view="false"
-                           data-minimum-count-columns="2"
-                           data-show-pagination-switch="true"
-                           data-pagination="true"
-                           data-id-field="applyId"
-                           data-page-list="[5, 10, 25, 50, 100, ALL]"
-                           data-show-footer="false"
-                           data-side-pagination="server">
-                    </table>
-                        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+                        <table id="USERS" name="USERS" class="table table-bordered table-hover table-striped"
+                               data-toolbar="#toolbar"
+                               data-show-refresh="true"
+                               data-show-toggle="true"
+                               data-show-columns="true"
+                               data-detail-view="false"
+                               data-minimum-count-columns="2"
+                               data-show-pagination-switch="true"
+                               data-pagination="true"
+                               data-id-field="applyId"
+                               data-page-list="[5, 10, 25, 50, 100, ALL]"
+                               data-show-footer="false"
+                               data-side-pagination="server">
+                        </table>
                     </div>
                     <!--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#Mymodel">-->
                     <!--确定评分-->
@@ -268,16 +240,18 @@
                                         提示
                                     </h4>
                                 </div>
-                                <form name="scoreForm" method="post" action="/scoreForPerson">
+                                <form name="scoreForm" method="post" action="/LookScoreForPerson">
                                     <div class="modal-body" >
                                         <div  id="star1" style="text-align: center"></div>
                                         <div id="result1"></div>
                                         <div>
-                                            <h3  id="scored" style="text-align:left">您的评分为：</h3>
+                                            <h3  id="scored" style="text-align:left">确定查询？</h3>
                                         </div>
-                                        <input id="thisPerson1"  class="hidden" name="thisPerson1" type="text" value="" />
-                                        <input id="finalScore" class="hidden" name="finalScore" type="text" value="" />
-                                        <input id="id" class="hidden" name="id" type="text" value="" />
+                                        <!--<span id="id1"  name="id1" th:text="${joinId}"></span>-->
+                                        <!--<input id="id1"  name="id1" value=""/>-->
+                                        <input id="thisPerson1" class="hidden" name="thisPerson1" type="text" value="" /><br>
+                                        <!--<input id="finalScore" name="finalScore" type="text" value="" />-->
+                                        <input id="id"  name="id" class="hidden" type="text" value="" />
                                     </div>
                                     <div class="modal-footer">
                                         <button id="buttonSubmit" type="submit" class="btn  btn-primary" >确定</button>

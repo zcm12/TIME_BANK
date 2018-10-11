@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="basepage :: common_header(~{::title},~{::script})">
-    <title>汇款列表</title>
+    <title>志愿者列表</title>
+    <script th:inline="javascript">
+        var message = [[${message}]];
+        console.log(message);
+    </script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             function changeDateFormat(cellval) {
@@ -16,92 +21,129 @@
                     return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
                 }
             };
+            var $table = $('#USERS');
 
-            var $table = $('#TRANSFER');
-            $('#TRANSFER').bootstrapTable({
+            $('#USERS').bootstrapTable({
                 columns:[
-                   /* {
-                        title:'转账ID',
-                        field:'transGuid',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },*/
+//                    {
+//                        field : 'checked',
+//                        checkbox : true,
+//                        formatter : stateFormatter
+//                    },
                  /*   {
-                        title:'发起转账者ID',
-                        field:'transFromUserGuid',
+                        title:'活动ID',
+                        field:'activityid',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },*/
                     {
-                        title:'发起转账者',
-                        field:'transFromUserAccount',
+                        title:'用户姓名',
+                        field:'userName',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        title:'接受转账者',
-                        field:'transToUserAccount',
+                        title:'用户账号',
+                        field:'userAccount',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
-
+//                    {
+//                        title:'用户密码',
+//                        field:'userPassword',
+//                        align: 'center',
+//                        valign: 'middle',
+//                        sortable: true
+//                    },
                     {
-                        title:'转账时间',
-                        field:'transIssueTime',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true ,
-                        formatter: function (value, row, index) {
-                            return changeDateFormat(value);
-                        }
-
-                    },
-                    {
-                        title:'转账进程',
-                        field:'transTypeGuidProcessStatus',
+                        title:'用户角色',
+                        field:'userRole',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        title:'转账货币',
-                        field:'transCurrency',
+                        title:'用户性别',
+                        field:'userTypeGuidGender',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        title:'备注',
-                        field:'transDesp',
+                        title:'用户状态',
+                        field:'userTypeAccountStatus',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
-                    }
-                   /* {
-                        field: 'transGuid',
-                        title: '操作',
+                    },
+//                    {
+//                        title:'密码盐值',
+//                        field:'userSalt',
+//                        align: 'center',
+//                        valign: 'middle',
+//                        sortable: true
+//                    },
+                    {
+                        title:'持有时间',
+                        field:'userOwnCurrency',
                         align: 'center',
-                        sortable: true,
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'预支付时间',
+                        field:'userPreConsumeCurrency',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户住址',
+                        field:'userAddress',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'用户坐标',
+                        field:'userCoordinate',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'所属小区',
+                        field:'userCommGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        field:'userGuid',
+                        title:'评分',
+                        align:'center',
+                        sortable:true,
                         formatter: operateFormatter
-                    }*/
+                    }
                 ],
-                url: "/getRemitListJsonData", //请求后台的URL（*）
+                url: "/getUSERSList", //请求后台的URL（*）
                 method: "get",
                 striped: true,     //是否显示行间隔色
                 cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 pagination: true,  //是否显示分页（*）
                 sortable: true,    //是否启用排序
-                sortOrder: "asc",  //排序方式
+                sortOrder: "asc",  //排序方式,
                 queryParams:function(params){
                     var limitApply={
                         limit:params.limit,
                         offset:params.offset,
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
+                        activityid:message,
+//                        userGuid:this.userGuid
                     };
                     return limitApply;
                 },//传递参数
@@ -109,32 +151,29 @@
                 pageNumber:1,  //初始化加载第一页，默认第一页
                 pageSize: 20,  //每页的记录行数（*）
                 pageList:[5,10,20,30,40,50],
-                sortName:"transGuid",
+                sortName:"userGuid",
                 showColumns: true,  //是否显示所有的列
                 showRefresh: true,  //是否显示刷新按钮
                 minimumCountColumns: 2, //最少允许的列数
                 clickToSelect: true,//是否启用点击选中行
                 toolbar:"#toolbar"
+
             });
             setTimeout(function () {
                 $table.bootstrapTable('resetView');
             }, 200);
-            function operateFormatter1(value, row, index) {
-                var ti=new Date(value);
-                var val=ti.toLocaleString() ;
-                return val;
-            };
             function operateFormatter(value, row, index) {
                 return [
                     '<div class="row">',
-                    '<a class="btn btn-default" href="/delateRemit/'+
-                    String(row.transGuid) +
-                    '" title="查看详情">撤回',
+                    '<a class="btn btn-default" href="/LookScoreForPerson2/'+  String(row.userGuid) +","+ message+
+                    '" title="查看">查看',
                     '</a>  '+
                     '</div>'
                 ].join('');
             }
+
         });
+
     </script>
 </head>
 <body>
@@ -152,25 +191,26 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        汇款列表
+                        志愿者列表
                     </h3>
                 </div>
                 <div class="panel-body" >
                     <div class="table-responsive">
-                    <table id="TRANSFER" name="TRANSFER" class="table table-bordered table-hover table-striped"
-                           data-toolbar="#toolbar"
-                           data-show-refresh="true"
-                           data-show-toggle="true"
-                           data-show-columns="true"
-                           data-detail-view="false"
-                           data-minimum-count-columns="2"
-                           data-show-pagination-switch="true"
-                           data-pagination="true"
-                           data-id-field="applyId"
-                           data-page-list="[5, 10, 25, 50, 100, ALL]"
-                           data-show-footer="false"
-                           data-side-pagination="server">
-                    </table>
+                        <table id="USERS" name="USERS" class="table table-bordered table-hover table-striped"
+                               data-toolbar="#toolbar"
+                               data-show-refresh="true"
+                               data-show-toggle="true"
+                               data-show-columns="true"
+                               data-detail-view="false"
+                               data-minimum-count-columns="2"
+                               data-show-pagination-switch="true"
+                               data-pagination="true"
+                               data-id-field="applyId"
+                               data-page-list="[5, 10, 25, 50, 100, ALL]"
+                               data-show-footer="false"
+                               data-side-pagination="server">
+                        </table>
+                        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
                     </div>
                 </div>
             </div>

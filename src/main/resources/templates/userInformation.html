@@ -52,15 +52,22 @@
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userMail" >电子邮箱：</label>
                                 <div class="col-lg-9">
-                                    <input id="userMail" name="userMail" type="email" class="form-control" th:value="${users.userMail}" disabled="disabled"/>
+                                    <input id="userIdnum" name="userIdnum" type="email" class="form-control" th:value="${users.userMail}" disabled="disabled"/>
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userIdnum" >身份证号：</label>
                                 <div class="col-lg-9">
-                                    <input id="userIdnum" name="userIdnum" type="email" class="form-control" th:value="${users.userIdnum}" disabled="disabled"/>
+                                    <input id="userMail" name="userMail" type="text" class="form-control" th:value="${users.userIdnum}" disabled="disabled"/>
                                 </div>
                             </div>
+                           <!--
+                           <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userIdnum" >身份证号：</label>
+                                <div class="col-lg-9">
+                                    <input id="userIdnum" name="userIdnum" type="email" class="form-control" th:value="${users.userIdnum}" disabled="disabled"/>
+                                </div>
+                            </div>-->
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userPhone" >手机号：</label>
                                 <div class="col-lg-9">

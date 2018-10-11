@@ -37,7 +37,7 @@ public class AdminRequestController {
     @Autowired
     private RespondMapper respondMapper;
 
-    String updateRequestGuid1 = null;
+       String updateRequestGuid1 = null;
     private Users GetCurrentUsers(String message){
 
         UsersExample usersExample=new UsersExample();
@@ -104,7 +104,7 @@ public class AdminRequestController {
 
     //代发请求界面中的 “保存”按钮  将数据插入到数据库
     @RequestMapping(value = "/createRequestByAdmin")
-    public String insertRequest( Reqest reqest, Model model,Errors errors) {
+    public String insertRequest(Reqest reqest, Model model,Errors errors) {
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
@@ -112,10 +112,6 @@ public class AdminRequestController {
         model.addAttribute("role",role);
 
 //        if (!errors.hasErrors()) {
-
-//            model.addAttribute("role",role);
-
-
             String userId=users11.getUserGuid();
             //给发布的请求生成一个GUID,作为该请求的唯一标识
             reqest.setReqGuid(randomUUID().toString());
@@ -147,7 +143,7 @@ public class AdminRequestController {
     //查看详情
     @RequestMapping(value = "/showReqestDetailViewByAdmin/{reqGuid}")
     public String showTeacherView1(@PathVariable String reqGuid, Model model, UpdateList updateList) {
-        updateRequestGuid1 = reqGuid;
+  //      updateRequestGuid1 = reqGuid;
         model.addAttribute("reqGuid",reqGuid);
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
@@ -325,18 +321,19 @@ public class AdminRequestController {
             }
         }
         model.addAttribute("reqest",reqest);
+        model.addAttribute("reqGuid",reqGuid);
         return "listRequsetModelByAdm";
     }
     //管理员修改批准状态 通过
     @RequestMapping(value="/changestatuesa")
-    public String changestatuea(Model model,UpdateList updateList){
+    public String changestatuea(Model model,UpdateList updateList,String reqGuid7){
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
         //TODO 根据传递过来的reqGuid
-        Reqest reqest = reqestMapper.selectByPrimaryKey(updateRequestGuid1);
+        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid7);
         reqest.setReqTypeApproveStatus("88888888-94e3-4eb7-aad3-111111111111");
         reqestMapper.updateByPrimaryKeySelective(reqest);
         TypeExample typeExample = new TypeExample();
@@ -383,14 +380,14 @@ public class AdminRequestController {
     }
     //管理员修改批准状态 驳回
     @RequestMapping(value="/changestatuesb")
-    public String changestatueb(Model model,UpdateList updateList ){
+    public String changestatueb(Model model,UpdateList updateList,String reqGuid6){
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
         //TODO 根据传递过来的reqGuid
-        Reqest reqest = reqestMapper.selectByPrimaryKey(updateRequestGuid1);
+        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid6);
         reqest.setReqTypeApproveStatus("88888888-94e3-4eb7-aad3-222222222222");
         reqestMapper.updateByPrimaryKeySelective(reqest);
         TypeExample typeExample = new TypeExample();
@@ -437,14 +434,14 @@ public class AdminRequestController {
     }
     //查看详情界面中的更新请求
     @RequestMapping(value = "/updateREQEST1")
-    public String updateREQEST1(UpdateList updateList,Model model) {
+    public String updateREQEST1(UpdateList updateList,Model model,String reqGuid5) {
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
         //TODO 根据传递过来的reqGuid
-        Reqest reqest = reqestMapper.selectByPrimaryKey(updateRequestGuid1);
+        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid5);
         model.addAttribute("reqest",reqest);
 
         TypeExample typeExample = new TypeExample();
@@ -580,14 +577,14 @@ public class AdminRequestController {
     }
     //查看详情界面中的  申请待启动按钮
     @RequestMapping(value = "/waitRequest1")
-    public String waitRequest1 (UpdateList updateList, Model model) {
-        System.out.println(updateRequestGuid1);
+    public String waitRequest1 (UpdateList updateList, Model model,String reqGuid4) {
+        System.out.println(reqGuid4);
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
-        Reqest reqest = reqestMapper.selectByPrimaryKey(updateRequestGuid1);
+        Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid4);
         //设置请求处理状态为待启动
         reqest.setReqTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-222222222222");
         reqestMapper.updateByPrimaryKey(reqest);
@@ -948,13 +945,36 @@ public class AdminRequestController {
       for (int i = 0;i<reqests.size();i++){
           Reqest reqest =reqests.get(i);
           if (searchText != null) {
+
               String reqTitle = reqest.getReqTitle();//标题搜索
+              if(!(reqTitle!=null)){
+                  reqTitle="";
+//                  System.out.println(55555);
+              }
               String reqUserAccount = reqest.getReqIssueUserGuid();//账户搜索
+              if(!(reqUserAccount!=null)){
+                  reqUserAccount="";
+              }
               String reqAddress = reqest.getReqAddress();//地址搜索
+              if(!(reqAddress!=null)){
+                  reqAddress="";
+              }
               String reqClass=reqest.getReqTypeGuidClass();//请求分类搜索
+              if(!(reqClass!=null)){
+                  reqClass="";
+              }
               String reqUrgent=reqest.getReqTypeGuidUrgency();//紧急程度搜索
+              if(!(reqUrgent!=null)){
+                  reqUrgent="";
+              }
               String reqDescribe=reqest.getReqDesp();//描述搜索
+              if(!(reqDescribe!=null)){
+                  reqDescribe="";
+              }
               String reqComm=reqest.getReqComment();//补充搜索
+              if(!(reqComm!=null)){
+                  reqComm="";
+              }
               if (reqTitle.contains(searchText) || reqUserAccount.contains(searchText) || reqAddress.contains(searchText)||reqClass.contains(searchText)||reqUrgent.contains(searchText)||reqDescribe.contains(searchText)||reqComm.contains(searchText)) {
                   reqestsNew.add(reqest);
               }
@@ -963,6 +983,7 @@ public class AdminRequestController {
           }
       }
       //分页，一页数据最多20个
+      System.out.println(reqests.size());
       for (int i = offset;i<offset+limit&&i<reqestsNew.size();i++){
           reqestsReturn.add(reqestsNew.get(i));
       }

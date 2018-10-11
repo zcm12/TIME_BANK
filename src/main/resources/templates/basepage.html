@@ -95,14 +95,49 @@
                                     <li><a th:href="@{/createUserRole/2}"><i class="glyphicon glyphicon-user"></i> 用户列表</a></li>
                                     <li><a th:href="@{/createUserRole/3}"><i class="glyphicon glyphicon-user"></i> 审核列表</a></li>
                                     <li><a th:href="@{/publishactivity}"><i class="glyphicon glyphicon-edit"></i> 发布活动</a></li>
-                                    <li><a th:href="@{/activitylist/1}"><i class="glyphicon glyphicon-th-list"></i> 查看所有活动</a></li>
-                                    <li><a th:href="@{/activitylist/2}"><i class="glyphicon glyphicon-th-list"></i> 查看未启动活动</a></li>
-                                    <li><a th:href="@{/activitylist/3}"><i class="glyphicon glyphicon-th-list"></i> 查看待启动活动</a></li>
-                                    <li><a th:href="@{/activitylist/4}"><i class="glyphicon glyphicon-th-list"></i> 查看启动活动</a></li>
-                                    <li><a th:href="@{/activitylist/5}"><i class="glyphicon glyphicon-th-list"></i> 查看未完成活动</a></li>
-                                    <li><a th:href="@{/activitylist/6}"><i class="glyphicon glyphicon-th-list"></i> 查看已完成活动</a></li>
-                                    <li><a th:href="@{/activitylist/7}"><i class="glyphicon glyphicon-th-list"></i> 查看已撤销活动</a></li>
-                                    <li><a th:href="@{/activitylist/8}"><i class="glyphicon glyphicon-th-list"></i> 查看评价完的活动</a></li>
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle"  data-toggle="dropdown" th:href="@{/listRequestByAdminView/0}">
+                                            <i class="glyphicon glyphicon-th-list"></i>查看活动<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a th:href="@{/activitylist/1}"><i class="glyphicon glyphicon-align-center"></i> 查看所有活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/2}"><i class="glyphicon glyphicon-minus-sign"></i> 查看未启动活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/3}"><i class="glyphicon glyphicon-info-sign"></i> 查看待启动活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/4}"><i class="glyphicon glyphicon-ok-sign"></i> 查看启动活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/5}"><i class="glyphicon glyphicon-remove-sign"></i> 查看未完成活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/6}"><i class="glyphicon  glyphicon-ok-circle"></i> 查看已完成活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/7}"><i class="glyphicon glyphicon-ban-circle"></i> 查看已撤销活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/8}"><i class="glyphicon glyphicon-check"></i> 查看评价完的活动</a></li>
+                                            -->
+
+
+
+                                           <!-- <li><a th:href="@{/activitylist/1}"><i class="glyphicon glyphicon-th-list"></i> 查看所有活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/2}"><i class="glyphicon glyphicon-th-list"></i> 查看未启动活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/3}"><i class="glyphicon glyphicon-th-list"></i> 查看待启动活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/4}"><i class="glyphicon glyphicon-th-list"></i> 查看启动活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/5}"><i class="glyphicon glyphicon-th-list"></i> 查看未完成活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/6}"><i class="glyphicon glyphicon-th-list"></i> 查看已完成活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/7}"><i class="glyphicon glyphicon-th-list"></i> 查看已撤销活动</a></li>
+                                            <li class="divider"></li>
+                                            <li><a th:href="@{/activitylist/8}"><i class="glyphicon glyphicon-th-list"></i> 查看评价完的活动</a></li>
+&ndash;&gt;
+                                     -->   </ul>
+                                    </li>
+
                                     <li><a th:href="@{/activitylistscore}"><i class="glyphicon glyphicon-th-list"></i> 评价活动</a></li>
                                 </ul>
                             </div>
@@ -128,6 +163,8 @@
                                     <li><a th:href="@{/remitServicesView}"><i class="glyphicon glyphicon-th-list"></i> 转出时间币</a></li>
                                     <li><a th:href="@{/remitServicesList}"><i class="glyphicon glyphicon-th-list"></i> 交易列表</a></li>
                                     <li><a th:href="@{/requestScore}"><i class="glyphicon glyphicon-th-list"></i> 评价志愿者</a></li>
+                                    <li><a th:href="@{/requestScore1}"><i class="glyphicon glyphicon-th-list"></i> 已评论的请求</a></li>
+                                    <li><a th:href="@{/requestScore2}"><i class="glyphicon glyphicon-th-list"></i> 我的服务评分</a></li>
                                 </ul>
                             </div>
                         </div>

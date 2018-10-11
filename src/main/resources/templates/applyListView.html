@@ -22,13 +22,13 @@
             var $table = $('#REQEST');
             $('#REQEST').bootstrapTable({
                 columns:[
-                    {
+                    /*{
                         title:'请求ID',
                         field:'reqGuid',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
-                    },
+                    },*/
                     {
                         title:'提出请求的时间',
                         field:'reqIssueTime',
@@ -141,6 +141,9 @@
                 method: "GET",
                 striped: true,     //是否显示行间隔色
                 cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                search:true,//10.9添加/
+                searchAlign: "left",//10.9添加/
+                searchOnEnterKey: true, //回车查询//10.9添加/
                 pagination: true,  //是否显示分页（*）
                 sortable: true,    //是否启用排序
                 sortOrder: "asc",  //排序方式
@@ -148,6 +151,7 @@
                     var limitApply={
                         limit:params.limit,
                         offset:params.offset,
+                        searchText:params.search,//10.9添加/
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
                     };
@@ -155,9 +159,10 @@
                 },//传递参数
                 sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
                 pageNumber:1,  //初始化加载第一页，默认第一页
-                pageSize: 20,  //每页的记录行数（*）
+                pageSize: 5,  //每页的记录行数（*）
                 pageList:[5,10,20,30,40,50],
                 sortName:"reqGuid",
+                searchText: '',//10.9添加/
                 showColumns: true,  //是否显示所有的列
                 showRefresh: true,  //是否显示刷新按钮
                 minimumCountColumns: 2, //最少允许的列数

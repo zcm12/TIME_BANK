@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="basepage :: common_header(~{::title},~{::script})">
-    <title>请求响应列表</title>
+    <title>我的服务列表</title>
     <script type="text/javascript">
         $(document).ready(function() {
             function changeDateFormat(cellval) {
@@ -10,55 +10,127 @@
                     var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
                     var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
                     var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+
                     var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
                     var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
                     var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+
                     return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
                 }
             };
-            var $table = $('#RESPOND');
-            $('#RESPOND').bootstrapTable({
+
+            var $table = $('#REQEST');
+            $('#REQEST').bootstrapTable({
                 columns:[
+                    /* {
+                         title:'请求ID',
+                         field:'reqGuid',
+                         align: 'center',
+                         valign: 'middle',
+                         sortable: true
+                     },*/
                     {
-                        title:'响应ID',
-                        field:'resGuid',
+                        title:'提出请求的时间',
+                        field:'reqIssueTime',
                         align: 'center',
                         valign: 'middle',
-                        sortable: true
-                    },
-                    {
-                        title:'请求响应ID',
-                        field:'resReqGuid',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    },
-                    {
-                        title:'响应接受时间',
-                        field:'resAcceptTime',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true ,
+                        sortable: true,
                         formatter: function (value, row, index) {
                             return changeDateFormat(value);
                         }
                     },
                     {
-                        title:'响应接受地址',
-                        field:'resAcceptAddress',
+                        title:'请求提出地址',
+                        field:'reqAddress',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        title:'响应处理状态',
-                        field:'resTypeGuidProcessStatus',
+                        title:'请求的标题',
+                        field:'reqTitle',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
                     },
                     {
-                        field: 'resGuid',
+                        title:'请求描述',
+                        field:'reqDesp',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'请求补充',
+                        field:'reqComment',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'请求分类',
+                        field:'reqTypeGuidClass',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'请求可用开始时间',
+                        field:'reqAvailableStartTime',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+                    },
+                    {
+                        title:'请求可用结束时间',
+                        field:'reqAvailableEndTime',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            return changeDateFormat(value);
+                        }
+                    },
+                    {
+                        title:'预计持续时间',
+                        field:'reqRreDurationTime',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'请求批准状态',
+                        field:'reqTypeApproveStatus',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'请求处理状态',
+                        field:'reqTypeGuidProcessStatus',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'请求需要人数',
+                        field:'reqPersonNum',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        title:'请求紧急程度',
+                        field:'reqTypeGuidUrgency',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },
+                    {
+                        field: 'reqGuid',
                         title: '操作',
                         align: 'center',
                         sortable: true,
@@ -66,9 +138,12 @@
                     }
                 ],
                 url: "/getRESPONDListJsonData", //请求后台的URL（*）
-                method: "get",
+                method: "GET",
                 striped: true,     //是否显示行间隔色
                 cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                search:true,//10.9添加/
+                searchAlign: "left",//10.9添加/
+                searchOnEnterKey: true, //回车查询//10.9添加/
                 pagination: true,  //是否显示分页（*）
                 sortable: true,    //是否启用排序
                 sortOrder: "asc",  //排序方式
@@ -76,6 +151,7 @@
                     var limitApply={
                         limit:params.limit,
                         offset:params.offset,
+                        searchText:params.search,//10.9添加/
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
                     };
@@ -85,7 +161,8 @@
                 pageNumber:1,  //初始化加载第一页，默认第一页
                 pageSize: 20,  //每页的记录行数（*）
                 pageList:[5,10,20,30,40,50],
-                sortName:"resGuid",
+                sortName:"reqGuid",
+                searchText: '',//10.9添加/
                 showColumns: true,  //是否显示所有的列
                 showRefresh: true,  //是否显示刷新按钮
                 minimumCountColumns: 2, //最少允许的列数
@@ -95,40 +172,15 @@
             setTimeout(function () {
                 $table.bootstrapTable('resetView');
             }, 200);
-            function operateFormatter1(value, row, index) {
-                var ti=new Date(value);
-                var val=ti.toLocaleString() ;
-                return val;
-            };
+
             function operateFormatter(value, row, index) {
-                if (row.resTypeGuidProcessStatus == "待审核" || row.resTypeGuidProcessStatus == "通过" || row.resTypeGuidProcessStatus == "单未满" ||row.resTypeGuidProcessStatus == "单满了")
-                {
-                    return [
-                        '<div class="row">',
-                        '<a class="btn btn-default" href="/updateRESPOND/'+
-                        String(row.resGuid) +
-                        '" title="更新请求">更新请求',
-                        '</a>  '+
-                        '<a class="btn btn-default" href="/deleteRESPOND/'+
-                        String(row.resGuid) +
-                        '" title="查看详情">撤单',
-                        '</a>  '+
-                        '</div>'
-                    ].join('');
-                }else {
-                        return [
-                            '<div class="row">',
-                            '<a disabled="disabled" class="btn btn-default" href="/updateRESPOND/'+
-                            String(row.resGuid) +
-                            '" title="更新请求">更新请求',
-                            '</a>  '+
-                            '<a disabled="disabled" class="btn btn-default" href="/deleteRESPOND/'+
-                            String(row.resGuid) +
-                            '" title="查看详情">撤单',
-                            '</a>  '+
-                            '</div>'
-                        ].join('');
-                    }
+                return [
+                    '<div class="row">',
+                    '<a class="btn btn-default" href="/listREQESTModel22/' +
+                    String(row.reqGuid) +
+                    '" title="查看详情">查看详情',
+                    '</a>  '
+                ].join('');
             }
         });
     </script>
@@ -148,25 +200,25 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        请求响应列表
+                        我的服务列表
                     </h3>
                 </div>
                 <div class="panel-body" >
                     <div class="table-responsive">
-                    <table id="RESPOND" name="RESPOND" class="table table-bordered table-hover table-striped"
-                           data-toolbar="#toolbar"
-                           data-show-refresh="true"
-                           data-show-toggle="true"
-                           data-show-columns="true"
-                           data-detail-view="false"
-                           data-minimum-count-columns="2"
-                           data-show-pagination-switch="true"
-                           data-pagination="true"
-                           data-id-field="applyId"
-                           data-page-list="[5, 10, 25, 50, 100, ALL]"
-                           data-show-footer="false"
-                           data-side-pagination="server">
-                    </table>
+                        <table id="REQEST" name="REQEST" class="table table-bordered table-hover table-striped"
+                               data-toolbar="#toolbar"
+                               data-show-refresh="true"
+                               data-show-toggle="true"
+                               data-show-columns="true"
+                               data-detail-view="false"
+                               data-minimum-count-columns="2"
+                               data-show-pagination-switch="true"
+                               data-pagination="true"
+                               data-id-field="applyId"
+                               data-page-list="[5, 10, 25, 50, 100, ALL]"
+                               data-show-footer="false"
+                               data-side-pagination="server">
+                        </table>
                     </div>
                 </div>
             </div>

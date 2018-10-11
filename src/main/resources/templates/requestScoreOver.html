@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="basepage :: common_header(~{::title},~{::script})">
-    <title>REQEST</title>
+    <title>评价请求列表</title>
+    <script th:inline="javascript">
+        var reqGuid = [[${reqGuid}]];
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
             function changeDateFormat(cellval) {
@@ -26,8 +29,8 @@
                         align: 'center',
                         valign: 'middle',
                         sortable: true
-                    },*/
-                    /*{
+                    },
+                    {
                         title:'请求者ID',
                         field:'reqIssueUserGuid',
                         align: 'center',
@@ -163,9 +166,16 @@
 //                        valign: 'middle',
 //                        sortable: true
 //                    },
-                    {
+                    /*{
                         title:'接收请求人的ID',
                         field:'reqTargetsUserGuid',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true
+                    },*/
+                    {
+                        title:'接收请求人的账户',
+                        field:'reqTargetsUserAccount',
                         align: 'center',
                         valign: 'middle',
                         sortable: true
@@ -220,10 +230,13 @@
                         formatter: operateFormatter
                     }
                 ],
-                url: "/getREQESTListJsonData", //请求后台的URL（*）
+                url: "/getRequestListScoreJsonData1", //请求后台的URL（*）
                 method: "get",
                 striped: true,     //是否显示行间隔色
                 cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                search:true,//10.10添加/
+                searchAlign: "left",//10.10添加/
+                searchOnEnterKey: true, //回车查询//10.10添加/
                 pagination: true,  //是否显示分页（*）
                 sortable: true,    //是否启用排序
                 sortOrder: "asc",  //排序方式
@@ -231,6 +244,7 @@
                     var limitApply={
                         limit:params.limit,
                         offset:params.offset,
+                        searchText:params.search,//10.10添加/
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
                     };
@@ -238,9 +252,10 @@
                 },//传递参数
                 sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
                 pageNumber:1,  //初始化加载第一页，默认第一页
-                pageSize: 20,  //每页的记录行数（*）
-                pageList:[5,10,20,30,40,50],
+                pageSize: 5,  //每页的记录行数（*）
+                pageList:[5,10,20],
                 sortName:"reqGuid",
+                searchText: '',//10.10添加/
                 showColumns: true,  //是否显示所有的列
                 showRefresh: true,  //是否显示刷新按钮
                 minimumCountColumns: 2, //最少允许的列数
@@ -258,9 +273,9 @@
             function operateFormatter(value, row, index) {
                 return [
                     '<div class="row">',
-                    '<a class="btn btn-default" href="/REQEST/'+
+                    '<a class="btn btn-default" href="/requestScore11/'+
                     String(row.reqGuid) +
-                    '" title="查看详情">查看详情',
+                    '" title="查看">查看',
                     '</a>  '+
                     '</div>'
                 ].join('');
@@ -283,25 +298,26 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        REQEST表
+                        请求列表
                     </h3>
                 </div>
                 <div class="panel-body" >
                     <div class="table-responsive">
-                    <table id="REQEST" name="REQEST" class="table table-bordered table-hover table-striped"
-                           data-toolbar="#toolbar"
-                           data-show-refresh="true"
-                           data-show-toggle="true"
-                           data-show-columns="true"
-                           data-detail-view="false"
-                           data-minimum-count-columns="2"
-                           data-show-pagination-switch="true"
-                           data-pagination="true"
-                           data-id-field="applyId"
-                           data-page-list="[5, 10, 25, 50, 100, ALL]"
-                           data-show-footer="false"
-                           data-side-pagination="server">
-                    </table>
+                        <table id="REQEST" name="REQEST" class="table table-bordered table-hover table-striped"
+                               data-toolbar="#toolbar"
+                               data-show-refresh="true"
+                               data-show-toggle="true"
+                               data-show-columns="true"
+                               data-detail-view="false"
+                               data-minimum-count-columns="2"
+                               data-show-pagination-switch="true"
+                               data-pagination="true"
+                               data-id-field="applyId"
+                               data-page-list="[5, 10, 25, 50, 100, ALL]"
+                               data-show-footer="false"
+                               data-side-pagination="server">
+                        </table>
+                        <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
                     </div>
                 </div>
             </div>
