@@ -9,7 +9,15 @@
     <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
+    <script LANGUAGE="JavaScript">
+        function fresh() {
+            if (location.href.indexOf("?reload=true") < 0) {
+                location.href += "?reload=true";
+            }
+        }
 
+        setTimeout("fresh()", 50)
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#Form').bootstrapValidator({

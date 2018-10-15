@@ -208,7 +208,7 @@ public class Users {
      *
      * @mbg.generated
      */
-    private Date userBirthdate;
+    private String userBirthdate;
 
     /**
      *
@@ -782,7 +782,7 @@ public class Users {
      *
      * @mbg.generated
      */
-    public Date getUserBirthdate() {
+    public String getUserBirthdate() {
         return userBirthdate;
     }
 
@@ -794,7 +794,7 @@ public class Users {
      *
      * @mbg.generated
      */
-    public void setUserBirthdate(Date userBirthdate) {
+    public void setUserBirthdate(String userBirthdate) {
         this.userBirthdate = userBirthdate;
     }
 

@@ -9,6 +9,15 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>注册界面</title>
+    <script LANGUAGE="JavaScript">
+        function fresh() {
+            if (location.href.indexOf("?reload=true") < 0) {
+                location.href += "?reload=true";
+            }
+        }
+
+        setTimeout("fresh()", 50)
+    </script>
     <script type="text/javascript">
         //        <script type="text/javascript">
         $(document).ready(function() {

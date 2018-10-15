@@ -21,6 +21,7 @@
     <result column="RES_REQ_TITLE" jdbcType="NCHAR" property="resReqTitle" />
     <result column="RES_EVALUATE_DES" jdbcType="NVARCHAR" property="resEvaluateDes" />
     <result column="RES_REQ_START_USER_ACCOUNT" jdbcType="NVARCHAR" property="resReqStartUserAccount" />
+    <result column="RES_TYPE_PROCESS_STATUS" jdbcType="CHAR" property="resTypeProcessStatus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -95,7 +96,8 @@
     -->
     RES_GUID, RES_REQ_GUID, RES_USER_GUID, RES_ACCEPT_TIME, RES_ACCEPT_ADDRESS, RES_SERVICE_START_TIME, 
     RES_SERVICE_END_TIME, RES_TYPE_GUID_PROCESS_STATUS, RES_EVALUATE, RES_EARN_CURRENCY, 
-    RES_PROCESS_USER_GUID, RES_REQ_ADDR, RES_REQ_TITLE, RES_EVALUATE_DES, RES_REQ_START_USER_ACCOUNT
+    RES_PROCESS_USER_GUID, RES_REQ_ADDR, RES_REQ_TITLE, RES_EVALUATE_DES, RES_REQ_START_USER_ACCOUNT, 
+    RES_TYPE_PROCESS_STATUS
   </sql>
   <select id="selectByExample" parameterType="com.timebank.domain.RespondExample" resultMap="BaseResultMap">
     <!--
@@ -153,13 +155,15 @@
       RES_SERVICE_END_TIME, RES_TYPE_GUID_PROCESS_STATUS, 
       RES_EVALUATE, RES_EARN_CURRENCY, RES_PROCESS_USER_GUID, 
       RES_REQ_ADDR, RES_REQ_TITLE, RES_EVALUATE_DES, 
-      RES_REQ_START_USER_ACCOUNT)
+      RES_REQ_START_USER_ACCOUNT, RES_TYPE_PROCESS_STATUS
+      )
     values (#{resGuid,jdbcType=CHAR}, #{resReqGuid,jdbcType=CHAR}, #{resUserGuid,jdbcType=CHAR}, 
       #{resAcceptTime,jdbcType=TIMESTAMP}, #{resAcceptAddress,jdbcType=NVARCHAR}, #{resServiceStartTime,jdbcType=TIMESTAMP}, 
       #{resServiceEndTime,jdbcType=TIMESTAMP}, #{resTypeGuidProcessStatus,jdbcType=CHAR}, 
       #{resEvaluate,jdbcType=INTEGER}, #{resEarnCurrency,jdbcType=DOUBLE}, #{resProcessUserGuid,jdbcType=CHAR}, 
       #{resReqAddr,jdbcType=NVARCHAR}, #{resReqTitle,jdbcType=NCHAR}, #{resEvaluateDes,jdbcType=NVARCHAR}, 
-      #{resReqStartUserAccount,jdbcType=NVARCHAR})
+      #{resReqStartUserAccount,jdbcType=NVARCHAR}, #{resTypeProcessStatus,jdbcType=CHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.timebank.domain.Respond">
     <!--
@@ -213,6 +217,9 @@
       <if test="resReqStartUserAccount != null">
         RES_REQ_START_USER_ACCOUNT,
       </if>
+      <if test="resTypeProcessStatus != null">
+        RES_TYPE_PROCESS_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="resGuid != null">
@@ -259,6 +266,9 @@
       </if>
       <if test="resReqStartUserAccount != null">
         #{resReqStartUserAccount,jdbcType=NVARCHAR},
+      </if>
+      <if test="resTypeProcessStatus != null">
+        #{resTypeProcessStatus,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -324,6 +334,9 @@
       <if test="record.resReqStartUserAccount != null">
         RES_REQ_START_USER_ACCOUNT = #{record.resReqStartUserAccount,jdbcType=NVARCHAR},
       </if>
+      <if test="record.resTypeProcessStatus != null">
+        RES_TYPE_PROCESS_STATUS = #{record.resTypeProcessStatus,jdbcType=CHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -349,7 +362,8 @@
       RES_REQ_ADDR = #{record.resReqAddr,jdbcType=NVARCHAR},
       RES_REQ_TITLE = #{record.resReqTitle,jdbcType=NCHAR},
       RES_EVALUATE_DES = #{record.resEvaluateDes,jdbcType=NVARCHAR},
-      RES_REQ_START_USER_ACCOUNT = #{record.resReqStartUserAccount,jdbcType=NVARCHAR}
+      RES_REQ_START_USER_ACCOUNT = #{record.resReqStartUserAccount,jdbcType=NVARCHAR},
+      RES_TYPE_PROCESS_STATUS = #{record.resTypeProcessStatus,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -403,6 +417,9 @@
       <if test="resReqStartUserAccount != null">
         RES_REQ_START_USER_ACCOUNT = #{resReqStartUserAccount,jdbcType=NVARCHAR},
       </if>
+      <if test="resTypeProcessStatus != null">
+        RES_TYPE_PROCESS_STATUS = #{resTypeProcessStatus,jdbcType=CHAR},
+      </if>
     </set>
     where RES_GUID = #{resGuid,jdbcType=CHAR}
   </update>
@@ -425,7 +442,8 @@
       RES_REQ_ADDR = #{resReqAddr,jdbcType=NVARCHAR},
       RES_REQ_TITLE = #{resReqTitle,jdbcType=NCHAR},
       RES_EVALUATE_DES = #{resEvaluateDes,jdbcType=NVARCHAR},
-      RES_REQ_START_USER_ACCOUNT = #{resReqStartUserAccount,jdbcType=NVARCHAR}
+      RES_REQ_START_USER_ACCOUNT = #{resReqStartUserAccount,jdbcType=NVARCHAR},
+      RES_TYPE_PROCESS_STATUS = #{resTypeProcessStatus,jdbcType=CHAR}
     where RES_GUID = #{resGuid,jdbcType=CHAR}
   </update>
 </mapper>

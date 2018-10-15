@@ -6,6 +6,11 @@
         $(document).ready(function() {
         });
     </script>
+    <script th:inline="javascript">
+        var message = [[${message}]];
+        var personNumber = [[${personNumber}]];
+    </script>
+
 </head>
 <body>
 <div class="container">
@@ -98,6 +103,12 @@
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqPersonNum" >已报名人数：</label>
+                                <div class="col-lg-9">
+                                    <input id="Num" name="Num" type="text" class="form-control"  disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqTypeGuidUrgency" >请求紧急程度：</label>
                                 <div class="col-lg-9">
                                     <input id="reqTypeGuidUrgency" name="reqTypeGuidUrgency" type="text" class="form-control" th:value="${reqest.reqTypeGuidUrgency}" disabled="disabled"/>
@@ -134,5 +145,13 @@
     </div>
 </div>
 </body>
+<script>
+    if (message ==1) {
+        document.getElementById("btnSubmit").disabled = false;
+    } else {
+        document.getElementById("btnSubmit").disabled = true;
+    }
+    document.getElementById("Num").value = personNumber;
+</script>
 </html>
 

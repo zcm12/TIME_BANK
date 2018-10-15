@@ -30,7 +30,7 @@ public class Reqest {
      *
      * @mbg.generated
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reqIssueTime;
 
     /**
@@ -76,7 +76,7 @@ public class Reqest {
      *
      * @mbg.generated
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reqDispatchTime;
 
     /**
@@ -133,7 +133,7 @@ public class Reqest {
      *
      * @mbg.generated
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reqStartTime;
 
     /**
@@ -292,7 +292,7 @@ public class Reqest {
      *
      * @mbg.generated
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getReqIssueTime() {
         return reqIssueTime;
     }
@@ -413,7 +413,7 @@ public class Reqest {
      *
      * @mbg.generated
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getReqDispatchTime() {
         return reqDispatchTime;
     }

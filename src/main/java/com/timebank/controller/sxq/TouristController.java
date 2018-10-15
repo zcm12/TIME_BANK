@@ -437,7 +437,7 @@ public class TouristController {
             return null;
         }
     }
-    //查看详情安按钮
+    //查看详情按钮
     @RequestMapping(value="/AllUser/{userGuid}")
     public String alluser(Model model,@PathVariable String userGuid){
         Subject account = SecurityUtils.getSubject();
@@ -475,11 +475,7 @@ public class TouristController {
 
         //读取图片位置路径
         String A=use.getUserIdimage();
-//        String B=users1.getUserIdimageZ();
         model.addAttribute("message1",A);
-//        System.out.println(A);
-//        model.addAttribute("message2",B);
-
         model.addAttribute("users",use);
         return "createUserRoleByAdmin";
     }

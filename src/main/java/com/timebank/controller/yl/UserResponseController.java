@@ -2,7 +2,7 @@ package com.timebank.controller.yl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timebank.domain.*;
 import com.timebank.mapper.*;
-import org.apache.catalina.mbeans.UserMBean;
+//import org.apache.catalina.mbeans.UserMBean;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -271,7 +271,7 @@ public class UserResponseController {
         respond.setResAcceptTime(date);
         //响应接受地址
         respond.setResAcceptAddress(resAcceptAddress);
-        //只要是申请就是通过，不需要审核
+        //请求的处理状态  开始为待启动
         respond.setResTypeGuidProcessStatus("88888888-94e3-4eb7-aad3-111111111111");
         respondMapper.insert(respond);
         return "responseOfVolunteer";
@@ -400,11 +400,19 @@ public class UserResponseController {
         String ownId = users11.getUserGuid();
         respondExample.or().andResUserGuidEqualTo(ownId);
         List<Respond> responds=respondMapper.selectByExample(respondExample);
-        List<Reqest> respondRecordList=new ArrayList<>();
-        //遍历
-//        for(int i=offset;i< offset+limit&&i < responds.size();i++){
+        List<Respond> respondRecordList1=new ArrayList<>();
+
+        //判断respond处理状态是否为通过
         for(int i=0;i < responds.size();i++){
             Respond respond1=responds.get(i);
+            if(respond1.getResTypeGuidProcessStatus().equals("88888888-94E3-4EB7-AAD3-111111111111")){
+                respondRecordList1.add(respond1);
+            }
+        }
+        List<Reqest> respondRecordList=new ArrayList<>();
+
+        for(int i=0;i < respondRecordList1.size();i++){
+            Respond respond1=respondRecordList1.get(i);
             TypeExample typeExample = new TypeExample();
 
             //得到reqest
@@ -655,7 +663,6 @@ public class UserResponseController {
         Respond respond=respondList.get(0);
         if(respond.getResGuid().equals(message)){
             respondMapper.deleteByPrimaryKey(message);
-
         }
 
         return "volunteerList";

@@ -8,20 +8,23 @@
 
         //        alert("图片不出来请尝试刷新")
     </script>
-    <script   LANGUAGE="JavaScript">
-        function   fresh()
-        {
-            if(location.href.indexOf("?reload=true")<0)
-            {
-                location.href+="?reload=true";
-            }
-        }
-        setTimeout("fresh()",50)
-    </script>
+    <!--<script   LANGUAGE="JavaScript">-->
+        <!--function   fresh()-->
+        <!--{-->
+            <!--if(location.href.indexOf("?reload=true")<0)-->
+            <!--{-->
+                <!--location.href+="?reload=true";-->
+            <!--}-->
+        <!--}-->
+        <!--setTimeout("fresh()",50)-->
+    <!--</script>-->
     <script type="text/javascript">
 
         $(document).ready(function() {
-            document.getElementById('imgInit1').src = message1;
+            if(message1!=null){
+                document.getElementById('imgInit1').src = message1;
+            }
+
             $('#USERSInputForm').bootstrapValidator({
                 message: 'This value is not valid',
                 feedbackIcons: {
@@ -230,7 +233,7 @@
                                 <input type="file" accept="image/*" value="" id="img_f" name="img_f" style="display:none"/>
                                 <div class="img_wp" >
                                     <!--<img src="/img/qie.jpg" id="zmz"  />-->
-                                    <img src=""  id="imgInit1">
+                                    <img src="/img/qie.jpg"  id="imgInit1">
                                     <p class="img_intro">身份证正面照</p>
                                 </div>
 

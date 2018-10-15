@@ -8,7 +8,7 @@ import com.timebank.domain.*;
 import com.timebank.mapper.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.apache.tomcat.jni.User;
+//import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +38,7 @@ public class AdminRequestController {
     @Autowired
     private RespondMapper respondMapper;
 
-    String updateRequestGuid1 = null;
+//    String updateRequestGuid1 = null;
     private Users GetCurrentUsers(String message){
 
         UsersExample usersExample=new UsersExample();
@@ -217,20 +217,20 @@ public class AdminRequestController {
             model.addAttribute("updateList",updateList);
         }else if (approveId.equals("88888888-94E3-4EB7-AAD3-111111111111"))
         {
-            System.out.println("逻辑判断请求批准状态为通过");
-            //TODO 请求批准状态为通过
-            updateList.setUpdateId(1);
-            updateList.setDeletaId(1);
-            updateList.setStartId(0);
-            updateList.setViewVolId(0);
-            updateList.setFinishId(0);
-            updateList.setUnFinishId(0);
-            updateList.setWaitId(1);
-            updateList.setEvaluateId(0);
-            updateList.setShenhe(0);
-            model.addAttribute("updateList",updateList);
-        }
-        else {
+//            System.out.println("逻辑判断请求批准状态为通过");
+//            //TODO 请求批准状态为通过
+//            updateList.setUpdateId(1);
+//            updateList.setDeletaId(1);
+//            updateList.setStartId(0);
+//            updateList.setViewVolId(0);
+//            updateList.setFinishId(0);
+//            updateList.setUnFinishId(0);
+//            updateList.setWaitId(1);
+//            updateList.setEvaluateId(0);
+//            updateList.setShenhe(0);
+//            model.addAttribute("updateList",updateList);
+//        }
+//        else {
             if (processId.equals("33333333-94E3-4EB7-AAD3-666666666666"))
             {
                 System.out.println("逻辑判断请求处理状态为撤销");
