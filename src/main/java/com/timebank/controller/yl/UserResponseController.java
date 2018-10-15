@@ -655,6 +655,7 @@ public class UserResponseController {
         Respond respond=respondList.get(0);
         if(respond.getResGuid().equals(message)){
             respondMapper.deleteByPrimaryKey(message);
+
         }
 
         return "volunteerList";

@@ -934,20 +934,20 @@ public class AdminRequestController {
           reqest.setReqTypeGuidUrgency(type3.getTypeTitle());
 
           //请求权值
-          String weight=reqest.getReqFromWeightGuid();
-          WeightExample weightExample=new WeightExample();
-          weightExample.or().andWeightGuidEqualTo(weight);
-          List<Weight> weights=weightMapper.selectByExample(weightExample);
-          Weight weight1=weights.get(0);
-          reqest.setReqFromWeightGuid(weight1.getWeightTitle());
+//          String weight=reqest.getReqFromWeightGuid();
+//          WeightExample weightExample=new WeightExample();
+//          weightExample.or().andWeightGuidEqualTo(weight);
+//          List<Weight> weights=weightMapper.selectByExample(weightExample);
+//          Weight weight1=weights.get(0);
+//          reqest.setReqFromWeightGuid(weight1.getWeightTitle());
 
           //请求处理人
-          String processUserId=reqest.getReqProcessUserGuid();
-          UsersExample usersExample12=new UsersExample();
-          usersExample1.or().andUserGuidEqualTo(processUserId);
-          List<Users> processuser =usersMapper.selectByExample(usersExample1);
-          Users users4 =processuser.get(0);
-          reqest.setReqProcessUserGuid(users4.getUserAccount());
+//          String processUserId=reqest.getReqProcessUserGuid();
+//          UsersExample usersExample12=new UsersExample();
+//          usersExample1.or().andUserGuidEqualTo(processUserId);
+//          List<Users> processuser =usersMapper.selectByExample(usersExample1);
+//          Users users4 =processuser.get(0);
+//          reqest.setReqProcessUserGuid(users4.getUserAccount());
 
       }
 

@@ -357,12 +357,19 @@ public class transferController {
     //汇款列表请求数据
     @RequestMapping(value="/getRemitListJsonData",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getRemitListJsonData(@RequestParam int offset, int limit, String sortName,String sortOrder){
+    public String getRemitListJsonData(@RequestParam int offset, int limit, String sortName,String sortOrder, String searchText){
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
 //        model.addAttribute("role",role);
+
+        /**10.11添加*/
+        if (searchText == "") {
+            searchText = null;
+        }
+        /**10.11添加*/
+
         TransferExample transferExample=new TransferExample();
         transferExample.clear();
         //处理排序信息
@@ -396,7 +403,8 @@ public class transferController {
         List<Transfer> transfers1=transferMapper.selectByExample(transferExample1);
 
         List<Transfer> transferRecordList=new ArrayList<>();
-        for(int i=offset;i< offset+limit&&i < transfers1.size();i++){
+//        for(int i=offset;i< offset+limit&&i < transfers1.size();i++){
+        for(int i=0;i < transfers1.size();i++){
             Transfer transfer1=transfers1.get(i);
             //处理转账接受者的ID，装换为接受者的账号名
             Users users2 = usersMapper.selectByPrimaryKey(transfer1.getTransToUserGuid());
@@ -407,15 +415,33 @@ public class transferController {
             //处理转账进程状态
             Type type = typeMapper.selectByPrimaryKey(transfer1.getTransTypeGuidProcessStatus());
             transfer1.setTransTypeGuidProcessStatus(type.getTypeTitle());
-            transferRecordList.add(transfer1);
+//            transferRecordList.add(transfer1);
+            /**10.11添加*/
+            if (searchText != null) {
+                String fromUserAccount = transfer1.getTransFromUserAccount();
+                String toUserAccount=transfer1.getTransToUserAccount();
+                if (fromUserAccount.contains(searchText) || toUserAccount.contains(searchText) ) {
+                    transferRecordList.add(transfer1);
+                }
+            } else {
+                transferRecordList.add(transfer1);
+            }
+            /**10.11添加*/
         }
-
+        /**10.11添加*/
+        List<Transfer> transferReturn = new ArrayList<>();
+        for (int i = offset;i<offset+limit&&i<transferRecordList.size();i++){
+            transferReturn.add(transferRecordList.get(i));
+        }
+        /**10.11添加*/
 
         //全部符合要求的数据的数量
-        int total=transfers1.size();
+//        int total=transfers1.size();
+        int total=transferRecordList.size();
         //将所得集合打包
         ObjectMapper mapper = new ObjectMapper();
-        TableRecordsJson tableRecordsJson=new TableRecordsJson(transferRecordList,total);
+//        TableRecordsJson tableRecordsJson=new TableRecordsJson(transferRecordList,total);
+        TableRecordsJson tableRecordsJson=new TableRecordsJson(transferReturn,total);
         //将实体类转换成json数据并返回
         try {
             String json1 = mapper.writeValueAsString(tableRecordsJson);

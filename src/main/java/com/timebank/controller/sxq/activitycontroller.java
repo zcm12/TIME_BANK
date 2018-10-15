@@ -289,7 +289,8 @@ public class activitycontroller {
                     String activityTile = act.getActivityTitle();
                     String activityDes = act.getActivityDesp();
                     String activityCom = act.getActivityComment();
-                    if (activityId.contains(searchText) || activityTile.contains(searchText) || activityDes.contains(searchText) || activityCom.contains(searchText)) {
+                    String activityAddress=act.getActivityAddress();
+                    if (activityAddress.contains(searchText)||activityId.contains(searchText) || activityTile.contains(searchText) || activityDes.contains(searchText) || activityCom.contains(searchText)) {
                         activityRecordList.add(act);
                     }
                 } else {

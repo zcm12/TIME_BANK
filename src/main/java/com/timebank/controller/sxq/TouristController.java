@@ -106,7 +106,7 @@ public class TouristController {
     //游客列表界面获取数据
     @RequestMapping(value="/getTouristListJsonData")
     @ResponseBody
-    public String getTourstListJsonData(Model model, int offset, int limit, String sortName, String sortOrder,int num){
+    public String getTourstListJsonData(Model model, int offset, int limit, String sortName, String sortOrder,int num, String searchText){
         //将管理员的角色添加到model中
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
@@ -145,6 +145,12 @@ public class TouristController {
                 }
             }
         }
+        /**10.11添加*/
+        if (searchText == "") {
+            searchText = null;
+        }
+        /**10.11添加*/
+
         //处理排序信息
         if (sortName != null) {
             String order = GetDatabaseFileName(sortName) + " " + sortOrder;
@@ -152,10 +158,11 @@ public class TouristController {
         }
         List<Users> usersList = new ArrayList<Users>();
         //遍历，处理其中的一些字段
-        for (int i = offset; i < offset + limit && i < users2.size(); i++) {
-            System.out.println("游客列表分页打桩");
-            System.out.println(offset);
-            System.out.println(limit);
+//        for (int i = offset; i < offset + limit && i < users2.size(); i++) {
+        for (int i = 0;  i < users2.size(); i++) {
+//            System.out.println("游客列表分页打桩");
+//            System.out.println(offset);
+//            System.out.println(limit);
             //处理性别
             Users it=users2.get(i);
             String gender=it.getUserTypeGuidGender();
@@ -176,11 +183,43 @@ public class TouristController {
             communityExample.or().andCommGuidEqualTo(comm);
             List<Community> communities=communityMapper.selectByExample(communityExample);
             it.setUserCommGuid(communities.get(0).getCommTitle());
-            usersList.add(it);
+//            usersList.add(it);
+            /**10.11添加*/
+            if (searchText != null) {
+                String UserAccount = it.getUserAccount();
+                if(!(UserAccount!=null)){
+                    UserAccount="";
+                }
+                String UserName=it.getUserName();
+                if(!(UserName!=null)){
+                    UserName="";
+                }
+                String Address=it.getUserAddress();
+                if(!(Address!=null)){
+                    Address="";
+                }
+                if (UserAccount.contains(searchText) || UserName.contains(searchText) || Address.contains(searchText)) {
+                    usersList.add(it);
+                }
+            } else {
+                usersList.add(it);
+            }
+            /**10.11添加*/
+
         }
-        int total = users2.size();
+
+        /**10.11添加*/
+        List<Users> usersReturn = new ArrayList<>();
+        for (int i = offset;i<offset+limit&&i<usersList.size();i++){
+            usersReturn.add(usersList.get(i));
+        }
+        /**10.11添加*/
+
+//        int total = users2.size();
+        int total=usersList.size();
         ObjectMapper mapper = new ObjectMapper();
-        TableRecordsJson tableRecordsJson = new TableRecordsJson(usersList, total);
+//        TableRecordsJson tableRecordsJson = new TableRecordsJson(usersList, total);
+        TableRecordsJson tableRecordsJson = new TableRecordsJson(usersReturn, total);
         try {
             String json2 = mapper.writeValueAsString(tableRecordsJson);
             return json2;
@@ -309,13 +348,18 @@ public class TouristController {
     //列表界面向后台获取数据
     @RequestMapping(value="/getAllUsersListJsonData")
     @ResponseBody
-    public String getAllUsersListJsonData(Model model, int offset, int limit, String sortName, String sortOrder){
+    public String getAllUsersListJsonData(Model model, int offset, int limit, String sortName, String sortOrder,String searchText){
         //将管理员的角色添加到model中
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users=GetCurrentUsers(message);
         String role=users.getUserRole();
         model.addAttribute("role",role);
+
+        if (searchText == "") {
+            searchText = null;
+        }
+
         //遍历数据库用户表格 得到所有用户
         UsersExample usersExample1=new UsersExample();
         List<Users> users2=usersMapper.selectByExample(usersExample1);
@@ -326,7 +370,8 @@ public class TouristController {
         }
         List<Users> usersList = new ArrayList<Users>();
         //遍历所有的游客，处理其中的一些字段
-        for (int i = offset; i < offset + limit && i < users2.size(); i++) {
+//        for (int i = offset; i < offset + limit && i < users2.size(); i++) {
+        for (int i = 0;  i < users2.size(); i++) {
             //处理性别
             Users it=users2.get(i);
             String gender=it.getUserTypeGuidGender();
@@ -348,12 +393,43 @@ public class TouristController {
             List<Type> userstatus = typeMapper.selectByExample(typeExample);
             it.setUserTypeAccountStatus(userstatus.get(0).getTypeTitle());
 
+//            usersList.add(it);
+            /**10.12添加*/
+            if (searchText != null) {
+                String UserAccount = it.getUserAccount();
+                if(!(UserAccount!=null)){
+                    UserAccount="";
+                }
+                String UserName=it.getUserName();
+                if(!(UserName!=null)){
+                    UserName="";
+                }
+                String Address=it.getUserAddress();
+                if(!(Address!=null)){
+                    Address="";
+                }
+                if (UserAccount.contains(searchText) || UserName.contains(searchText) || Address.contains(searchText)) {
+                    usersList.add(it);
+                }
+            } else {
+                usersList.add(it);
+            }
+            /**10.12添加*/
 
-            usersList.add(it);
         }
-        int total = users2.size();
+        /**10.12添加*/
+        List<Users> usersReturn = new ArrayList<>();
+        for (int i = offset;i<offset+limit&&i<usersList.size();i++){
+            usersReturn.add(usersList.get(i));
+        }
+        /**10.12添加*/
+
+
+        int total=usersList.size();
+//        int total = users2.size();
         ObjectMapper mapper = new ObjectMapper();
-        TableRecordsJson tableRecordsJson = new TableRecordsJson(usersList, total);
+//        TableRecordsJson tableRecordsJson = new TableRecordsJson(usersList, total);
+        TableRecordsJson tableRecordsJson = new TableRecordsJson(usersReturn, total);
         try {
             String json2 = mapper.writeValueAsString(tableRecordsJson);
             return json2;

@@ -92,7 +92,7 @@ public class userActivityRequestController {
     //活动列表页面后台请求数据
     @RequestMapping(value="/getACTIVITYListByUserJsonData",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getACTIVITYListJsonData(@RequestParam int offset,Model model, int limit, String sortName,String sortOrder,String usercommguid,String userguid){
+    public String getACTIVITYListJsonData(@RequestParam int offset,Model model, int limit, String searchText, String sortName,String sortOrder,String usercommguid,String userguid){
         System.out.println("活动列表界面向后台请求数据");
         System.out.println("此用户的guid:"+userguid+" 此用户的小区guid :"+usercommguid);
         Subject account = SecurityUtils.getSubject();
@@ -100,6 +100,12 @@ public class userActivityRequestController {
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
+        /**10.11添加*/
+        if (searchText == "") {
+            searchText = null;
+        }
+        /**10.11添加*/
+
         ActivityExample activityExample=new ActivityExample();
         activityExample.or().andActivityTypeProcessStatusEqualTo("33333333-94e3-4eb7-aad3-222222222222");
 
@@ -114,7 +120,8 @@ public class userActivityRequestController {
     List<Activity> activitys=activityMapper.selectByExample(activityExample);
         //所有状态为待启动的记录
     List<Activity> activityRecordList=new ArrayList<>();
-    for(int i=offset;i< offset+limit&&i < activitys.size();i++){
+//    for(int i=offset;i< offset+limit&&i < activitys.size();i++){
+        for(int i=0;i < activitys.size();i++){
         Activity activity1=activitys.get(i);
         //显示社区
         CommunityExample communityExample = new CommunityExample();
@@ -129,7 +136,20 @@ public class userActivityRequestController {
             if (activityTraget != null && activityTraget.contains(userguid)) {
                 //第二步  用户防止修改小区以后 还能看到原先的活动  查询现在的小区 是否跟activity中的fromcommguid一样
                 if (activityFromCommGuid != null && activityFromCommGuid.equals(usercommguid)) {
-                    activityRecordList.add(activity1);
+//                    activityRecordList.add(activity1);
+                    /**10.11添加*/
+                    if (searchText != null) {
+                        String activityId = activity1.getActivityGuid();
+                        String activityTile = activity1.getActivityTitle();
+                        String activityDes = activity1.getActivityDesp();
+                        String activityCom = activity1.getActivityComment();
+                        if (activityId.contains(searchText) || activityTile.contains(searchText) || activityDes.contains(searchText) || activityCom.contains(searchText)) {
+                            activityRecordList.add(activity1);
+                        }
+                    } else {
+                        activityRecordList.add(activity1);
+                    }
+                    /**10.11添加*/
                 }
             }
         }else if(role.equals("Tourist")){
@@ -139,15 +159,40 @@ public class userActivityRequestController {
             Date beforeDate=getDateBefore(date,3);
             if(time.after(beforeDate)){
 //                System.out.println(beforeDate);
-                activityRecordList.add(activity1);
+
+//                activityRecordList.add(activity1);
+
+                /**10.11添加*/
+                if (searchText != null) {
+                    String activityId = activity1.getActivityGuid();
+                    String activityTile = activity1.getActivityTitle();
+                    String activityDes = activity1.getActivityDesp();
+                    String activityCom = activity1.getActivityComment();
+                    if (activityId.contains(searchText) || activityTile.contains(searchText) || activityDes.contains(searchText) || activityCom.contains(searchText)) {
+                        activityRecordList.add(activity1);
+                    }
+                } else {
+                    activityRecordList.add(activity1);
+                }
+                /**10.11添加*/
+
             }
         }
     }
+
+        /**10.11添加*/
+        List<Activity> activityReturn = new ArrayList<>();
+        for (int i = offset;i<offset+limit&&i<activityRecordList.size();i++){
+            activityReturn.add(activityRecordList.get(i));
+        }
+        /**10.11添加*/
     //全部符合要求的数据的数量
-    int total=activitys.size();
+//    int total=activitys.size();
+        int total=activityRecordList.size();
     //将所得集合打包
     ObjectMapper mapper = new ObjectMapper();
-    TableRecordsJson tableRecordsJson=new TableRecordsJson(activityRecordList,total);
+//    TableRecordsJson tableRecordsJson=new TableRecordsJson(activityRecordList,total);
+        TableRecordsJson tableRecordsJson=new TableRecordsJson(activityReturn,total);
     //将实体类转换成json数据并返回
     try {
         String json1 = mapper.writeValueAsString(tableRecordsJson);
