@@ -31,31 +31,31 @@
         <form id="mapform" action="/aass" method="post" role="form">
 
             <div class="form-group  col-lg-6">
-                    <label class="control-label col-lg-3"  >地址：</label>
+                    <label class="control-label col-lg-3"  >服务查询范围：</label>
                     <div class="col-lg-9">
                         <input id="cityName" name="cityName"  type="text"    />
                     </div>
             </div>
 
-            <div class="form-group  col-lg-6">
+            <div class="form-group  col-lg-6" hidden="hidden">
                 <label class="control-label col-lg-3"  >经度：</label>
                 <div class="col-lg-9">
                     <input type="text" id="jd" name="jd"/>
                 </div>
             </div>
-            <div class="form-group  col-lg-6">
+            <div class="form-group  col-lg-6" hidden="hidden" >
                 <label class="control-label col-lg-3"  >纬度：</label>
                 <div class="col-lg-9">
                     <input type="text" id="wd" name="wd"/>
                 </div>
             </div>
-            <div class="form-group  col-lg-6">
+            <div class="form-group  col-lg-6" hidden="hidden">
                 <label class="control-label col-lg-3"  >guid：</label>
                 <div class="col-lg-9">
                     <input type="text" id="Guid" name="Guid"/>
                 </div>
             </div>
-            <div class="form-group  col-lg-6">
+            <div class="form-group  col-lg-6" hidden="hidden">
                 <label class="control-label col-lg-3"  >后台传过来的数据：</label>
                 <div class="col-lg-9">
                     <input type="text" id="shuju" name="shuju"/>
@@ -66,9 +66,9 @@
                     <input type="button" value="查询" id="send" onclick="theLocation()" />
                 </div>
             </div>
-            <div class="form-actions">
-                <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
-            </div>
+            <!--<div class="form-actions">-->
+                <!--<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;-->
+            <!--</div>-->
 
             <div class="form-group  col-lg-6" id="allmap" style="width:900px;height:600px">
             </div>

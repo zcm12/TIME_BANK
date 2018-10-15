@@ -3,7 +3,7 @@
 <head th:replace="basepage :: common_header(~{::title},~{::script})">
     <title>志愿者列表</title>
     <script th:inline="javascript">
-        var message = [[${message}]];
+        var reqGuid = [[${message}]];
         console.log(message);
     </script>
 
@@ -121,7 +121,7 @@
                         offset:params.offset,
                         sortName:this.sortName,
                         sortOrder:this.sortOrder,
-                        reqGuid:message
+                        reqGuid:reqGuid
                     };
                     return limitApply;
                 },//传递参数
