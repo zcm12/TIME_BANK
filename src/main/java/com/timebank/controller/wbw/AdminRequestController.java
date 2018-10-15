@@ -8,6 +8,7 @@ import com.timebank.domain.*;
 import com.timebank.mapper.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -603,7 +604,6 @@ public class AdminRequestController {
         //String processId = reqest1.getReqTypeGuidProcessStatus();
         if (approveId != null)
         {
-
             typeExample.clear();
             typeExample.or().andTypeGuidEqualTo(approveId);
             List<Type> types2 = typeMapper.selectByExample(typeExample);
@@ -621,6 +621,7 @@ public class AdminRequestController {
             reqest.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
             //reqest1.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
         }
+
         model.addAttribute("reqest",reqest);
         //TODO 点击待启动按钮之后
         updateList.setUpdateId(0);
@@ -932,14 +933,24 @@ public class AdminRequestController {
           Type type3=urgentType.get(0);
           reqest.setReqTypeGuidUrgency(type3.getTypeTitle());
 
-           /* //请求权值
-            String weight=reqest.getReqFromWeightGuid();
-            WeightExample weightExample=new WeightExample();
-            weightExample.or().andWeightGuidEqualTo(weight);
-            List<Weight> weights=weightMapper.selectByExample(weightExample);
-            Weight weight1=weights.get(0);
-            reqest.setReqFromWeightGuid(weight1.getWeightTitle());*/
+          //请求权值
+          String weight=reqest.getReqFromWeightGuid();
+          WeightExample weightExample=new WeightExample();
+          weightExample.or().andWeightGuidEqualTo(weight);
+          List<Weight> weights=weightMapper.selectByExample(weightExample);
+          Weight weight1=weights.get(0);
+          reqest.setReqFromWeightGuid(weight1.getWeightTitle());
+
+          //请求处理人
+          String processUserId=reqest.getReqProcessUserGuid();
+          UsersExample usersExample12=new UsersExample();
+          usersExample1.or().andUserGuidEqualTo(processUserId);
+          List<Users> processuser =usersMapper.selectByExample(usersExample1);
+          Users users4 =processuser.get(0);
+          reqest.setReqProcessUserGuid(users4.getUserAccount());
+
       }
+
       List<Reqest> reqestsNew = new ArrayList<>();//搜索框集合
       List<Reqest> reqestsReturn = new ArrayList<>();//分页返回的集合
       for (int i = 0;i<reqests.size();i++){
