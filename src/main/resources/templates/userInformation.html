@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="basepage :: common_header(~{::title},~{::script})">
     <title>个人信息</title>
-    <script type="text/javascript">
+    <script th:inline="javascript">
+        var message=[[${date}]];
     </script>
 </head>
 <body>
@@ -77,7 +78,7 @@
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userBirthdate" >出生日期：</label>
                                 <div class="col-lg-9">
-                                    <input id="userBirthdate" name="userBirthdate"  class="form-control" th:value="${users.userBirthdate}"  disabled="disabled"/>
+                                    <input id="userBirthdate" name="userBirthdate"  class="form-control"  disabled="disabled"/>
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
@@ -154,6 +155,12 @@
     </div>
     <script type="text/javascript">
 
+        if (message != null) {
+            var a = message.split("T");
+        }
+        if (a[0] != null) {
+            document.getElementById('userBirthdate').value = a[0];
+        }
     </script>
     <div class="row clearfix">
         <div class="col-md-12 bg-primary">

@@ -30,6 +30,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -263,13 +264,22 @@ public class TouristController {
             //所属小区
             Community community = communityMapper.selectByPrimaryKey(users1.getUserCommGuid());
             users1.setUserCommGuid(community.getCommTitle());
+        }  //处理时间格式
+        if (users1.getUserBirthdate()!=null)
+        {
+            java.util.Date d=new java.util.Date (users1.getUserBirthdate().getTime());
+            model.addAttribute("date",d);
+            SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+            f.format(d);
         }
 
         String A=users1.getUserIdimage();
-//        String B=users1.getUserIdimageZ();
-        model.addAttribute("message1",A);
-        System.out.println(A);
-//        model.addAttribute("message2",B);
+        if(A!=null) {
+            model.addAttribute("message1", A);
+        }else{
+            model.addAttribute("message1","/img/qie.jpg");
+        }
+
         String role1=users1.getUserRole();
         model.addAttribute("role1",role1);
 
@@ -473,9 +483,23 @@ public class TouristController {
         List<Type> types1=typeMapper.selectByExample(typeExample);
         use.setUserTypeAccountStatus(types1.get(0).getTypeTitle());
 
+
+
         //读取图片位置路径
         String A=use.getUserIdimage();
-        model.addAttribute("message1",A);
+        if(A!=null) {
+            model.addAttribute("message1", A);
+        }else{
+            model.addAttribute("message1", "/img/qie.jpg");
+        }
+        //处理时间格式
+        if (use.getUserBirthdate()!=null)
+        {
+            java.util.Date d=new java.util.Date (use.getUserBirthdate().getTime());
+            model.addAttribute("date",d);
+            SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+            f.format(d);
+        }
         model.addAttribute("users",use);
         return "createUserRoleByAdmin";
     }

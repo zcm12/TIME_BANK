@@ -38,8 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 注册功能
  * */
 @Controller
-public class
-wxMainController {
+public class wxMainController {
 
     @Autowired
     ShrioRegister shrioRegister;

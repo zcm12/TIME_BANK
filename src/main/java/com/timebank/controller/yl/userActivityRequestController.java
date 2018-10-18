@@ -64,6 +64,7 @@ public class userActivityRequestController {
         String role=users11.getUserRole();
         model.addAttribute("role",role);
         //获得该用户的guid和小区
+        System.out.println("申请活动");
         model.addAttribute("userguid",users11.getUserGuid());
         model.addAttribute("usercommguid",users11.getUserCommGuid());
         return "activityApplyByUser";

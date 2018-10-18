@@ -5,14 +5,11 @@
     <title>信息详情</title>
     <script th:inline="javascript">
         var message1 = [[${message1}]];
-//        var message2 = [[${message2}]];
-//            alert(message1)
-        //        alert("图片不出来请尝试刷新")
+        var message2=[[${date}]];
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
-//            document.getElementById('imgInit1').src = message1;
-//            document.getElementById('imgInit2').src = message2;
+
             if(message1!=null){
                 document.getElementById('imgInit1').src = message1;
             }
@@ -105,7 +102,7 @@
                           data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
                           data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
                           data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
-                        <div class="row" >
+                        <!--<div class="row" >-->
                             <div class="form-group  col-lg-6" hidden="hidden">
                                 <label class="control-label col-lg-3" for="userGuid" >用户ID：</label>
                                 <div class="col-lg-9">
@@ -142,12 +139,12 @@
                                     <input id="userPhone" name="userPhone" type="tel" class="form-control" th:value="${users.userPhone}" disabled="disabled"/>
                                 </div>
                             </div>
-                            <!--<div class="form-group  col-lg-6">-->
-                                <!--<label class="control-label col-lg-3" for="userBirthdate" >出生日期：</label>-->
-                                <!--<div class="col-lg-9">-->
-                                    <!--<input id="userBirthdate" name="userBirthdate"  class="form-control" th:value="${users.userBirthdate}"  disabled="disabled"/>-->
-                                <!--</div>-->
-                            <!--</div>-->
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userBirthdate" >出生日期：</label>
+                                <div class="col-lg-9">
+                                    <input id="userBirthdate" name="userBirthdate"  class="form-control" th:value="${users.userBirthdate}"  disabled="disabled"/>
+                                </div>
+                            </div>
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userEmerperson" >紧急联系人：</label>
                                 <div class="col-lg-9">
@@ -160,50 +157,44 @@
                                     <input id="userEmercontact" name="userEmercontact" type="tel" class="form-control" th:value="${users.userEmercontact}" disabled="disabled"/>
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="userProvince" >居住区域：</label>
-                                <label class="col-lg-2">省：</label>
-                                <div class="form-group col-lg-6">
-                                    <input id="userProvince" name="userProvince" type="text" class="form-control col-lg-4" th:value="${users.userProvince}" disabled="disabled"/>
-                                </div>
-                                <label class="control-label col-lg-4" for="userCity">市：</label>
-                                <div class="form-group col-lg-6">
-                                    <input id="userCity" name="userCity" type="text" class="form-control col-lg-4" th:value="${users.userCity}" disabled="disabled"/>
-                                </div>
-                                <label class="control-label col-lg-4" for="userCity">区：</label>
-                                <div class="form-group col-lg-6">
-                                    <input id="userDistrict" name="userDistrict" type="text" class="form-control col-lg-4" th:value="${users.userDistrict}" disabled="disabled"/>
-                                </div>
+                        <div class="form-group  col-lg-6">
+                            <label class="control-label col-lg-3" for="userProvince" >居住区域：</label>
+                            <label class="col-lg-2">省：</label>
+                            <div class="form-group col-lg-6">
+                                <input id="userProvince" name="userProvince" type="text" class="form-control col-lg-4" th:value="${users.userProvince}" disabled="disabled"/>
                             </div>
+                            <label class="control-label col-lg-4" for="userCity">市：</label>
+                            <div class="form-group col-lg-6">
+                                <input id="userCity" name="userCity" type="text" class="form-control col-lg-4" th:value="${users.userCity}" disabled="disabled"/>
+                            </div>
+                            <label class="control-label col-lg-4" for="userCity">区：</label>
+                            <div class="form-group col-lg-6">
+                                <input id="userDistrict" name="userDistrict" type="text" class="form-control col-lg-4" th:value="${users.userDistrict}" disabled="disabled"/>
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group  col-lg-6">-->
+                                <!--<label class="control-label col-lg-3">家庭住址：</label>-->
+                                <!--<div class="form-group  col-lg-4" data-toggle="distpicker">-->
+                                    <!--<select class="form-control col-lg-4" id="userProvince"  name="userProvince" data-province="&#45;&#45;&#45;&#45; 选择省 &#45;&#45;&#45;&#45;"  ></select>-->
+                                    <!--<select class="form-control col-lg-4" id="userCity"  name="userCity" data-city="&#45;&#45;&#45;&#45; 选择市 &#45;&#45;&#45;&#45;" ></select>-->
+                                    <!--<select class="form-control col-lg-4" id="userDistrict" name="userDistrict" data-district="&#45;&#45;&#45;&#45; 选择区 &#45;&#45;&#45;&#45;" ></select>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-group  col-lg-6" th:if="${role1} == 'USE'">
                                 <label class="control-label col-lg-3" for="userRole" >用户角色：</label>
                                 <select id="userRole" name="userRole">
                                     <option value="USE">USE</option>
                                     <option value="Tourist">Tourist</option>
-                                    <!--<option value="Tourist">Tourist</option>
-                                    <option value="USE">USE</option>-->
                                 </select>
                             </div>
                             <div class="form-group  col-lg-6" th:if="${role1} == 'Tourist'">
                                 <label class="control-label col-lg-3" for="userRole" >用户角色：</label>
-                                <select id="userRole" name="userRole">
+                                <select id="userRole1" name="userRole">
                                     <option value="Tourist">Tourist</option>
                                     <option value="USE">USE</option>
                                 </select>
                             </div>
-
-
-
-
-                            <!--<div class="form-group  col-lg-6">
-                            <label class="control-label col-lg-3" for="userRole" >用户角色：</label>
-                            <select id="userRole" name="userRole">
-                                <option value="USE">USE</option>
-                                <option value="Tourist">Tourist</option>
-                                &lt;!&ndash;<option value="Tourist">Tourist</option>
-                                <option value="USE">USE</option>&ndash;&gt;
-                            </select>
-                        </div>-->
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userTypeGuidGender" >性别：</label>
                                 <div class="col-lg-9">
@@ -234,19 +225,8 @@
                                     <input id="userCommGuid" name="userCommGuid" type="text" class="form-control" th:value="${users.userCommGuid}"  disabled="disabled"/>
                                 </div>
                             </div>
-                            <!--<div class="id_img_wp">-->
-                                <!--<input type="file" accept="image/*"  style="display:none" value="" id="img_z" name="img_z" />-->
-                                <!--&lt;!&ndash;<input type="file" accept="image/*" value="" id="img_f" name="img_f" style="display:none"/>&ndash;&gt;-->
-                                <!--<div class="img_wp" >-->
-                                    <!--<img src=""  id="imgInit1">-->
-                                    <!--<p class="img_intro">手持身份证正面照</p>-->
-                                <!--</div>-->
-
-                                <!--<div class="cf"></div>-->
-                            <!--</div>-->
                             <div class="id_img_wp">
                                 <input type="file" accept="image/*" onchange="getzImg(this)" style="display:none" value="" id="img_z" name="img_z"/>
-                                <!--<input type="file" accept="image/*" onchange="getfImg(this)" value="" id="img_f" name="img_f" style="display:none"/>-->
                                 <div class="img_wp" onclick="zhengmian()">
                                     <img src="/img/qie.jpg" id="imgInit1" name="tupian" />
                                     <p class="img_intro">身份证正面照</p>
@@ -276,6 +256,20 @@
                 $('.img_wp img').height($('.img_wp img').width()*0.3);
             })
         })
+
+        //默认地址
+//        var getSelect = document.getElementById('userProvince');
+//        getSelect.value="nihaoa";
+
+
+        //处理时间格式
+        if (message2 != null) {
+            var a = message2.split("T");
+        }
+        if (a[0] != null) {
+            document.getElementById('userBirthdate').value = a[0];
+        }
+
 
     </script>
     <div class="row clearfix">

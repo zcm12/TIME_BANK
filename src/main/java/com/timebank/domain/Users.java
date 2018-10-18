@@ -1,5 +1,7 @@
 package com.timebank.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Users {
@@ -208,7 +210,8 @@ public class Users {
      *
      * @mbg.generated
      */
-    private String userBirthdate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date userBirthdate;
 
     /**
      *
@@ -782,7 +785,8 @@ public class Users {
      *
      * @mbg.generated
      */
-    public String getUserBirthdate() {
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    public Date getUserBirthdate() {
         return userBirthdate;
     }
 
@@ -794,7 +798,7 @@ public class Users {
      *
      * @mbg.generated
      */
-    public void setUserBirthdate(String userBirthdate) {
+    public void setUserBirthdate(Date userBirthdate) {
         this.userBirthdate = userBirthdate;
     }
 

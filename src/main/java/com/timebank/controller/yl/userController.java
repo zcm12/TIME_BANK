@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -106,6 +107,20 @@ public class userController {
             Community community = communityMapper.selectByPrimaryKey(users1.getUserCommGuid());
             users1.setUserCommGuid(community.getCommTitle());
         }
+        //处理时间格式
+        if (users1.getUserBirthdate()!=null)
+        {
+//            Date date= (Date) users1.getUserBirthdate();
+//            model.addAttribute("date",date);
+//            java.sql.Date date=new java.sql.Date();
+            java.util.Date d=new java.util.Date (users1.getUserBirthdate().getTime());
+            model.addAttribute("date",d);
+            System.out.println(d);
+
+            SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+            f.format(d);
+            System.out.println(d);
+        }
 
         model.addAttribute("users",users1);
 
@@ -136,12 +151,22 @@ public class userController {
         typeExample.or().andTypeGroupIdEqualTo(1);
         List<Type> types = typeMapper.selectByExample(typeExample);
         model.addAttribute("types",types);
+        //处理时间格式
+        if (users1.getUserBirthdate()!=null)
+        {
+            java.util.Date d=new java.util.Date (users1.getUserBirthdate().getTime());
+            model.addAttribute("date",d);
+            SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+            f.format(d);
+            System.out.println(d);
+        }
+
+
         model.addAttribute("message","请按实际情况填写个人信息");
         if(users1.getUserIdimage()!=null){
-
             model.addAttribute("message1",users1.getUserIdimage());
-        }else{
 
+        }else{
            model.addAttribute("message1","/img/qie.jpg");
         }
         if(users1.getUserRole().equals("Tourist")){
@@ -152,7 +177,6 @@ public class userController {
     }
     //游客修改用户个人信息界面中保存按钮
     @RequestMapping(value = "/updateUserInformationSubmit")
-//    @ResponseBody
     public String updateREQESTSave(@ModelAttribute @Valid Users users, Model model,@RequestParam(value="img_z") MultipartFile file) throws IOException {
         System.out.println("这里");
         Subject account = SecurityUtils.getSubject();
@@ -161,27 +185,28 @@ public class userController {
         String role=users1.getUserRole();
         model.addAttribute("role",role);
 
+        System.out.println("文件是否为空:"+file.getSize()+"或者"+file.isEmpty());
+        if(!file.isEmpty()) {
+            //图片的下载与上传
+            ClassPathResource resource;
+            resource = new ClassPathResource("static/img");
+            String absPath = resource.getURL().getPath();
+            UUID guid = UUID.randomUUID();
+            String fileName = guid + file.getOriginalFilename();
+            System.out.println(absPath);
 
-        //图片的下载与上传
-        ClassPathResource resource;
-        resource = new ClassPathResource("static/img");
-        String absPath=resource.getURL().getPath();
-        UUID guid=UUID.randomUUID();
-        String fileName=guid+file.getOriginalFilename();
-        System.out.println(absPath);
+            absPath = absPath.replace("%20", " ");
+            //将用户传上去的图片下载到主机 正面
+            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(absPath + "/" + fileName));
+            outputStream.write(file.getBytes());
+            outputStream.flush();
+            outputStream.close();
 
-        absPath = absPath.replace("%20", " ");
-        //将用户传上去的图片下载到主机 正面
-        BufferedOutputStream outputStream=new BufferedOutputStream(new FileOutputStream(absPath+"/"+fileName));
-        outputStream.write(file.getBytes());
-        outputStream.flush();
-        outputStream.close();
-
-        //将图片的相对路径保存到数据库
-        String dboPath="/img/"+fileName;
-        users.setUserIdimage(dboPath);
-        usersMapper.updateByPrimaryKeySelective(users);
-
+            //将图片的相对路径保存到数据库
+            String dboPath = "/img/" + fileName;
+            users.setUserIdimage(dboPath);
+            usersMapper.updateByPrimaryKeySelective(users);
+        }
         //从数据库中获取前台提交的字段
         String GUID=users.getUserGuid();
         UsersExample usersExample1=new UsersExample();
@@ -215,6 +240,13 @@ public class userController {
             //所属小区
             Community community = communityMapper.selectByPrimaryKey(users3.getUserCommGuid());
             users3.setUserCommGuid(community.getCommTitle());
+        }
+        if (users3.getUserBirthdate()!=null)
+        {
+            java.util.Date d=new java.util.Date (users3.getUserBirthdate().getTime());
+            model.addAttribute("date",d);
+            SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+            f.format(d);
         }
 
         model.addAttribute("users",users3);
@@ -268,6 +300,12 @@ public class userController {
             //所属小区
             Community community = communityMapper.selectByPrimaryKey(users3.getUserCommGuid());
             users3.setUserCommGuid(community.getCommTitle());
+        }  if (users3.getUserBirthdate()!=null)
+        {
+            java.util.Date d=new java.util.Date (users3.getUserBirthdate().getTime());
+            model.addAttribute("date",d);
+            SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+            f.format(d);
         }
 
         model.addAttribute("users",users3);
