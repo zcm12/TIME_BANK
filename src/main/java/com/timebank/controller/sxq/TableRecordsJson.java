@@ -9,11 +9,25 @@ public class TableRecordsJson {
     private List rows;
     private int total;
 
+//    public void setNumber(int number) {
+//        this.number = number;
+//    }
+//
+//    public int getNumber() {
+//        return number;
+//    }
+//
+//    private int number;
+
     public TableRecordsJson(List rows, int total) {
         this.rows = rows;
         this.total = total;
     }
-
+//    public TableRecordsJson(List rows, int total,int number) {
+//        this.rows = rows;
+//        this.total = total;
+//        this.number=number;
+//    }
     public List getRows() {
         return rows;
     }

@@ -32,25 +32,25 @@
                             <div class="form-group  col-lg-6" hidden="hidden">
                                 <label class="control-label col-lg-3" for="reqGuid" >请求ID：</label>
                                 <div class="col-lg-9">
-                                    <input id="reqGuid" name="reqGuid" type="select" class="form-control" th:value="${reqest.reqGuid}" disabled="disabled"/>
+                                    <input id="reqGuid" name="reqGuid" type="text" class="form-control" th:value="${reqest.reqGuid}" disabled="disabled"/>
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqAddress" >请求提出时间：</label>
                                 <div class="col-lg-9">
-                                    <input id="reqIssueTime" name="reqIssueTime" type="select" class="form-control" th:value="${#calendars.format(reqest.reqIssueTime , 'yyyy-MM-dd HH:mm:ss')}" disabled="disabled"/>
+                                    <input id="reqIssueTime" name="reqIssueTime" type="text" class="form-control" th:value="${#calendars.format(reqest.reqIssueTime , 'yyyy-MM-dd HH:mm:ss')}" disabled="disabled"/>
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqAddress" >请求提出地址：</label>
                                 <div class="col-lg-9">
-                                    <input id="reqAddress" name="reqAddress" type="select" class="form-control" th:value="${reqest.reqAddress}" disabled="disabled"/>
+                                    <input id="reqAddress" name="reqAddress" type="text" class="form-control" th:value="${reqest.reqAddress}" disabled="disabled"/>
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqTitle" >请求标题：</label>
                                 <div class="col-lg-9">
-                                    <input id="reqTitle" name="reqTitle" type="select" class="form-control" th:value="${reqest.reqTitle}" disabled="disabled"/>
+                                    <input id="reqTitle" name="reqTitle" type="text" class="form-control" th:value="${reqest.reqTitle}" disabled="disabled"/>
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">

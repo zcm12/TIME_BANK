@@ -14,27 +14,15 @@
     <script type="text/javascript" src="/region/distpicker.js"></script>
 
     <script th:inline="javascript">
-//        message = [[${message}]];
         var message1=[[${message1}]];
-
+        var message=[[${date}]];
     </script>
-    <!--<script   LANGUAGE="JavaScript">-->
-        <!--function   fresh()-->
-        <!--{-->
-            <!--if(location.href.indexOf("?reload=true")<0)-->
-            <!--{-->
-                <!--location.href+="?reload=true";-->
-            <!--}-->
-        <!--}-->
-        <!--setTimeout("fresh()",50)-->
-    <!--</script>-->
+
     <script type="text/javascript">
         $(document).ready(function() {
             if(message1!=null){
                 document.getElementById('zmz').src = message1;
             }
-//            document.getElementById('zmz').src = message1;
-//            alert(message1)
             $('#USERSInputForm').bootstrapValidator({
                 message: 'This value is not valid',
                 feedbackIcons: {
@@ -270,7 +258,7 @@
                 </div>
                 <div class="panel-body">
                     <form id="USERSInputForm" name="USERSInputForm" method="post" class="form-horizontal"
-                          action="/updateUserInformationSubmit"  role="form" onsubmit="return checkForm()" enctype="multipart/form-data"
+                          action="/updateUserInformationUser"  role="form" onsubmit="return checkForm()" enctype="multipart/form-data"
                           data-bv-message="This value is not valid"
                           data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
                           data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
@@ -313,6 +301,12 @@
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="userIdnum" >身份证号：</label>
+                                <div class="col-lg-9">
+                                    <input id="userIdnum" name="userIdnum" type="text" class="form-control" th:value="${users.userIdnum}" />
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-4" for="userTypeGuidGender" >选择用户性别：</label>
                                 <div class="col-lg-4">
                                     <select name="userTypeGuidGender" id="userTypeGuidGender" class="form-control">
@@ -320,19 +314,48 @@
                                     </select>
                                 </div>
                             </div>
+
+
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-3" for="userIdnum" >身份证号：</label>
-                                <div class="col-lg-9">
-                                    <input id="userIdnum" name="userIdnum" type="text" class="form-control" th:value="${users.userIdnum}" />
+                                <label class="control-label col-lg-3" for="userBirthdate">出生日期：</label>
+                                <div class="col-lg-6">
+                                    <input class="form-control laydate-icon" id="userBirthdate"  name="userBirthdate" type="text" placeholder="选择您的出生日期"/>
+                                </div>
+                            </div>
+                            <!--<div class="form-group  col-lg-6">-->
+                                <!--<label class="control-label col-lg-4">家庭住址：</label>-->
+                                <!--<div class="form-group  col-lg-4" data-toggle="distpicker">-->
+                                    <!--<select class="form-control col-lg-4" id="userProvince"  name="userProvince" data-province="&#45;&#45;&#45;&#45; 选择省 &#45;&#45;&#45;&#45;"></select>-->
+                                    <!--<select class="form-control col-lg-4" id="userCity"  name="userCity" data-city="&#45;&#45;&#45;&#45; 选择市 &#45;&#45;&#45;&#45;"></select>-->
+                                    <!--<select class="form-control col-lg-4" id="userDistrict" name="userDistrict" data-district="&#45;&#45;&#45;&#45; 选择区 &#45;&#45;&#45;&#45;"></select>-->
+                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group  col-lg-6">-->
+                                <!--<label class="control-label col-lg-3" for="userProvince" >居住区域：</label>-->
+                                <!--<label class="col-lg-2">省：</label>-->
+                                <!--<div class="form-group col-lg-6">-->
+                                    <!--<input id="userProvince" name="userProvince" type="text" class="form-control col-lg-4" th:value="${users.userProvince}" />-->
+                                <!--</div>-->
+                                <!--<label class="control-label col-lg-4" for="userCity">市：</label>-->
+                                <!--<div class="form-group col-lg-6">-->
+                                    <!--<input id="userCity" name="userCity" type="text" class="form-control col-lg-4" th:value="${users.userCity}" />-->
+                                <!--</div>-->
+                                <!--<label class="control-label col-lg-4" for="userCity">区：</label>-->
+                                <!--<div class="form-group col-lg-6">-->
+                                    <!--<input id="userDistrict" name="userDistrict" type="text" class="form-control col-lg-4" th:value="${users.userDistrict}" />-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-2">家庭住址：</label>
+                                <div class="form-group  col-lg-5" data-toggle="distpicker">
+                                    <select class="form-control col-lg-4" id="userProvince"  name="userProvince" data-province="---- 选择省 ----"></select>
+                                    <select class="form-control col-lg-4" id="userCity"  name="userCity" data-city="---- 选择市 ----"></select>
+                                    <select class="form-control col-lg-4" id="userDistrict" name="userDistrict" data-district="---- 选择区 ----"></select>
                                 </div>
                             </div>
 
-                            <!--<div class="form-group  col-lg-6">-->
-                            <!--<label class="control-label col-lg-3" for="userBirthdate" >出生日期：</label>-->
-                            <!--<div class="col-lg-6">-->
-                            <!--<input  class="form-control laydate-icon"  id="userBirthdate" name="userBirthdate"  type="text" placeholder="选择您的出生日期" />-->
-                            <!--</div>-->
-                            <!--</div>-->
+
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userCommGuid" >所属小区：</label>
                                 <div class="col-lg-9">
@@ -341,23 +364,7 @@
                                     </select>
                                 </div>
                             </div><br>
-                            <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-4">家庭住址：</label>
-                                <div class="form-group  col-lg-4" data-toggle="distpicker">
-                                    <!--<div class="form-group">-->
-                                    <!--<label class="control-label col-lg-4">省市区：</label>-->
-                                    <select class="form-control col-lg-4" id="userProvince"  name="userProvince" data-province="---- 选择省 ----"></select>
-                                    <!--</div>-->
-                                    <!--<div class="form-group">-->
-                                    <!--<label class="control-label col-lg-4" for="userCity">市：</label>-->
-                                    <select class="form-control col-lg-4" id="userCity"  name="userCity" data-city="---- 选择市 ----"></select>
-                                    <!--</div>-->
-                                    <!--<div class="form-group">-->
-                                    <!--<label class="control-label col-lg-4" for="userCity">区：</label>-->
-                                    <select class="form-control col-lg-4" id="userDistrict" name="userDistrict" data-district="---- 选择区 ----"></select>
-                                    <!--</div>-->
-                                </div>
-                            </div>
+
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userAddress" >详细住址：</label>
                                 <div class="col-lg-9">
@@ -376,33 +383,19 @@
                                     <input id="userEmercontact" name="userEmercontact" type="tel" class="form-control" th:value="${users.userEmercontact}" />
                                 </div>
                             </div>
-                            <div class="form-group  col-lg-6">
-                                <input type="file" accept="image/*" onchange="getzImg(this)"  value="" id="img_z" name="img_z"/>
-                                <div class="img_wp" onclick="zhengmian()">
-                                    <img src="/img/qie.jpg" id="zmz" name="tupian" />
-                                    <p class="img_intro">身份证正面照</p>
-                                </div>
-                            </div>
-                            <!--<div class="id_img_wp">-->
-                                <!--<input type="file" accept="image/*" onchange="getzImg(this)" style="display:none" value="" id="img_z" name="img_z"/>-->
-                                <!--&lt;!&ndash;<input type="file" accept="image/*" onchange="getfImg(this)" value="" id="img_f" name="img_f" style="display:none"/>&ndash;&gt;-->
+                            <!--<div class="form-group  col-lg-6">-->
+                                <!--<input type="file" accept="image/*" onchange="getzImg(this)"  value="" id="img_z" name="img_z"/>-->
                                 <!--<div class="img_wp" onclick="zhengmian()">-->
                                     <!--<img src="/img/qie.jpg" id="zmz" name="tupian" />-->
                                     <!--<p class="img_intro">身份证正面照</p>-->
                                 <!--</div>-->
-
-                                <!--&lt;!&ndash;<div class="img_wp" onclick="fanmian()">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<img src="/img/qie.jpg" id="fmz"/>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<p class="img_intro">身份证反面照</p>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--<div class="cf"></div>-->
                             <!--</div>-->
-                            <div class="form-group  col-lg-6">
-                                <div class="col-lg-9">
-                                    <input name="confirm" type="checkbox"  checked onclick="agree();" id="cb"/>同意
-                                    <a th:href="@{/agreementAdress}" target="_blank"> 时间银行注册协议</a>
-                                </div>
-                            </div>
+                            <!--<div class="form-group  col-lg-6">-->
+                                <!--<div class="col-lg-9">-->
+                                    <!--<input name="confirm" type="checkbox"  checked onclick="agree();" id="cb"/>同意-->
+                                    <!--&lt;!&ndash;<a th:href="@{/agreementAdress}" target="_blank"> 时间银行注册协议</a>&ndash;&gt;-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-actions">
                                 <input id="tj" class="btn btn-primary" type="submit" value="保 存"/>
                                 <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
@@ -418,7 +411,12 @@
         laydate.render({
             elem: '#userBirthdate' //指定元素
         });
-
+        if (message != null) {
+            var a = message.split("T");
+        }
+        if (a[0] != null) {
+            document.getElementById('userBirthdate').value = a[0];
+        }
     </script>
     <script language="javascript">
         //注册按钮与阅读协议单选框
@@ -434,58 +432,56 @@
     </script>
     <script>
 
-
-
-        $(function(){
-            $('.img_wp img').height($('.img_wp img').width()*0.3);
-            $(window).resize(function(){
-                $('.img_wp img').height($('.img_wp img').width()*0.3);
-            })
-        })
-        //正面
-        function zhengmian(){
-            $('#img_z').click();
-        }
-        function getzImg(imgFile){
-            var file = imgFile.files[0];
-//        alert(11);
-//        //获取上传图片的位置
-//        var filePath=document.getElementById("img_z").value;
-//        alert(filePath);
-//        alert(22);
-            var reader = new FileReader();
-            reader.readAsDataURL(file);//将文件读取为Data URL小文件   这里的小文件通常是指图像与 html 等格式的文件
-            reader.onload = function(e){
-                $("#zmz").attr("src",e.target.result);
-            }
-        }
-
-        //        //反面
-        //        function fanmian(){
-        //            $('#img_f').click();
-        //        }
-        //        function getfImg(imgFile){
-        //
-        //            var file = imgFile.files[0];
-        //
-        //            var reader = new FileReader();
-        //            reader.readAsDataURL(file);
-        //            reader.onload = function(e){
-        //                $("#fmz").attr("src",e.target.result);
-        //            }
-        //        }
-        //申请
-        function checkForm(){
-            if($('#img_z').val()==null||$('#img_z').val()==''){
-                alert('请上传身份证正面照！');
-                return false;
-            }
-//            if($('#img_f').val()==null||$('#img_f').val()==''){
-//                alert('请上传身份证反面照！');
-//                return false;
+//        $(function(){
+//            $('.img_wp img').height($('.img_wp img').width()*0.3);
+//            $(window).resize(function(){
+//                $('.img_wp img').height($('.img_wp img').width()*0.3);
+//            })
+//        })
+//        //正面
+//        function zhengmian(){
+//            $('#img_z').click();
+//        }
+//        function getzImg(imgFile){
+//            var file = imgFile.files[0];
+////        alert(11);
+////        //获取上传图片的位置
+////        var filePath=document.getElementById("img_z").value;
+////        alert(filePath);
+////        alert(22);
+//            var reader = new FileReader();
+//            reader.readAsDataURL(file);//将文件读取为Data URL小文件   这里的小文件通常是指图像与 html 等格式的文件
+//            reader.onload = function(e){
+//                $("#zmz").attr("src",e.target.result);
 //            }
-            //提交表单
-        }
+//        }
+//
+//        //        //反面
+//        //        function fanmian(){
+//        //            $('#img_f').click();
+//        //        }
+//        //        function getfImg(imgFile){
+//        //
+//        //            var file = imgFile.files[0];
+//        //
+//        //            var reader = new FileReader();
+//        //            reader.readAsDataURL(file);
+//        //            reader.onload = function(e){
+//        //                $("#fmz").attr("src",e.target.result);
+//        //            }
+//        //        }
+//        //申请
+////        function checkForm(){
+////            if($('#img_z').val()==null||$('#img_z').val()==''){
+////                alert('请上传身份证正面照！');
+////                return false;
+////            }
+////            if($('#img_f').val()==null||$('#img_f').val()==''){
+////                alert('请上传身份证反面照！');
+////                return false;
+////            }
+//            //提交表单
+//        }
     </script>
     <div class="row clearfix">
         <div class="col-md-12 bg-primary">

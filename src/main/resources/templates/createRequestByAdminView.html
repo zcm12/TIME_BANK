@@ -159,10 +159,8 @@
                                 message: '预计持续时间不能为空'
                             },
                             regexp: {
-//                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
-//                                message: '请求持续时间长度只能包含正浮点数'
                                 regexp:/^[0-9]*[1-9][0-9]*$/,
-                                message: '估计消耗货币只能包含正整数'
+                                message: '预计持续时间只能是正整数'
                             }
                         }
                     },
@@ -173,9 +171,8 @@
                                 message: '估计消耗货币不能为空'
                             },
                             regexp: {
-//                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
                                 regexp:/^[0-9]*[1-9][0-9]*$/,
-                                message: '估计消耗货币只能包含正整数'
+                                message: '估计消耗货币只能是正整数'
                             }
                         }
                     },
@@ -201,24 +198,30 @@
                             notEmpty: {
                                 message: '请求实际消耗货币不能为空'
                             },
-                            regexp: {
+//                            regexp: {
 //                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
+//                                message: '请求实际消耗货币只能包含正浮点数'
+//                            }
+                            regexp: {
                                 regexp:/^[0-9]*[1-9][0-9]*$/,
-                                message: '请求实际消耗货币只能包含整数'
+                                message: '请求实际消耗货币只能是正整数'
                             }
                         }
                     },
+                    //整数
                     reqActualDurationTime: {
                         message: '请求持续时长度验证失败',
                         validators: {
                             notEmpty: {
                                 message: '请求持续时间不能为空'
                             },
-                            regexp: {
+//                            regexp: {
 //                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
-                                regexp:/^[0-9]*[1-9][0-9]*$/,
 //                                message: '请求持续时间长度只能包含正浮点数'
-                                message: '请求持续时间长度只能包含正整数'
+//                            }
+                            regexp: {
+                                regexp:/^[0-9]*[1-9][0-9]*$/,
+                                message: '持续时间只能是正整数'
                             }
                         }
                     },
@@ -406,7 +409,7 @@
                             <div class="form-group  col-lg-6">
                             <label class="control-label col-lg-3" for="reqPreCunsumeCurrency" >估计消耗货币：</label>
                             <div class="col-lg-9">
-                            <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqPreCunsumeCurrency" name="reqPreCunsumeCurrency" type="text" class="form-control" placeholder="格式为正整数"
+                            <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqPreCunsumeCurrency" name="reqPreCunsumeCurrency" type="text" class="form-control" placeholder="格式为正浮点数"
                             /><b>元</b>
                             </div>
                             </div>
@@ -536,7 +539,7 @@
             elem: '#reqAvailableEndTime' , //指定元素
             type: 'datetime',
             format: "yyyy-MM-dd HH:mm:ss",
-            min: 0,
+            min: '1900-06-16 23:59:59',
             max: '2099-06-16 23:59:59',
             istime: true,
             istoday: false,
@@ -576,7 +579,7 @@
             elem:  '#reqEndTime' , //指定元素
             type: 'datetime',
             format: "yyyy-MM-dd HH:mm:ss",
-            min: 0,
+            min: '1900-06-16 23:59:59',
             max: '2099-06-16 23:59:59',
             istime: true,
             istoday: false,

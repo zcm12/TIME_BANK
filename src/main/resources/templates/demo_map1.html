@@ -76,23 +76,35 @@
     </div>
 
 </div>
+</body>
+</html>
 <script type="text/javascript">
     document.getElementById('Guid').value = message;
     // 百度地图API功能
     var map = new BMap.Map("allmap");
-    var point = new BMap.Point(116.331398, 39.897445);
-    map.centerAndZoom(point, 11);
-
+    var point = new BMap.Point(116.331398,39.897445);
+    map.centerAndZoom(point,11);
     //ip定位到当前城市
-    function myFun(result) {
+    function myFun(result){
         var cityName = result.name;
         map.setCenter(cityName);
-        alert("当前定位城市:" + cityName);
-        document.getElementById("cityName").value = cityName;
+        alert("当前定位城市:"+cityName);
+        document.getElementById("cityName").value=cityName;
     }
-
     var myCity = new BMap.LocalCity();
     myCity.get(myFun);
+
+
+    //点击地图获得经纬度
+    map.addEventListener("click",function(e){
+        var input =  document.getElementById('wd');
+        var input2 =  document.getElementById('jd');
+        input.value = e.point.lng;
+        input2.value= e.point.lat;
+    });
+
+
+
     map.addControl(new BMap.NavigationControl());
     map.enableScrollWheelZoom(true);
     var myGeo = new BMap.Geocoder();
@@ -132,9 +144,5 @@
     }
 
 
-
-</script>
-</body>
-</html>
 
 </script>

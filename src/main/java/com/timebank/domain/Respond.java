@@ -370,7 +370,6 @@ public class Respond {
      *
      * @mbg.generated
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Double getResEarnCurrency() {
         return resEarnCurrency;
     }

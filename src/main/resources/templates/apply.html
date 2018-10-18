@@ -8,6 +8,7 @@
     //    alert(message)
     var jd=[[${jd}]];
     var wd=[[${wd}]];
+    var message=[[${message}]];
     </script>
 
 
@@ -309,6 +310,11 @@
                 window.event.returnValue = false;
             a.focus();
 
+        }
+        if (message ==2) {
+            document.getElementById("btnSubmit").disabled = false;
+        } else {
+            document.getElementById("btnSubmit").disabled = true;
         }
     </script>
     <div class="row clearfix">

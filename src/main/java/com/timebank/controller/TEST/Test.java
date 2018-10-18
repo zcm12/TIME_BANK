@@ -43,7 +43,7 @@ public class Test {
 
 
 //        model.addAllAttributes("message",);
-        return "demo_map3";
+        return "test";
     }
 
 //    @RequestMapping("/css1")

@@ -547,6 +547,7 @@ public class activitycontroller {
         Users users=GetCurrentUsers(message);
         String role=users.getUserRole();
         model.addAttribute("role",role);
+//        System.out.println("flag");
         ActivityExample activityExample = new ActivityExample();
         activityExample.or().andActivityGuidEqualTo(activityGuid5);
         List<Activity> activities = activityMapper.selectByExample(activityExample);

@@ -4,24 +4,15 @@
     <title>审核用户信息</title>
     <script th:inline="javascript">
         var message1 = [[${message1}]];
-        //        var message2 = [[${message2}]];
-
-        //        alert("图片不出来请尝试刷新")
-    </script>
-    <script   LANGUAGE="JavaScript">
-        function   fresh()
-        {
-            if(location.href.indexOf("?reload=true")<0)
-            {
-                location.href+="?reload=true";
-            }
-        }
-        setTimeout("fresh()",50)
+        var message2=[[${date}]];
     </script>
     <script type="text/javascript">
 
         $(document).ready(function() {
-            document.getElementById('imgInit1').src = message1;
+            if(message1!=null){
+                document.getElementById('imgInit1').src = message1;
+            }
+
             $('#USERSInputForm').bootstrapValidator({
                 message: 'This value is not valid',
                 feedbackIcons: {
@@ -185,10 +176,10 @@
                                     <input id="userDistrict" name="userDistrict" type="text" class="form-control col-lg-4" th:value="${users.userDistrict}" disabled="disabled"/>
                                 </div>
                             </div>
+
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userRole" >用户角色：</label>
                                 <select id="userRole" name="userRole" >
-                                    <!--<option th:value="${users.userrole}" >11</option>-->
                                     <option value="Tourist">0</option>
                                     <option value="USE">USE</option>
                                     <option value="MADMIN" >MADMIN</option>
@@ -224,20 +215,15 @@
                                 <div class="col-lg-9">
                                     <input id="userCommGuid" name="userCommGuid" type="text" class="form-control" th:value="${users.userCommGuid}"  disabled="disabled"/>
                                 </div>
-                            </div>
+                            </div><br><br><br><br><br>
                             <div class="id_img_wp">
                                 <input type="file" accept="image/*"  style="display:none" value="" id="img_z" name="img_z" />
-                                <input type="file" accept="image/*" value="" id="img_f" name="img_f" style="display:none"/>
+                                <!--<input type="file" accept="image/*" value="" id="img_f" name="img_f" style="display:none"/>-->
                                 <div class="img_wp" >
-                                    <!--<img src="/img/qie.jpg" id="zmz"  />-->
-                                    <img src=""  id="imgInit1">
+                                    <img src="/img/qie.jpg"  id="imgInit1">
                                     <p class="img_intro">身份证正面照</p>
                                 </div>
 
-                                <!--<div class="img_wp">-->
-                                <!--<img src="" id="imgInit2"/>-->
-                                <!--<p class="img_intro">身份证反面照</p>-->
-                                <!--</div>-->
                                 <div class="cf"></div>
                             </div><br>
 
@@ -252,6 +238,12 @@
         </div>
     </div>
     <script>
+        $(function(){
+            $('.img_wp img').height($('.img_wp img').width()*0.4);
+            $(window).resize(function(){
+                $('.img_wp img').height($('.img_wp img').width()*0.4);
+            })
+        })
             //方法一
                 var aaa='userRole';
                 function eee(id1 , vari){
@@ -267,20 +259,19 @@
                 }
                 eee(aaa,message);
                 //方法二
-//        //得到一级目录
+//        得到一级目录
 //        var getSelect = document.getElementById('userRole');
-//        //得到二级目录
+//        得到二级目录
 //        var getOption = getSelect.getElementsByTagName('option');
 //        getOption[0].innerText = message;
-    </script>
-    <script type="text/javascript">
-        $(function(){
-            $('.img_wp img').height($('.img_wp img').width()*0.4);
-            $(window).resize(function(){
-                $('.img_wp img').height($('.img_wp img').width()*0.4);
-            })
-        })
 
+            //处理时间格式
+            if (message2 != null) {
+                var a = message2.split("T");
+            }
+            if (a[0] != null) {
+                document.getElementById('userBirthdate').value = a[0];
+            }
     </script>
     <div class="row clearfix">
         <div class="col-md-12 bg-primary">
