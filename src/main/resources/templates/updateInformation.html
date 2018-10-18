@@ -236,6 +236,8 @@
         .demo1{margin:25px 0;}
         h3{margin:10px 0;}
         .layinput{height: 22px;line-height: 22px;width: 150px;margin: 0;}
+
+
     </style>
 </head>
 <body>
@@ -264,8 +266,8 @@
                           data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
                           data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" >
                         <div class="row" >
-                            <div class="form-group  col-lg-6"   hidden="hidden">
-                                <label class="control-label col-lg-3" for="userGuid"   >用户ID：</label>
+                            <div class="form-group col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="userGuid" >用户ID：</label>
                                 <div class="col-lg-9">
                                     <input id="userGuid" name="userGuid" type="text" class="form-control" th:value="${users.userGuid}" />
                                 </div>
@@ -307,7 +309,7 @@
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-4" for="userTypeGuidGender" >选择用户性别：</label>
+                                <label class="control-label col-lg-3" for="userTypeGuidGender" >选择用户性别：</label>
                                 <div class="col-lg-4">
                                     <select name="userTypeGuidGender" id="userTypeGuidGender" class="form-control">
                                         <option th:each="typex:${types}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" th:selected="${typex.typeGuid}==${users.userTypeGuidGender}"></option>
@@ -347,11 +349,19 @@
                                 <!--</div>-->
                             <!--</div>-->
                             <div class="form-group  col-lg-6">
-                                <label class="control-label col-lg-2">家庭住址：</label>
+                                <label class="control-label col-lg-3">家庭住址：</label><br>
                                 <div class="form-group  col-lg-5" data-toggle="distpicker">
-                                    <select class="form-control col-lg-4" id="userProvince"  name="userProvince" data-province="---- 选择省 ----"></select>
-                                    <select class="form-control col-lg-4" id="userCity"  name="userCity" data-city="---- 选择市 ----"></select>
-                                    <select class="form-control col-lg-4" id="userDistrict" name="userDistrict" data-district="---- 选择区 ----"></select>
+                                    <div>
+                                        <select class="form-control col-lg-4" id="userProvince"  name="userProvince" data-province="---- 选择省 ----"></select>
+                                    </div>
+                                    <div>
+                                        <select class="form-control col-lg-4" id="userCity"  name="userCity" data-city="---- 选择市 ----"></select>
+                                    </div>
+                                    <div>
+                                        <select class="form-control col-lg-4" id="userDistrict" name="userDistrict" data-district="---- 选择区 ----"></select>
+                                    </div>
+
+
                                 </div>
                             </div>
 

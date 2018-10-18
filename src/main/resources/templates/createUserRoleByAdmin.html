@@ -73,12 +73,94 @@
                 }
             });
         });
+
+
+//        function bigImg(x){
+//            x.style.height="700px";
+//            x.style.width="900px";
+//        }
+//        function normalImg(x){
+//            x.style.height="280px";
+//            x.style.width="600px";
+//        }
+
+
+
+        function show(pic){
+                //获取图片的宽和高
+                iw = pic.width;
+                ih = pic.height;
+                //获取屏幕的宽和高
+                sw = document.documentElement.clientWidth;
+                sh = document.documentElement.clientHeight;
+
+                //创建动态的图片对象，将该对象的src赋值为原图的src,这就是来创建我们放大后看大的那个图片
+                oimg = document.createElement('img');
+                oimg.src = pic.src;
+                oimg.width=800;
+                oimg.height=500;
+                oimg.style.position = 'absolute';
+                oimg.style.top = (sh-ih)/2+'px';
+                oimg.style.left= (sw-ih)/2+'px';
+
+                //动态的创建一个灰色的背景div，就是那个我们带点击后，大图后面的那个灰色的那个背景，当然灰色是可以自由设置的
+                gdiv = document.createElement('div');
+                gdiv.id = 'gray';
+                gdiv.style.height =sh+'px';
+                gdiv.style.width = sw+'px';
+                gdiv.style.background =  'black';
+                gdiv.style.opacity = '0.55';
+                gdiv.style.filter = 'alpha(opacity=55)';
+                gdiv.style.position = 'absolute';
+                gdiv.style.top = '0px';
+                gdiv.style.left = '0px';
+                document.body.appendChild(gdiv);
+
+                //删除动态的图片和对象，就是我们点击放大后，再次点击的时候，放大的图片会被删除，并且后面的那个背景也会随之删除
+                //点击灰色背景时，背景和大图都会删除
+                gdiv.onclick = function(){
+                        document.body.removeChild(this);
+                        document.body.removeChild(oimg);
+                }
+                //点击大图时，背景和大图也都会删除
+                oimg.onclick = function(){
+                    document.body.removeChild(this);
+                    document.body.removeChild(gdiv);
+                 }
+
+                document.body.appendChild(oimg);
+             }
+            //设置图片的位置来适应窗口的大小
+             window.onresize=function(){
+                    sh = document.documentElement.clientHeight;
+                    sw = document.documentElement.clientWidth;
+                     gdiv.style.width = sw + 'px';
+                    gdiv.style.height = sh + 'px';
+                     //更改图片的位置
+                    oimg.style.top = (sh-ih)/2 + 'px';
+                    oimg.style.left = (sw-iw)/2 + 'px';
+             }
+
+
+
     </script>
     <script th:inline="javascript">
         var message = [[${message}]];
     </script>
 
 
+    <!--<style type="text/css">-->
+          <!--div#gray{-->
+                    <!--//背景颜色-->
+                     <!--background : black;-->
+                     <!--//设置透明度-->
+                     <!--opacity : 0.55;-->
+                     <!--filter : alpha(opacity=55);-->
+                     <!--position : absolute;-->
+                     <!--top : 0px;-->
+                     <!--left : 0px;-->
+                 <!--}-->
+         <!--</style>-->
 
 </head>
 <body>
@@ -176,10 +258,10 @@
                                     <input id="userDistrict" name="userDistrict" type="text" class="form-control col-lg-4" th:value="${users.userDistrict}" disabled="disabled"/>
                                 </div>
                             </div>
-
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="userRole" >用户角色：</label>
                                 <select id="userRole" name="userRole" >
+                                    <!--<option th:value="${users.userrole}" >11</option>-->
                                     <option value="Tourist">0</option>
                                     <option value="USE">USE</option>
                                     <option value="MADMIN" >MADMIN</option>
@@ -215,15 +297,19 @@
                                 <div class="col-lg-9">
                                     <input id="userCommGuid" name="userCommGuid" type="text" class="form-control" th:value="${users.userCommGuid}"  disabled="disabled"/>
                                 </div>
-                            </div><br><br><br><br><br>
+                            </div>
                             <div class="id_img_wp">
                                 <input type="file" accept="image/*"  style="display:none" value="" id="img_z" name="img_z" />
-                                <!--<input type="file" accept="image/*" value="" id="img_f" name="img_f" style="display:none"/>-->
+                                <input type="file" accept="image/*" value="" id="img_f" name="img_f" style="display:none"/>
                                 <div class="img_wp" >
-                                    <img src="/img/qie.jpg"  id="imgInit1">
+                                    <img src="/img/qie.jpg"  id="imgInit1"  onclick='show(this)'>
                                     <p class="img_intro">身份证正面照</p>
                                 </div>
 
+                                <!--<div class="img_wp">-->
+                                <!--<img src="" id="imgInit2"/>-->
+                                <!--<p class="img_intro">身份证反面照</p>-->
+                                <!--</div>-->
                                 <div class="cf"></div>
                             </div><br>
 
@@ -244,6 +330,9 @@
                 $('.img_wp img').height($('.img_wp img').width()*0.4);
             })
         })
+
+
+
             //方法一
                 var aaa='userRole';
                 function eee(id1 , vari){
@@ -259,9 +348,9 @@
                 }
                 eee(aaa,message);
                 //方法二
-//        得到一级目录
+//        //得到一级目录
 //        var getSelect = document.getElementById('userRole');
-//        得到二级目录
+//        //得到二级目录
 //        var getOption = getSelect.getElementsByTagName('option');
 //        getOption[0].innerText = message;
 
