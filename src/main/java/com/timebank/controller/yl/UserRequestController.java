@@ -190,7 +190,6 @@ public class UserRequestController {
         String role=users11.getUserRole();
         model.addAttribute("role",role);
         return "applyListView";
-
     }
     //查看需求界面加载数据 从数据库加载数据
     @RequestMapping(value="/getREQESTListJsonData",produces = "application/json;charset=UTF-8")

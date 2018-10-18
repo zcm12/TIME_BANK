@@ -260,8 +260,8 @@
         </div>
     </div>
     <script>
-        //        var startMax = '2099-06-16 23:59:59';
-        //        var endMin = '1900-06-16 23:59:59';
+//                var startMax = '2099-06-16 23:59:59';
+//                var endMin = '1900-06-16 23:59:59';
         var startTime = laydate.render({
             elem: '#reqAvailableStartTime',//指定元素
             type: 'datetime',
@@ -280,6 +280,9 @@
                 }
 //                this.endMin = value; //开始时间等于结束时间的最小值
 //                endStart = value;//将结束日的初始值设定为开始日
+
+
+
             }
         });
         var endTime = laydate.render({
@@ -300,6 +303,7 @@
                     seconds : dates.seconds
                 }
 //                this.startMax = value; //开始时间的最大值等于选定的结束时间
+
             }
         });
 
