@@ -1,93 +1,140 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<!--th:include="basepage :: common_header(~{::title},~{::script})"-->
-<head  >
+
+<head th:include="basepage :: common_header(~{::title},~{::script})">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <script th:inline="javascript">
     var message = [[${guid}]];
     var address=[[${address}]];
 </script>
-    <style type="text/css">
-        body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-        #allmap{height:500px;width:100%;}
-        #r-result{width:100%; font-size:14px;}
-    </style>
+    <!--<style type="text/css">-->
+        <!--body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}-->
+        <!--#allmap{height:500px;width:100%;}-->
+        <!--#r-result{width:100%; font-size:14px;}-->
+    <!--</style>-->
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZsT9uATUVFSWeXgFMQDsH4hP5UbQD2YC"></script>
-    <title>定位</title>
+    <title>发布需求</title>
 </head>
 <body>
 
-<div id="allmap"></div>
-<div id="r-result">
+<!--<div id="allmap"></div>-->
+<!--<div id="r-result">-->
+       <!--<div>-->
+       <!--<form id="mapform" action="/aass" method="post" role="form">-->
+           <!--<div>-->
+                <!--填写详细地址: <input id="cityName" name="cityName"  type="text" style="width:220px; margin-right:10px;" placeholder="请按地图正确提示填写"  />-->
+               <!--<input type="button" value="查询" onclick="theLocation()" />-->
+               <!--<input type="text" id="jd" name="jd" hidden="hidden"/><input type="text" id="wd" name="wd" hidden="hidden"/>-->
+               <!--<input type="text" id="Guid" name="Guid" hidden="hidden"/>-->
+           <!--</div>-->
+           <!--<div class="form-actions">-->
+                <!--<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;-->
+           <!--</div>-->
+       <!--</form>-->
+   <!--</div>-->
+<!--</div>-->
 
-       <div >
-           <form id="mapform" action="/aass" method="post" role="form">
-       <div>
-            填写详细地址: <input id="cityName" name="cityName"  type="text" style="width:220px; margin-right:10px;" placeholder="请按地图正确提示填写"  />
-           <input type="button" value="查询" onclick="theLocation()" />
-            <input type="text" id="jd" name="jd" hidden="hidden"/><input type="text" id="wd" name="wd" hidden="hidden"/>
-           <input type="text" id="Guid" name="Guid" hidden="hidden"/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 bg-danger">
+            <div th:replace="basepage::contextheader"></div>
+        </div>
+    </div>
+    <div class="row clearfix bg-success">
+        <div class="col-md-2 bg-primary ">
+            <div th:replace="basepage::contextleftnav"></div>
+        </div>
+        <div class="col-md-10 bg-danger">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        定位
+                    </h3>
+                </div>
+                <div class="panel-body">
+                        <form id="mapform" action="/aass" method="post" role="form">
+                            <div>
+                                填写详细地址: <input id="cityName" name="cityName"  type="text" style="width:220px; margin-right:10px;" placeholder="请按地图正确提示填写"  />
+                                <input type="button" value="查询" onclick="theLocation()" />
+                                <input type="text" id="jd" name="jd" hidden="hidden"/><input type="text" id="wd" name="wd" hidden="hidden"/>
+                                <input type="text" id="Guid" name="Guid" hidden="hidden"/>
+                            </div>
+                            <div class="form-actions">
+                                <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+                            </div>
+                            <div id="allmap" class="form-group col-lg-6" style="width:900px;height:600px"></div>
+                            <div id="r-result" class="form-group col-lg-6"></div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 bg-primary">
+            <div th:replace="basepage::contextfooter"></div>
+        </div>
+    </div>
 
-       </div>
-           <div class="form-actions">
-               <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
-           </div>
-       </form>
-   </div>
 </div>
-</body>
-</html>
 <script type="text/javascript">
     document.getElementById('Guid').value = message;
     // 百度地图API功能
     var map = new BMap.Map("allmap");
-    var point = new BMap.Point(116.331398,39.897445);
-    map.centerAndZoom(point,11);
+    var point = new BMap.Point(116.331398, 39.897445);
+    map.centerAndZoom(point, 11);
+
     //ip定位到当前城市
-    function myFun(result){
+    function myFun(result) {
         var cityName = result.name;
         map.setCenter(cityName);
-        alert("当前定位城市:"+cityName);
-        document.getElementById("cityName").value=cityName;
+        alert("当前定位城市:" + cityName);
+        document.getElementById("cityName").value = cityName;
     }
+
     var myCity = new BMap.LocalCity();
     myCity.get(myFun);
-
-
-    //点击地图获得经纬度
-    map.addEventListener("click",function(e){
-        var input =  document.getElementById('wd');
-        var input2 =  document.getElementById('jd');
-        input.value = e.point.lng;
-        input2.value= e.point.lat;
-    });
-
-
-
     map.addControl(new BMap.NavigationControl());
     map.enableScrollWheelZoom(true);
-
-    var local = new BMap.LocalSearch(map, {
-        renderOptions:{map: map}
-    });
-//    点击查询按钮   显示几个标注
-    function theLocation(){
+    var myGeo = new BMap.Geocoder();
+    //    点击查询按钮   添加当前地址可拖拽的标注
+    var market;
+    function theLocation() {
+        map.removeOverlay(market);
         var city = document.getElementById("cityName").value;
-        if(city != ""){
-            local.search(city);
+        if (city != "") {
+            myGeo.getPoint(city, function (point) {
+                    if (point) {
+                        var input = document.getElementById('wd');
+                        var input2 = document.getElementById('jd');
+                        input.value = point.lng;
+                        input2.value =point.lat;
+                        map.centerAndZoom(point, 16);
+                        market=new BMap.Marker( point,{"enableDragging": true});
+                        map.addOverlay(market);
+                        //开启拖拽  读取坐标
+                        market.addEventListener("dragend", function (e) {
+                            //地址逆解析
+                            var geoc = new BMap.Geocoder();
+                            var pt = e.point;
+                            geoc.getLocation(pt, function (rs) {
+                                var addComp = rs.addressComponents;
+                                document.getElementById("cityName").value = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                            });
+                            var input = document.getElementById('wd');
+                            var input2 = document.getElementById('jd');
+                            input.value = e.point.lng;
+                            input2.value =e.point.lat;
+                        });
+                    }
+                }
+            )
         }
     }
-    //地址逆解析
-    var geoc = new BMap.Geocoder();
-
-    map.addEventListener("click", function(e){
-        var pt = e.point;
-        geoc.getLocation(pt, function(rs){
-            var addComp = rs.addressComponents;
-            document.getElementById("cityName").value=addComp.province  + addComp.city  + addComp.district +  addComp.street  + addComp.streetNumber;
-        });
-    });
 
 
+
+</script>
+</body>
+</html>
 
 </script>
