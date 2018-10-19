@@ -12,6 +12,7 @@ import com.timebank.shiro.ShrioRegister;
 //import org.apache.catalina.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.attoparser.dom.Text;
@@ -26,9 +27,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
 //import javax.xml.validation.Validator;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 登录功能
@@ -270,5 +273,72 @@ public class MainController {
         System.out.println("就是这里："+resultString);
         return resultString;
     }
+
+
+//    //TODO:找回密码
+//    //忘记密码按钮
+//    @RequestMapping(value = "/jquery/forget")
+//    public String forgetPassword(HttpServletRequest request){
+//        return "forgetPassword";
+//    }
+//    //找回密码 界面中的保存按钮
+//    @RequestMapping(value = "/jquery/forgetPassword")
+//    public String checkAccount(String userAccount,String userEmail){
+//        System.out.println("走到这里：测试地址");
+//        System.out.println(userEmail);
+//        System.out.println(userAccount);
+//        //生成邮箱验证链接地址 并且发送到用户邮箱
+//        //生成sid的值
+//        UsersExample usersExample=new UsersExample();
+//        usersExample.or().andUserAccountEqualTo(userAccount);
+//        List<Users> users=usersMapper.selectByExample(usersExample);
+//        Users users1=users.get(0);
+//        int flag= new Random().nextInt(999999);
+//        if (flag < 100000)
+//        {
+//            flag += 100000;
+//        }
+//        String salt=String.valueOf(flag);
+//        SimpleHash sid = new SimpleHash("MD5", users1.getUserPassword(), salt, 1000);
+//
+//
+//
+//        return "forgetSuccess";
+//    }
+//    //找回密码界面的校验    账号名与邮箱是否匹配
+//    @RequestMapping(value = "/jquery/checkexist")
+//    @ResponseBody
+//    public String forgetCheckUserAccount(String Account,String Email){
+//        //遍历数据库 查找是否有账号
+//        UsersExample usersExample=new UsersExample();
+//        List<Users> users=usersMapper.selectByExample(usersExample);
+//        boolean result = false;
+//        System.out.println(Account);
+//        System.out.println(Email);
+//        Map<String, Boolean> map = new HashMap<>();
+//        for(Users it:users){
+//            if(it.getUserAccount().equals(Account)&&it.getUserMail().equals(Email)){
+//                result=true;
+//            }
+//        }
+//        map.put("valid", result);
+//        ObjectMapper mapper = new ObjectMapper();
+//        String resultString = "";
+//        try {
+//            //将对象转换成json数组  这里是将map<>对象转换成json
+//            resultString = mapper.writeValueAsString(map);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(resultString);
+//        System.out.println("就是这里："+resultString);
+//        return resultString;
+//    }
+//    //邮箱里面的地址的链接的校验
+//
+
+
+
+
 
 }
