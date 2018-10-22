@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>找回密码</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css"  />
+    <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
+</head>
+<script th:inline="javascript">
+    var message = [[${userAccount}]];
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        if(message!=null){
+            document.getElementById("userAccount").value=message
+            document.getElementById("userAccount1").value=message
+        }
+        $('#Form').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                userPassword: {
+                    message: '密码验证失败',
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        },
+                        stringLength: {
+                            min: 2,
+                            max: 6,
+                            message: '密码长度必须在2到6位之间'
+                        }
+                    }
+                },
+                userPassword1: {
+                    message: '密码验证失败',
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        },
+                        stringLength: {
+                            min: 2,
+                            max: 6,
+                            message: '密码长度必须在2到6位之间'
+                        },
+                        identical: {
+                            field: 'userPassword',
+                            message: '两次输入的密码不相符'
+                        }
+                    }
+                }
+
+            }
+        })
+    })
+</script>
+<body>
+<form id="Form" name="Form" action="/jquery/forgetResrt" method="post">
+    <div class="form-group">
+        <label for="userAccount" style="font-size:20px">账户名</label>
+        <input align="center" name="userAccount" type="text" class="form-control" id="userAccount" disabled="disabled"/>
+    </div>
+    <div class="form-group" hidden="hidden">
+        <label for="userAccount" style="font-size:20px">后台接受的account</label>
+        <input align="center" name="userAccount1" type="text" class="form-control" id="userAccount1" />
+    </div>
+    <div class="form-group">
+        <label for="userPassword">密码</label>
+        <input type="password" name="userPassword" class="form-control" id="userPassword" placeholder="Password"/>
+    </div>
+    <div class="form-group">
+        <label for="userPassword">确认密码</label>
+        <input type="password" name="userPassword1" class="form-control" id="userPassword1" placeholder="Password"/>
+    </div>
+    <span>
+        <button type="submit" class="btn btn-default">保存</button>
+
+    </span>
+
+</form>
+</body>
+</html>

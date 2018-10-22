@@ -6,10 +6,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timebank.appmodel.ResultModel;
 import com.timebank.domain.*;
 import com.timebank.mapper.CommunityMapper;
+import com.timebank.mapper.ResetMapper;
 import com.timebank.mapper.TypeMapper;
 import com.timebank.mapper.UsersMapper;
 import com.timebank.shiro.ShrioRegister;
 //import org.apache.catalina.User;
+import freemarker.template.Template;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -17,21 +20,35 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.attoparser.dom.Text;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
 //import javax.xml.validation.Validator;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static java.util.UUID.randomUUID;
 
 /**
  * 登录功能
@@ -48,6 +65,10 @@ public class MainController {
     private TypeMapper typeMapper;
     @Autowired
     private CommunityMapper communityMapper;
+    @Autowired
+    private ResetMapper ResetMapper;
+    @Autowired
+    private JavaMailSender mailSender;
 
     //登录界面
     @RequestMapping(value = "/")
@@ -275,70 +296,173 @@ public class MainController {
     }
 
 
-//    //TODO:找回密码
-//    //忘记密码按钮
-//    @RequestMapping(value = "/jquery/forget")
-//    public String forgetPassword(HttpServletRequest request){
-//        return "forgetPassword";
-//    }
-//    //找回密码 界面中的保存按钮
-//    @RequestMapping(value = "/jquery/forgetPassword")
-//    public String checkAccount(String userAccount,String userEmail){
-//        System.out.println("走到这里：测试地址");
-//        System.out.println(userEmail);
-//        System.out.println(userAccount);
-//        //生成邮箱验证链接地址 并且发送到用户邮箱
-//        //生成sid的值
-//        UsersExample usersExample=new UsersExample();
-//        usersExample.or().andUserAccountEqualTo(userAccount);
-//        List<Users> users=usersMapper.selectByExample(usersExample);
-//        Users users1=users.get(0);
-//        int flag= new Random().nextInt(999999);
-//        if (flag < 100000)
-//        {
-//            flag += 100000;
-//        }
-//        String salt=String.valueOf(flag);
-//        SimpleHash sid = new SimpleHash("MD5", users1.getUserPassword(), salt, 1000);
-//
-//
-//
-//        return "forgetSuccess";
-//    }
-//    //找回密码界面的校验    账号名与邮箱是否匹配
-//    @RequestMapping(value = "/jquery/checkexist")
-//    @ResponseBody
-//    public String forgetCheckUserAccount(String Account,String Email){
-//        //遍历数据库 查找是否有账号
-//        UsersExample usersExample=new UsersExample();
-//        List<Users> users=usersMapper.selectByExample(usersExample);
-//        boolean result = false;
-//        System.out.println(Account);
-//        System.out.println(Email);
-//        Map<String, Boolean> map = new HashMap<>();
-//        for(Users it:users){
-//            if(it.getUserAccount().equals(Account)&&it.getUserMail().equals(Email)){
-//                result=true;
-//            }
-//        }
-//        map.put("valid", result);
-//        ObjectMapper mapper = new ObjectMapper();
-//        String resultString = "";
-//        try {
-//            //将对象转换成json数组  这里是将map<>对象转换成json
-//            resultString = mapper.writeValueAsString(map);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(resultString);
-//        System.out.println("就是这里："+resultString);
-//        return resultString;
-//    }
-//    //邮箱里面的地址的链接的校验
-//
+    /*******************************************TODO:找回密码******************************************/
+    //index界面忘记密码按钮
+    @RequestMapping(value = "/jquery/forget")
+    public String forgetPassword(){
+        return "forgetPassword";
+    }
+    //forgetPassword界面的校验    账号名与邮箱是否匹配
+    @RequestMapping(value = "/jquery/checkexist")
+    @ResponseBody
+    public String forgetCheckUserAccount(String Account,String Email){
+        //遍历数据库 查找是否有账号
+        UsersExample usersExample=new UsersExample();
+        List<Users> users=usersMapper.selectByExample(usersExample);
+        boolean result = false;
+        Map<String, Boolean> map = new HashMap<>();
+        for(Users it:users){
+            if(it.getUserAccount().equals(Account)&&it.getUserMail().equals(Email)){
+                result=true;
+            }
+        }
+        map.put("valid", result);
+        ObjectMapper mapper = new ObjectMapper();
+        String resultString = "";
+        try {
+            //将对象转换成json数组  这里是将map<>对象转换成json
+            resultString = mapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return resultString;
+    }
+    //forgetPassword界面中的保存按钮
+    @RequestMapping(value = "/jquery/forgetPassword")
+    public String checkAccount(String userAccount,String userEmail,HttpServletRequest reqest){
+        //生成sid的值
+        UsersExample usersExample=new UsersExample();
+        usersExample.or().andUserAccountEqualTo(userAccount);
+        List<Users> users=usersMapper.selectByExample(usersExample);
+        Users users1=users.get(0);
+        int flag= new Random().nextInt(999999);
+        if (flag < 100000)
+        {
+            flag += 100000;
+        }
+        String salt=String.valueOf(flag);
+        SimpleHash sid = new SimpleHash("MD5", users1.getUserPassword(), salt, 1000);
+        //将证据插入到数据库 方便修改密码连接的校验
+        //生成过期时间
+        Long time = System.currentTimeMillis();//获得系统当前时间的毫秒数
+        time +=30*1000*60;//在当前系统时间的基础上往后加30分钟
+        Date date=new Date(time);
+        System.out.println(date);
+        //判断account是否已经存在reset表单中 若存在直接更新
+        Boolean biaoshi=true;
+        ResetExample resetExample=new ResetExample();
+        resetExample.clear();
+        List<Reset> resets=ResetMapper.selectByExample(resetExample);
+        for(Reset it:resets){
+            if(it.getResetAccount().equals(userAccount)){
+                it.setResetOuttime(date);
+                it.setResetSid(sid.toString());
+                ResetMapper.updateByPrimaryKey(it);
+                biaoshi=false;
+            }
+        }
+        //判断account不存在reset表单中 直接插入
+        if(biaoshi) {
+            Reset reset = new Reset();
+            UUID guid = randomUUID();
+            reset.setResetGuid(guid.toString());
+            reset.setResetAccount(userAccount);
+            reset.setResetSid(sid.toString());
+            reset.setResetOuttime(date);
+            ResetMapper.insert(reset);
+        }
+        //生成url链接  url的拼接
+        String nowUrl=reqest.getRequestURI();
+        System.out.println(nowUrl);
 
+        //base 编码
+        String key=userAccount;
+        byte[] bt = key.getBytes();
+        String newKey=(new BASE64Encoder()).encodeBuffer(bt);
+        System.out.println("base编码："+newKey);
 
+        String url="http://192.168.141.11:8080"+nowUrl+"reset"+"?"+"sid="+sid+"&&"+"userAcount"+"="+newKey;
+        //发送邮件
+        String mail=users1.getUserMail();
+        try {
+                SimpleMailMessage message3 = new SimpleMailMessage();
+                message3.setFrom("18765924730@163.com");
+                message3.setTo(mail);
+                message3.setSubject("主题：时间银行审核邮件");
+                message3.setText("您好，请您点击下面这个链接进行密码修改："+url);
+                mailSender.send(message3);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //邮件发送成功跳转到的界面
+        return "forgetSuccess";
+    }
 
+    //邮箱里面的地址的链接的校验
+    @RequestMapping(value = "/jquery/forgetPasswordreset")
+    public String checkAccount(HttpServletRequest reqest,Model model){
+        //http://localhost:8080/jquery/forgetPasswordreset?sid=a05f6ea397cd8378f9aa45696f9b5989&&userAcount=5byg5LiJ
+        String sid=reqest.getParameter("sid");
+        //base  解码
+        String newkey=reqest.getParameter("userAcount");
+        System.out.println("密码修改界面：：：：："+sid+"hahahah:"+newkey);
+        byte[] bt1 = new byte[0];
+        try {
+            bt1= (new BASE64Decoder()).decodeBuffer(newkey);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String newkey1=null;
+        try {
+            newkey1=new String(bt1, "utf-8");
+            System.out.println(newkey1);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        ResetExample resetExample=new ResetExample();
+        resetExample.or().andResetAccountEqualTo(newkey1);
+        List<Reset> resetList=ResetMapper.selectByExample(resetExample);
+        if(!resetList.isEmpty()) {
+            for (Reset it : resetList) {
+                if (it.getResetSid().equals(sid)) {
+                    Date date = it.getResetOuttime();
+                    Date date1 = new Date();
+                    if (date.before(date1)) {
+                        System.out.println("时间过期");
+                        return "fail";
+                    } else {
+                        System.out.println("符合修改密码所有条件");
+                        model.addAttribute("userAccount",newkey1);
+                        return "forgetReset";
+                    }
+                } else {
+                    System.out.println("sid值错误");
+                    return "fail";
+                }
+            }
+        }else{
+            System.out.println("账号不存在");
+            return "fail";
+        }
+        return "fail";
+
+    }
+    //forgetReset.html界面进行密码重置
+    @RequestMapping(value = "/jquery/forgetResrt")
+    public String forgetResrt(String userAccount1,String userPassword){
+        System.out.println(userAccount1+userPassword);
+        //重置密码   并且进行加密
+        UsersExample usersExample=new UsersExample();
+        usersExample.or().andUserAccountEqualTo(userAccount1);
+        List<Users> usersList=usersMapper.selectByExample(usersExample);
+        Users user=usersList.get(0);
+        String salt=user.getUserSalt();
+        SimpleHash newPassword = new SimpleHash("MD5", userPassword, salt, 1000);
+
+        user.setUserPassword(newPassword.toHex());
+        usersMapper.updateByPrimaryKey(user);
+        return "index";
+    }
 
 }
