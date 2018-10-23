@@ -73,36 +73,248 @@
                             }
                         }
                     },
-                    reqRreDurationTime:{
+                    /* reqRreDurationTime:{
+                         message: '预计持续时间验证失败',
+                         validators: {
+                             notEmpty: {
+                                 message: '预计持续时间不能为空'
+                             },
+                             regexp: {
+                                 regexp: /^[0-9]*$/,
+                                 message: '请求持续时间长度只能包含数字'
+                             }
+                         }
+                     },
+                     reqPersonNum:{
+                         message: '请求需要人数验证失败',
+                         validators: {
+                             notEmpty: {
+                                 message: '请求需要人数不能为空'
+                             },
+                             regexp: {
+                                 regexp: /^[0-9]*$/,
+                                 message: '请求需要人数只能包含数字'
+                             },
+                             stringLength: {
+                                 min: 1,
+                                 max:15,
+                                 message: '请求人数不超过15人'
+                             }
+                         }
+                     },
+                     reqTypeGuidUrgency:{
+                         message: '请求紧急程度验证失败',
+                         validators: {
+                             notEmpty: {
+                                 message: '请求紧急程度不能为空'
+                             }
+                         }
+                     },
+                     jd:{
+                         message: '请求紧急程度验证失败',
+                         validators: {
+                             notEmpty: {
+                                 message: '经度不能为空'
+                             }
+                         }
+                     },
+                     wd:{
+                         message: '请求紧急程度验证失败',
+                         validators: {
+                             notEmpty: {
+                                 message: '纬度不能为空'
+                             }
+                         }
+                     },*/
+                    reqIssueTime: {
+                        message: '提出请求的时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '提出请求的时间不能为空'
+                            }
+                        }
+                    },
+                    reqAddress: {
+                        message: '请求提出地址验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求提出地址不能为空'
+                            },
+                            stringLength: {
+                                min: 5,
+                                max: 35,
+                                message: '请求提出地址长度必须在5到35位之间'
+                            },
+                            regexp: {
+                                regexp: /^[^%_&!@#*',;=?$x22]+$/,
+                                message: '请求提出地址格式不包括特殊字符'
+                            }
+                        }
+                    },
+                    reqTitle: {
+                        message: '请求的标题验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求的标题不能为空'
+                            },
+                            stringLength: {
+                                min: 5,
+                                max: 15,
+                                message: '请求的标题长度必须在5到15位之间'
+                            },
+                            regexp: {
+                                regexp: /[\u4e00-\u9fa5]+$/,
+                                message: '请求的标题只能包含中文'
+                            }
+                        }
+                    },
+                    reqDesp: {
+                        message: '请求描述验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求描述不能为空'
+                            },
+                            stringLength: {
+                                min: 5,
+                                max: 120,
+                                message: '只能输入中文且必须在5到120字之间'
+                            }/*,
+                            regexp: {
+                                regexp: /[\u4e00-\u9fa5]+$/,
+                                message: '请求的标题只能包含中文'
+                            }*/
+                        }
+                    },
+
+                    reqComment: {
+                        message: '请求补充验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求补充不能为空'
+                            },
+                            stringLength: {
+                                min: 2,
+                                max: 100,
+                                message: '请求补充长度必须在2到100位之间'
+                            },
+                            regexp: {
+                                regexp: /^[^!+~%_&!@#*',;=?$x]+$/,
+                                message: '请求补充格式不包括特殊字符'
+                            }
+                        }
+                    },
+                    reqTypeGuidClass: {
+                        message: '请求分类验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求分类不能为空'
+                            }
+                        }
+                    },
+                    reqAvailableStartTime: {
+                        message: '请求可用开始时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求可用开始时间不能为空'
+                            }
+                        }
+                    },
+                    reqAvailableEndTime: {
+                        message: '请求可用结束时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求可用结束时间不能为空'
+                            }
+                        }
+                    },
+                    reqRreDurationTime: {
                         message: '预计持续时间验证失败',
                         validators: {
                             notEmpty: {
                                 message: '预计持续时间不能为空'
                             },
                             regexp: {
-                                regexp: /^[0-9]*$/,
-                                message: '请求持续时间长度只能包含数字'
+//                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
+//                                message: '请求持续时间长度只能包含正浮点数'
+                                regexp:/^[0-9]*[1-9][0-9]*$/,
+                                message: '估计消耗货币只能包含正整数'
                             }
                         }
                     },
-                    reqPersonNum:{
+                    reqPreCunsumeCurrency: {
+                        message: '估计消耗货币验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '估计消耗货币不能为空'
+                            },
+                            regexp: {
+                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
+//                                regexp:/^[0-9]*[1-9][0-9]*$/,
+                                message: '估计消耗货币只能包含正浮点数'
+                            }
+                        }
+                    },
+                    reqStartTime: {
+                        message: '请求服务开始时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求服务开始时间不能为空'
+                            }
+                        }
+                    },
+                    reqEndTime: {
+                        message: '请求服务结束时间验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求服务结束时间不能为空'
+                            }
+                        }
+                    },
+                    reqActualConsumeCurrency: {
+                        message: '请求实际消耗货币验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求实际消耗货币不能为空'
+                            },
+                            regexp: {
+                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
+//                                regexp:/^[0-9]*[1-9][0-9]*$/,
+                                message: '请求实际消耗货币只能包含正浮点数'
+                            }
+                        }
+                    },
+                    reqActualDurationTime: {
+                        message: '请求持续时长度验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '请求持续时间不能为空'
+                            },
+                            regexp: {
+//                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
+                                regexp:/^[0-9]*[1-9][0-9]*$/,
+//                                message: '请求持续时间长度只能包含正浮点数'
+                                message: '请求持续时间长度只能包含正整数'
+                            }
+                        }
+                    },
+                    reqPersonNum: {
                         message: '请求需要人数验证失败',
                         validators: {
                             notEmpty: {
                                 message: '请求需要人数不能为空'
                             },
-                            regexp: {
-                                regexp: /^[0-9]*$/,
-                                message: '请求需要人数只能包含数字'
-                            },
                             stringLength: {
                                 min: 1,
-                                max:15,
-                                message: '请求人数不超过15人'
+                                max: 20,
+                                message: '请求需要人数长度必须在1到20位之间'
+                            },
+                            regexp: {
+                                regexp:/^[0-9]*[1-9][0-9]*$/,
+                                message: '请求需要人数只能是正整数'
                             }
                         }
                     },
-                    reqTypeGuidUrgency:{
+                    reqTypeGuidUrgency: {
                         message: '请求紧急程度验证失败',
                         validators: {
                             notEmpty: {
@@ -110,23 +322,35 @@
                             }
                         }
                     },
-                    jd:{
-                        message: '请求紧急程度验证失败',
+                    reqFromWeightGuid: {
+                        message: '请求权值验证失败',
                         validators: {
                             notEmpty: {
-                                message: '经度不能为空'
+                                message: '请求权值不能为空'
                             }
+//                            regexp: {
+//                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
+//                                message: '请求权值只能包含正浮点数'
+//                            }
                         }
                     },
-                    wd:{
-                        message: '请求紧急程度验证失败',
+                    reqProcessUserGuid: {
+                        message: '请求处理人验证失败',
                         validators: {
                             notEmpty: {
-                                message: '纬度不能为空'
+                                message: '请求处理人不能为空'
+                            },
+                            stringLength: {
+                                min: 2,
+                                max: 5,
+                                message: '请求处理人长度必须在2到5位之间'
+                            },
+                            regexp: {
+                                regexp: /[u4e00-u9fa5]+$/,
+                                message: '请求处理人只能输入中文'
                             }
                         }
-                    },
-
+                    }
                 }
 
             });
@@ -210,7 +434,7 @@
                                 <label class="control-label col-lg-3" for="reqTypeGuidClass" >选择请求分类：</label>
                                 <div class="col-lg-9">
                                     <select name="reqTypeGuidClass" id="reqTypeGuidClass" class="form-control">
-                                        <option th:each="typex:${types}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" ></option>
+                                        <option th:each="typex:${type2}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" ></option>
                                     </select>
                                 </div>
                             </div>
@@ -218,11 +442,19 @@
                                 <label class="control-label col-lg-3" for="reqTypeGuidUrgency" >选择请求紧急程度：</label>
                                 <div class="col-lg-9">
                                     <select name="reqTypeGuidUrgency" id="reqTypeGuidUrgency" class="form-control">
-                                        <option th:each="typex:${typex}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}"></option>
-
+                                        <option th:each="typex:${type3}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" ></option>
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqFromWeightGuid" >选择请求权值：</label>
+                                <div class="col-lg-9">
+                                    <select name="reqFromWeightGuid" id="reqFromWeightGuid" class="form-control">
+                                        <option th:each="weightx:${weights}" th:value="${weightx.weightGuid}" th:text="${weightx.weightTitle}" ></option>
+                                    </select>
+                                </div>
+                            </div>
+
 
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqAvailableStartTime" >设定请求可用开始时间：</label>
@@ -236,10 +468,47 @@
                                     <input id="reqAvailableEndTime" name="reqAvailableEndTime" class="form_datetime form-control " type="text"  placeholder="录入请求可用结束时间" />
                                 </div>
                             </div>
+
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqRreDurationTime" >预计持续时间：</label>
                                 <div class="col-lg-9">
                                     <input id="reqRreDurationTime" name="reqRreDurationTime" type="text" class="form-control" placeholder="录入预计持续时间"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqPreCunsumeCurrency" >估计消耗货币：</label>
+                                <div class="col-lg-9">
+                                    <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqPreCunsumeCurrency" name="reqPreCunsumeCurrency" type="text" class="form-control" placeholder="格式为正整数"
+                                    /><b>元</b>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqStartTime" >设定请求服务开始时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqStartTime" name="reqStartTime" class="form_datetime form-control " type="text"  placeholder="录入请求服务开始时间"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqEndTime" >设定请求服务结束时间：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqEndTime" name="reqEndTime" class="form_datetime form-control " type="text"  placeholder="录入请求服务结束时间"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3" for="reqActualConsumeCurrency" >请求实际消耗货币：</label>
+                                <div class="col-lg-9">
+                                    <input id="reqActualConsumeCurrency" name="reqActualConsumeCurrency" type="text" class="form-control" placeholder="录入请求实际消耗货币"
+                                    /><b>元</b>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqActualDurationTime" >请求持续时间长度：</label>
+                                <div class="col-lg-9">
+                                    <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqActualDurationTime" name="reqActualDurationTime" type="text" class="form-control" placeholder="录入请求持续时间长度"
+                                    /><b>小时</b>
                                 </div>
                             </div>
                             <div class="form-group  col-lg-6">
@@ -260,8 +529,8 @@
         </div>
     </div>
     <script>
-//                var startMax = '2099-06-16 23:59:59';
-//                var endMin = '1900-06-16 23:59:59';
+        //                var startMax = '2099-06-16 23:59:59';
+        //                var endMin = '1900-06-16 23:59:59';
         var startTime = laydate.render({
             elem: '#reqAvailableStartTime',//指定元素
             type: 'datetime',
@@ -304,6 +573,46 @@
                 }
 //                this.startMax = value; //开始时间的最大值等于选定的结束时间
 
+            }
+        });
+        var startTime1 = laydate.render({
+            elem:'#reqStartTime' ,//指定元素
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            min: 0, //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59',
+            done: function (value,dates) {
+                console.log(dates);
+                endTime1.config.min={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.endMin = value; //开始时间等于结束时间的最小值
+//                endStart = value;//将结束日的初始值设定为开始日
+            }
+        });
+        var endTime1 = laydate.render({
+            elem:  '#reqEndTime' , //指定元素
+            type: 'datetime',
+            format: "yyyy-MM-dd HH:mm:ss",
+            min: 0,
+            max: '2099-06-16 23:59:59',
+            istime: true,
+            istoday: false,
+            done: function (value,dates) {
+                startTime1.config.max={
+                    year:dates.year,
+                    month:dates.month-1,//关键
+                    date: dates.date,
+                    hours: dates.hours,
+                    minutes: dates.minutes,
+                    seconds : dates.seconds
+                }
+//                this.startMax = value; //开始时间的最大值等于选定的结束时间
             }
         });
 

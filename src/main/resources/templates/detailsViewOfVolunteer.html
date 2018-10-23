@@ -11,6 +11,29 @@
         var personNumber = [[${personNumber}]];
     </script>
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#REQESTInputForm').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    resAcceptAddress:{
+                        message: '当前地址验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '当前地址不能为空'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
 </head>
 <body>
 <div class="container">

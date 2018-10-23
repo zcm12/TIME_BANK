@@ -634,17 +634,27 @@ public class UserResponseController {
 
     }
     //志愿者进行撤单操作
-    @RequestMapping(value = "/deleteRESPOND/{resGuid}")
-    public String deleteRESPOND (@PathVariable String resGuid , Respond respond, Model model) {
+    @RequestMapping(value = "/deleteRESPOND")
+    public String deleteRESPOND (String reqGuid4 , Model model) {
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
-        respond = respondMapper.selectByPrimaryKey(resGuid);
+
+        RespondExample respondExample=new RespondExample();
+        respondExample.or().andResReqGuidEqualTo(reqGuid4);
+        List<Respond> respondList=respondMapper.selectByExample(respondExample);
+        for(Respond it:respondList){
+            if(it.getResUserGuid().equals(users11.getUserGuid())){
+              it.setResTypeGuidProcessStatus("77777777-94E3-4EB7-AAD3-555555555555");
+                respondMapper.updateByPrimaryKeySelective(it);
+            }
+        }
+//        respond = respondMapper.selectByPrimaryKey(resGuid);
         //更新响应表
-        respond.setResTypeGuidProcessStatus("77777777-94e3-4eb7-aad3-555555555555");
-        respondMapper.updateByPrimaryKeySelective(respond);
+//        respond.setResTypeGuidProcessStatus("77777777-94e3-4eb7-aad3-555555555555");
+//        respondMapper.updateByPrimaryKeySelective(respond);
         return "responseOfVolunteer";
     }
 
@@ -662,11 +672,29 @@ public class UserResponseController {
         List<Respond> respondList=respondMapper.selectByExample(respondExample);
         Respond respond=respondList.get(0);
         if(respond.getResGuid().equals(message)){
-            respondMapper.deleteByPrimaryKey(message);
+            respond.setResTypeGuidProcessStatus("88888888-94E3-4EB7-AAD3-222222222222");
+            respondMapper.updateByPrimaryKey(respond);
         }
-
         return "volunteerList";
     }
 
-
+    /********************10.19添加 关于删除平台系统查看所有请求列表查看详情中的查看志愿者的删除操作**********************/
+    @RequestMapping(value = "/RESPOND1/{message}")
+    public String DeleteVolunteer1(Model model, @PathVariable String message){
+        Subject account = SecurityUtils.getSubject();
+        String message1=(String) account.getPrincipal();
+        Users users=GetCurrentUsers(message1);
+        String role=users.getUserRole();
+        model.addAttribute("role",role);
+        System.out.println(message+"++++++999999999999999999999什么的ID？");
+        RespondExample respondExample=new RespondExample();
+        respondExample.or().andResGuidEqualTo(message);
+        List<Respond> respondList=respondMapper.selectByExample(respondExample);
+        Respond respond=respondList.get(0);
+        if(respond.getResGuid().equals(message)){
+            respond.setResTypeGuidProcessStatus("88888888-94E3-4EB7-AAD3-222222222222");
+            respondMapper.updateByPrimaryKey(respond);
+        }
+        return "volunteerListByAd";
+    }
 }

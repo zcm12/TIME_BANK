@@ -328,6 +328,32 @@
                                     <!--/>-->
                                 <!--</div>-->
                             <!--</div>-->
+                            <!--10.19添加-->
+                            <div class="form-group  col-lg-6">
+                                <label class="control-label col-lg-3" for="reqAddress" >请求地址：</label>
+                                <div class="col-lg-9">
+                                    <input rows="5" id="reqAddress" name="reqAddress" class="form-control"  placeholder="请输入详细服务地址">
+                                    </input>
+                                </div>
+                            </div>
+                            <li><a th:href="@{/mybankAD}"> 点击进行定位</a></li>
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3"  >经度：</label>
+                                <div class="col-lg-9">
+                                    <input  id="jd" name="jd" class="form-control" value="经度"  >
+                                    </input>
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-6" hidden="hidden">
+                                <label class="control-label col-lg-3"  >纬度：</label>
+                                <div class="col-lg-9">
+                                    <input id="wd" name="wd" class="form-control"  value="纬度" >
+                                    </input>
+                                </div>
+                            </div>
+
+
+
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqIssueUserGuid" >请求者账户名：</label>
                                 <div class="col-lg-9">
@@ -342,13 +368,13 @@
                                     />
                                 </div>
                             </div>-->
-                            <div class="form-group  col-lg-6">
+                            <!--<div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqAddress" >请求提出地址：</label>
                                 <div class="col-lg-9">
                                     <input id="reqAddress" name="reqAddress" type="text" class="form-control" placeholder="录入请求提出地址"
                                     />
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqTitle" >请求的标题：</label>
                                 <div class="col-lg-9">

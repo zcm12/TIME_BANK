@@ -105,13 +105,28 @@ public class AdminRequestController {
 
     //代发请求界面中的 “保存”按钮  将数据插入到数据库
     @RequestMapping(value = "/createRequestByAdmin")
-    public String insertRequest(Reqest reqest, Model model,Errors errors) {
+    public String insertRequest(Reqest reqest, Model model,Errors errors, String jd,String wd) {
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
 
+        /*************10.18添加 代发请求从地图获取到经纬度并插入到数据库******/
+        System.out.println(jd);
+        System.out.println(wd);
+        if(!(jd!=null||wd!=null)){
+            return "createRequestByAdminView";
+        }
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(jd);
+        stringBuilder.append(",");
+        stringBuilder.append(wd);
+        stringBuilder.append(",");
+        stringBuilder.append(reqest.getReqAddress());
+        String add=""+stringBuilder;
+        reqest.setReqAddress(add);
+        /***************************************/
 //        if (!errors.hasErrors()) {
             String userId=users11.getUserGuid();
             //给发布的请求生成一个GUID,作为该请求的唯一标识
@@ -123,6 +138,25 @@ public class AdminRequestController {
             Users users3=users2.get(0);
             String userGuid=users3.getUserGuid();//得到用户的guid 并且插入
             reqest.setReqIssueUserGuid(userGuid);
+
+        /*************10.16代发请求之后 请求账户应该扣除估计时间币*****************/
+        double premoney=reqest.getReqPreCunsumeCurrency();
+        double userOwnCurrency = users3.getUserOwnCurrency();
+//        if (userOwnCurrency<0) {
+//            return "wrongCurrency";
+//        }
+        if (userOwnCurrency<0) {
+            return "wrongCurrency";
+        }else {
+            //如果时间币大于0，就先从用户拥有时间币中扣除估计消耗的时间币/
+            System.out.println("代发请求是否进入判断？？？？？？？？？");
+            Double newuserOwnCurrency=userOwnCurrency-premoney;
+            System.out.println("代发请求此时的时间币因该是？"+newuserOwnCurrency);
+            //将扣除后的时间币设置到用户的拥有时间币中/
+            users3.setUserOwnCurrency(newuserOwnCurrency);
+            usersMapper.updateByPrimaryKeySelective(users3);
+        }
+        /******************************/
 
 //            reqest.setReqIssueUserGuid("48abce9f-36f4-4ddb-9891-10842434a688");
             //因为是代发请求,无需审核,提出请求时间和请求发布时间可用一个(当前时间即可)
@@ -478,7 +512,7 @@ public class AdminRequestController {
 //        reqestMapper.updateByPrimaryKey(reqest);
         return "listRequestByAdminView";
     }
-    //老人进行撤单操作
+    //管理员将老人进行撤销操作
     @RequestMapping(value = "/deleteREQEST1")
     public String deleteRESPOND1 (UpdateList updateList,Model model,String reqGuid4) {
         Subject account = SecurityUtils.getSubject();
@@ -498,7 +532,8 @@ public class AdminRequestController {
         {
             for (Respond respondAfter : responds)
             {
-                respondAfter.setResTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-666666666666");
+//                respondAfter.setResTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-666666666666");
+                respondAfter.setResTypeGuidProcessStatus("77777777-94E3-4EB7-AAD3-555555555555");
                 respondMapper.updateByPrimaryKey(respondAfter);
             }
         }
@@ -542,11 +577,63 @@ public class AdminRequestController {
             //将排序信息添加到example中
             respondExample.setOrderByClause(order);
         }
+        Reqest reqest=reqestMapper.selectByPrimaryKey(reqGuid);
+        respondExample.clear();
         respondExample.or().andResReqGuidEqualTo(reqGuid);
 //        respondExample.or().andResReqGuidEqualTo();
         List<Respond> responds=respondMapper.selectByExample(respondExample);
         List<Respond> respondRecordList=new ArrayList<>();
+        /**********10.19添加和用户系统 我的需求列表 查看详情 查看志愿者 代码相同**（开始）*************/
         for(int i=offset;i< offset+limit&&i < responds.size();i++){
+            Respond respond1=responds.get(i);
+            /************10.17添加关于信用度显示****************/
+            String userResID=respond1.getResUserGuid();
+//            System.out.println("查信用度的用户是："+userResID);
+            RespondExample respondExample1 = new RespondExample();
+            respondExample1.or().andResUserGuidEqualTo(userResID);
+            List<Respond> respondList=respondMapper.selectByExample(respondExample1);
+            int credit=0;
+            int totalScore=0;
+            int count=0;
+            for (Respond res:respondList) {
+                String userResListId=res.getResUserGuid();
+                if (userResID.equals(userResListId)){
+                    if (res.getResEvaluate()!=null){
+                        totalScore+=res.getResEvaluate();
+//                        System.out.println("该用户的分数累加为："+totalScore);
+                        count++;
+//                        System.out.println("该用户在响应列表中的累加计数为："+count);
+                    }
+                }
+            }
+            if(count!=0){
+                credit=totalScore/count;
+            }
+            Users userSearch=usersMapper.selectByPrimaryKey(userResID);
+            userSearch.setUserCredit(credit);
+            usersMapper.updateByPrimaryKeySelective(userSearch);
+            respond1.setResReqStartUserAccount(credit+"");
+
+            /*******************/
+            TypeExample typeExample = new TypeExample();
+            String resUserGuid=respond1.getResUserGuid();
+            UsersExample usersExample = new UsersExample();
+            usersExample.or().andUserGuidEqualTo(resUserGuid);
+            List<Users> users = usersMapper.selectByExample(usersExample);
+            respond1.setResUserGuid(users.get(0).getUserAccount());
+            String resTypeGuidProcessStatus=respond1.getResTypeGuidProcessStatus();
+            typeExample.clear();
+            typeExample.or().andTypeGuidEqualTo(resTypeGuidProcessStatus);
+            List<Type> types = typeMapper.selectByExample(typeExample);
+            respond1.setResTypeGuidProcessStatus(types.get(0).getTypeTitle());
+            respond1.setResReqTitle(reqest.getReqTitle());
+            respondRecordList.add(respond1);
+
+        }
+        /*************10.19添加修改（结尾）****************/
+
+        /***10.19添加修改 一下代码为注释掉的原始代码**/
+/*        for(int i=offset;i< offset+limit&&i < responds.size();i++){
             Respond respond1=responds.get(i);
             TypeExample typeExample = new TypeExample();
             String resUserGuid=respond1.getResUserGuid();
@@ -559,9 +646,16 @@ public class AdminRequestController {
             typeExample.or().andTypeGuidEqualTo(resTypeGuidProcessStatus);
             List<Type> types = typeMapper.selectByExample(typeExample);
             respond1.setResTypeGuidProcessStatus(types.get(0).getTypeTitle());
-            respondRecordList.add(respond1);
 
-        }
+            *//****10.19添加**//*
+            String resReqGuid=respond1.getResReqGuid();
+            ReqestExample reqestExample=new ReqestExample();
+            reqestExample.or().andReqGuidEqualTo(resReqGuid);
+            List<Reqest> reqests=reqestMapper.selectByExample(reqestExample);
+            Reqest reqest=reqests.get(0);
+            respond1.setResReqTitle(reqest.getReqTitle());
+            respondRecordList.add(respond1);
+        }*/
         //全部符合要求的数据的数量
         int total=responds.size();
         //将所得集合打包
@@ -934,20 +1028,20 @@ public class AdminRequestController {
           reqest.setReqTypeGuidUrgency(type3.getTypeTitle());
 
           //请求权值
-//          String weight=reqest.getReqFromWeightGuid();
-//          WeightExample weightExample=new WeightExample();
-//          weightExample.or().andWeightGuidEqualTo(weight);
-//          List<Weight> weights=weightMapper.selectByExample(weightExample);
-//          Weight weight1=weights.get(0);
-//          reqest.setReqFromWeightGuid(weight1.getWeightTitle());
+          String weight=reqest.getReqFromWeightGuid();
+          WeightExample weightExample=new WeightExample();
+          weightExample.or().andWeightGuidEqualTo(weight);
+          List<Weight> weights=weightMapper.selectByExample(weightExample);
+          Weight weight1=weights.get(0);
+          reqest.setReqFromWeightGuid(weight1.getWeightTitle());
 
           //请求处理人
-//          String processUserId=reqest.getReqProcessUserGuid();
-//          UsersExample usersExample12=new UsersExample();
-//          usersExample1.or().andUserGuidEqualTo(processUserId);
-//          List<Users> processuser =usersMapper.selectByExample(usersExample1);
-//          Users users4 =processuser.get(0);
-//          reqest.setReqProcessUserGuid(users4.getUserAccount());
+          String processUserId=reqest.getReqProcessUserGuid();
+          UsersExample usersExample12=new UsersExample();
+          usersExample1.or().andUserGuidEqualTo(processUserId);
+          List<Users> processuser =usersMapper.selectByExample(usersExample1);
+          Users users4 =processuser.get(0);
+          reqest.setReqProcessUserGuid(users4.getUserAccount());
 
       }
 

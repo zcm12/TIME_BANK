@@ -122,6 +122,34 @@ public class userController {
             System.out.println(d);
         }
 
+
+        /************10.17添加关于信用度显示****************/
+        String userResID=users1.getUserGuid();
+        //            System.out.println("查信用度的用户是："+userResID);
+        RespondExample respondExample1 = new RespondExample();
+        respondExample1.or().andResUserGuidEqualTo(userResID);
+        List<Respond> respondList=respondMapper.selectByExample(respondExample1);
+        int credit=0;
+        int totalScore=0;
+        int count=0;
+        for (Respond res:respondList) {
+            String userResListId=res.getResUserGuid();
+            if (userResID.equals(userResListId)){
+                if (res.getResEvaluate()!=null){
+                    totalScore+=res.getResEvaluate();
+//                        System.out.println("该用户的分数累加为："+totalScore);
+                    count++;
+//                        System.out.println("该用户在响应列表中的累加计数为："+count);
+                }
+            }
+        }
+        if(count!=0){
+            credit=totalScore/count;
+        }
+        Users userSearch=usersMapper.selectByPrimaryKey(userResID);
+        userSearch.setUserCredit(credit);
+        usersMapper.updateByPrimaryKeySelective(userSearch);
+        /*******************/
         model.addAttribute("users",users1);
 
         return "userInformation";
@@ -1029,6 +1057,32 @@ public class userController {
         }
         if(num==num2){//如果用户没有被删除并且已评完分数/
             reqest.setReqTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-777777777777");//已评价
+            /**********************************10.18添加关于信用度显示****************/
+            String userResID=thisPerson1;
+//            System.out.println("查信用度的用户是："+userResID);
+            RespondExample respondExample33 = new RespondExample();
+            respondExample33.or().andResUserGuidEqualTo(userResID);
+            List<Respond> respondList33=respondMapper.selectByExample(respondExample33);
+            int credit=0;
+            int totalScore=0;
+            int count=0;
+            for (Respond res:respondList33) {
+                String userResListId=res.getResUserGuid();
+                if (userResID.equals(userResListId)){
+                    if (res.getResEvaluate()!=null){
+                        totalScore+=res.getResEvaluate();
+                        count++;
+                    }
+                }
+            }
+            if(count!=0){
+                credit=totalScore/count;
+            }
+            Users userSearch=usersMapper.selectByPrimaryKey(userResID);
+            userSearch.setUserCredit(credit);
+            usersMapper.updateByPrimaryKeySelective(userSearch);
+            /***********************************************************/
+
             reqestMapper.updateByPrimaryKeySelective(reqest);
             return "scoreForVolunteerOver";
         }

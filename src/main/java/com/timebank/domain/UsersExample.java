@@ -2071,6 +2071,66 @@ public class UsersExample {
             addCriterion("USER_TRANS_PASSWORD not between", value1, value2, "userTransPassword");
             return (Criteria) this;
         }
+
+        public Criteria andUserCreditIsNull() {
+            addCriterion("USER_CREDIT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCreditIsNotNull() {
+            addCriterion("USER_CREDIT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCreditEqualTo(Integer value) {
+            addCriterion("USER_CREDIT =", value, "userCredit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCreditNotEqualTo(Integer value) {
+            addCriterion("USER_CREDIT <>", value, "userCredit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCreditGreaterThan(Integer value) {
+            addCriterion("USER_CREDIT >", value, "userCredit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCreditGreaterThanOrEqualTo(Integer value) {
+            addCriterion("USER_CREDIT >=", value, "userCredit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCreditLessThan(Integer value) {
+            addCriterion("USER_CREDIT <", value, "userCredit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCreditLessThanOrEqualTo(Integer value) {
+            addCriterion("USER_CREDIT <=", value, "userCredit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCreditIn(List<Integer> values) {
+            addCriterion("USER_CREDIT in", values, "userCredit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCreditNotIn(List<Integer> values) {
+            addCriterion("USER_CREDIT not in", values, "userCredit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCreditBetween(Integer value1, Integer value2) {
+            addCriterion("USER_CREDIT between", value1, value2, "userCredit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserCreditNotBetween(Integer value1, Integer value2) {
+            addCriterion("USER_CREDIT not between", value1, value2, "userCredit");
+            return (Criteria) this;
+        }
     }
 
     /**

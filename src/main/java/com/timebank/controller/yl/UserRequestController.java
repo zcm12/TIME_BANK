@@ -34,6 +34,8 @@ public class UserRequestController {
     @Autowired
     private UsersMapper usersMapper;
     @Autowired
+    private WeightMapper weightMapper;
+    @Autowired
     private CommunityMapper communityMapper;
 
     // 请求的guid
@@ -82,6 +84,7 @@ public class UserRequestController {
         typeExample.or().andTypeGroupIdEqualTo(5);
         List<Type> typex = typeMapper.selectByExample(typeExample);
         model.addAttribute("typex",typex);
+            insertReqType(model,true);
         //判断是否只有一条请求正在处理
             int flag=1;
             String GUID=users1.getUserGuid();
@@ -133,6 +136,42 @@ public class UserRequestController {
         }
 
     }
+
+    private TypeExample insertReqType(Model model,boolean showProAndAppStatus) {
+        TypeExample typeExample = new TypeExample();
+        if (showProAndAppStatus) {
+            //请求处理状态
+            typeExample.or().andTypeGroupIdEqualTo(3);
+            List<Type> type1 = typeMapper.selectByExample(typeExample);
+            model.addAttribute("type1", type1);
+
+            typeExample.clear();
+            //请求批准状态
+            typeExample.or().andTypeGroupIdEqualTo(8);
+            List<Type> type4 = typeMapper.selectByExample(typeExample);
+            model.addAttribute("type4", type4);
+        }
+        typeExample.clear();
+        //请求分类
+        typeExample.or().andTypeGroupIdEqualTo(4);
+        List<Type> type2 = typeMapper.selectByExample(typeExample);
+        model.addAttribute("type2", type2);
+
+        typeExample.clear();
+        //请求紧急程度
+        typeExample.or().andTypeGroupIdEqualTo(5);
+        List<Type> type3 = typeMapper.selectByExample(typeExample);
+        model.addAttribute("type3", type3);
+
+        //请求权重
+        WeightExample weightExample = new WeightExample();
+        List<Weight> weights = weightMapper.selectByExample(weightExample);
+        model.addAttribute("weights", weights);
+
+        return typeExample;
+    }
+
+
     //发布需求保存按钮
     @RequestMapping(value = "/applySubmit")
     public String applySubmit(Reqest reqest, Model model,String jd,String wd)
@@ -163,9 +202,23 @@ public class UserRequestController {
         Type type1 = typeMapper.selectByPrimaryKey("33333333-94e3-4eb7-aad3-111111111111");
         reqest.setReqTypeGuidProcessStatus(type1.getTypeGuid());
 
-        double userOwnCurrency = users1.getUserOwnCurrency();
+        //从前端获取 估计消耗的时间币/
+        Users users2=usersMapper.selectByPrimaryKey(users1.getUserGuid());
+        double premoney=reqest.getReqPreCunsumeCurrency();
+        double userOwnCurrency = users2.getUserOwnCurrency();
+//        double userOwnCurrency = users1.getUserOwnCurrency();
         if (userOwnCurrency<0) {
             return "wrongCurrency";
+        }else {
+            //如果时间币大于0，就先从用户拥有时间币中扣除估计消耗的时间币/
+//            System.out.println("是否进入判断？？？？？？？？？");
+            Double newuserOwnCurrency=userOwnCurrency-premoney;
+//            System.out.println("此时的时间币因该是？"+newuserOwnCurrency);
+            //将扣除后的时间币设置到用户的拥有时间币中/
+            users2.setUserOwnCurrency(newuserOwnCurrency);
+            usersMapper.updateByPrimaryKeySelective(users2);
+
+
         }
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(jd);
@@ -512,14 +565,12 @@ public class UserRequestController {
 
         return "listRequestModel";
     }
-///*********************/
-//查看我的需求中的查看详情
-@RequestMapping(value = "/listREQESTModel22/{reqGuid}")
-    public String listREQESTModel22 (@PathVariable String reqGuid , UpdateList updateList, Model model) {
+        ///********10.19添加修改*************/
+        //查看我的服务列表中的查看详情
+        @RequestMapping(value = "/listREQESTModel22/{reqGuid}")
+        public String listREQESTModel22 (@PathVariable String reqGuid , UpdateList updateList, Model model) {
         System.out.println("这是查看详情11");
 
-//    updateRequestGuid = reqGuid;
-//    model.addAttribute("reqGuid",reqGuid);
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
@@ -561,134 +612,58 @@ public class UserRequestController {
             //reqest.setReqTypeApproveStatus(types2.get(0).getTypeTitle());
             reqest.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
         }
-        //TODO 请求批准状态为待审核
+//        //TODO 请求批准状态为待审核
         if (approveId.equals("88888888-94E3-4EB7-AAD3-333333333333") )
         {
             System.out.println("逻辑判断请求批准状态为待审核");
-            updateList.setUpdateId(0);
-            updateList.setDeletaId(1);
-            updateList.setStartId(0);
-            updateList.setViewVolId(0);
-            updateList.setFinishId(0);
-            updateList.setUnFinishId(0);
-            updateList.setWaitId(0);
-            updateList.setEvaluateId(0);
+            updateList.setDeletaId(0);
             model.addAttribute("updateList",updateList);
         }else if(approveId.equals("88888888-94E3-4EB7-AAD3-222222222222"))
         {
             System.out.println("逻辑判断请求批准状态为驳回");
             //TODO 请求批准状态为驳回
-            updateList.setUpdateId(0);
-            updateList.setDeletaId(1);
-            updateList.setStartId(0);
-            updateList.setViewVolId(0);
-            updateList.setFinishId(0);
-            updateList.setUnFinishId(0);
-            updateList.setWaitId(0);
-            updateList.setEvaluateId(0);
+            updateList.setDeletaId(0);
             model.addAttribute("updateList",updateList);
-        }else if (approveId.equals("88888888-94E3-4EB7-AAD3-111111111111"))
+        }else
+          if (approveId.equals("88888888-94E3-4EB7-AAD3-111111111111"))
         {
-//            System.out.println("逻辑判断请求批准状态为通过");
-//            //TODO 请求批准状态为通过
-//            updateList.setUpdateId(1);
-//            updateList.setDeletaId(1);
-//            updateList.setStartId(0);
-//            updateList.setViewVolId(0);
-//            updateList.setFinishId(0);
-//            updateList.setUnFinishId(0);
-//            updateList.setWaitId(1);
-//            updateList.setEvaluateId(0);
-//            model.addAttribute("updateList",updateList);
-//        }
-//        else {
             if (processId.equals("33333333-94E3-4EB7-AAD3-666666666666"))
             {
                 System.out.println("逻辑判断请求处理状态为撤销");
                 //TODO 请求处理状态为撤销
-                updateList.setUpdateId(0);
                 updateList.setDeletaId(0);
-                updateList.setStartId(0);
-                updateList.setViewVolId(1);
-                updateList.setFinishId(0);
-                updateList.setUnFinishId(0);
-                updateList.setWaitId(0);
-                updateList.setEvaluateId(0);
                 model.addAttribute("updateList",updateList);
             }else if (processId.equals("33333333-94E3-4EB7-AAD3-111111111111")){
                 System.out.println("逻辑判断请求处理状态为未启动");
                 //TODO 请求处理状态为未启动
-                updateList.setUpdateId(1);//更新
-                updateList.setDeletaId(1);//撤销
-                updateList.setStartId(0);//启动
-                updateList.setViewVolId(0);//查看志愿者
-                updateList.setFinishId(0);//完成
-                updateList.setUnFinishId(0);//未完成
-                updateList.setWaitId(1);//待启动
-                updateList.setEvaluateId(0);//评价
+                updateList.setDeletaId(0);//撤销
                 model.addAttribute("updateList",updateList);
             }else if (processId.equals("33333333-94E3-4EB7-AAD3-222222222222")){
                 System.out.println("逻辑判断请求处理状态为待启动");
                 //TODO 请求处理状态为待启动
-                updateList.setUpdateId(1);
                 updateList.setDeletaId(1);
-                updateList.setStartId(1);
-                updateList.setViewVolId(1);
-                updateList.setFinishId(0);
-                updateList.setUnFinishId(0);
-                updateList.setWaitId(0);
-                updateList.setEvaluateId(0);
                 model.addAttribute("updateList",updateList);
             }else if (processId.equals("33333333-94E3-4EB7-AAD3-333333333333")) {
                 //TODO 请求处理状态为启动
-                updateList.setUpdateId(0);
-                updateList.setDeletaId(1);
-                updateList.setStartId(0);
-                updateList.setViewVolId(1);
-                updateList.setFinishId(1);
-                updateList.setUnFinishId(1);
-                updateList.setWaitId(0);
-                updateList.setEvaluateId(0);
+                updateList.setDeletaId(0);
                 model.addAttribute("updateList",updateList);
 
             }  else if (processId.equals("33333333-94E3-4EB7-AAD3-555555555555")) {
                 //TODO 请求处理状态为未完成
-                updateList.setUpdateId(0);
-                updateList.setDeletaId(1);
-                updateList.setStartId(0);
-                updateList.setViewVolId(1);
-                updateList.setFinishId(1);
-                updateList.setUnFinishId(0);
-                updateList.setWaitId(0);
-                updateList.setEvaluateId(0);
+                updateList.setDeletaId(0);
                 model.addAttribute("updateList",updateList);
             }else if (processId.equals("33333333-94E3-4EB7-AAD3-444444444444")) {
                 //TODO 请求处理状态为已完成
-                updateList.setUpdateId(0);
-                updateList.setDeletaId(1);
-                updateList.setStartId(0);
-                updateList.setViewVolId(1);
-                updateList.setFinishId(0);
-                updateList.setUnFinishId(0);
-                updateList.setWaitId(0);
-                updateList.setEvaluateId(1);
+                updateList.setDeletaId(0);
                 model.addAttribute("updateList",updateList);
             }
             else if (processId.equals("33333333-94E3-4EB7-AAD3-777777777777")) {
                 //TODO 请求处理状态为已完成未评价
-                updateList.setUpdateId(0);
-                updateList.setDeletaId(1);
-                updateList.setStartId(0);
-                updateList.setViewVolId(1);
-                updateList.setFinishId(0);
-                updateList.setUnFinishId(0);
-                updateList.setWaitId(0);
-                updateList.setEvaluateId(1);
+                updateList.setDeletaId(0);
                 model.addAttribute("updateList",updateList);
             }
         }
         model.addAttribute("reqest",reqest);
-
         return "listRequestModel22";
     }
 //    /*********************/
@@ -756,7 +731,8 @@ public class UserRequestController {
         {
             for (Respond respondAfter : responds)
             {
-                respondAfter.setResTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-666666666666");
+//                respondAfter.setResTypeGuidProcessStatus("33333333-94E3-4EB7-AAD3-666666666666");
+                respondAfter.setResTypeGuidProcessStatus("77777777-94E3-4EB7-AAD3-555555555555");
                 respondMapper.updateByPrimaryKey(respondAfter);
             }
         }
@@ -813,9 +789,37 @@ public class UserRequestController {
 //            it.getResTypeGuidProcessStatus().equals("88888888-94e3-4eb7-aad3-222222222222");
 //        }
 
-
         for(int i=offset;i< offset+limit&&i < responds.size();i++){
             Respond respond1=responds.get(i);
+            /************10.17添加关于信用度显示****************/
+            String userResID=respond1.getResUserGuid();
+//            System.out.println("查信用度的用户是："+userResID);
+            RespondExample respondExample1 = new RespondExample();
+            respondExample1.or().andResUserGuidEqualTo(userResID);
+            List<Respond> respondList=respondMapper.selectByExample(respondExample1);
+            int credit=0;
+            int totalScore=0;
+            int count=0;
+            for (Respond res:respondList) {
+                String userResListId=res.getResUserGuid();
+                if (userResID.equals(userResListId)){
+                    if (res.getResEvaluate()!=null){
+                        totalScore+=res.getResEvaluate();
+//                        System.out.println("该用户的分数累加为："+totalScore);
+                        count++;
+//                        System.out.println("该用户在响应列表中的累加计数为："+count);
+                    }
+                }
+            }
+            if(count!=0){
+                credit=totalScore/count;
+            }
+            Users userSearch=usersMapper.selectByPrimaryKey(userResID);
+            userSearch.setUserCredit(credit);
+            usersMapper.updateByPrimaryKeySelective(userSearch);
+            respond1.setResReqStartUserAccount(credit+"");
+
+            /*******************/
             TypeExample typeExample = new TypeExample();
             String resUserGuid=respond1.getResUserGuid();
             UsersExample usersExample = new UsersExample();
@@ -1026,6 +1030,31 @@ public class UserRequestController {
             List<Type> types2 = typeMapper.selectByExample(typeExample);
             reqest.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
             //reqest1.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
+            /**********************10.15完成状态下时间币的处理情况*******************************/
+            List<Users> userListreq=new ArrayList<>();
+
+            RespondExample respondExample=new RespondExample();
+            respondExample.or().andResReqGuidEqualTo(reqest.getReqGuid());
+            List<Respond> responds=respondMapper.selectByExample(respondExample);
+            int totalNum=0;
+            for (Respond respond:responds) {
+                Users users3=usersMapper.selectByPrimaryKey(respond.getResUserGuid());
+                userListreq.add(users3);
+                totalNum++;
+            }
+            Double totalMoney=reqest.getReqPreCunsumeCurrency();
+            Double shouldDeMoney=totalMoney/totalNum;
+//            System.out.println("应该分的时间币是多少："+shouldDeMoney);
+            for (Users user4:userListreq) {
+//                System.out.println("平分时间币的用户是谁？？？"+user4.getUserAccount());
+                double didMoney=user4.getUserOwnCurrency();
+//                System.out.println("该用户之前前的时间币时："+didMoney);
+                Double newMoney=didMoney+shouldDeMoney;
+//                System.out.println("应该重新添加的时间币是多少："+newMoney);
+                user4.setUserOwnCurrency(newMoney);
+                usersMapper.updateByPrimaryKeySelective(user4);
+            }
+/**********************************************************/
         }
         model.addAttribute("reqest",reqest);
         //TODO 点击已完成按钮之后
@@ -1071,6 +1100,18 @@ public class UserRequestController {
             typeExample.or().andTypeGuidEqualTo(approveId);
             List<Type> types2 = typeMapper.selectByExample(typeExample);
             reqest.setReqTypeApproveStatus(types2.get(0).getTypeTitle());
+
+            /**********************10.15添加关于未完成状态下关于时间币的返回**********************/
+            String reqIssueUserID=reqest.getReqIssueUserGuid();
+            double preTimeMoney=reqest.getReqPreCunsumeCurrency();
+//            System.out.println("未完成状态下获取估计的时间币："+preTimeMoney);
+            Users users1=usersMapper.selectByPrimaryKey(reqIssueUserID);
+            double userOwnMoney=users1.getUserOwnCurrency();
+            double newUserOwnMoney=0.0;
+            newUserOwnMoney=userOwnMoney+preTimeMoney;
+            users1.setUserOwnCurrency(newUserOwnMoney);
+            usersMapper.updateByPrimaryKeySelective(users1);
+
             //reqest1.setReqTypeGuidProcessStatus(types2.get(0).getTypeTitle());
         }
         //处理请求批准状态

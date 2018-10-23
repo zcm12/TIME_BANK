@@ -28,6 +28,9 @@ public class YluserController {
     private TypeMapper typeMapper;
     @Autowired
     private CommunityMapper communityMapper;
+
+    @Autowired
+    private WeightMapper weightMapper;
     @Autowired
     private ReqestMapper reqestMapper;
     private Users GetCurrentUsers(String message){
@@ -233,6 +236,22 @@ public class YluserController {
 
         return "demo_map1";
     }
+
+    /*******************平台管理员代发请求获取地图*********************/
+    @RequestMapping(value = "/mybankAD")
+    public String demomappAD(Model model) {
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users1=GetCurrentUsers(message);
+        String role=users1.getUserRole();
+        model.addAttribute("role",role);
+        System.out.println(users1.getUserGuid());
+        model.addAttribute("guid",users1.getUserGuid());
+
+        return "demo_map1admin";
+    }
+
+
     //将经纬度提交到后台
    @RequestMapping(value = "/aass")
     public String SDAS(String jd,String wd,String cityName,String Guid,Model  model){
@@ -253,16 +272,82 @@ public class YluserController {
        model.addAttribute("address",parts[2]);
        model.addAttribute("jd",parts[0]);
        model.addAttribute("wd",parts[1]);
-       TypeExample typeExample = new TypeExample();
-       typeExample.or().andTypeGroupIdEqualTo(4);
-       List<Type> types = typeMapper.selectByExample(typeExample);
-       model.addAttribute("types",types);
-       //选择请求紧急程度
-       typeExample.clear();
-       typeExample.or().andTypeGroupIdEqualTo(5);
-       List<Type> typex = typeMapper.selectByExample(typeExample);
-       model.addAttribute("typex",typex);
+//       TypeExample typeExample = new TypeExample();
+//       typeExample.or().andTypeGroupIdEqualTo(4);
+//       List<Type> types = typeMapper.selectByExample(typeExample);
+//       model.addAttribute("types",types);
+//       //选择请求紧急程度
+//       typeExample.clear();
+//       typeExample.or().andTypeGroupIdEqualTo(5);
+//       List<Type> typex = typeMapper.selectByExample(typeExample);
+//       model.addAttribute("typex",typex);
+       //插入type和weight
+       insertReqType(model,true);
+
         return  "apply";
     }
 
+
+    @RequestMapping(value = "/createRequestByAdminViewAS")
+    public String createRequestByAdminView(String jd,String wd,String cityName,String Guid,Model model) {
+//        public String createRequestByAdminView(Model model) {
+        Subject account = SecurityUtils.getSubject();
+        String message=(String) account.getPrincipal();
+        Users users11=GetCurrentUsers(message);
+        String role=users11.getUserRole();
+        model.addAttribute("role",role);
+
+
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(jd);
+        stringBuilder.append(",");
+        stringBuilder.append(wd);
+        stringBuilder.append(",");
+        stringBuilder.append(cityName);
+        System.out.println("拼接完成："+stringBuilder);
+        String address=""+stringBuilder;
+        String[] parts = address.split(",");
+        model.addAttribute("address",parts[2]);
+        model.addAttribute("jd",parts[0]);
+        model.addAttribute("wd",parts[1]);
+
+
+        //插入type和weight
+        insertReqType(model,true);
+        return "createRequestByAdminView";
+    }
+
+    private TypeExample insertReqType(Model model,boolean showProAndAppStatus) {
+        TypeExample typeExample = new TypeExample();
+        if (showProAndAppStatus) {
+            //请求处理状态
+            typeExample.or().andTypeGroupIdEqualTo(3);
+            List<Type> type1 = typeMapper.selectByExample(typeExample);
+            model.addAttribute("type1", type1);
+
+            typeExample.clear();
+            //请求批准状态
+            typeExample.or().andTypeGroupIdEqualTo(8);
+            List<Type> type4 = typeMapper.selectByExample(typeExample);
+            model.addAttribute("type4", type4);
+        }
+        typeExample.clear();
+        //请求分类
+        typeExample.or().andTypeGroupIdEqualTo(4);
+        List<Type> type2 = typeMapper.selectByExample(typeExample);
+        model.addAttribute("type2", type2);
+
+        typeExample.clear();
+        //请求紧急程度
+        typeExample.or().andTypeGroupIdEqualTo(5);
+        List<Type> type3 = typeMapper.selectByExample(typeExample);
+        model.addAttribute("type3", type3);
+
+        //请求权重
+        WeightExample weightExample = new WeightExample();
+        List<Weight> weights = weightMapper.selectByExample(weightExample);
+        model.addAttribute("weights", weights);
+
+        return typeExample;
+    }
 }

@@ -33,6 +33,7 @@
     <result column="USER_CURRENTADDR" jdbcType="NVARCHAR" property="userCurrentaddr" />
     <result column="USER_AVATAR" jdbcType="NVARCHAR" property="userAvatar" />
     <result column="USER_TRANS_PASSWORD" jdbcType="INTEGER" property="userTransPassword" />
+    <result column="USER_CREDIT" jdbcType="INTEGER" property="userCredit" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -109,7 +110,8 @@
     USER_TYPE_ACCOUNT_STATUS, USER_SALT, USER_OWN_CURRENCY, USER_PRE_CONSUME_CURRENCY, 
     USER_ADDRESS, USER_PROVINCE, USER_CITY, USER_DISTRICT, USER_COORDINATE, USER_COMM_GUID, 
     USER_ROLE, USER_IDNUM, USER_PHONE, USER_MAIL, USER_EMERCONTACT, USER_EMERPERSON, 
-    USER_BIRTHDATE, USER_IDIMAGE, USER_CURRENTADDR, USER_AVATAR, USER_TRANS_PASSWORD
+    USER_BIRTHDATE, USER_IDIMAGE, USER_CURRENTADDR, USER_AVATAR, USER_TRANS_PASSWORD, 
+    USER_CREDIT
   </sql>
   <select id="selectByExample" parameterType="com.timebank.domain.UsersExample" resultMap="BaseResultMap">
     <!--
@@ -170,8 +172,8 @@
       USER_COMM_GUID, USER_ROLE, USER_IDNUM, 
       USER_PHONE, USER_MAIL, USER_EMERCONTACT, 
       USER_EMERPERSON, USER_BIRTHDATE, USER_IDIMAGE, 
-      USER_CURRENTADDR, USER_AVATAR, USER_TRANS_PASSWORD
-      )
+      USER_CURRENTADDR, USER_AVATAR, USER_TRANS_PASSWORD, 
+      USER_CREDIT)
     values (#{userGuid,jdbcType=CHAR}, #{userName,jdbcType=NVARCHAR}, #{userAccount,jdbcType=NVARCHAR}, 
       #{userPassword,jdbcType=NVARCHAR}, #{userFromRoleGuid,jdbcType=CHAR}, #{userTypeGuidGender,jdbcType=CHAR}, 
       #{userTypeAccountStatus,jdbcType=CHAR}, #{userSalt,jdbcType=NVARCHAR}, #{userOwnCurrency,jdbcType=DOUBLE}, 
@@ -180,8 +182,8 @@
       #{userCommGuid,jdbcType=CHAR}, #{userRole,jdbcType=NVARCHAR}, #{userIdnum,jdbcType=NVARCHAR}, 
       #{userPhone,jdbcType=NVARCHAR}, #{userMail,jdbcType=NVARCHAR}, #{userEmercontact,jdbcType=NVARCHAR}, 
       #{userEmerperson,jdbcType=NVARCHAR}, #{userBirthdate,jdbcType=DATE}, #{userIdimage,jdbcType=NVARCHAR}, 
-      #{userCurrentaddr,jdbcType=NVARCHAR}, #{userAvatar,jdbcType=NVARCHAR}, #{userTransPassword,jdbcType=INTEGER}
-      )
+      #{userCurrentaddr,jdbcType=NVARCHAR}, #{userAvatar,jdbcType=NVARCHAR}, #{userTransPassword,jdbcType=INTEGER}, 
+      #{userCredit,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.timebank.domain.Users">
     <!--
@@ -271,6 +273,9 @@
       <if test="userTransPassword != null">
         USER_TRANS_PASSWORD,
       </if>
+      <if test="userCredit != null">
+        USER_CREDIT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userGuid != null">
@@ -353,6 +358,9 @@
       </if>
       <if test="userTransPassword != null">
         #{userTransPassword,jdbcType=INTEGER},
+      </if>
+      <if test="userCredit != null">
+        #{userCredit,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -454,6 +462,9 @@
       <if test="record.userTransPassword != null">
         USER_TRANS_PASSWORD = #{record.userTransPassword,jdbcType=INTEGER},
       </if>
+      <if test="record.userCredit != null">
+        USER_CREDIT = #{record.userCredit,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -491,7 +502,8 @@
       USER_IDIMAGE = #{record.userIdimage,jdbcType=NVARCHAR},
       USER_CURRENTADDR = #{record.userCurrentaddr,jdbcType=NVARCHAR},
       USER_AVATAR = #{record.userAvatar,jdbcType=NVARCHAR},
-      USER_TRANS_PASSWORD = #{record.userTransPassword,jdbcType=INTEGER}
+      USER_TRANS_PASSWORD = #{record.userTransPassword,jdbcType=INTEGER},
+      USER_CREDIT = #{record.userCredit,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -581,6 +593,9 @@
       <if test="userTransPassword != null">
         USER_TRANS_PASSWORD = #{userTransPassword,jdbcType=INTEGER},
       </if>
+      <if test="userCredit != null">
+        USER_CREDIT = #{userCredit,jdbcType=INTEGER},
+      </if>
     </set>
     where USER_GUID = #{userGuid,jdbcType=CHAR}
   </update>
@@ -615,7 +630,8 @@
       USER_IDIMAGE = #{userIdimage,jdbcType=NVARCHAR},
       USER_CURRENTADDR = #{userCurrentaddr,jdbcType=NVARCHAR},
       USER_AVATAR = #{userAvatar,jdbcType=NVARCHAR},
-      USER_TRANS_PASSWORD = #{userTransPassword,jdbcType=INTEGER}
+      USER_TRANS_PASSWORD = #{userTransPassword,jdbcType=INTEGER},
+      USER_CREDIT = #{userCredit,jdbcType=INTEGER}
     where USER_GUID = #{userGuid,jdbcType=CHAR}
   </update>
 </mapper>
