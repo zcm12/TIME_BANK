@@ -73,8 +73,26 @@ public class MainController {
     //登录界面
     @RequestMapping(value = "/")
     public String index() {
+        return "index1";
+    }
+
+
+    @RequestMapping(value = "/index1")
+    public String index1(){
+            return "index1";
+    }
+
+    @RequestMapping(value = "/css/login")
+    public String inde() {
         return "index";
     }
+    @RequestMapping(value = "/css/register")
+    public String regist() {
+        return "register";
+    }
+
+
+
     /**
      * 用户的登录功能
      */
