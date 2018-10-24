@@ -179,22 +179,25 @@ public class AppUserRequestController {
 
         ReqestExample reqestExample = new ReqestExample();
         reqestExample.or().andReqIssueUserGuidEqualTo(userID);
-        List<Reqest> reqests = reqestMapper.selectByExample(reqestExample);
+        List<Reqest> reqests = reqestMapper.selectByExample(reqestExample);//当前用户的我的需求列表
         List<Reqest> reqestRecordList = new ArrayList<>();
         for (int i = 0; i < reqests.size(); i++) {
-            Reqest reqest1 = reqests.get(i);
+            Reqest reqest1 = reqests.get(i);//当前用户-我的需求的某条记录
             TypeExample typeExample = new TypeExample();
+            //处理请求分类
             String reqTypeGuidClass = reqest1.getReqTypeGuidClass();
+            //获得当前需求的类别reqTypeGuidClass在数据库中的存储为GUID类型的，并不是文字
             typeExample.clear();
             typeExample.or().andTypeGuidEqualTo(reqTypeGuidClass);
-            List<Type> types = typeMapper.selectByExample(typeExample);
-            reqest1.setReqTypeGuidClass(types.get(0).getTypeTitle());
+            List<Type> types = typeMapper.selectByExample(typeExample);//获得所有我的需求的分类
+            reqest1.setReqTypeGuidClass(types.get(0).getTypeTitle());//显示给用户的请求类别为文字，将当前需求的类别设置为汉字
+            //处理请求的紧急程度
             String reqTypeGuidUrgency = reqest1.getReqTypeGuidUrgency();
             typeExample.clear();
             typeExample.or().andTypeGuidEqualTo(reqTypeGuidUrgency);
             List<Type> types1 = typeMapper.selectByExample(typeExample);
             reqest1.setReqTypeGuidUrgency(types1.get(0).getTypeTitle());
-            //处理请求处理状态
+            //处理请求的处理状态
             String approveId = reqest1.getReqTypeApproveStatus();
             if (approveId != null) {
                 typeExample.clear();
@@ -213,6 +216,7 @@ public class AppUserRequestController {
             reqestRecordList.add(reqest1);
         }
 
+        //List集合中的sort()方法可根据元素的自然顺序对指定列表按升序进行排序。
         if (reqestRecordList.size() != 0) {
             /*根据发布时间排序*/
             reqestRecordList.sort((o1, o2) -> {
@@ -225,7 +229,8 @@ public class AppUserRequestController {
             System.out.println("发布时间："+reqIssueTime);
         }
         //全部符合要求的数据的数量
-        int total = reqests.size();
+//        int total = reqests.size();
+        int total = reqestRecordList.size();
         //将所得集合打包
         ObjectMapper mapper = new ObjectMapper();
         TableRecordsJson tableRecordsJson = new TableRecordsJson(reqestRecordList, total);

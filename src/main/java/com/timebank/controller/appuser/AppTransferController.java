@@ -310,29 +310,32 @@ public class AppTransferController {
     @Transactional(propagation = Propagation.REQUIRED)
     public ResultModel appInsertTransfer(TransferApp transferApp, String userTransPassword) {
 
+        //获得当前用户users1
         Subject account = SecurityUtils.getSubject();
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
         List<Users> users = usersMapper.selectByExample(usersExample);
         Users users1 = users.get(0);
 
+        //获得对方账户、转账货币、备注
         String transToUserAccount = transferApp.getTransToUserAccount();
         String currency = transferApp.getTransCurrency();
         String transDesp = transferApp.getTransDesp();
 
+        //获得users1的支付密码
         Integer userTransPassword1 = users1.getUserTransPassword();
-        System.out.println("userTransPassword:" + userTransPassword);
-        System.out.println("userTransPassword1:" + userTransPassword1);
+        System.out.println("userTransPassword:" + userTransPassword);//userTransPassword是用户传入的密码
+        System.out.println("userTransPassword1:" + userTransPassword1);//userTransPassword1是用户真正的密码
         if (!userTransPassword.equals(String.valueOf(userTransPassword1))) {
             return new ResultModel(12, "密码错误，请重新输入");
         }
 
-        double transCurrency = Double.parseDouble(currency);
-        double userOwnCurrency = users1.getUserOwnCurrency();
+        double transCurrency = Double.parseDouble(currency);//将String类型的要转账的时间币转为double类型
+        double userOwnCurrency = users1.getUserOwnCurrency();//获得当前用户所拥有的时间币
         if (transCurrency > userOwnCurrency) {
             return new ResultModel(11, "所持时间币不足");
         }
-        Transfer transfer1 = new Transfer();
+        Transfer transfer1 = new Transfer();//转账类
         //转账ID//转账者
         UUID guid = randomUUID();
         transfer1.setTransGuid(guid.toString());
@@ -351,7 +354,9 @@ public class AppTransferController {
         //转账时间
         transfer1.setTransIssueTime(new Date());
         //转账进程先设置为待处理
-        transfer1.setTransTypeGuidProcessStatus("66666666-94e3-4eb7-aad3-111111111111");
+//        transfer1.setTransTypeGuidProcessStatus("66666666-94e3-4eb7-aad3-111111111111");
+        //转账进程设置为已完成
+        transfer1.setTransTypeGuidProcessStatus("66666666-94e3-4eb7-aad3-222222222222");
         //直接改变账户的持有的钱数转账(USER表)
         return transferTransaction(transfer1, userOwnCurrency, users1, transCurrency, users2);
 //        return new ResultModel(insert, "汇款提交成功，等待审核");
@@ -359,15 +364,15 @@ public class AppTransferController {
     }
 
     public ResultModel transferTransaction(Transfer transfer1, double userOwnCurrency, Users users1, double transCurrency, Users users2) {
-        int insert = transferMapper.insertSelective(transfer1);
-        users1.setUserOwnCurrency(userOwnCurrency - transCurrency);
-        Double userOwnCurrency2 = users2.getUserOwnCurrency();
+        int insert = transferMapper.insertSelective(transfer1);//表示在transfer表中插入记录，成功返回1，失败返回0
+        users1.setUserOwnCurrency(userOwnCurrency - transCurrency);//重置当前用户的时间币
+        Double userOwnCurrency2 = users2.getUserOwnCurrency();//对方用户现有的时间币
         if (userOwnCurrency2 == null) {
             userOwnCurrency2 = 0.0;
         }
-        users2.setUserOwnCurrency(userOwnCurrency2 + transCurrency);
-        int update1 = usersMapper.updateByPrimaryKeySelective(users1);
-        int update2 = usersMapper.updateByPrimaryKeySelective(users2);
+        users2.setUserOwnCurrency(userOwnCurrency2 + transCurrency);//重置对方用户的时间币
+        int update1 = usersMapper.updateByPrimaryKeySelective(users1);//在users表中更新当前用户的时间币
+        int update2 = usersMapper.updateByPrimaryKeySelective(users2);//在users表中更新对方账户的时间币
 //        if (true) {
         if (insert != 1 || update1 != 1 || update2 != 1) {
             //提示用户“服务器忙，请稍后重试！”
@@ -386,9 +391,9 @@ public class AppTransferController {
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
         List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
+        Users users1 = users.get(0);//获得当前用户
 
-        Integer userTransPassword = users1.getUserTransPassword();
+        Integer userTransPassword = users1.getUserTransPassword();//获得当前用户的支付密码
         if (userTransPassword == null) {
             return new ResultModel(21, "请先设置支付密码");
         }
@@ -406,8 +411,8 @@ public class AppTransferController {
         List<Users> users = usersMapper.selectByExample(usersExample);
         Users users1 = users.get(0);
 
-        users1.setUserTransPassword(Integer.valueOf(userTransPassword));
-        int update = usersMapper.updateByPrimaryKeySelective(users1);
+        users1.setUserTransPassword(Integer.valueOf(userTransPassword));//为当前用户设置支付密码
+        int update = usersMapper.updateByPrimaryKeySelective(users1);//更新数据库中的用户密码
         return new ResultModel(update, "支付密码设置成功");
 
     }
@@ -421,12 +426,12 @@ public class AppTransferController {
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
         List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String userGuid = users1.getUserGuid();
+        Users users1 = users.get(0);//获得当前用户
+        String userGuid = users1.getUserGuid();//获得当前用户ID
         TransferExample transferExample = new TransferExample();
         transferExample.or().andTransToUserGuidEqualTo(userGuid);
         //判断
-        List<Transfer> transfers = transferMapper.selectByExample(transferExample);
+        List<Transfer> transfers = transferMapper.selectByExample(transferExample);//当前用户所有的收款列表
 
         List<Transfer> transferRecordList = new ArrayList<>();
         for (int i = 0; i < transfers.size(); i++) {
@@ -447,6 +452,19 @@ public class AppTransferController {
             transfer1.setTransTypeGuidProcessStatus(types.get(0).getTypeTitle());
             transferRecordList.add(transfer1);
         }
+
+        if (transferRecordList.size() != 0) {
+            /*根据发布时间排序*/
+            transferRecordList.sort((o1, o2) -> {
+                int flag = o2.getTransIssueTime().compareTo(o1.getTransIssueTime());
+                System.out.println("flag:" + flag);
+                return flag;
+            });
+
+            Date reqIssueTime = transferRecordList.get(0).getTransIssueTime();
+            System.out.println("发布时间："+reqIssueTime);
+        }
+
         //全部符合要求的数据的数量
         int total = transfers.size();
         //将所得集合打包
@@ -463,64 +481,64 @@ public class AppTransferController {
     }
 
     //接受者 确认收款
-    @RequestMapping(value = "/appTranGatherOk")
-    @ResponseBody
-    public ResultModel appTranGatherOk(Transfer transfer1) {
-        int update = 0;
-        Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        String transGuid = transfer1.getTransGuid();
-        //当前这条转账
-        Transfer transfer = transferMapper.selectByPrimaryKey(transGuid);
-        //更新转账处理状态为已完成
-        transfer.setTransTypeGuidProcessStatus("66666666-94e3-4eb7-aad3-222222222222");
-        int update1 = transferMapper.updateByPrimaryKeySelective(transfer);
-        //将双方持有的时间进行修改
-        //先处理收款人
-        String transToUser = transfer.getTransToUserGuid();
-        Users transUser = usersMapper.selectByPrimaryKey(transToUser);
-        double money = transfer.getTransCurrency();
-        double initMoney = transUser.getUserOwnCurrency();
-        BigDecimal money1 = new BigDecimal(Double.toString(money));
-        BigDecimal initMoney1 = new BigDecimal(Double.toString(initMoney));
-        double endMoney = initMoney1.add(money1).doubleValue();
-        transUser.setUserOwnCurrency(endMoney);
-        int update2 = usersMapper.updateByPrimaryKeySelective(transUser);
-
-        //处理汇款人
-        String transFromUserId = transfer.getTransFromUserGuid();
-        Users transFromUser = usersMapper.selectByPrimaryKey(transFromUserId);
-        double initMoney2 = transFromUser.getUserOwnCurrency();
-        BigDecimal initMoney22 = new BigDecimal(Double.toString(initMoney2));
-        double endMoneyOfReceive = initMoney22.subtract(money1).doubleValue();
-        transFromUser.setUserOwnCurrency(endMoneyOfReceive);
-        int update3 = usersMapper.updateByPrimaryKeySelective(transFromUser);
-        if (update1 == 1 && update2 == 1 && update3 == 1) {
-            update = 1;
-        }
-        return new ResultModel(update, "收款成功");
-    }
+//    @RequestMapping(value = "/appTranGatherOk")
+//    @ResponseBody
+//    public ResultModel appTranGatherOk(Transfer transfer1) {
+//        int update = 0;
+//        Subject account = SecurityUtils.getSubject();
+//        UsersExample usersExample = new UsersExample();
+//        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+//        List<Users> users = usersMapper.selectByExample(usersExample);
+//        Users users1 = users.get(0);
+//        String transGuid = transfer1.getTransGuid();
+//        //当前这条转账
+//        Transfer transfer = transferMapper.selectByPrimaryKey(transGuid);
+//        //更新转账处理状态为已完成
+//        transfer.setTransTypeGuidProcessStatus("66666666-94e3-4eb7-aad3-222222222222");
+//        int update1 = transferMapper.updateByPrimaryKeySelective(transfer);
+//        //将双方持有的时间进行修改
+//        //先处理收款人
+//        String transToUser = transfer.getTransToUserGuid();
+//        Users transUser = usersMapper.selectByPrimaryKey(transToUser);
+//        double money = transfer.getTransCurrency();
+//        double initMoney = transUser.getUserOwnCurrency();
+//        BigDecimal money1 = new BigDecimal(Double.toString(money));
+//        BigDecimal initMoney1 = new BigDecimal(Double.toString(initMoney));
+//        double endMoney = initMoney1.add(money1).doubleValue();
+//        transUser.setUserOwnCurrency(endMoney);
+//        int update2 = usersMapper.updateByPrimaryKeySelective(transUser);
+//
+//        //处理汇款人
+//        String transFromUserId = transfer.getTransFromUserGuid();
+//        Users transFromUser = usersMapper.selectByPrimaryKey(transFromUserId);
+//        double initMoney2 = transFromUser.getUserOwnCurrency();
+//        BigDecimal initMoney22 = new BigDecimal(Double.toString(initMoney2));
+//        double endMoneyOfReceive = initMoney22.subtract(money1).doubleValue();
+//        transFromUser.setUserOwnCurrency(endMoneyOfReceive);
+//        int update3 = usersMapper.updateByPrimaryKeySelective(transFromUser);
+//        if (update1 == 1 && update2 == 1 && update3 == 1) {
+//            update = 1;
+//        }
+//        return new ResultModel(update, "收款成功");
+//    }
 
     //接受者拒绝收款
-    @RequestMapping(value = "/appTranGatherCancel")
-    @ResponseBody
-    public ResultModel appTranGatherCancel(String transGuid) {
-        Subject account = SecurityUtils.getSubject();
-        UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
-        List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        //双方钱数不变，只是将进程状态改为 拒绝
-        //当前这条转账
-        Transfer transfer = transferMapper.selectByPrimaryKey(transGuid);
-        //更新转账处理状态为拒绝
-        transfer.setTransTypeGuidProcessStatus("66666666-94e3-4eb7-aad3-333333333333");
-        int update = transferMapper.updateByPrimaryKeySelective(transfer);
-        return new ResultModel(update, "您已拒绝收款");
-    }
+//    @RequestMapping(value = "/appTranGatherCancel")
+//    @ResponseBody
+//    public ResultModel appTranGatherCancel(String transGuid) {
+//        Subject account = SecurityUtils.getSubject();
+//        UsersExample usersExample = new UsersExample();
+//        usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
+//        List<Users> users = usersMapper.selectByExample(usersExample);
+//        Users users1 = users.get(0);
+//        //双方钱数不变，只是将进程状态改为 拒绝
+//        //当前这条转账
+//        Transfer transfer = transferMapper.selectByPrimaryKey(transGuid);
+//        //更新转账处理状态为拒绝
+//        transfer.setTransTypeGuidProcessStatus("66666666-94e3-4eb7-aad3-333333333333");
+//        int update = transferMapper.updateByPrimaryKeySelective(transfer);
+//        return new ResultModel(update, "您已拒绝收款");
+//    }
 
     //汇款列表请求数据
     @RequestMapping(value = "/appQueryTransferRemit", produces = "application/json;charset=UTF-8")
@@ -530,20 +548,20 @@ public class AppTransferController {
         UsersExample usersExample = new UsersExample();
         usersExample.or().andUserAccountEqualTo((String) account.getPrincipal());
         List<Users> users = usersMapper.selectByExample(usersExample);
-        Users users1 = users.get(0);
-        TransferExample transferExample = new TransferExample();
-        transferExample.clear();
+        Users users1 = users.get(0);//获得当前用户
+//        TransferExample transferExample = new TransferExample();
+//        transferExample.clear();//清空？？？
 
         //判断TRANS_FROM_USER_GUID字段中包不包含当前登陆者的ID
-        String fromUserId = users1.getUserGuid();
+        String fromUserId = users1.getUserGuid();//获得当前用户的ID
         TransferExample transferExample1 = new TransferExample();
         transferExample1.or().andTransFromUserGuidEqualTo(fromUserId);
-        List<Transfer> transfers1 = transferMapper.selectByExample(transferExample1);
+        List<Transfer> transfers1 = transferMapper.selectByExample(transferExample1);//所有transfer的集合
 
         List<Transfer> transferRecordList = new ArrayList<>();
-        for (int i = 0; i < transfers1.size(); i++) {
-            Transfer transfer1 = transfers1.get(i);
-            //处理转账接受者的ID，装换为接受者的账号名
+        for (int i = 0; i < transfers1.size(); i++) {//遍历所有transfer的集合
+            Transfer transfer1 = transfers1.get(i);//获得每一条transfer
+            //处理转账接收者的ID，转换为接收者的账号名
             Users users2 = usersMapper.selectByPrimaryKey(transfer1.getTransToUserGuid());
             transfer1.setTransToUserGuid(users2.getUserAccount());
             //处理转账进程状态
@@ -551,8 +569,21 @@ public class AppTransferController {
             transfer1.setTransTypeGuidProcessStatus(type.getTypeTitle());
             transferRecordList.add(transfer1);
         }
+
+        if (transferRecordList.size() != 0) {
+            /*根据发布时间排序*/
+            transferRecordList.sort((o1, o2) -> {
+                int flag = o2.getTransIssueTime().compareTo(o1.getTransIssueTime());
+                System.out.println("flag:" + flag);
+                return flag;
+            });
+
+            Date reqIssueTime = transferRecordList.get(0).getTransIssueTime();
+            System.out.println("发布时间："+reqIssueTime);
+        }
         //全部符合要求的数据的数量
         int total = transfers1.size();
+
         //将所得集合打包
         ObjectMapper mapper = new ObjectMapper();
         TableRecordsJson tableRecordsJson = new TableRecordsJson(transferRecordList, total);

@@ -178,7 +178,7 @@ public class AppUserResponseController {
         now.set(Calendar.DATE,now.get(Calendar.DATE)-day);
         return now.getTime();
     }
-    //申请服务 最近订单
+    //申请服务 最新需求
     @RequestMapping(value = "/appQueryNewList", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String appQueryNewList() {
@@ -314,6 +314,10 @@ public class AppUserResponseController {
             respond.setResReqAddr(reqest1.getReqAddress());
             //响应接受地址
             respond.setResAcceptAddress(resAcceptAddress);
+            //设置开始时间
+            respond.setResServiceStartTime(reqest1.getReqAvailableStartTime());
+            //设置结束时间
+            respond.setResServiceEndTime(reqest1.getReqAvailableEndTime());
             //TODO:只要是申请就是通过，不需要审核
             respond.setResTypeGuidProcessStatus("88888888-94e3-4eb7-aad3-111111111111");
             int insert = respondMapper.insert(respond);
