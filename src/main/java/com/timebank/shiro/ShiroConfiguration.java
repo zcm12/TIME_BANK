@@ -69,11 +69,6 @@ public class ShiroConfiguration {
         // 配置访问权限
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //注册，登录界面引入文件
-//         <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
-//    <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css"  />
-//    <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
-//    <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-//    <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
 
         filterChainDefinitionMap.put("/bootstrap-3.3.7-dist/**","anon");
         filterChainDefinitionMap.put("/bootstrapvalidator-0.4.5/**","anon");
@@ -86,13 +81,12 @@ public class ShiroConfiguration {
 
 
 
-
-
         filterChainDefinitionMap.put("/css/**","anon");
         filterChainDefinitionMap.put("/fonts/**","anon");
         filterChainDefinitionMap.put("/jquery/**","anon");
 
         filterChainDefinitionMap.put("/js/**","anon");
+        filterChainDefinitionMap.put("/images/**","anon");
         filterChainDefinitionMap.put("/img/**","anon");
         filterChainDefinitionMap.put("/loginUser","anon");
         filterChainDefinitionMap.put("/appLoginUser","anon");
@@ -101,6 +95,14 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/register","anon");
         filterChainDefinitionMap.put("/registerUser","anon");
         filterChainDefinitionMap.put("/appRegisterUser","anon");
+
+//        filterChainDefinitionMap.put("/about.html","anon");
+        filterChainDefinitionMap.put("/home/**","anon");
+
+
+
+
+//        filterChainDefinitionMap.put("/index.html", "anon");
         filterChainDefinitionMap.put("/**","authc");
 
 

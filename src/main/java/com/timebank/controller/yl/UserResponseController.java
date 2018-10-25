@@ -262,6 +262,8 @@ public class UserResponseController {
         model.addAttribute("role",role);
         if(role.equals("USE")){
         UUID guid = UUID.randomUUID();
+
+
         respond.setResGuid(guid.toString());
         respond.setResReqGuid(reqest.getReqGuid());
         //userID
@@ -456,7 +458,6 @@ public class UserResponseController {
                 List<Type> types2 = typeMapper.selectByExample(typeExample);
                 reqest.setReqTypeGuidUrgency(types2.get(0).getTypeTitle());
             }
-
 //            respondRecordList.add(reqest);
             /**10.9添加*/
             if (searchText != null) {
@@ -502,10 +503,7 @@ public class UserResponseController {
         for (int i = offset;i<offset+limit&&i<respondRecordList.size();i++){
             reqestsReturn.add(respondRecordList.get(i));
         }
-
         /**10.9添加*/
-
-
 
         //全部符合要求的数据的数量
 //        int total=responds.size();
@@ -666,7 +664,7 @@ public class UserResponseController {
         Users users=GetCurrentUsers(message1);
         String role=users.getUserRole();
         model.addAttribute("role",role);
-        System.out.println(message+"++++++999999999999999999999什么的ID？");
+//        System.out.println(message+"++++++999999999999999999999什么的ID？");
         RespondExample respondExample=new RespondExample();
         respondExample.or().andResGuidEqualTo(message);
         List<Respond> respondList=respondMapper.selectByExample(respondExample);

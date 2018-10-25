@@ -252,6 +252,7 @@ public class TouristController {
         {
             //用户持有时间
             users1.setUserOwnCurrency(users1.getUserOwnCurrency());
+
         }
         if(users1.getUserTypeAccountStatus()!=null)
         {
@@ -295,6 +296,11 @@ public class TouristController {
         Users users1=GetCurrentUsers(message1);
         String role=users1.getUserRole();
         model1.addAttribute("role",role);
+        /*********10.23添加 小区审核用户角色 当设置角色为USE时 默认时间币为5.0*************/
+        if(users.getUserRole().equals("USE")){
+            users.setUserOwnCurrency(5.0);
+        }
+        /****10.23**/
         usersMapper.updateByPrimaryKeySelective(users);
         Users users2=usersMapper.selectByPrimaryKey(users.getUserGuid());
        String mail=users2.getUserMail();
@@ -511,6 +517,9 @@ public class TouristController {
         Users users1=GetCurrentUsers(message);
         String role=users1.getUserRole();
         model.addAttribute("role",role);
+        /***10.23添加 平台审核角色后 如果设置为USE 默认持有的时间币为5.0**/
+        users.setUserOwnCurrency(5.0);
+        /****10.23**/
         usersMapper.updateByPrimaryKeySelective(users);
         return "usersListByAdmin";
     }

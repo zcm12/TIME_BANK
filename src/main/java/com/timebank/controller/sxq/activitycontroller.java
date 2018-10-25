@@ -143,13 +143,14 @@ public class activitycontroller {
     //发布活动插入数据库请求
     @RequestMapping(value = "/activityinsert")
     private String activityInsert(@ModelAttribute @Valid Activity activity, Errors errors, Model model) {
+        System.out.println(8888);
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users=GetCurrentUsers(message);
         String role=users.getUserRole();
         model.addAttribute("role",role);
 
-        if (!errors.hasErrors()) {
+//        if (!errors.hasErrors()) {
 
             UUID guid = randomUUID();
             activity.setActivityGuid(guid.toString());
@@ -173,7 +174,8 @@ public class activitycontroller {
             //将同一个社区 并且为用户身份的人插入该字段
             activity.setActivityTargetsUserGuid(comuser1.toString());
             activityMapper.insertSelective(activity);
-        }
+            System.out.println("插入活动成功");
+//        }
         return "activitylist";
 
     }
