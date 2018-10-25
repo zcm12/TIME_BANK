@@ -169,11 +169,14 @@
 </div>
 </body>
 <script>
+
     if (message ==1) {
         document.getElementById("btnSubmit").disabled = false;
     } else {
         document.getElementById("btnSubmit").disabled = true;
+        document.getElementById("resAcceptAddress").disabled = true;
     }
+
     document.getElementById("Num").value = personNumber;
 </script>
 </html>

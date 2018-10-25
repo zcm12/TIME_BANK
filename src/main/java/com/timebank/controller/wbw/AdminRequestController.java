@@ -370,6 +370,9 @@ public class AdminRequestController {
         //TODO 根据传递过来的reqGuid
         Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid7);
         reqest.setReqTypeApproveStatus("88888888-94e3-4eb7-aad3-111111111111");
+        //设置请求处理人
+        reqest.setReqProcessUserGuid(users11.getUserGuid());
+
         reqestMapper.updateByPrimaryKeySelective(reqest);
         TypeExample typeExample = new TypeExample();
         typeExample.or().andTypeGuidEqualTo(reqest.getReqTypeGuidClass());
@@ -1038,8 +1041,8 @@ public class AdminRequestController {
           //请求处理人
           String processUserId=reqest.getReqProcessUserGuid();
           UsersExample usersExample12=new UsersExample();
-          usersExample1.or().andUserGuidEqualTo(processUserId);
-          List<Users> processuser =usersMapper.selectByExample(usersExample1);
+          usersExample12.or().andUserGuidEqualTo(processUserId);
+          List<Users> processuser =usersMapper.selectByExample(usersExample12);
           Users users4 =processuser.get(0);
           reqest.setReqProcessUserGuid(users4.getUserAccount());
 

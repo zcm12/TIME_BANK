@@ -192,14 +192,18 @@ public class UserRequestController {
         UUID guid=randomUUID();
         reqest.setReqGuid(guid.toString());
         reqest.setReqIssueUserGuid(users1.getUserGuid());
+        reqest.setReqProcessUserGuid(users1.getUserGuid());
         //请求提出的时间设定为当前时间
         Date date = new Date();
         reqest.setReqIssueTime(date);
+        reqest.setReqDispatchTime(date);
+
         //将请求批准状态先置为待审核
         Type type = typeMapper.selectByPrimaryKey("88888888-94e3-4eb7-aad3-333333333333");
         reqest.setReqTypeApproveStatus(type.getTypeGuid());
         //将请求处理状态先置为未启动
         Type type1 = typeMapper.selectByPrimaryKey("33333333-94e3-4eb7-aad3-111111111111");
+        //设置请求处理人（用户发布需求后 默认请求处理人为NULL 防止出现空指针异常）
         reqest.setReqTypeGuidProcessStatus(type1.getTypeGuid());
 
         //从前端获取 估计消耗的时间币/
@@ -1157,6 +1161,10 @@ public class UserRequestController {
         List<Reqest> reqestList2=new ArrayList<>();
         //筛选通过  待启动
         for(Reqest it:reqestList){
+
+            /**10.23添加关于一个人申请服务次数**/
+
+            /********************/
             if(it.getReqTypeApproveStatus().equals("88888888-94E3-4EB7-AAD3-111111111111")&&it.getReqTypeGuidProcessStatus().equals("33333333-94E3-4EB7-AAD3-222222222222")){
                 reqestList2.add(it);
             }
@@ -1216,6 +1224,9 @@ public class UserRequestController {
         String role=users11.getUserRole();
         model.addAttribute("role",role);
         Reqest reqest = reqestMapper.selectByPrimaryKey(message);
+        /***********10.24添加*****/
+
+        /***************/
         int flag=1;
         //验证自己不能申请自己的请求
         String guid=reqest.getReqIssueUserGuid();
@@ -1233,7 +1244,6 @@ public class UserRequestController {
         reqest.setReqTypeGuidClass(type1.getTypeTitle());
         model.addAttribute("reqest",reqest);
         //只能申请一次
-
         RespondExample respondExample=new RespondExample();
         respondExample.or().andResReqGuidEqualTo(message);
         List<Respond> respondList=respondMapper.selectByExample(respondExample);

@@ -1,5 +1,7 @@
 package com.timebank.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Activity {
@@ -46,6 +48,7 @@ public class Activity {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date activityStartTime;
 
     /**
@@ -55,6 +58,7 @@ public class Activity {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date activityEndTime;
 
     /**
@@ -215,6 +219,7 @@ public class Activity {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getActivityStartTime() {
         return activityStartTime;
     }
@@ -239,6 +244,7 @@ public class Activity {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getActivityEndTime() {
         return activityEndTime;
     }

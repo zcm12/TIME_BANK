@@ -415,6 +415,7 @@ public class MainController {
         }
         //邮件发送成功跳转到的界面
         return "forgetSuccess";
+//        return "index";
     }
 
     //邮箱里面的地址的链接的校验

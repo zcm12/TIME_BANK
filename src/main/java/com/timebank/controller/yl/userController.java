@@ -652,6 +652,7 @@ public class userController {
           String reqTargetsUserGuid=reqest1.getReqTargetsUserGuid();
           if(reqTargetsUserGuid!=null){
               Users users22=usersMapper.selectByPrimaryKey(reqTargetsUserGuid);
+//              System.out.println(users22.getUserAccount()+"还是关于请求接受人的问题");
               reqest1.setReqTargetsUserAccount(users22.getUserAccount());
           }
 
@@ -668,7 +669,11 @@ public class userController {
               reqest1.setReqProcessUserGuid(users33.getUserAccount());
           }
 
-/*********************************************************************************/
+          /*****10.24添加**/
+          //设置实际消耗的时间币
+          reqest1.setReqActualConsumeCurrency(reqest1.getReqPreCunsumeCurrency());
+
+/********************************************************************************/
           String reqTypeGuidClass=reqest1.getReqTypeGuidClass();
           typeExample.clear();
           typeExample.or().andTypeGuidEqualTo(reqTypeGuidClass);

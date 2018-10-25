@@ -2,9 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="basepage :: common_header(~{::title},~{::script})">
     <title>代发请求</title>
-
+    <meta charset="UTF-8">
+    <script th:inline="javascript">
+        var address=[[${address}]];
+        //    alert(message)
+        var jd=[[${jd}]];
+        var wd=[[${wd}]];
+        var message=[[${message}]];
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
+            document.getElementById('reqAddress').value = address;
+            document.getElementById('jd').value = jd;
+            document.getElementById('wd').value = wd;
             $('#REQESTInputForm').bootstrapValidator({
                 message: 'This value is not valid',
                 feedbackIcons: {
@@ -171,8 +181,10 @@
                                 message: '估计消耗货币不能为空'
                             },
                             regexp: {
-                                regexp:/^[0-9]*[1-9][0-9]*$/,
-                                message: '估计消耗货币只能是正整数'
+//                                regexp:/^[0-9]*[1-9][0-9]*$/,
+//                                message: '估计消耗货币只能是正整数'
+                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
+                                message: '估计消耗货币只能包含正浮点数'
                             }
                         }
                     },
@@ -192,7 +204,7 @@
                             }
                         }
                     },
-                    reqActualConsumeCurrency: {
+                   /* reqActualConsumeCurrency: {
                         message: '请求实际消耗货币验证失败',
                         validators: {
                             notEmpty: {
@@ -207,7 +219,7 @@
                                 message: '请求实际消耗货币只能是正整数'
                             }
                         }
-                    },
+                    },*/
                     //整数
                     reqActualDurationTime: {
                         message: '请求持续时长度验证失败',
