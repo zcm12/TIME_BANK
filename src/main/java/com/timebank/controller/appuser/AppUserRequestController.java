@@ -68,7 +68,7 @@ public class AppUserRequestController {
     public ResultModel appInsertReq(ReqestApp reqestApp) {
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
-        Users users1 = GetCurrentUsers(message);
+        Users users1 = GetCurrentUsers(message);//获得当前用户
 //        System.out.println(reqestApp.getReqAddress());
 //        System.out.println(reqestApp.getReqTitle());
 //        System.out.println(reqestApp.getReqDesp());
@@ -79,16 +79,18 @@ public class AppUserRequestController {
 //        System.out.println(reqestApp.getReqAvailableEndTime());
 //        System.out.println(reqestApp.getReqRreDurationTime());
 //        System.out.println(reqestApp.getReqPersonNum());
-        String needFormatAvalStartTime = reqestApp.getReqAvailableStartTime();
-        String needFormatAvalEndTime = reqestApp.getReqAvailableEndTime();
+        String needFormatAvalStartTime = reqestApp.getReqAvailableStartTime();//转化请求开始时间
+        String needFormatAvalEndTime = reqestApp.getReqAvailableEndTime();//转化请求结束时间
 
-        Reqest reqest = new Reqest();
+        Reqest reqest = new Reqest();//获取request对象
+        //设置地址，标题，描述，补充
         reqest.setReqAddress(reqestApp.getReqAddress());
         reqest.setReqTitle(reqestApp.getReqTitle());
         reqest.setReqDesp(reqestApp.getReqDesp());
         reqest.setReqComment(reqestApp.getReqComment());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //date类型的处理
+        //设置请求开始结束时间
         try {
             Date parseAvalStartTime = simpleDateFormat.parse(needFormatAvalStartTime);
             Date parseAvalEndTime = simpleDateFormat.parse(needFormatAvalEndTime);
@@ -98,9 +100,15 @@ public class AppUserRequestController {
             e.printStackTrace();
         }
         //integer类型的处理
+        //设置请求持续时间、需要人数
         reqest.setReqRreDurationTime(Integer.valueOf(reqestApp.getReqRreDurationTime()));
         reqest.setReqPersonNum(Integer.valueOf(reqestApp.getReqPersonNum()));
 
+
+
+        //float类型的处理
+        //设置请求预计消耗货币
+        reqest.setReqPreCunsumeCurrency(Double.valueOf(reqestApp.getReqConsumeCurrency()));
         //type类型的处理
         //请求分类
         TypeExample typeExample = new TypeExample();
@@ -161,8 +169,24 @@ public class AppUserRequestController {
         reqest.setReqTargetsUserGuid(targetGuidList.toString());
         System.out.println("target GUID:"+targetGuidList.toString());
 
-        int insert = reqestMapper.insert(reqest);
-        return new ResultModel(insert, "request插入成功");
+        //从前端获取 预计消耗的时间币
+        Users users3 = usersMapper.selectByPrimaryKey(users1.getUserGuid());
+        double premoney = reqest.getReqPreCunsumeCurrency();
+        double userOwnCurrency = users3.getUserOwnCurrency();
+        if (userOwnCurrency < 0){
+            return new ResultModel(6,"时间币不足");
+        }else {
+            //如果时间币大于0，就先从用户拥有时间币中扣除预计消耗的时间币
+            Double newuserOwnCurrency = userOwnCurrency - premoney;
+            //将扣除后的时间币设置到用户的拥有时间币中
+            users3.setUserOwnCurrency(newuserOwnCurrency);
+            usersMapper.updateByPrimaryKeySelective(users3);
+
+            int insert = reqestMapper.insert(reqest);
+            return new ResultModel(insert, "request插入成功");
+        }
+
+
     }
 
     //我的请求
@@ -458,7 +482,25 @@ public class AppUserRequestController {
         long durTime = (endMiles - startMiles) / (60 * 1000);
         reqest.setReqActualDurationTime(new Long(durTime).intValue());
         int update = reqestMapper.updateByPrimaryKey(reqest);
-
+        //完成状态下时间币的处理情况
+        List<Users> userListreq = new ArrayList<>();
+        RespondExample respondExample = new RespondExample();
+        respondExample.or().andResReqGuidEqualTo(reqest.getReqGuid());//选出当前请求的服务记录
+        List<Respond> responds = respondMapper.selectByExample(respondExample);//所有的申请服务记录
+        int totalNum = 0;
+        for (Respond respond:responds){
+            Users users3 = usersMapper.selectByPrimaryKey(respond.getResUserGuid());
+            userListreq.add(users3);
+            totalNum++;
+        }
+        Double totalMoney = reqest.getReqPreCunsumeCurrency();
+        Double shouldDeMoney = totalMoney/totalNum;//均分
+        for (Users users4 : userListreq){//遍历服务者
+            double didMoney = users4.getUserOwnCurrency();
+            Double newMoney = didMoney + shouldDeMoney;
+            users4.setUserOwnCurrency(newMoney);
+            usersMapper.updateByPrimaryKeySelective(users4);
+        }
         return new ResultModel(update, "request已完成");
     }
 
@@ -469,14 +511,22 @@ public class AppUserRequestController {
 
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
-        Users users1=GetCurrentUsers(message);
+        Users users11=GetCurrentUsers(message);
 
         String reqGuid = reqestApp.getReqGuid();
         Reqest reqest = reqestMapper.selectByPrimaryKey(reqGuid);
-        //设置请求处理状态为已完成
+        //设置请求处理状态为未完成
         reqest.setReqTypeGuidProcessStatus("33333333-94e3-4eb7-aad3-555555555555");
         int update = reqestMapper.updateByPrimaryKey(reqest);
-
+        //未完成状态下关于时间币的返回
+        String reqIssueUserID = reqest.getReqIssueUserGuid();//获得请求发起者ID
+        double preTimeMoney = reqest.getReqPreCunsumeCurrency();//获得请求预计消耗货币
+        Users users1 = usersMapper.selectByPrimaryKey(reqIssueUserID);//获得请求发起者users1
+        double userOwnMoney = users1.getUserOwnCurrency();
+        double newUserOwnMoney = 0.0;
+        newUserOwnMoney = userOwnMoney + preTimeMoney;
+        users1.setUserOwnCurrency(newUserOwnMoney);
+        usersMapper.updateByPrimaryKeySelective(users1);
         return new ResultModel(update, "request未完成");
     }
 

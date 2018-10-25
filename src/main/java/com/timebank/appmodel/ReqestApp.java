@@ -20,6 +20,7 @@ public class ReqestApp {
     private String reqAvailableEndTime;
 
     private String reqRreDurationTime;
+    private String reqConsumeCurrency;
 
     private String reqPersonNum;
     public String getReqGuid() {
@@ -101,6 +102,14 @@ public class ReqestApp {
         this.reqRreDurationTime = reqRreDurationTime;
     }
 
+    public String getReqConsumeCurrency() {
+        return reqConsumeCurrency;
+    }
+
+    public void setReqConsumeCurrency(String reqConsumeCurrency) {
+        this.reqConsumeCurrency = reqConsumeCurrency;
+    }
+
     public String getReqPersonNum() {
         return reqPersonNum;
     }
@@ -113,7 +122,7 @@ public class ReqestApp {
     public String toString() {
         return "ReqestApp{" +
                 "reqGuid='" + reqGuid + '\'' +
-                "reqAddress='" + reqAddress + '\'' +
+                ", reqAddress='" + reqAddress + '\'' +
                 ", reqTitle='" + reqTitle + '\'' +
                 ", reqDesp='" + reqDesp + '\'' +
                 ", reqComment='" + reqComment + '\'' +
@@ -121,8 +130,9 @@ public class ReqestApp {
                 ", reqTypeGuidUrgency='" + reqTypeGuidUrgency + '\'' +
                 ", reqAvailableStartTime='" + reqAvailableStartTime + '\'' +
                 ", reqAvailableEndTime='" + reqAvailableEndTime + '\'' +
-                ", reqRreDurationTime=" + reqRreDurationTime +
-                ", reqPersonNum=" + reqPersonNum +
+                ", reqRreDurationTime='" + reqRreDurationTime + '\'' +
+                ", reqConsumeCurrency='" + reqConsumeCurrency + '\'' +
+                ", reqPersonNum='" + reqPersonNum + '\'' +
                 '}';
     }
 }
