@@ -26,62 +26,9 @@ import java.util.*;
 
 @Controller
 public class Test {
-    @Autowired
-    private ReqestMapper reqestMapper;
-    @Autowired
-    private TypeMapper typeMapper;
-    @Autowired
-    private RespondMapper respondMapper;
-    @Autowired
-    private UsersMapper usersMapper;
-    @Autowired
-    private CommunityMapper communityMapper;
 
-    @RequestMapping("/wzd")
-    public String wzd(Model model){
-     Hashtable ht=new Hashtable();
-
-
-//        model.addAllAttributes("message",);
-        return "test";
-    }
-
-//    @RequestMapping("/css1")
-//    public String wzd11(Model model){
-//
-//
-////        model.addAllAttributes("message",);
-//        return "test";
+//    @RequestMapping(value = "/wzd")
+//    public String createRequestByAdmi(String jd,String wd,String savecityName,String Guid,Model model) {
+//        return ""
 //    }
-
-
-    @RequestMapping(value = "/css/tj",method = RequestMethod.POST)
-    @ResponseBody
-    public String uploadImg(@RequestParam(value="img_z") MultipartFile file)throws Exception {
-        System.out.println(11111);
-        System.out.println(file);
-        System.out.println(22222);
-
-        ClassPathResource resource;
-        resource = new ClassPathResource("static/img");
-        String absPath=resource.getURL().getPath();
-        String fileName=file.getOriginalFilename();
-
-        System.out.println(absPath);
-        System.out.println(fileName);
-
-        //将用户传上去的图片下载到主机
-        BufferedOutputStream outputStream=new BufferedOutputStream(new FileOutputStream(absPath+"/"+fileName));
-        outputStream.write(file.getBytes());
-        outputStream.flush();
-        outputStream.close();
-
-        //将图片的相对路径保存到数据库
-        String dboPath=absPath+"/"+fileName;
-//        String url = System.getProperty("user.dir")+"/src/images/";
-
-
-        return "test";
-    }
-
 }

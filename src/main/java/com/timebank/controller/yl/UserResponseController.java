@@ -673,6 +673,8 @@ public class UserResponseController {
             respond.setResTypeGuidProcessStatus("88888888-94E3-4EB7-AAD3-222222222222");
             respondMapper.updateByPrimaryKey(respond);
         }
+
+        model.addAttribute("message",respond.getResReqGuid());
         return "volunteerList";
     }
 
@@ -693,6 +695,7 @@ public class UserResponseController {
             respond.setResTypeGuidProcessStatus("88888888-94E3-4EB7-AAD3-222222222222");
             respondMapper.updateByPrimaryKey(respond);
         }
+        model.addAttribute("message",respond.getResReqGuid());
         return "volunteerListByAd";
     }
 }

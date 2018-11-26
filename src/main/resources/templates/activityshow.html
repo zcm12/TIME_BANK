@@ -218,10 +218,7 @@
                             }
                         }
                     }
-                },
-//                submitHandler: function (validator, form, submitButton) {
-//                    alert("submit");
-//                }
+                }
             });
 
 
@@ -247,13 +244,13 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <form id="ACTIVITYInputForm" name="ACTIVITYInputForm" method="post" class="form-horizontal"
-                          action="/activityupdate" role="form"
-                          data-bv-message="This value is not valid"
-                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
-                        <div class="row">
+                        <form id="ACTIVITYInputForm" name="ACTIVITYInputForm" method="post" class="form-horizontal"
+                              action="/activityupdate" role="form"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
                             <div class="form-group  col-lg-6" hidden="hidden">
                                 <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
                                 <div class="col-lg-9">
@@ -266,7 +263,7 @@
                                 <label class="control-label col-lg-3" for="activityTitle">活动标题：</label>
                                 <div class="col-lg-9">
                                     <input id="activityTitle" name="activityTitle" type="text" class="form-control"
-                                           placeholder="录入活动标题"  disabled="disabled"
+                                           placeholder="录入活动标题" disabled="disabled"
                                            th:value="${activity.activityTitle}" maxlength="50" minlength="5"/>
                                 </div>
                             </div>
@@ -274,7 +271,7 @@
                                 <label class="control-label col-lg-3" for="activityDesp">活动描述：</label>
                                 <div class="col-lg-9">
 									<textarea rows="5" id="activityDesp" name="activityDesp" class="form-control"
-                                              placeholder="录入活动描述"  disabled="disabled"
+                                              placeholder="录入活动描述" disabled="disabled"
                                               th:text="${activity.activityDesp}">
                                     </textarea>
                                 </div>
@@ -283,7 +280,7 @@
                                 <label class="control-label col-lg-3" for="activityComment">活动备注：</label>
                                 <div class="col-lg-9">
 									<textarea rows="5" id="activityComment" name="activityComment" class="form-control"
-                                              placeholder="录入活动备注"  disabled="disabled"
+                                              placeholder="录入活动备注" disabled="disabled"
                                               th:text="${activity.activityComment}">
                                     </textarea>
                                 </div>
@@ -292,7 +289,8 @@
                                 <label class="control-label col-lg-3" for="activityStartTime">设定开始时间：</label>
                                 <div class="col-lg-9">
                                     <input id="activityStartTime" name="activityStartTime"
-                                           class="form_datetime form-control" type="text" placeholder="录入开始时间"  disabled="disabled"
+                                           class="form_datetime form-control" type="text" placeholder="录入开始时间"
+                                           disabled="disabled"
                                            th:value="${#calendars.format(activity.activityStartTime , 'yyyy-MM-dd HH:mm:ss')}"/>
                                 </div>
                             </div>
@@ -300,7 +298,8 @@
                                 <label class="control-label col-lg-3" for="activityEndTime">设定结束时间：</label>
                                 <div class="col-lg-9">
                                     <input id="activityEndTime" name="activityEndTime"
-                                           class="form_datetime form-control" type="text" placeholder="录入结束时间"  disabled="disabled"
+                                           class="form_datetime form-control" type="text" placeholder="录入结束时间"
+                                           disabled="disabled"
                                            th:value="${#calendars.format(activity.activityEndTime , 'yyyy-MM-dd HH:mm:ss')}"/>
                                 </div>
                             </div>
@@ -308,7 +307,7 @@
                                 <label class="control-label col-lg-3" for="activityProcessUserGuid">活动处理人：</label>
                                 <div class="col-lg-9">
                                     <input id="activityProcessUserGuid" name="activityProcessUserGuid" type="text"
-                                           class="form-control" placeholder="录入活动处理人"  disabled="disabled"
+                                           class="form-control" placeholder="录入活动处理人" disabled="disabled"
                                            th:value="${activity.activityProcessUserGuid}"/>
                                 </div>
                             </div>
@@ -316,7 +315,7 @@
                                 <label class="control-label col-lg-3" for="activityAddress">活动地点：</label>
                                 <div class="col-lg-9">
                                     <input id="activityAddress" name="activityAddress" type="text" class="form-control"
-                                           placeholder="录入活动地点"  disabled="disabled"
+                                           placeholder="录入活动地点" disabled="disabled"
                                            th:value="${activity.activityAddress}" maxlength="50" minlength="5"/>
                                 </div>
                             </div>
@@ -324,13 +323,13 @@
                                 <label class="control-label col-lg-3" for="activityTypeProcessStatus">选择活动处理状态：</label>
                                 <div class="col-lg-9">
                                     <!--<select name="activityTypeProcessStatus" id="activityTypeProcessStatus">-->
-                                        <!--<option th:each="typex:${typex}" th:value="${typex.typeGuid}"-->
-                                                <!--th:text="${typex.typeTitle}"-->
-                                                <!--th:selected="${typex.typeGuid}==${activity.activityTypeProcessStatus}"></option>-->
+                                    <!--<option th:each="typex:${typex}" th:value="${typex.typeGuid}"-->
+                                    <!--th:text="${typex.typeTitle}"-->
+                                    <!--th:selected="${typex.typeGuid}==${activity.activityTypeProcessStatus}"></option>-->
 
                                     <!--</select>-->
                                     <input id="activityTypeProcessStatus" name="activityTypeProcessStatus"
-                                           class="form-control"  disabled="disabled"
+                                           class="form-control" disabled="disabled"
                                            th:value="${activity.activityTypeProcessStatus}">
                                     </input>
                                 </div>
@@ -366,7 +365,7 @@
                                 <label class="control-label col-lg-3" for="activityPersonNum">需要人数：</label>
                                 <div class="col-lg-9">
                                     <input id="activityPersonNum" name="activityPersonNum" type="text"
-                                           class="form-control" placeholder="录入需要人数"  disabled="disabled"
+                                           class="form-control" placeholder="录入需要人数" disabled="disabled"
                                            th:value="${activity.activityPersonNum}"/>
                                 </div>
                             </div>
@@ -379,277 +378,226 @@
                                     </textarea>
                                 </div>
                             </div>
-                        </div>
-                    </form>
-                    <form id="ACTIVITYInputForm1" name="ACTIVITYInputForm1" method="post" class="form-horizontal"
-                          action="/activityupdate1" role="form"
-                          data-bv-message="This value is not valid"
-                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
-                        <div class="row">
-                            <div class="form-group  col-lg-6" hidden="hidden">
-                                <label class="control-label col-lg-3" for="activityGuid1">活动ID：</label>
-                                <div class="col-lg-9">
-                                    <input id="activityGuid1" name="activityGuid1" type="text" class="form-control"
-                                           placeholder="录入活动ID"
-                                           th:value="${activity.activityGuid}"/>
+                            </div>
+                        </form>
+                        <form id="ACTIVITYInputForm1" name="ACTIVITYInputForm1" method="post" class="form-horizontal"
+                              action="/activityupdate1" role="form"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="form-group  col-lg-6" hidden="hidden">
+                                    <label class="control-label col-lg-3" for="activityGuid1">活动ID：</label>
+                                    <div class="col-lg-9">
+                                        <input id="activityGuid1" name="activityGuid1" type="text" class="form-control"
+                                               placeholder="录入活动ID"
+                                               th:value="${activity.activityGuid}"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-actions">
-                            <input id="Submit1" class="btn btn-primary" type="submit" value="更新"/>&nbsp;
-                        </div>
-                    </form>
-                    <form id="ACTIVITYInputForm7" name="ACTIVITYInputForm2" method="post" class="form-horizontal"
-                          action="/activityupdate7" role="form"
-                          data-bv-message="This value is not valid"
-                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
-                        <div class="row">
-                            <div class="form-group  col-lg-6" hidden="hidden">
-                                <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
-                                <div class="col-lg-9">
-                                    <input id="activityGuid7" name="activityGuid7" type="text" class="form-control"
-                                           placeholder="录入活动ID"
-                                           th:value="${activity.activityGuid}"/>
+                            <div class="form-actions">
+                                <input id="Submit1" class="btn btn-primary" type="submit" value="更新"/>&nbsp;
+                            </div>
+                        </form>
+                        <form id="ACTIVITYInputForm7" name="ACTIVITYInputForm2" method="post" class="form-horizontal"
+                              action="/activityupdate7" role="form"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="form-group  col-lg-6" hidden="hidden">
+                                    <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
+                                    <div class="col-lg-9">
+                                        <input id="activityGuid7" name="activityGuid7" type="text" class="form-control"
+                                               placeholder="录入活动ID"
+                                               th:value="${activity.activityGuid}"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-actions">
-                            <input id="Submit7" class="btn btn-primary" type="submit" value="撤销"/>&nbsp;
-                        </div>
-                    </form>
-                    <form id="ACTIVITYInputForm2" name="ACTIVITYInputForm2" method="post" class="form-horizontal"
-                          action="/activityupdate2" role="form"
-                          data-bv-message="This value is not valid"
-                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
-                        <div class="row">
-                            <div class="form-group  col-lg-6" hidden="hidden">
-                                <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
-                                <div class="col-lg-9">
-                                    <input id="activityGuid2" name="activityGuid2" type="text" class="form-control"
-                                           placeholder="录入活动ID"
-                                           th:value="${activity.activityGuid}"/>
+                            <div class="form-actions">
+                                <input id="Submit7" class="btn btn-primary" type="submit" value="撤销"/>&nbsp;
+                            </div>
+                        </form>
+                        <form id="ACTIVITYInputForm2" name="ACTIVITYInputForm2" method="post" class="form-horizontal"
+                              action="/activityupdate2" role="form"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="form-group  col-lg-6" hidden="hidden">
+                                    <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
+                                    <div class="col-lg-9">
+                                        <input id="activityGuid2" name="activityGuid2" type="text" class="form-control"
+                                               placeholder="录入活动ID"
+                                               th:value="${activity.activityGuid}"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-actions">
-                            <input id="Submit2" class="btn btn-primary" type="submit" value="查看志愿者"/>&nbsp;
-                        </div>
-                    </form>
-                    <form id="ACTIVITYInputForm3" name="ACTIVITYInputForm3" method="post" class="form-horizontal"
-                          action="/activityupdate3" role="form"
-                          data-bv-message="This value is not valid"
-                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
-                        <div class="row">
-                            <div class="form-group  col-lg-6" hidden="hidden">
-                                <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
-                                <div class="col-lg-9">
-                                    <input id="activityGuid3" name="activityGuid3" type="text" class="form-control"
-                                           placeholder="录入活动ID"
-                                           th:value="${activity.activityGuid}"/>
+                            <div class="form-actions">
+                                <input id="Submit2" class="btn btn-primary" type="submit" value="查看志愿者"/>&nbsp;
+                            </div>
+                        </form>
+                        <form id="ACTIVITYInputForm3" name="ACTIVITYInputForm3" method="post" class="form-horizontal"
+                              action="/activityupdate3" role="form"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="form-group  col-lg-6" hidden="hidden">
+                                    <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
+                                    <div class="col-lg-9">
+                                        <input id="activityGuid3" name="activityGuid3" type="text" class="form-control"
+                                               placeholder="录入活动ID"
+                                               th:value="${activity.activityGuid}"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-actions">
-                            <input id="Submit3" class="btn btn-primary" type="submit" value="启动"/>&nbsp;
-                        </div>
-                    </form>
-                    <form id="ACTIVITYInputForm4" name="ACTIVITYInputForm4" method="post" class="form-horizontal"
-                          action="/activityupdate4" role="form"
-                          data-bv-message="This value is not valid"
-                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
-                        <div class="row">
-                            <div class="form-group  col-lg-6" hidden="hidden">
-                                <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
-                                <div class="col-lg-9">
-                                    <input id="activityGuid4" name="activityGuid4" type="text" class="form-control"
-                                           placeholder="录入活动ID"
-                                           th:value="${activity.activityGuid}"/>
+                            <div class="form-actions">
+                                <input id="Submit3" class="btn btn-primary" type="submit" value="启动"/>&nbsp;
+                            </div>
+                        </form>
+                        <form id="ACTIVITYInputForm4" name="ACTIVITYInputForm4" method="post" class="form-horizontal"
+                              action="/activityupdate4" role="form"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="form-group  col-lg-6" hidden="hidden">
+                                    <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
+                                    <div class="col-lg-9">
+                                        <input id="activityGuid4" name="activityGuid4" type="text" class="form-control"
+                                               placeholder="录入活动ID"
+                                               th:value="${activity.activityGuid}"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-actions">
-                            <input id="Submit4" class="btn btn-primary" type="submit" value="待启动"/>&nbsp;
-                        </div>
-                    </form>
-                    <form id="ACTIVITYInputForm5" name="ACTIVITYInputForm5" method="post" class="form-horizontal"
-                          action="/activityupdate5" role="form"
-                          data-bv-message="This value is not valid"
-                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
-                        <div class="row">
-                            <div class="form-group  col-lg-6" hidden="hidden">
-                                <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
-                                <div class="col-lg-9">
-                                    <input id="activityGuid5" name="activityGuid5" type="text" class="form-control"
-                                           placeholder="录入活动ID"
-                                           th:value="${activity.activityGuid}"/>
+                            <div class="form-actions">
+                                <input id="Submit4" class="btn btn-primary" type="submit" value="待启动"/>&nbsp;
+                            </div>
+                        </form>
+                        <form id="ACTIVITYInputForm5" name="ACTIVITYInputForm5" method="post" class="form-horizontal"
+                              action="/activityupdate5" role="form"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="form-group  col-lg-6" hidden="hidden">
+                                    <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
+                                    <div class="col-lg-9">
+                                        <input id="activityGuid5" name="activityGuid5" type="text" class="form-control"
+                                               placeholder="录入活动ID"
+                                               th:value="${activity.activityGuid}"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-actions">
-                            <input id="Submit5" class="btn btn-primary" type="submit" value="完成"/>&nbsp;
-                        </div>
-                    </form>
-                    <form id="ACTIVITYInputForm6" name="ACTIVITYInputForm6" method="post" class="form-horizontal"
-                          action="/activityupdate6" role="form"
-                          data-bv-message="This value is not valid"
-                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
-                        <div class="row">
-                            <div class="form-group  col-lg-6" hidden="hidden">
-                                <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
-                                <div class="col-lg-9">
-                                    <input id="activityGuid6" name="activityGuid6" type="text" class="form-control"
-                                           placeholder="录入活动ID"
-                                           th:value="${activity.activityGuid}"/>
+                            <div class="form-actions">
+                                <input id="Submit5" class="btn btn-primary" type="submit" value="完成"/>&nbsp;
+                            </div>
+                        </form>
+                        <form id="ACTIVITYInputForm6" name="ACTIVITYInputForm6" method="post" class="form-horizontal"
+                              action="/activityupdate6" role="form"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="form-group  col-lg-6" hidden="hidden">
+                                    <label class="control-label col-lg-3" for="activityGuid">活动ID：</label>
+                                    <div class="col-lg-9">
+                                        <input id="activityGuid6" name="activityGuid6" type="text" class="form-control"
+                                               placeholder="录入活动ID"
+                                               th:value="${activity.activityGuid}"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-actions">
-                            <input id="Submit6" class="btn btn-primary" type="submit" value="未完成"/>&nbsp;
-                        </div>
-                    </form>
-
+                            <div class="form-actions">
+                                <input id="Submit6" class="btn btn-primary" type="submit" value="未完成"/>&nbsp;
+                            </div>
+                        </form>
+                        <input id="updateId" style="display:none" type="text" th:value="${updateList.updateId}"/>
+                        <input id="deletaId" style="display:none" type="text" th:value="${updateList.deletaId}"/>
+                        <input id="startId" style="display:none" type="text" th:value="${updateList.startId}"/>
+                        <input id="viewVolId" style="display:none" type="text" th:value="${updateList.viewVolId}"/>
+                        <input id="finishId" style="display:none" type="text" th:value="${updateList.finishId}"/>
+                        <input id="unFinishId" style="display:none" type="text" th:value="${updateList.unFinishId}"/>
+                    </div>
                 </div>
-                <!--style="display:none"-->
-                <input id="updateId" style="display:none" type="text" th:value="${updateList.updateId}"/>
-                <input id="deletaId" style="display:none" type="text" th:value="${updateList.deletaId}"/>
-                <input id="startId" style="display:none" type="text" th:value="${updateList.startId}"/>
-                <input id="viewVolId" style="display:none" type="text" th:value="${updateList.viewVolId}"/>
-                <input id="finishId" style="display:none" type="text" th:value="${updateList.finishId}"/>
-                <input id="unFinishId" style="display:none" type="text" th:value="${updateList.unFinishId}"/>
-
             </div>
         </div>
     </div>
-    <script>
-        //        var message= [[${message}]];
+        <script>
+            if (document.getElementById("updateId").value == 0) {
+//            $('#Submit1').attr("disabled", true);//添加disabled 属性
+                $('#ACTIVITYInputForm1').hide();
 
-        var startTime = laydate.render({
-            elem:  '#activityStartTime',//指定元素
-            type: 'datetime',
-            format: 'yyyy-MM-dd HH:mm:ss',
-            min: 0, //设定最小日期为当前日期
-            max: '2099-06-16 23:59:59',
-            done: function (value,dates) {
-                console.log(dates);
-                endTime.config.min={
-                    year:dates.year,
-                    month:dates.month-1,//关键
-                    date: dates.date,
-                    hours: dates.hours,
-                    minutes: dates.minutes,
-                    seconds : dates.seconds
-                }
-//                this.endMin = value; //开始时间等于结束时间的最小值
-//                endStart = value;//将结束日的初始值设定为开始日
+            } else {
+//            $('#Submit1').attr("disabled", false);// 删除disabled属性
+                $('#ACTIVITYInputForm1').show();
+
             }
-        });
-        var endTime = laydate.render({
-            elem: '#activityEndTime' , //指定元素
-            type: 'datetime',
-            format: "yyyy-MM-dd HH:mm:ss",
-            min: '1900-06-16 23:59:59',
-            max: '2099-06-16 23:59:59',
-            istime: true,
-            istoday: false,
-            done: function (value,dates) {
-                startTime.config.max={
-                    year:dates.year,
-                    month:dates.month-1,//关键
-                    date: dates.date,
-                    hours: dates.hours,
-                    minutes: dates.minutes,
-                    seconds : dates.seconds
-                }
-//                this.startMax = value; //开始时间的最大值等于选定的结束时间
+            if (document.getElementById("deletaId").value == 0) {
+//            $('#Submit2').attr("disabled", true);//添加disabled 属性
+                $('#ACTIVITYInputForm2').hide();
+
+            } else {
+//            $('#Submit2').attr("disabled", false);// 删除disabled属性
+                $('#ACTIVITYInputForm2').show();
+
             }
-        });
+            if (document.getElementById("startId").value == 0) {
+//            $('#Submit3').attr("disabled", true);//添加disabled 属性
+                $('#ACTIVITYInputForm3').hide();
+            } else {
+//            $('#Submit3').attr("disabled", false);// 删除disabled属性
+                $('#ACTIVITYInputForm3').show();
+            }
+            if (document.getElementById("viewVolId").value == 0) {
+//            $('#Submit4').attr("disabled", true);//添加disabled 属性
+                $('#ACTIVITYInputForm4').hide();
+            } else {
+//            $('#Submit4').attr("disabled",false);// 删除disabled属性
+                $('#ACTIVITYInputForm4').show();
+            }
+            if (document.getElementById("finishId").value == 0) {
+//            $('#Submit5').attr("disabled", true);//添加disabled 属性
+                $('#ACTIVITYInputForm5').hide();
+            } else {
+//            $('#Submit5').attr("disabled",false);// 删除disabled属性
+                $('#ACTIVITYInputForm5').show();
+            }
+            if (document.getElementById("unFinishId").value == 0) {
+//            $('#Submit6').attr("disabled", true);//添加disabled 属性
+                $('#ACTIVITYInputForm6').hide();
+            } else {
+//            $('#Submit6').attr("disabled",false);// 删除disabled属性
+                $('#ACTIVITYInputForm6').show();
+            }
+//            $(function(){
+//                /** 验证文件是否导入成功  */
+//                $("#ACTIVITYInputForm").ajaxForm(function(data){
+//                    if(data.result=="true"){
+//                        //跳转页面
+//                        王怎么写了百度下哈哈就这样
+//
+//                    }
+//                    alert(data.msg);
+//                });
+//            });
 
-        if (document.getElementById("updateId").value == 0) {
-            $('#Submit1').attr("disabled", true);//添加disabled 属性
-        } else {
-            $('#Submit1').attr("disabled", false);// 删除disabled属性
-        }
-        if (document.getElementById("deletaId").value == 0) {
-            $('#Submit2').attr("disabled", true);//添加disabled 属性
-        } else {
-            $('#Submit2').attr("disabled", false);// 删除disabled属性
-        }
-        if (document.getElementById("startId").value == 0) {
-            $('#Submit3').attr("disabled", true);//添加disabled 属性
-        } else {
-            $('#Submit3').attr("disabled", false);// 删除disabled属性
-        }
-        if(document.getElementById("viewVolId").value==0) {
-            $('#Submit4').attr("disabled", true);//添加disabled 属性
-        }else{
-            $('#Submit4').attr("disabled",false);// 删除disabled属性
-        }
-        if(document.getElementById("finishId").value==0) {
-            $('#Submit5').attr("disabled", true);//添加disabled 属性
-        }else{
-            $('#Submit5').attr("disabled",false);// 删除disabled属性
-        }
-        if(document.getElementById("unFinishId").value==0) {
-            $('#Submit6').attr("disabled", true);//添加disabled 属性
-        }else{
-            $('#Submit6').attr("disabled",false);// 删除disabled属性
-        }
 
-    </script>
-    <!--<script>-->
-    <!--if (document.getElementById("updateId").value==1){-->
-    <!--document.getElementById("Submit1").disabled=false;-->
-    <!--}else {-->
-    <!--document.getElementById("Submit1").disabled=true;-->
-    <!--};-->
 
-    <!--if (document.getElementById("deletaId").value==1){-->
-    <!--document.getElementById("Submit2").disabled=false;-->
-    <!--}else {-->
-    <!--document.getElementById("Submit2").disabled=true;-->
-    <!--}-->
-
-    <!--if (document.getElementById("startId").value==1){-->
-    <!--document.getElementById("Submit3").disabled=false;-->
-    <!--}else {-->
-    <!--document.getElementById("Submit3").disabled=true;-->
-    <!--}-->
-    <!--if(document.getElementById("viewVolId".value==1)){-->
-    <!--document.getElementById("Submit4").disabled=false;-->
-    <!--}else {-->
-    <!--document.getElementById("Submit4").disabled=true;-->
-    <!--}-->
-    <!--if(document.getElementById("finishId".value==1)){-->
-    <!--document.getElementById("Submit5").disabled=false;-->
-    <!--}else {-->
-    <!--document.getElementById("Submit5").disabled = true;-->
-    <!--}-->
-    <!--if(document.getElementById("unFinishId".value==1)){-->
-    <!--document.getElementById("Submit6").disabled=false;-->
-    <!--}else {-->
-    <!--document.getElementById("Submit6").disabled = true;-->
-    <!--}-->
-    <!--</script>-->
-    <div class="row clearfix">
-        <div class="col-md-12 bg-primary">
-            <div th:replace="basepage::contextfooter"></div>
+        </script>
+        <div class="row clearfix">
+            <div class="col-md-12 bg-primary">
+                <div th:replace="basepage::contextfooter"></div>
+            </div>
         </div>
-    </div>
-</div>
 </body>
 
 </html>

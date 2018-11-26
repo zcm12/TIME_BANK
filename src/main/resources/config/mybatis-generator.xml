@@ -60,7 +60,7 @@
                <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--<table schema="dbo" tableName="WEIGHT" enableCountByExample="true" enableDeleteByExample="true"-->
                <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <table schema="dbo" tableName="RESET" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <!--<table schema="dbo" tableName="RESET" enableCountByExample="true" enableDeleteByExample="true"-->
+               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
     </context>
 </generatorConfiguration>

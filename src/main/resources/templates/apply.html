@@ -4,22 +4,89 @@
     <title>发布请求</title>
     <meta charset="UTF-8">
     <script th:inline="javascript">
-    var address=[[${address}]];
-    //    alert(message)
-    var jd=[[${jd}]];
-    var wd=[[${wd}]];
-    var message=[[${message}]];
+        var address=[[${address}]];
+        var jd=[[${jd}]];
+        var wd=[[${wd}]];
+        var message=[[${message}]];
     </script>
-
-
 
     <script type="text/javascript">
         $(document).ready(function() {
-
             document.getElementById('reqAddress').value = address;
             document.getElementById('jd').value = jd;
             document.getElementById('wd').value = wd;
-
+            var startTime = laydate.render({
+                elem: '#reqAvailableStartTime',//指定元素
+                type: 'datetime',
+                format: 'yyyy-MM-dd HH:mm:ss',
+                min: 0, //设定最小日期为当前日期
+                max: '2099-06-16 23:59:59',
+                done: function (value,dates) {
+                    endTime.config.min={
+                        year:dates.year,
+                        month:dates.month-1,//关键
+                        date: dates.date,
+                        hours: dates.hours,
+                        minutes: dates.minutes,
+                        seconds : dates.seconds
+                    }
+                }
+            });
+            var endTime = laydate.render({
+                elem: '#reqAvailableEndTime', //指定元素
+                type: 'datetime',
+                format: "yyyy-MM-dd HH:mm:ss",
+                min: 0,
+                max: '2099-06-16 23:59:59',
+                istime: true,
+                istoday: false,
+                done: function (value,dates) {
+                    startTime.config.max={
+                        year:dates.year,
+                        month:dates.month-1,//关键
+                        date: dates.date,
+                        hours: dates.hours,
+                        minutes: dates.minutes,
+                        seconds : dates.seconds
+                    }
+                }
+            });
+            var startTime1 = laydate.render({
+                elem:'#reqStartTime' ,//指定元素
+                type: 'datetime',
+                format: 'yyyy-MM-dd HH:mm:ss',
+                min: 0, //设定最小日期为当前日期
+                max: '2099-06-16 23:59:59',
+                done: function (value,dates) {
+                    endTime1.config.min={
+                        year:dates.year,
+                        month:dates.month-1,//关键
+                        date: dates.date,
+                        hours: dates.hours,
+                        minutes: dates.minutes,
+                        seconds : dates.seconds
+                    }
+                }
+            });
+            var endTime1 = laydate.render({
+                elem:  '#reqEndTime' , //指定元素
+                type: 'datetime',
+                format: "yyyy-MM-dd HH:mm:ss",
+                min: 0,
+                max: '2099-06-16 23:59:59',
+                istime: true,
+                istoday: false,
+                done: function (value,dates) {
+                    startTime1.config.max={
+                        year:dates.year,
+                        month:dates.month-1,//关键
+                        date: dates.date,
+                        hours: dates.hours,
+                        minutes: dates.minutes,
+                        seconds : dates.seconds
+                    }
+                }
+            });
             $('#REQESTInputForm').bootstrapValidator({
                 message: 'This value is not valid',
                 feedbackIcons: {
@@ -28,112 +95,6 @@
                     validating: 'glyphicon glyphicon-refresh'
                 },
                 fields: {
-                    reqAddress:{
-                        message: '请求提出地址验证失败',
-                        validators: {
-                            notEmpty: {
-                                message: '请求提出地址不能为空'
-                            }
-                        }
-                    },
-                    reqTitle:{
-                        message: '请求的标题验证失败',
-                        validators: {
-                            notEmpty: {
-                                message: '请求的标题不能为空'
-                            }
-                        }
-                    },
-                    reqDesp:{
-                        message: '请求描述验证失败',
-                        validators: {
-                            notEmpty: {
-                                message: '请求描述不能为空'
-                            }
-                        },
-                        stringLength: {
-                            min: 10,
-                            message: '描述长度必须在10位以上'
-                        }
-                    },
-                    reqComment:{
-                        message: '请求补充验证失败',
-                        validators: {
-                            notEmpty: {
-                                message: '请求补充不能为空'
-                            }
-                        }
-                    },
-
-                    reqTypeGuidClass:{
-                        message: '请求分类验证失败',
-                        validators: {
-                            notEmpty: {
-                                message: '请求分类不能为空'
-                            }
-                        }
-                    },
-                    /* reqRreDurationTime:{
-                         message: '预计持续时间验证失败',
-                         validators: {
-                             notEmpty: {
-                                 message: '预计持续时间不能为空'
-                             },
-                             regexp: {
-                                 regexp: /^[0-9]*$/,
-                                 message: '请求持续时间长度只能包含数字'
-                             }
-                         }
-                     },
-                     reqPersonNum:{
-                         message: '请求需要人数验证失败',
-                         validators: {
-                             notEmpty: {
-                                 message: '请求需要人数不能为空'
-                             },
-                             regexp: {
-                                 regexp: /^[0-9]*$/,
-                                 message: '请求需要人数只能包含数字'
-                             },
-                             stringLength: {
-                                 min: 1,
-                                 max:15,
-                                 message: '请求人数不超过15人'
-                             }
-                         }
-                     },
-                     reqTypeGuidUrgency:{
-                         message: '请求紧急程度验证失败',
-                         validators: {
-                             notEmpty: {
-                                 message: '请求紧急程度不能为空'
-                             }
-                         }
-                     },
-                     jd:{
-                         message: '请求紧急程度验证失败',
-                         validators: {
-                             notEmpty: {
-                                 message: '经度不能为空'
-                             }
-                         }
-                     },
-                     wd:{
-                         message: '请求紧急程度验证失败',
-                         validators: {
-                             notEmpty: {
-                                 message: '纬度不能为空'
-                             }
-                         }
-                     },*/
-                    reqIssueTime: {
-                        message: '提出请求的时间验证失败',
-                        validators: {
-                            notEmpty: {
-                                message: '提出请求的时间不能为空'
-                            }
-                        }
-                    },
                     reqAddress: {
                         message: '请求提出地址验证失败',
                         validators: {
@@ -146,7 +107,7 @@
                                 message: '请求提出地址长度必须在5到35位之间'
                             },
                             regexp: {
-                                regexp: /^[^%_&!@#*',;=?$x22]+$/,
+                                regexp: /^[^%_&!@#*',;=?$x]+$/,
                                 message: '请求提出地址格式不包括特殊字符'
                             }
                         }
@@ -178,11 +139,7 @@
                                 min: 5,
                                 max: 120,
                                 message: '只能输入中文且必须在5到120字之间'
-                            }/*,
-                            regexp: {
-                                regexp: /[\u4e00-\u9fa5]+$/,
-                                message: '请求的标题只能包含中文'
-                            }*/
+                            }
                         }
                     },
 
@@ -198,7 +155,7 @@
                                 message: '请求补充长度必须在2到100位之间'
                             },
                             regexp: {
-                                regexp: /^[^!+~%_&!@#*',;=?$x]+$/,
+                                regexp: /^[^%_&!@#*',;=?$x]+$/,
                                 message: '请求补充格式不包括特殊字符'
                             }
                         }
@@ -213,6 +170,7 @@
                     },
                     reqAvailableStartTime: {
                         message: '请求可用开始时间验证失败',
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message: '请求可用开始时间不能为空'
@@ -221,6 +179,7 @@
                     },
                     reqAvailableEndTime: {
                         message: '请求可用结束时间验证失败',
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message: '请求可用结束时间不能为空'
@@ -234,10 +193,8 @@
                                 message: '预计持续时间不能为空'
                             },
                             regexp: {
-//                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
-//                                message: '请求持续时间长度只能包含正浮点数'
                                 regexp:/^[0-9]*[1-9][0-9]*$/,
-                                message: '估计消耗货币只能包含正整数'
+                                message: '预计持续时间只能包含整数，例如1'
                             }
                         }
                     },
@@ -249,13 +206,13 @@
                             },
                             regexp: {
                                 regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
-//                                regexp:/^[0-9]*[1-9][0-9]*$/,
-                                message: '估计消耗货币只能包含正浮点数'
+                                message: '估计消耗货币只能包含正浮点数，例如1.0'
                             }
                         }
                     },
                     reqStartTime: {
                         message: '请求服务开始时间验证失败',
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message: '请求服务开始时间不能为空'
@@ -264,6 +221,7 @@
                     },
                     reqEndTime: {
                         message: '请求服务结束时间验证失败',
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message: '请求服务结束时间不能为空'
@@ -278,7 +236,6 @@
                             },
                             regexp: {
                                 regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
-//                                regexp:/^[0-9]*[1-9][0-9]*$/,
                                 message: '请求实际消耗货币只能包含正浮点数'
                             }
                         }
@@ -290,10 +247,8 @@
                                 message: '请求持续时间不能为空'
                             },
                             regexp: {
-//                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
-                                regexp:/^[0-9]*[1-9][0-9]*$/,
-//                                message: '请求持续时间长度只能包含正浮点数'
-                                message: '请求持续时间长度只能包含正整数'
+                                regexp: /^[0-9]*[1-9][0-9]*$/,
+                                message: '请求持续时间长度只能是整数，例如1'
                             }
                         }
                     },
@@ -328,10 +283,6 @@
                             notEmpty: {
                                 message: '请求权值不能为空'
                             }
-//                            regexp: {
-//                                regexp: /^[1-9]d*.d*|0.d*[1-9]d*$/,
-//                                message: '请求权值只能包含正浮点数'
-//                            }
                         }
                     },
                     reqProcessUserGuid: {
@@ -356,6 +307,7 @@
             });
         });
     </script>
+
 </head>
 <body>
 <div class="container">
@@ -387,11 +339,11 @@
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqAddress" >服务地址：</label>
                                 <div class="col-lg-9">
-                                    <input rows="5" id="reqAddress" name="reqAddress" class="form-control"  placeholder="请输入详细服务地址">
+                                    <input  id="reqAddress" name="reqAddress" class="form-control"  placeholder="请输入详细服务地址">
                                     </input>
                                 </div>
                             </div>
-                            <li><a th:href="@{/mybank}"> 点击进行定位</a></li>
+                            <li id="dingwei"><a th:href="@{/mybank}"> 点击进行定位</a></li>
                             <div class="form-group  col-lg-6" hidden="hidden">
                                 <label class="control-label col-lg-3"  >经度：</label>
                                 <div class="col-lg-9">
@@ -411,7 +363,7 @@
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqTitle" >请求标题：</label>
                                 <div class="col-lg-9">
-                                    <input rows="5" id="reqTitle" name="reqTitle" class="form-control" placeholder="录入请求标题">
+                                    <input  id="reqTitle" name="reqTitle" class="form-control" placeholder="录入请求标题">
                                     </input>
                                 </div>
                             </div>
@@ -479,7 +431,7 @@
                             <div class="form-group  col-lg-6">
                                 <label class="control-label col-lg-3" for="reqPreCunsumeCurrency" >估计消耗货币：</label>
                                 <div class="col-lg-9">
-                                    <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqPreCunsumeCurrency" name="reqPreCunsumeCurrency" type="text" class="form-control" placeholder="格式为正浮点数"
+                                    <input onkeyup="value=value.replace(/[^.\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" id="reqPreCunsumeCurrency" name="reqPreCunsumeCurrency" type="text" class="form-control" placeholder="格式为正整数"
                                     /><b>元</b>
                                 </div>
                             </div>
@@ -529,113 +481,101 @@
         </div>
     </div>
     <script>
-        //                var startMax = '2099-06-16 23:59:59';
-        //                var endMin = '1900-06-16 23:59:59';
-        var startTime = laydate.render({
-            elem: '#reqAvailableStartTime',//指定元素
-            type: 'datetime',
-            format: 'yyyy-MM-dd HH:mm:ss',
-            min: 0, //设定最小日期为当前日期
-            max: '2099-06-16 23:59:59',
-            done: function (value,dates) {
-                console.log(dates);
-                endTime.config.min={
-                    year:dates.year,
-                    month:dates.month-1,//关键
-                    date: dates.date,
-                    hours: dates.hours,
-                    minutes: dates.minutes,
-                    seconds : dates.seconds
-                }
-//                this.endMin = value; //开始时间等于结束时间的最小值
-//                endStart = value;//将结束日的初始值设定为开始日
-
-
-
-            }
-        });
-        var endTime = laydate.render({
-            elem: '#reqAvailableEndTime', //指定元素
-            type: 'datetime',
-            format: "yyyy-MM-dd HH:mm:ss",
-            min: 0,
-            max: '2099-06-16 23:59:59',
-            istime: true,
-            istoday: false,
-            done: function (value,dates) {
-                startTime.config.max={
-                    year:dates.year,
-                    month:dates.month-1,//关键
-                    date: dates.date,
-                    hours: dates.hours,
-                    minutes: dates.minutes,
-                    seconds : dates.seconds
-                }
-//                this.startMax = value; //开始时间的最大值等于选定的结束时间
-
-            }
-        });
-        var startTime1 = laydate.render({
-            elem:'#reqStartTime' ,//指定元素
-            type: 'datetime',
-            format: 'yyyy-MM-dd HH:mm:ss',
-            min: 0, //设定最小日期为当前日期
-            max: '2099-06-16 23:59:59',
-            done: function (value,dates) {
-                console.log(dates);
-                endTime1.config.min={
-                    year:dates.year,
-                    month:dates.month-1,//关键
-                    date: dates.date,
-                    hours: dates.hours,
-                    minutes: dates.minutes,
-                    seconds : dates.seconds
-                }
-//                this.endMin = value; //开始时间等于结束时间的最小值
-//                endStart = value;//将结束日的初始值设定为开始日
-            }
-        });
-        var endTime1 = laydate.render({
-            elem:  '#reqEndTime' , //指定元素
-            type: 'datetime',
-            format: "yyyy-MM-dd HH:mm:ss",
-            min: 0,
-            max: '2099-06-16 23:59:59',
-            istime: true,
-            istoday: false,
-            done: function (value,dates) {
-                startTime1.config.max={
-                    year:dates.year,
-                    month:dates.month-1,//关键
-                    date: dates.date,
-                    hours: dates.hours,
-                    minutes: dates.minutes,
-                    seconds : dates.seconds
-                }
-//                this.startMax = value; //开始时间的最大值等于选定的结束时间
-            }
-        });
+//        var startTime = laydate.render({
+//            elem: '#reqAvailableStartTime',//指定元素
+//            type: 'datetime',
+//            format: 'yyyy-MM-dd HH:mm:ss',
+//            min: 0, //设定最小日期为当前日期
+//            max: '2099-06-16 23:59:59',
+//            done: function (value,dates) {
+//                endTime.config.min={
+//                    year:dates.year,
+//                    month:dates.month-1,//关键
+//                    date: dates.date,
+//                    hours: dates.hours,
+//                    minutes: dates.minutes,
+//                    seconds : dates.seconds
+//                }
+//            }
+//        });
+//        var endTime = laydate.render({
+//            elem: '#reqAvailableEndTime', //指定元素
+//            type: 'datetime',
+//            format: "yyyy-MM-dd HH:mm:ss",
+//            min: 0,
+//            max: '2099-06-16 23:59:59',
+//            istime: true,
+//            istoday: false,
+//            done: function (value,dates) {
+//                startTime.config.max={
+//                    year:dates.year,
+//                    month:dates.month-1,//关键
+//                    date: dates.date,
+//                    hours: dates.hours,
+//                    minutes: dates.minutes,
+//                    seconds : dates.seconds
+//                }
+//            }
+//        });
+//        var startTime1 = laydate.render({
+//            elem:'#reqStartTime' ,//指定元素
+//            type: 'datetime',
+//            format: 'yyyy-MM-dd HH:mm:ss',
+//            min: 0, //设定最小日期为当前日期
+//            max: '2099-06-16 23:59:59',
+//            done: function (value,dates) {
+//                endTime1.config.min={
+//                    year:dates.year,
+//                    month:dates.month-1,//关键
+//                    date: dates.date,
+//                    hours: dates.hours,
+//                    minutes: dates.minutes,
+//                    seconds : dates.seconds
+//                }
+//            }
+//        });
+//        var endTime1 = laydate.render({
+//            elem:  '#reqEndTime' , //指定元素
+//            type: 'datetime',
+//            format: "yyyy-MM-dd HH:mm:ss",
+//            min: 0,
+//            max: '2099-06-16 23:59:59',
+//            istime: true,
+//            istoday: false,
+//            done: function (value,dates) {
+//                startTime1.config.max={
+//                    year:dates.year,
+//                    month:dates.month-1,//关键
+//                    date: dates.date,
+//                    hours: dates.hours,
+//                    minutes: dates.minutes,
+//                    seconds : dates.seconds
+//                }
+//            }
+//        });
 
         function s(e, a) {
-            if (e && e.preventDefault)
-                e.preventDefault();
-            else
-                window.event.returnValue = false;
-            a.focus();
+                    if (e && e.preventDefault)
+                        e.preventDefault();
+                    else
+                        window.event.returnValue = false;
+                    a.focus();
 
-        }
-        if (message ==2) {
-            document.getElementById("btnSubmit").disabled = false;
-        } else {
+                }
+        if (message == 1) {
             document.getElementById("btnSubmit").disabled = true;
-            var arr=document.getElementsByClassName("form-control");
-            for(var i=0;i<arr.length;i++){
-                arr[i].disabled=true;
+            var arr = document.getElementsByClassName("form-control");
+            for (var i = 0; i < arr.length; i++) {
+                arr[i].disabled = true;
+            }
+            $('#dingwei').attr("hidden", true);
+        } else {
+            document.getElementById("btnSubmit").disabled = false;
+            var arr = document.getElementsByClassName("form-control");
+            for (var i = 0; i < arr.length; i++) {
+                arr[i].disabled = false;
             }
         }
-
-
-
 
     </script>
     <div class="row clearfix">
@@ -646,4 +586,3 @@
 </div>
 </body>
 </html>
-

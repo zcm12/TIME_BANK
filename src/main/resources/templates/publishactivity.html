@@ -5,7 +5,43 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-
+            var startTime = laydate.render({
+                elem:  '#activityStartTime',//指定元素
+                type: 'datetime',
+                format: 'yyyy-MM-dd HH:mm:ss',
+                min: 0, //设定最小日期为当前日期
+                max: '2099-06-16 23:59:59',
+                done: function (value,dates) {
+                    console.log(dates);
+                    endTime.config.min={
+                        year:dates.year,
+                        month:dates.month-1,//关键
+                        date: dates.date,
+                        hours: dates.hours,
+                        minutes: dates.minutes,
+                        seconds : dates.seconds
+                    }
+                }
+            });
+            var endTime = laydate.render({
+                elem: '#activityEndTime' , //指定元素
+                type: 'datetime',
+                format: "yyyy-MM-dd HH:mm:ss",
+                min: 0, //设定最小日期为当前日期
+                max: '2099-06-16 23:59:59',
+                istime: true,
+                istoday: false,
+                done: function (value,dates) {
+                    startTime.config.max={
+                        year:dates.year,
+                        month:dates.month-1,//关键
+                        date: dates.date,
+                        hours: dates.hours,
+                        minutes: dates.minutes,
+                        seconds : dates.seconds
+                    }
+                }
+            });
             $('#ACTIVITYInputForm').bootstrapValidator({
                 message: 'This value is not valid',
                 feedbackIcons: {
@@ -19,16 +55,7 @@
                         validators: {
                             notEmpty: {
                                 message:'活动ID不能为空'
-                            },
-//                            stringLength: {
-//                                min: 6,
-//                                max: 18,
-//                                message: '活动ID长度必须在6到18位之间'
-//                            },
-//                            regexp:{
-//                                regexp: /^[a-zA-Z0-9_]+$/,
-//                                message:'活动ID只能包含大写、小写、数字和下划线'
-//                            }
+                            }
                         }
                     },
                     activityTitle:{
@@ -36,7 +63,7 @@
                         validators: {
                             notEmpty: {
                                 message:'活动标题不能为空'
-                            },
+                            }
                         }
                     },
                     activityDesp:{
@@ -44,7 +71,7 @@
                         validators: {
                             notEmpty: {
                                 message:'活动描述不能为空'
-                            },
+                            }
 //                            stringLength: {
 //                                min: 6,
 //                                max: 18,
@@ -75,6 +102,7 @@
                     },
                     activityStartTime:{
                         message: '开始时间验证失败',
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message:'开始时间不能为空'
@@ -92,6 +120,7 @@
                     },
                     activityEndTime:{
                         message: '结束时间验证失败',
+                        trigger:'change',
                         validators: {
                             notEmpty: {
                                 message:'结束时间不能为空'
@@ -141,57 +170,6 @@
 //                            }
                         }
                     },
-//                    activity_from_comm_guid:{
-//                        message: '活动社区ID验证失败',
-//                        validators: {
-//                            notEmpty: {
-//                                message:'活动社区ID不能为空'
-//                            },
-//                            stringLength: {
-//                                min: 6,
-//                                max: 18,
-//                                message: '活动社区ID长度必须在6到18位之间'
-//                            },
-//                            regexp:{
-//                                regexp: /^[a-zA-Z0-9_]+$/,
-//                                message:'活动社区ID只能包含大写、小写、数字和下划线'
-//                            }
-//                        }
-//                    },
-//                    activity_type_process_status:{
-//                        message: '活动处理状态验证失败',
-//                        validators: {
-//                            notEmpty: {
-//                                message:'活动处理状态不能为空'
-//                            },
-//                            stringLength: {
-//                                min: 6,
-//                                max: 18,
-//                                message: '活动处理状态长度必须在6到18位之间'
-//                            },
-//                            regexp:{
-//                                regexp: /^[a-zA-Z0-9_]+$/,
-//                                message:'活动处理状态只能包含大写、小写、数字和下划线'
-//                            }
-//                        }
-//                    },
-//                    activity_targets_user_guid:{
-//                        message: '接收请求人的ID验证失败',
-//                        validators: {
-//                            notEmpty: {
-//                                message:'接收请求人的ID不能为空'
-//                            },
-//                            stringLength: {
-//                                min: 6,
-//                                max: 18,
-//                                message: '接收请求人的ID长度必须在6到18位之间'
-//                            },
-//                            regexp:{
-//                                regexp: /^[a-zA-Z0-9_]+$/,
-//                                message:'接收请求人的ID只能包含大写、小写、数字和下划线'
-//                            }
-//                        }
-//                    },
                     activityPersonNum:{
                         message: '需要人数验证失败',
                         validators: {
@@ -349,47 +327,6 @@
     </div>
     <script>
 
-        var startTime = laydate.render({
-            elem:  '#activityStartTime',//指定元素
-            type: 'datetime',
-            format: 'yyyy-MM-dd HH:mm:ss',
-            min: 0, //设定最小日期为当前日期
-            max: '2099-06-16 23:59:59',
-            done: function (value,dates) {
-                console.log(dates);
-                endTime.config.min={
-                    year:dates.year,
-                    month:dates.month-1,//关键
-                    date: dates.date,
-                    hours: dates.hours,
-                    minutes: dates.minutes,
-                    seconds : dates.seconds
-                }
-//                this.endMin = value; //开始时间等于结束时间的最小值
-//                endStart = value;//将结束日的初始值设定为开始日
-            }
-        });
-        var endTime = laydate.render({
-            elem: '#activityEndTime' , //指定元素
-            type: 'datetime',
-            format: "yyyy-MM-dd HH:mm:ss",
-//            min: '1900-06-16 23:59:59',
-            min: 0, //设定最小日期为当前日期
-            max: '2099-06-16 23:59:59',
-            istime: true,
-            istoday: false,
-            done: function (value,dates) {
-                startTime.config.max={
-                    year:dates.year,
-                    month:dates.month-1,//关键
-                    date: dates.date,
-                    hours: dates.hours,
-                    minutes: dates.minutes,
-                    seconds : dates.seconds
-                }
-//                this.startMax = value; //开始时间的最大值等于选定的结束时间
-            }
-        });
     </script>
     <div class="row clearfix">
         <div class="col-md-12 bg-primary">

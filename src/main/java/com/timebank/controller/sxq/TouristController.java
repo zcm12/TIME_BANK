@@ -53,8 +53,6 @@ public class TouristController {
     private ActpartMapper actpartMapper;
     @Autowired
     private JavaMailSender mailSender;
-//    @Autowired
-//    private VelocityEngine velocityEngine;
     @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;
 
@@ -96,18 +94,24 @@ public class TouristController {
     //游客列表界面
     @RequestMapping(value = "/createUserRole/{num}")
     public String createUserRole(Model model,@PathVariable int num){
-        Subject account = SecurityUtils.getSubject();
-        String message=(String) account.getPrincipal();
-        Users users=GetCurrentUsers(message);
-        String role=users.getUserRole();
-        model.addAttribute("role",role);
-        model.addAttribute("num",num);
-        return "touristList";
+        try {
+            Subject account = SecurityUtils.getSubject();
+            String message = (String) account.getPrincipal();
+            Users users = GetCurrentUsers(message);
+            String role = users.getUserRole();
+            model.addAttribute("role", role);
+            model.addAttribute("num", num);
+            return "touristList";
+         } catch (Exception e) {
+        e.printStackTrace();
+        return "fail";
+    }
     }
     //游客列表界面获取数据
     @RequestMapping(value="/getTouristListJsonData")
     @ResponseBody
     public String getTourstListJsonData(Model model, int offset, int limit, String sortName, String sortOrder,int num, String searchText){
+        try{
         //将管理员的角色添加到model中
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
@@ -227,17 +231,20 @@ public class TouristController {
         } catch (Exception e) {
             return null;
         }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //查看详情界面   进行审核
     @RequestMapping(value="/Tourist/{userGuid}")
     public String getTourstListJsonData(Model model,@PathVariable String userGuid){
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
-
-
         UsersExample usersExample1=new UsersExample();
         usersExample1.or().andUserGuidEqualTo(userGuid);
         List<Users> users12=usersMapper.selectByExample(usersExample1);
@@ -287,10 +294,15 @@ public class TouristController {
         model.addAttribute("users",users1);
 
         return "createUserRole";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //添加自动发送邮件  通过按钮
     @RequestMapping(value = "/passSubmit")
     public String updateTouristInformationSubmit (Model model1,Users users) throws Exception{
+        try{
         Subject account = SecurityUtils.getSubject();
         String message1=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message1);
@@ -333,13 +345,17 @@ public class TouristController {
                 mailSender.send(message);
 
             }else{
-                SimpleMailMessage message3 = new SimpleMailMessage();
-                message3.setFrom("18765924730@163.com");
-                message3.setTo(mail);
-                message3.setSubject("主题：时间银行审核邮件");
-                message3.setText("您好，您的审核未通过,请你按照提示正确填写信息");
-                model1.addAttribute("num",1);
-                mailSender.send(message3);
+                FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
+                configurer.setTemplateLoaderPath("classpath:templates");
+                //读取 html 模板
+                Template template = freeMarkerConfigurer.getConfiguration().getTemplate("mailFail.html");
+                String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+                helper.setText(html, true);
+                //发送图片
+                File file = ResourceUtils.getFile("classpath:static/img/wxgzh.jpg");
+                helper.addInline("springcloud", file);
+                model1.addAttribute("num",2);
+                mailSender.send(message);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -349,23 +365,33 @@ public class TouristController {
             return "touristList";
         }catch (Exception e){
         return "fail";}
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     /***************************平台管理员管理员审核游客功能区**************************************/
     //用户游客列表
     @RequestMapping(value = "/createAllUserRole")
     public String createAllUserRole(Model model){
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users=GetCurrentUsers(message);
         String role=users.getUserRole();
         model.addAttribute("role",role);
         return "usersListByAdmin";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //列表界面向后台获取数据
     @RequestMapping(value="/getAllUsersListJsonData")
     @ResponseBody
     public String getAllUsersListJsonData(Model model, int offset, int limit, String sortName, String sortOrder,String searchText){
         //将管理员的角色添加到model中
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users=GetCurrentUsers(message);
@@ -399,6 +425,7 @@ public class TouristController {
             //处理小区 暂时不能放开 整合到最后在放开 否则出错-----活动 名字转换
             String comm=it.getUserCommGuid();
             CommunityExample communityExample=new CommunityExample();
+
             communityExample.or().andCommGuidEqualTo(comm);
             List<Community> communities=communityMapper.selectByExample(communityExample);
             it.setUserCommGuid(communities.get(0).getCommTitle());
@@ -452,10 +479,15 @@ public class TouristController {
         } catch (Exception e) {
             return null;
         }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //查看详情按钮
     @RequestMapping(value="/AllUser/{userGuid}")
     public String alluser(Model model,@PathVariable String userGuid){
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users=GetCurrentUsers(message);
@@ -508,10 +540,15 @@ public class TouristController {
         }
         model.addAttribute("users",use);
         return "createUserRoleByAdmin";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //保存按钮
     @RequestMapping(value = "/passUserSubmit")
     public String passUserSubmit(Model model,Users users) {
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
@@ -522,7 +559,12 @@ public class TouristController {
         /****10.23**/
         usersMapper.updateByPrimaryKeySelective(users);
         return "usersListByAdmin";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
+
 
 
 }

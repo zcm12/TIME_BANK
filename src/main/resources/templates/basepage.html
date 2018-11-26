@@ -25,11 +25,17 @@
                 <nav class="navbar" role="navigation">
                     <div class="navbar-header">
                         欢迎使用时间银行系统
+                        <!--<a style="color: white;margin-left: 1050px" th:href="@{/css/login}">退出</a>-->
                     </div>
+
                     <div >
                         <!-- <input id="userId" name ="userId" type="text" style="visibility: hidden" th:value="${userId}"/>-->
                         <input id="role" name="role" type="text"  style="visibility: hidden" th:value="${role}"/>
                     </div>
+                    <span class="nav navbar-right" style="margin-right: 20px;">
+                        <a th:href="@{/index1}" style="color: white">返回首页</a>
+                        <!--<a th:href="" style="color: white">退出</a>-->
+                    </span>
 
                 </nav>
             </div>
@@ -79,10 +85,11 @@
                                         </ul>
                                     </li>
                                     <li><a th:href="@{/waitsomebody}"><i class="glyphicon glyphicon-th-list"></i> 待接单</a></li>
+                                    <li><a th:href="@{/css/login}"><i class="glyphicon glyphicon-arrow-left"></i> 返回登录页</a></li>
                                 </ul>
                             </div>
                         </div>
-                         <!-- 我是张春萌-->
+                        <!-- 我是张春萌-->
                         <div class="panel-heading" th:if="${role} == 'MADMIN'">
                             <a class="panel-title" data-toggle="collapse" data-parent="#panel-658713"
                                href="#panel-element-640832">小区管理员系统</a>
@@ -119,26 +126,27 @@
 
 
 
-                                           <!-- <li><a th:href="@{/activitylist/1}"><i class="glyphicon glyphicon-th-list"></i> 查看所有活动</a></li>
-                                            <li class="divider"></li>
-                                            <li><a th:href="@{/activitylist/2}"><i class="glyphicon glyphicon-th-list"></i> 查看未启动活动</a></li>
-                                            <li class="divider"></li>
-                                            <li><a th:href="@{/activitylist/3}"><i class="glyphicon glyphicon-th-list"></i> 查看待启动活动</a></li>
-                                            <li class="divider"></li>
-                                            <li><a th:href="@{/activitylist/4}"><i class="glyphicon glyphicon-th-list"></i> 查看启动活动</a></li>
-                                            <li class="divider"></li>
-                                            <li><a th:href="@{/activitylist/5}"><i class="glyphicon glyphicon-th-list"></i> 查看未完成活动</a></li>
-                                            <li class="divider"></li>
-                                            <li><a th:href="@{/activitylist/6}"><i class="glyphicon glyphicon-th-list"></i> 查看已完成活动</a></li>
-                                            <li class="divider"></li>
-                                            <li><a th:href="@{/activitylist/7}"><i class="glyphicon glyphicon-th-list"></i> 查看已撤销活动</a></li>
-                                            <li class="divider"></li>
-                                            <li><a th:href="@{/activitylist/8}"><i class="glyphicon glyphicon-th-list"></i> 查看评价完的活动</a></li>
-&ndash;&gt;
-                                     -->   </ul>
+                                            <!-- <li><a th:href="@{/activitylist/1}"><i class="glyphicon glyphicon-th-list"></i> 查看所有活动</a></li>
+                                             <li class="divider"></li>
+                                             <li><a th:href="@{/activitylist/2}"><i class="glyphicon glyphicon-th-list"></i> 查看未启动活动</a></li>
+                                             <li class="divider"></li>
+                                             <li><a th:href="@{/activitylist/3}"><i class="glyphicon glyphicon-th-list"></i> 查看待启动活动</a></li>
+                                             <li class="divider"></li>
+                                             <li><a th:href="@{/activitylist/4}"><i class="glyphicon glyphicon-th-list"></i> 查看启动活动</a></li>
+                                             <li class="divider"></li>
+                                             <li><a th:href="@{/activitylist/5}"><i class="glyphicon glyphicon-th-list"></i> 查看未完成活动</a></li>
+                                             <li class="divider"></li>
+                                             <li><a th:href="@{/activitylist/6}"><i class="glyphicon glyphicon-th-list"></i> 查看已完成活动</a></li>
+                                             <li class="divider"></li>
+                                             <li><a th:href="@{/activitylist/7}"><i class="glyphicon glyphicon-th-list"></i> 查看已撤销活动</a></li>
+                                             <li class="divider"></li>
+                                             <li><a th:href="@{/activitylist/8}"><i class="glyphicon glyphicon-th-list"></i> 查看评价完的活动</a></li>
+ &ndash;&gt;
+                                      -->   </ul>
                                     </li>
 
                                     <li><a th:href="@{/activitylistscore}"><i class="glyphicon glyphicon-th-list"></i> 评价活动</a></li>
+                                    <li><a th:href="@{/css/login}"><i class="glyphicon glyphicon-arrow-left"></i> 返回登录页</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -151,20 +159,59 @@
                             <div class="panel-body">
                                 <ul id="systemSetting3" class="nav nav-pills nav-stacked" >
                                     <!--<li><a th:href="@{/mybank}"><i class="glyphicon glyphicon-user"></i> 查看地图</a></li>-->
+
+
                                     <li><a th:href="@{/userInformationView}"><i class="glyphicon glyphicon-user"></i> 查看个人信息</a></li>
                                     <li><a th:href="@{/modifyUserInformationView}"><i class="glyphicon glyphicon-edit"></i> 完善个人信息</a></li>
-                                    <li><a th:href="@{/createRequestByUserView}"><i class="glyphicon glyphicon-credit-card"></i> 发布需求</a></li>
-                                    <li><a th:href="@{/requestListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的需求</a></li>
-                                    <li><a th:href="@{/createApplyByUserView}"><i class="glyphicon glyphicon-globe"></i> 申请服务</a></li>
-                                    <li><a th:href="@{/applyListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的服务</a></li>
-                                    <li><a th:href="@{/createActivityByUserView}"><i class="glyphicon glyphicon-info-sign"></i> 申请活动</a></li>
-                                    <li><a th:href="@{/applyActivityListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的活动</a></li>
-                                    <li><a th:href="@{/receiveServicesView}"><i class="glyphicon glyphicon-calendar"></i> 收入时间币</a></li>
-                                    <li><a th:href="@{/remitServicesView}"><i class="glyphicon glyphicon-calendar"></i> 转出时间币</a></li>
-                                    <li><a th:href="@{/remitServicesList}"><i class="glyphicon glyphicon-th-list"></i> 交易列表</a></li>
-                                    <li><a th:href="@{/requestScore}"><i class="glyphicon glyphicon-check"></i> 评价志愿者</a></li>
-                                    <li><a th:href="@{/requestScore1}"><i class="glyphicon  glyphicon-ok-circle"></i> 已评论的请求</a></li>
-                                    <li><a th:href="@{/requestScore2}"><i class="glyphicon glyphicon-eye-open"></i> 我的服务评分</a></li>
+
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle"  data-toggle="dropdown" th:href="@{/listRequestByAdminView/0}">
+                                            <i class="glyphicon glyphicon-th-list"></i> 需求管理<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a th:href="@{/createRequestByUserView}"><i class="glyphicon glyphicon-credit-card"></i> 发布需求</a></li>
+                                            <li><a th:href="@{/requestListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我发布的需求</a></li>
+                                            <li><a th:href="@{/remitServicesView}"><i class="glyphicon glyphicon-calendar"></i> 转账</a></li>
+                                            <li><a th:href="@{/requestScore}"><i class="glyphicon glyphicon-check"></i> 评价志愿者</a></li>
+                                            <li><a th:href="@{/requestScore1}"><i class="glyphicon  glyphicon-ok-circle"></i> 已评价的请求</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle"  data-toggle="dropdown" th:href="@{/listRequestByAdminView/0}">
+                                            <i class="glyphicon glyphicon-th-list"></i> 服务管理<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a th:href="@{/createApplyByUserView}"><i class="glyphicon glyphicon-globe"></i> 申请服务</a></li>
+                                            <li><a th:href="@{/applyListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我申请的服务</a></li>
+
+                                            <li><a th:href="@{/requestScore2}"><i class="glyphicon glyphicon-eye-open"></i> 我的服务分数</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle"  data-toggle="dropdown" th:href="@{/listRequestByAdminView/0}">
+                                            <i class="glyphicon glyphicon-bullhorn"></i> 活动管理<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a th:href="@{/createActivityByUserView}"><i class="glyphicon glyphicon-info-sign"></i> 申请活动</a></li>
+                                            <li><a th:href="@{/applyActivityListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的活动</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle"  data-toggle="dropdown" th:href="@{/listRequestByAdminView/0}">
+                                            <i class="glyphicon glyphicon-list-alt"></i> 我的账户<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a th:href="@{/receiveServicesView}"><i class="glyphicon glyphicon-calendar"></i> 交易操作</a></li>
+                                            <li><a th:href="@{/remitServicesList}"><i class="glyphicon glyphicon-list-alt"></i> 交易明细</a></li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li><a th:href="@{/css/login}"><i class="glyphicon glyphicon-arrow-left"></i> 返回登录页</a></li>
+
                                 </ul>
                             </div>
                         </div>
@@ -177,30 +224,54 @@
                                 <ul id="systemSetting4" class="nav nav-pills nav-stacked" >
                                     <li><a th:href="@{/userInformationView}"><i class="glyphicon glyphicon-user"></i> 查看个人信息</a></li>
                                     <li><a th:href="@{/modifyUserInformationView}"><i class="glyphicon glyphicon-edit"></i> 完善个人信息</a></li>
-                                    <li><a th:href="@{/createRequestByUserView}"><i class="glyphicon glyphicon-credit-card"></i> 发布需求</a></li>
-                                    <li><a th:href="@{/requestListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的需求</a></li>
-                                    <li><a th:href="@{/createApplyByUserView}"><i class="glyphicon glyphicon-globe"></i> 申请服务</a></li>
-                                    <li><a th:href="@{/applyListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的服务</a></li>
-                                    <li><a th:href="@{/createActivityByUserView}"><i class="glyphicon glyphicon-info-sign"></i> 申请活动</a></li>
-                                    <li><a th:href="@{/applyActivityListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的活动</a></li>
-                                    <li><a th:href="@{/receiveServicesView}"><i class="glyphicon glyphicon-calendar"></i> 收入时间币</a></li>
-                                    <li><a th:href="@{/remitServicesView}"><i class="glyphicon glyphicon-calendar"></i> 转出时间币</a></li>
-                                    <li><a th:href="@{/remitServicesList}"><i class="glyphicon glyphicon-th-list"></i> 交易列表</a></li>
-                                    <li><a th:href="@{/requestScore}"><i class="glyphicon glyphicon-check"></i> 评价志愿者</a></li>
-                                    <li><a th:href="@{/requestScore1}"><i class="glyphicon  glyphicon-ok-circle"></i> 已评论的请求</a></li>
-                                    <li><a th:href="@{/requestScore2}"><i class="glyphicon glyphicon-eye-open"></i> 我的服务评分</a></li>
-                                    <!--<li><a th:href="@{/userInformationView}"><i class="glyphicon glyphicon-user"></i> 查看个人信息</a></li>
-                                    <li><a th:href="@{/modifyUserInformationView}"><i class="glyphicon glyphicon-user"></i> 完善个人信息</a></li>
-                                    <li><a th:href="@{/createRequestByUserView}"><i class="glyphicon glyphicon-th-list"></i> 发布需求</a></li>
-                                    <li><a th:href="@{/requestListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的需求</a></li>
-                                    <li><a th:href="@{/createApplyByUserView}"><i class="glyphicon glyphicon-th-list"></i> 申请服务</a></li>
-                                    <li><a th:href="@{/applyListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的服务</a></li>
-                                    <li><a th:href="@{/createActivityByUserView}"><i class="glyphicon glyphicon-th-list"></i> 申请活动</a></li>
-                                    <li><a th:href="@{/applyActivityListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的活动</a></li>
-                                    <li><a th:href="@{/receiveServicesView}"><i class="glyphicon glyphicon-th-list"></i> 收入时间币</a></li>
-                                    <li><a th:href="@{/remitServicesView}"><i class="glyphicon glyphicon-th-list"></i> 转出时间币</a></li>
-                                    <li><a th:href="@{/remitServicesList}"><i class="glyphicon glyphicon-th-list"></i> 交易列表</a></li>
-                                    <li><a th:href="@{/requestScore}"><i class="glyphicon glyphicon-th-list"></i> 评价志愿者</a></li>-->
+
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle"  data-toggle="dropdown" th:href="@{/listRequestByAdminView/0}">
+                                            <i class="glyphicon glyphicon-th-list"></i> 需求管理<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a th:href="@{/createRequestByUserView}"><i class="glyphicon glyphicon-credit-card"></i> 发布需求</a></li>
+                                            <li><a th:href="@{/requestListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我发布的需求</a></li>
+                                            <li><a th:href="@{/remitServicesView}"><i class="glyphicon glyphicon-calendar"></i> 转账</a></li>
+                                            <li><a th:href="@{/requestScore}"><i class="glyphicon glyphicon-check"></i> 评价志愿者</a></li>
+                                            <li><a th:href="@{/requestScore1}"><i class="glyphicon  glyphicon-ok-circle"></i> 已评价的请求</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle"  data-toggle="dropdown" th:href="@{/listRequestByAdminView/0}">
+                                            <i class="glyphicon glyphicon-th-list"></i> 服务管理<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a th:href="@{/createApplyByUserView}"><i class="glyphicon glyphicon-globe"></i> 申请服务</a></li>
+                                            <li><a th:href="@{/applyListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我申请的服务</a></li>
+
+                                            <li><a th:href="@{/requestScore2}"><i class="glyphicon glyphicon-eye-open"></i> 我的服务分数</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle"  data-toggle="dropdown" th:href="@{/listRequestByAdminView/0}">
+                                            <i class="glyphicon glyphicon-bullhorn"></i> 活动管理<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a th:href="@{/createActivityByUserView}"><i class="glyphicon glyphicon-info-sign"></i> 申请活动</a></li>
+                                            <li><a th:href="@{/applyActivityListByUserView}"><i class="glyphicon glyphicon-th-list"></i> 我的活动</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle"  data-toggle="dropdown" th:href="@{/listRequestByAdminView/0}">
+                                            <i class="glyphicon glyphicon-list-alt"></i> 我的账户<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a th:href="@{/receiveServicesView}"><i class="glyphicon glyphicon-calendar"></i> 交易操作</a></li>
+                                            <li><a th:href="@{/remitServicesList}"><i class="glyphicon glyphicon-list-alt"></i> 交易明细</a></li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li><a th:href="@{/css/login}"><i class="glyphicon glyphicon-arrow-left"></i> 返回登录页</a></li>
                                 </ul>
                             </div>
                         </div>

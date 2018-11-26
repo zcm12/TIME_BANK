@@ -54,21 +54,23 @@ public class requsetController {
 
     @RequestMapping(value = "/waitsomebody")
     public String gotorequestlist(Model model){
-
-
-
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users=GetCurrentUsers(message);
         String role=users.getUserRole();
         model.addAttribute("role",role);
         return "reqlistprocess";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
     @RequestMapping(value="/getREQESTListJsonDataActivity")
     @ResponseBody
     public String getREQESTListJsonData(Model model,@RequestParam int offset, int limit, String sortName, String sortOrder){
-
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users=GetCurrentUsers(message);
@@ -98,25 +100,16 @@ public class requsetController {
            TypeExample typeExample = new TypeExample();
             UsersExample usersExample1 = new UsersExample();
             WeightExample weightExample = new WeightExample();
-//
             String reqIssueUserGuid=reqest1.getReqIssueUserGuid();
             usersExample1.clear();
             usersExample1.or().andUserGuidEqualTo(reqIssueUserGuid);
             List<Users> users1 = usersMapper.selectByExample(usersExample1);
             reqest1.setReqIssueUserGuid(users1.get(0).getUserName());
-//
             String reqTypeGuidClass=reqest1.getReqTypeGuidClass();
             typeExample.clear();
             typeExample.or().andTypeGuidEqualTo(reqTypeGuidClass);
             List<Type> typeclass = typeMapper.selectByExample(typeExample);
             reqest1.setReqTypeGuidClass(typeclass.get(0).getTypeTitle());
-//
-////            String reqTypeApproveStatus=reqest1.getReqTypeApproveStatus();
-////            typeExample.clear();
-////            typeExample.or().andTypeGuidEqualTo(reqTypeApproveStatus);
-////            List<Type> types = typeMapper.selectByExample(typeExample);
-////            reqest1.setReqTypeApproveStatus(types.get(0).getTypeTitle());
-//
             String reqTypeGuidUrgency=reqest1.getReqTypeGuidUrgency();
             typeExample.clear();
             typeExample.or().andTypeGuidEqualTo(reqTypeGuidUrgency);
@@ -175,6 +168,10 @@ public class requsetController {
         }catch (Exception e){
             return null;
         }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     private String GetDatabaseFileName(String str)
     {
@@ -193,6 +190,7 @@ public class requsetController {
 
         @RequestMapping(value = "/REQEST/{request1}")
         public String reqdetailshow(Model model,@PathVariable String request1){
+        try{
             Subject account = SecurityUtils.getSubject();
             String message=(String) account.getPrincipal();
             Users users=GetCurrentUsers(message);
@@ -230,6 +228,10 @@ public class requsetController {
             model.addAttribute("weight",weights);
 
             return "reqdetailprocess";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
            }
 
 
@@ -241,22 +243,15 @@ public class requsetController {
         if (reqtargetuser != null) {
             UsersExample usersExample = new UsersExample();
                 StringBuilder sb = new StringBuilder();
-                //正则表达式，取出方括号里面的值
                 String r = reqtargetuser.replaceAll("^.*\\[", "").replaceAll("].*", "");
-                //     System.out.println(r);
-                //分割字符串
                 String[] array = r.split(",");
-          //  System.out.println(array.length);
                 String respondName = null;
                 for (int in = 0; in < array.length; in++) {
-                    //去掉双引号
                     String jj = array[in].replaceAll("\"", "");
-                //    System.out.println(jj);
                     usersExample.clear();
                     usersExample.or().andUserGuidEqualTo(jj);
                     List<Users> responduser = usersMapper.selectByExample(usersExample);
                     respondName = responduser.get(0).getUserName();
-             //       System.out.println(respondName);
                     sb.append(respondName).append(" ");
 
                 }

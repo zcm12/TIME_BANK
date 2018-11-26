@@ -33,8 +33,8 @@ public class YluserController {
     private WeightMapper weightMapper;
     @Autowired
     private ReqestMapper reqestMapper;
-    private Users GetCurrentUsers(String message){
 
+    private Users GetCurrentUsers(String message){
         UsersExample usersExample=new UsersExample();
         Users users=null;
         String em = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
@@ -58,7 +58,7 @@ public class YluserController {
     @RequestMapping(value = "/getUSERSListJsonData")
     @ResponseBody
     public String userList(Model model, @RequestParam int offset, int limit, String sortName, String sortOrder) {
-
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
@@ -123,6 +123,10 @@ public class YluserController {
         } catch (Exception e) {
             return null;
         }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
     private String GetDatabaseFileName(String str) {
@@ -138,21 +142,22 @@ public class YluserController {
 
     @RequestMapping(value = "volunteerchoose")
     public String volchoose(Model model) {
-
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
         String role=users1.getUserRole();
         model.addAttribute("role",role);
-
-
-
         return "volunteerchoose";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
     @RequestMapping(value = "/volunteer/{userid}")
     public String volunteerdetail(Model model, @PathVariable String userid) {
-
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
@@ -181,65 +186,55 @@ public class YluserController {
         typeExample.or().andTypeGuidEqualTo(users.getUserTypeAccountStatus());
         List<Type> userstatus = typeMapper.selectByExample(typeExample);
         users.setUserTypeAccountStatus(userstatus.get(0).getTypeTitle());
-//
-//        List<Role> roles = roleMapper.selectByExample(roleExample);
-//        model.addAttribute("roles",roles);
-//
-//        typeExample.clear();
-//        typeExample.or().andTypeGroupIdEqualTo(1);
-//        List<Type> type1 = typeMapper.selectByExample(typeExample);
-//        model.addAttribute("type1",type1);
-//
-//        typeExample.clear();
-//        typeExample.or().andTypeGroupIdEqualTo(2);
-//        List<Type> type2 = typeMapper.selectByExample(typeExample);
-//        model.addAttribute("type2",type2);
-
         return "volunteerdetail";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
 
     @RequestMapping(value = "/setId")
     public String setData(Reqest reqest, String reqTargetsUserGuid, Model model, String reqGuid) {
-
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
         String role=users1.getUserRole();
         model.addAttribute("role",role);
-
-
-        //后台接收前台的文本框内容
-        System.out.print("文本框内容：" + reqGuid);
-        System.out.print("文本框内容：" + reqTargetsUserGuid);
-
-        //先设置一个给数据库，一开始内容为null，而数据库中不能为null
-        //reqest.setReqTargetsUserGuid(reqest.getReqTargetsUserGuid());
-
         Reqest request = reqestMapper.selectByPrimaryKey(reqGuid);
 //        //后台把内容保存到数据库字段里
         request.setReqTargetsUserGuid(reqTargetsUserGuid);
         reqestMapper.updateByPrimaryKeySelective(request);
         //跳转到checkProjectView.html页面
         return "reqlistprocess";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 /*****************前端拾取坐标*******************************/
     @RequestMapping(value = "/mybank")
     public String demomapp(Model model) {
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
         String role=users1.getUserRole();
         model.addAttribute("role",role);
-        System.out.println(users1.getUserGuid());
         model.addAttribute("guid",users1.getUserGuid());
 
         return "demo_map1";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
     /*******************平台管理员代发请求获取地图*********************/
     @RequestMapping(value = "/mybankAD")
     public String demomappAD(Model model) {
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
@@ -249,12 +244,17 @@ public class YluserController {
         model.addAttribute("guid",users1.getUserGuid());
 
         return "demo_map1admin";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
 
     //将经纬度提交到后台
    @RequestMapping(value = "/aass")
-    public String SDAS(String jd,String wd,String cityName,String Guid,Model  model){
+    public String SDAS(String jd,String wd,String savecityName,String Guid,Model  model){
+        try{
        Subject account = SecurityUtils.getSubject();
        String message=(String) account.getPrincipal();
        Users users1=GetCurrentUsers(message);
@@ -265,32 +265,26 @@ public class YluserController {
        stringBuilder.append(",");
        stringBuilder.append(wd);
        stringBuilder.append(",");
-       stringBuilder.append(cityName);
+       stringBuilder.append(savecityName);
        System.out.println("拼接完成："+stringBuilder);
         String address=""+stringBuilder;
        String[] parts = address.split(",");
        model.addAttribute("address",parts[2]);
        model.addAttribute("jd",parts[0]);
        model.addAttribute("wd",parts[1]);
-//       TypeExample typeExample = new TypeExample();
-//       typeExample.or().andTypeGroupIdEqualTo(4);
-//       List<Type> types = typeMapper.selectByExample(typeExample);
-//       model.addAttribute("types",types);
-//       //选择请求紧急程度
-//       typeExample.clear();
-//       typeExample.or().andTypeGroupIdEqualTo(5);
-//       List<Type> typex = typeMapper.selectByExample(typeExample);
-//       model.addAttribute("typex",typex);
        //插入type和weight
        insertReqType(model,true);
-
         return  "apply";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
 
     @RequestMapping(value = "/createRequestByAdminViewAS")
-    public String createRequestByAdminView(String jd,String wd,String cityName,String Guid,Model model) {
-//        public String createRequestByAdminView(Model model) {
+    public String createRequestByAdminView(String jd,String wd,String savecityName,String Guid,Model model) {
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
@@ -303,7 +297,7 @@ public class YluserController {
         stringBuilder.append(",");
         stringBuilder.append(wd);
         stringBuilder.append(",");
-        stringBuilder.append(cityName);
+        stringBuilder.append(savecityName);
         System.out.println("拼接完成："+stringBuilder);
         String address=""+stringBuilder;
         String[] parts = address.split(",");
@@ -315,6 +309,10 @@ public class YluserController {
         //插入type和weight
         insertReqType(model,true);
         return "createRequestByAdminView";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
     private TypeExample insertReqType(Model model,boolean showProAndAppStatus) {
@@ -324,7 +322,6 @@ public class YluserController {
             typeExample.or().andTypeGroupIdEqualTo(3);
             List<Type> type1 = typeMapper.selectByExample(typeExample);
             model.addAttribute("type1", type1);
-
             typeExample.clear();
             //请求批准状态
             typeExample.or().andTypeGroupIdEqualTo(8);
@@ -336,18 +333,15 @@ public class YluserController {
         typeExample.or().andTypeGroupIdEqualTo(4);
         List<Type> type2 = typeMapper.selectByExample(typeExample);
         model.addAttribute("type2", type2);
-
         typeExample.clear();
         //请求紧急程度
         typeExample.or().andTypeGroupIdEqualTo(5);
         List<Type> type3 = typeMapper.selectByExample(typeExample);
         model.addAttribute("type3", type3);
-
         //请求权重
         WeightExample weightExample = new WeightExample();
         List<Weight> weights = weightMapper.selectByExample(weightExample);
         model.addAttribute("weights", weights);
-
         return typeExample;
     }
 }

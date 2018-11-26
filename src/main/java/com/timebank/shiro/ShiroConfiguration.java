@@ -127,6 +127,24 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/wxgetopenid","anon");
 
 
+
+
+
+
+
+
+
+
+
+
+
+        filterChainDefinitionMap.put("/**","authc");
+
+
+
+
+
+
         filterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         log.info("shiroFilter注册完成");
         return filterFactoryBean;

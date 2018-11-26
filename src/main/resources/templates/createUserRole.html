@@ -74,6 +74,62 @@
                 }
             });
         });
+        function show(pic){
+            //获取图片的宽和高
+            iw = pic.width;
+            ih = pic.height;
+            //获取屏幕的宽和高
+            sw = document.documentElement.clientWidth;
+            sh = document.documentElement.clientHeight;
+
+            //创建动态的图片对象，将该对象的src赋值为原图的src,这就是来创建我们放大后看大的那个图片
+            oimg = document.createElement('img');
+            oimg.src = pic.src;
+            oimg.width=800;
+            oimg.height=500;
+            oimg.style.position = 'absolute';
+            oimg.style.top = (sh-ih)/2+'px';
+            oimg.style.left= (sw-ih)/2+'px';
+
+            //动态的创建一个灰色的背景div，就是那个我们带点击后，大图后面的那个灰色的那个背景，当然灰色是可以自由设置的
+            gdiv = document.createElement('div');
+            gdiv.id = 'gray';
+            gdiv.style.height =sh+'px';
+            gdiv.style.width = sw+'px';
+            gdiv.style.background =  'black';
+            gdiv.style.opacity = '0.55';
+            gdiv.style.filter = 'alpha(opacity=55)';
+            gdiv.style.position = 'absolute';
+            gdiv.style.position='fixed';
+            gdiv.style.top = '0px';
+            gdiv.style.left = '0px';
+            document.body.appendChild(gdiv);
+
+            //删除动态的图片和对象，就是我们点击放大后，再次点击的时候，放大的图片会被删除，并且后面的那个背景也会随之删除
+            //点击灰色背景时，背景和大图都会删除
+            gdiv.onclick = function(){
+                document.body.removeChild(this);
+                document.body.removeChild(oimg);
+            }
+            //点击大图时，背景和大图也都会删除
+            oimg.onclick = function(){
+                document.body.removeChild(this);
+                document.body.removeChild(gdiv);
+            }
+
+            document.body.appendChild(oimg);
+        }
+        //设置图片的位置来适应窗口的大小
+        window.onresize=function(){
+            sh = document.documentElement.clientHeight;
+            sw = document.documentElement.clientWidth;
+            gdiv.style.width = sw + 'px';
+            gdiv.style.height = sh + 'px';
+            //更改图片的位置
+            oimg.style.top = (sh-ih)/2 + 'px';
+            oimg.style.left = (sw-iw)/2 + 'px';
+        }
+
     </script>
 </head>
 <body>
@@ -228,7 +284,7 @@
                             <div class="id_img_wp">
                                 <input type="file" accept="image/*" onchange="getzImg(this)" style="display:none" value="" id="img_z" name="img_z"/>
                                 <div class="img_wp" onclick="zhengmian()">
-                                    <img src="/img/qie.jpg" id="imgInit1" name="tupian" />
+                                    <img src="/img/qie.jpg" id="imgInit1" name="tupian" onclick='show(this)' />
                                     <p class="img_intro">身份证正面照</p>
                                 </div>
 

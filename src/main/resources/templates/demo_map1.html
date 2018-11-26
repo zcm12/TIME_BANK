@@ -3,35 +3,66 @@
 <head th:include="basepage :: common_header(~{::title},~{::script})">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <!-- 省市区下拉选插件 -->
+    <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css"  />
+    <script type="text/javascript" src="/date/laydate.js"></script>
+    <link  type="text/css" rel="stylesheet" href="/date/need/laydate.css" />
+    <link  id="layDateSkin" type="text/css" rel="stylesheet" href="/skins/molv/laydate.css" />-->
+    <link rel="stylesheet" href="/date/skins/default/laydate.css"/>
+    <script type="text/javascript" src="/region/main.js"></script>
+    <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="/region/distpicker.data.js"></script>
+    <script type="text/javascript" src="/region/distpicker.js"></script>
+
     <script th:inline="javascript">
-    var message = [[${guid}]];
-    var address=[[${address}]];
-</script>
+        var message = [[${guid}]];
+        var address=[[${address}]];
+
+    </script>
     <!--<style type="text/css">-->
-        <!--body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}-->
-        <!--#allmap{height:500px;width:100%;}-->
-        <!--#r-result{width:100%; font-size:14px;}-->
+    <!--body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}-->
+    <!--#allmap{height:500px;width:100%;}-->
+    <!--#r-result{width:100%; font-size:14px;}-->
     <!--</style>-->
+    <script type="text/css">
+        .bigSelect{
+            height: 60px;
+            width: 931px;
+        }
+        .mySelect{
+            width: 200px;
+            height: 40px;
+            border-color: #2b81af;
+            visibility: hidden;
+        }
+
+
+    </script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZsT9uATUVFSWeXgFMQDsH4hP5UbQD2YC"></script>
     <title>发布需求</title>
+
+
+
+
 </head>
 <body>
 
 <!--<div id="allmap"></div>-->
 <!--<div id="r-result">-->
-       <!--<div>-->
-       <!--<form id="mapform" action="/aass" method="post" role="form">-->
-           <!--<div>-->
-                <!--填写详细地址: <input id="cityName" name="cityName"  type="text" style="width:220px; margin-right:10px;" placeholder="请按地图正确提示填写"  />-->
-               <!--<input type="button" value="查询" onclick="theLocation()" />-->
-               <!--<input type="text" id="jd" name="jd" hidden="hidden"/><input type="text" id="wd" name="wd" hidden="hidden"/>-->
-               <!--<input type="text" id="Guid" name="Guid" hidden="hidden"/>-->
-           <!--</div>-->
-           <!--<div class="form-actions">-->
-                <!--<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;-->
-           <!--</div>-->
-       <!--</form>-->
-   <!--</div>-->
+<!--<div>-->
+<!--<form id="mapform" action="/aass" method="post" role="form">-->
+<!--<div>-->
+<!--填写详细地址: <input id="cityName" name="cityName"  type="text" style="width:220px; margin-right:10px;" placeholder="请按地图正确提示填写"  />-->
+<!--<input type="button" value="查询" onclick="theLocation()" />-->
+<!--<input type="text" id="jd" name="jd" hidden="hidden"/><input type="text" id="wd" name="wd" hidden="hidden"/>-->
+<!--<input type="text" id="Guid" name="Guid" hidden="hidden"/>-->
+<!--</div>-->
+<!--<div class="form-actions">-->
+<!--<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
 <!--</div>-->
 
 <div class="container">
@@ -52,19 +83,37 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                        <form id="mapform" action="/aass" method="post" role="form">
-                            <div>
-                                填写详细地址: <input id="cityName" name="cityName"  type="text" style="width:220px; margin-right:10px;" placeholder="请按地图正确提示填写"  />
-                                <input type="button" value="查询" onclick="theLocation()" />
-                                <input type="text" id="jd" name="jd" hidden="hidden"/><input type="text" id="wd" name="wd" hidden="hidden"/>
-                                <input type="text" id="Guid" name="Guid" hidden="hidden"/>
-                            </div>
-                            <div class="form-actions">
-                                <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
-                            </div>
-                            <div id="allmap" class="form-group col-lg-6" style="width:900px;height:600px"></div>
-                            <div id="r-result" class="form-group col-lg-6"></div>
-                        </form>
+                    <form id="mapform" action="/aass" method="post" role="form">
+                        <!--10.31添加-->
+                        <div  class="bigSelect" data-toggle="distpicker">
+                            省市区定位：<select class="mySelect" id="userProvince"  name="userProvince" style="height: 26px;" onmouseup="mysub1()"></select>
+                            <select class="mySelect" id="userCity"  name="userCity" style="height: 26px;" onmouseup="mysub2()"></select>
+                            <select class="mySelect" id="userDistrict" name="userDistrict" style="height: 26px;" onmouseup="mysub3()"></select>
+                            具体地址: <input id="cityName" name="cityName"  type="text" style="width:220px; margin-right:10px;"  placeholder="请输入区（县）级以下的地址"  />
+                            <input type="button" value="查询" onclick="theLocation()" />
+                            <input type="text" id="jd" name="jd" hidden="hidden"/><input type="text" id="wd" name="wd" hidden="hidden"/>
+                            <input type="text" id="Guid" name="Guid" hidden="hidden"/>
+                            <!--   <input type="button" value="定位" onclick="theLocation2()" />-->
+                        </div>
+                        查询得到的地址: <input id="savecityName" name="savecityName"  type="text" style="width:220px; margin-right:20px;margin-top:10px;" placeholder="最终保存的地址（请认真校验）"  />
+                        <input id="btnSubmit" class="btn btn-primary btn-sm" type="submit" value="保 存"/><br>
+                        <!-- （注：若定位不到目标位置，请先搜索周围标志性地点，再拖动小红点到目的地，最后在输入框【查询得到的地址】中添加详细地址信息。只能添加，不能删减！）-->
+
+                        <!--111111-->
+                        <!--   <div>
+                               填写详细地址: <input id="cityName" name="cityName"  type="text" style="width:220px; margin-right:10px;" placeholder="请输入区（县）级以下的地址"  />
+                               <input type="button" value="查询" onclick="theLocation()" />
+                               <input type="text" id="jd" name="jd" hidden="hidden"/><input type="text" id="wd" name="wd" hidden="hidden"/>
+                               <input type="text" id="Guid" name="Guid" hidden="hidden"/>
+                           </div>-->
+                        <!-- <div class="form-actions">
+                             <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+                         </div>-->
+                        <div id="allmap" class="form-group col-lg-6" style="width:900px;height:600px;margin-bottom: 5px;margin-top:5px;"></div>
+                        <div id="r-result" class="form-group col-lg-6" style="width:900px;margin-top:0px;margin-bottom: 0px;color: #9a161a ;font-weight: bolder ">
+                            注：若定位不到目标位置，请先搜索周围标志性地点，再拖动小红点到目的地，最后在输入框【查询得到的地址】中添加详细地址信息（只能添加，不能删减！）。
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -79,40 +128,15 @@
 </body>
 </html>
 <script type="text/javascript">
-    document.getElementById('Guid').value = message;
-    // 百度地图API功能
-    var map = new BMap.Map("allmap");
-    var point = new BMap.Point(116.331398,39.897445);
-    map.centerAndZoom(point,11);
-    //ip定位到当前城市
-    function myFun(result){
-        var cityName = result.name;
-        map.setCenter(cityName);
-        alert("当前定位城市:"+cityName);
-        document.getElementById("cityName").value=cityName;
-    }
-    var myCity = new BMap.LocalCity();
-    myCity.get(myFun);
-
-
-    //点击地图获得经纬度
-    map.addEventListener("click",function(e){
-        var input =  document.getElementById('wd');
-        var input2 =  document.getElementById('jd');
-        input.value = e.point.lng;
-        input2.value= e.point.lat;
-    });
-
-
-
-    map.addControl(new BMap.NavigationControl());
-    map.enableScrollWheelZoom(true);
-    var myGeo = new BMap.Geocoder();
-    //    点击查询按钮   添加当前地址可拖拽的标注
-    var market;
-    function theLocation() {
+    onload =function () {//onload页面加载完成事件（当页面元素全部加载完成的时候响应）/
+        var info1=document.getElementById("userProvince").value;
+        var info2=document.getElementById("userCity").value;
+        var info3=document.getElementById("userDistrict").value;
+        var info999=info1+info2+info3;
+        console.log(info999);
         map.removeOverlay(market);
-        var city = document.getElementById("cityName").value;
+        var city =info999;
+        document.getElementById("savecityName").value =city;
         if (city != "") {
             myGeo.getPoint(city, function (point) {
                     if (point) {
@@ -130,7 +154,232 @@
                             var pt = e.point;
                             geoc.getLocation(pt, function (rs) {
                                 var addComp = rs.addressComponents;
-                                document.getElementById("cityName").value = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                                document.getElementById("savecityName").value = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                            });
+                            var input = document.getElementById('wd');
+                            var input2 = document.getElementById('jd');
+                            input.value = e.point.lng;
+                            input2.value =e.point.lat;
+                        });
+                    }
+                }
+            )
+        }
+    }
+    document.getElementById('Guid').value = message;
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(116.331398,39.897445);
+    //    var point = new BMap.Point(116.415227,39.962037);
+    map.centerAndZoom(point,11);
+    //ip定位到当前城市
+    //    function myFun(result){
+    //        var cityName = result.name;
+    //        map.setCenter(cityName);
+    ////        alert("当前定位城市:"+cityName);
+    ////        document.getElementById("cityName").value=cityName;
+    //    }
+    //    var myCity = new BMap.LocalCity();
+    //    myCity.get(myFun);
+
+
+    //点击地图获得经纬度
+    map.addEventListener("click",function(e){
+        var input =  document.getElementById('wd');
+        var input2 =  document.getElementById('jd');
+        input.value = e.point.lng;
+        input2.value= e.point.lat;
+    });
+
+
+
+    map.addControl(new BMap.NavigationControl());
+    map.enableScrollWheelZoom(true);
+    var myGeo = new BMap.Geocoder();
+    //    点击查询按钮   添加当前地址可拖拽的标注
+    var market;
+
+    /*10.31添加下拉选*/
+    var cityName=document.getElementById("cityName");
+    var info;
+    /*省的事件*/
+    function mysub1() {
+        var info1=document.getElementById("userProvince").value;
+        var info2=document.getElementById("userCity").value;
+        var info3=document.getElementById("userDistrict").value;
+        info=info1+info2+info3;
+        console.log(info);
+        map.removeOverlay(market);
+        var city =info;
+        document.getElementById("savecityName").value =city;
+        if (city != "") {
+            myGeo.getPoint(city, function (point) {
+                    if (point) {
+                        var input = document.getElementById('wd');
+                        var input2 = document.getElementById('jd');
+                        input.value = point.lng;
+                        input2.value =point.lat;
+                        map.centerAndZoom(point, 16);
+                        market=new BMap.Marker( point,{"enableDragging": true});
+                        map.addOverlay(market);
+                        //开启拖拽  读取坐标
+                        market.addEventListener("dragend", function (e) {
+                            //地址逆解析
+                            var geoc = new BMap.Geocoder();
+                            var pt = e.point;
+                            geoc.getLocation(pt, function (rs) {
+                                var addComp = rs.addressComponents;
+                                document.getElementById("savecityName").value = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                            });
+                            var input = document.getElementById('wd');
+                            var input2 = document.getElementById('jd');
+                            input.value = e.point.lng;
+                            input2.value =e.point.lat;
+                        });
+                    }
+                }
+            )
+        }
+    }
+    /*市的焦点事件*/
+    function mysub2() {
+        var info1=document.getElementById("userProvince").value;
+        var info2=document.getElementById("userCity").value;
+        var info3=document.getElementById("userDistrict").value;
+        info=info1+info2+info3;
+        console.log(info);
+        map.removeOverlay(market);
+        var city =info;
+        document.getElementById("savecityName").value =city;
+        if (city != "") {
+            myGeo.getPoint(city, function (point) {
+                    if (point) {
+                        var input = document.getElementById('wd');
+                        var input2 = document.getElementById('jd');
+                        input.value = point.lng;
+                        input2.value =point.lat;
+                        map.centerAndZoom(point, 16);
+                        market=new BMap.Marker( point,{"enableDragging": true});
+                        map.addOverlay(market);
+                        //开启拖拽  读取坐标
+                        market.addEventListener("dragend", function (e) {
+                            //地址逆解析
+                            var geoc = new BMap.Geocoder();
+                            var pt = e.point;
+                            geoc.getLocation(pt, function (rs) {
+                                var addComp = rs.addressComponents;
+                                document.getElementById("savecityName").value = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                            });
+                            var input = document.getElementById('wd');
+                            var input2 = document.getElementById('jd');
+                            input.value = e.point.lng;
+                            input2.value =e.point.lat;
+                        });
+                    }
+                }
+            )
+        }
+    }
+    /*区的事件*/
+    function mysub3() {
+        var info1=document.getElementById("userProvince").value;
+        var info2=document.getElementById("userCity").value;
+        var info3=document.getElementById("userDistrict").value;
+        info=info1+info2+info3;
+        console.log(info);
+        map.removeOverlay(market);
+        var city =info;
+        document.getElementById("savecityName").value =city;
+        if (city != "") {
+            myGeo.getPoint(city, function (point) {
+                    if (point) {
+                        var input = document.getElementById('wd');
+                        var input2 = document.getElementById('jd');
+                        input.value = point.lng;
+                        input2.value =point.lat;
+                        map.centerAndZoom(point, 16);
+                        market=new BMap.Marker( point,{"enableDragging": true});
+                        map.addOverlay(market);
+                        //开启拖拽  读取坐标
+                        market.addEventListener("dragend", function (e) {
+                            //地址逆解析
+                            var geoc = new BMap.Geocoder();
+                            var pt = e.point;
+                            geoc.getLocation(pt, function (rs) {
+                                var addComp = rs.addressComponents;
+                                document.getElementById("savecityName").value = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                            });
+                            var input = document.getElementById('wd');
+                            var input2 = document.getElementById('jd');
+                            input.value = e.point.lng;
+                            input2.value =e.point.lat;
+                        });
+                    }
+                }
+            )
+        }
+    }
+    /* function theLocation2() {
+         map.removeOverlay(market);
+         var city =info;
+         if (city != "") {
+             myGeo.getPoint(city, function (point) {
+                     if (point) {
+                         var input = document.getElementById('wd');
+                         var input2 = document.getElementById('jd');
+                         input.value = point.lng;
+                         input2.value =point.lat;
+                         map.centerAndZoom(point, 16);
+                         market=new BMap.Marker( point,{"enableDragging": true});
+                         map.addOverlay(market);
+                         //开启拖拽  读取坐标
+                         market.addEventListener("dragend", function (e) {
+                             //地址逆解析
+                             var geoc = new BMap.Geocoder();
+                             var pt = e.point;
+                             geoc.getLocation(pt, function (rs) {
+                                 var addComp = rs.addressComponents;
+                                 document.getElementById("cityName").value = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                             });
+                             var input = document.getElementById('wd');
+                             var input2 = document.getElementById('jd');
+                             input.value = e.point.lng;
+                             input2.value =e.point.lat;
+                         });
+                     }
+                 }
+             )
+         }
+     }*/
+    /*10.31 */
+    //查询按钮的点击事件，获取的是下拉选加具体地址的输入框的位置信息进行查询定位/
+    function theLocation() {
+        map.removeOverlay(market);
+        var info1=document.getElementById("userProvince").value;
+        var info2=document.getElementById("userCity").value;
+        var info3=document.getElementById("userDistrict").value;
+        info=info1+info2+info3;
+        var city = info+document.getElementById("cityName").value;
+        console.log(city);
+        document.getElementById("savecityName").value =city;
+        if (city != "") {
+            myGeo.getPoint(city, function (point) {
+                    if (point) {
+                        var input = document.getElementById('wd');
+                        var input2 = document.getElementById('jd');
+                        input.value = point.lng;
+                        input2.value =point.lat;
+                        map.centerAndZoom(point, 16);
+                        market=new BMap.Marker( point,{"enableDragging": true});
+                        map.addOverlay(market);
+                        //开启拖拽  读取坐标
+                        market.addEventListener("dragend", function (e) {
+                            //地址逆解析
+                            var geoc = new BMap.Geocoder();
+                            var pt = e.point;
+                            geoc.getLocation(pt, function (rs) {
+                                var addComp = rs.addressComponents;
+                                document.getElementById("savecityName").value = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
                             });
                             var input = document.getElementById('wd');
                             var input2 = document.getElementById('jd');

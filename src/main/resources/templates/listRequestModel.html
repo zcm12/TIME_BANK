@@ -151,7 +151,7 @@
                             <label class="control-label col-lg-3" for="reqGuid">请求ID：</label>
                             <div class="col-lg-9">
                                 <input id="reqGuid2" name="reqGuid2" type="text" class="form-control"
-                                       th:value="${reqest.reqGuid}" />
+                                       th:value="${reqest.reqGuid}"/>
                             </div>
                         </div>
                         <div class="form-actions">
@@ -168,7 +168,7 @@
                             <label class="control-label col-lg-3" for="reqGuid">请求ID：</label>
                             <div class="col-lg-9">
                                 <input id="reqGuid3" name="reqGuid3" type="" class="form-control"
-                                       th:value="${reqest.reqGuid}" />
+                                       th:value="${reqest.reqGuid}"/>
                             </div>
                         </div>
                         <div class="form-actions">
@@ -185,7 +185,7 @@
                             <label class="control-label col-lg-3" for="reqGuid">请求ID：</label>
                             <div class="col-lg-9">
                                 <input id="reqGuid4" name="reqGuid4" type="text" class="form-control"
-                                       th:value="${reqest.reqGuid}" />
+                                       th:value="${reqest.reqGuid}"/>
                             </div>
                         </div>
                         <div class="form-actions">
@@ -202,7 +202,7 @@
                             <label class="control-label col-lg-3" for="reqGuid">请求ID：</label>
                             <div class="col-lg-9">
                                 <input id="reqGuid5" name="reqGuid5" type="" class="form-control"
-                                       th:value="${reqest.reqGuid}" />
+                                       th:value="${reqest.reqGuid}"/>
                             </div>
                         </div>
                         <div class="form-actions">
@@ -219,7 +219,7 @@
                             <label class="control-label col-lg-3" for="reqGuid">请求ID：</label>
                             <div class="col-lg-9">
                                 <input id="reqGuid6" name="reqGuid6" type="text" class="form-control"
-                                       th:value="${reqest.reqGuid}" />
+                                       th:value="${reqest.reqGuid}"/>
                             </div>
                         </div>
                         <div class="form-actions">
@@ -236,7 +236,7 @@
                             <label class="control-label col-lg-3" for="reqGuid">请求ID：</label>
                             <div class="col-lg-9">
                                 <input id="reqGuid7" name="reqGuid7" type="text" class="form-control"
-                                       th:value="${reqest.reqGuid}" />
+                                       th:value="${reqest.reqGuid}"/>
                             </div>
                         </div>
                         <div class="form-actions">
@@ -253,72 +253,87 @@
                             <label class="control-label col-lg-3" for="reqGuid">请求ID：</label>
                             <div class="col-lg-9">
                                 <input id="reqGuid8" name="reqGuid8" type="text" class="form-control"
-                                       th:value="${reqest.reqGuid}" />
+                                       th:value="${reqest.reqGuid}"/>
                             </div>
                         </div>
                         <div class="form-actions">
                             <input id="unFinishRequest" class="btn btn-primary" type="submit" value="未完成"/>&nbsp;
                         </div>
                     </form>
+                    <input id="updateId" style="display:none" type="text" th:value="${updateList.updateId}"/>
+                    <input id="deletaId" style="display:none" type="text" th:value="${updateList.deletaId}"/>
+                    <input id="startId" style="display:none" type="text" th:value="${updateList.startId}"/>
+                    <input id="viewVolId" style="display:none" type="text" th:value="${updateList.viewVolId}"/>
+                    <input id="finishId" style="display:none" type="text" th:value="${updateList.finishId}"/>
+                    <input id="unFinishId" style="display:none" type="text" th:value="${updateList.unFinishId}"/>
+                    <input id="waitId" style="display:none" type="text" th:value="${updateList.waitId}"/>
                 </div>
-                <input id="updateId" style="display:none" type="text" th:value="${updateList.updateId}"/>
-                <input id="deletaId" style="display:none" type="text" th:value="${updateList.deletaId}"/>
-                <input id="startId" style="display:none" type="text" th:value="${updateList.startId}"/>
-                <input id="viewVolId" style="display:none" type="text" th:value="${updateList.viewVolId}"/>
-                <input id="finishId" style="display:none" type="text" th:value="${updateList.finishId}"/>
-                <input id="unFinishId" style="display:none" type="text" th:value="${updateList.unFinishId}"/>
-                <input id="waitId" style="display:none" type="text" th:value="${updateList.waitId}"/>
             </div>
         </div>
     </div>
+</div>
+    <script>
+        if (document.getElementById("updateId").value == 1) {
+            document.getElementById("updateRequest").disabled = false;
+            $('#Form2').show();
+        } else {
+            document.getElementById("updateRequest").disabled = true;
+            $('#Form2').hide();
+        }
+
+        if (document.getElementById("deletaId").value == 1) {
+//            document.getElementById("deleteRequest").disabled = false;
+            $('#Form4').show();
+        } else {
+//            document.getElementById("deleteRequest").disabled = true;
+            $('#Form4').hide();
+        }
+
+        if (document.getElementById("startId").value == 1) {
+            $('#Form5').show();
+            document.getElementById("startRequest").disabled = false;
+        } else {
+            $('#Form5').hide();
+//            document.getElementById("startRequest").disabled = true;
+        }
+        if (document.getElementById("viewVolId").value == 1) {
+            $('#Form3').show();
+//            document.getElementById("viewVolRequest").disabled = false;
+        } else {
+            $('#Form3').hide();
+//            document.getElementById("viewVolRequest").disabled = true;
+        }
+        if (document.getElementById("finishId").value == 1) {
+            $('#Form7').show();
+//            document.getElementById("finishRequest").disabled = false;
+        } else {
+            $('#Form7').hide();
+//            document.getElementById("finishRequest").disabled = true;
+        }
+        if (document.getElementById("unFinishId").value == 1) {
+            $('#Form8').show();
+//            document.getElementById("unFinishRequest").disabled = false;
+        } else {
+            $('#Form8').hide();
+//            document.getElementById("unFinishRequest").disabled = true;
+        }
+        if (document.getElementById("waitId").value == 1) {
+            $('#Form6').show();
+//            document.getElementById("waitRequest").disabled = false;
+        } else {
+            $('#Form6').hide();
+//            document.getElementById("waitRequest").disabled = true;
+        }
+
+    </script>
     <div class="row clearfix">
         <div class="col-md-12 bg-primary">
             <div th:replace="basepage::contextfooter"></div>
         </div>
     </div>
-</div>
+
 </body>
-<script>
 
-    if (document.getElementById("updateId").value == 1) {
-        document.getElementById("updateRequest").disabled = false;
-    } else {
-        document.getElementById("updateRequest").disabled = true;
-    }
-
-    if (document.getElementById("deletaId").value == 1) {
-        document.getElementById("deleteRequest").disabled = false;
-    } else {
-        document.getElementById("deleteRequest").disabled = true;
-    }
-
-    if (document.getElementById("startId").value == 1) {
-        document.getElementById("startRequest").disabled = false;
-    } else {
-        document.getElementById("startRequest").disabled = true;
-    }
-    if (document.getElementById("viewVolId").value == 1) {
-        document.getElementById("viewVolRequest").disabled = false;
-    } else {
-        document.getElementById("viewVolRequest").disabled = true;
-    }
-    if (document.getElementById("finishId").value == 1) {
-        document.getElementById("finishRequest").disabled = false;
-    } else {
-        document.getElementById("finishRequest").disabled = true;
-    }
-    if (document.getElementById("unFinishId").value == 1) {
-        document.getElementById("unFinishRequest").disabled = false;
-    } else {
-        document.getElementById("unFinishRequest").disabled = true;
-    }
-    if (document.getElementById("waitId").value == 1) {
-        document.getElementById("waitRequest").disabled = false;
-    } else {
-        document.getElementById("waitRequest").disabled = true;
-    }
-
-</script>
 </html>
 
 

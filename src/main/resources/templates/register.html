@@ -1,16 +1,27 @@
 <!DOCTYPE html >
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
-<head >
-    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css"  />
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" href="/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css"/>
     <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
+    <!--111-->
+    <script type="text/javascript" src="/date/laydate.js"></script>
+    <link  type="text/css" rel="stylesheet" href="/date/need/laydate.css" />
+    <link  id="layDateSkin" type="text/css" rel="stylesheet" href="/skins/molv/laydate.css" />-->
+    <link rel="stylesheet" href="/date/skins/default/laydate.css"/>
+    <script type="text/javascript" src="/region/main.js"></script>
+    <script type="text/javascript" src="/jquery-3.1.1/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="/region/distpicker.data.js"></script>
+    <script type="text/javascript" src="/region/distpicker.js"></script>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>注册界面</title>
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#Form').bootstrapValidator({
                 message: 'This value is not valid',
                 feedbackIcons: {
@@ -35,7 +46,11 @@
                                 message: '账号名已存在',//提示消息
                                 delay: 1000,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
                                 type: 'POST',//请求方式
-                                data:{userName:function(){return $('#userAccount').val();}},
+                                data: {
+                                    userName: function () {
+                                        return $('#userAccount').val();
+                                    }
+                                },
                             }
                         }
                     },
@@ -60,7 +75,7 @@
                         }
                     },
                     userPassword: {
-                        message: '密码验证失败',
+//                        message: '密码验证失败',
                         validators: {
                             notEmpty: {
                                 message: '密码不能为空'
@@ -115,45 +130,49 @@
         })
     </script>
     <style>
-        .bg{
+        .bg {
             width: 100%;
             height: 100%;
-            align:center;
+            align: center;
             /*line-height: 600px;*/
         }
+
         .container {
             padding-right: 5px;
             padding-top: 15px;
             margin-top: 80px;
             margin-bottom: 350px;
         }
-        .row{
+
+        .row {
             margin-left: 600px;
-            text-color:#F00;
+            text-color: #F00;
         }
-        .panel-body{
-            background-color: rgba(0,0,0,0.3);
+
+        .panel-body {
+            background-color: rgba(0, 0, 0, 0.3);
         }
-       body{
+
+        body {
             background-image: url("/img/老人7.png");
             background-size: 100% 100%;
             background-repeat: no-repeat;
-            background-position:center center;
+            background-position: center center;
         }
 
     </style>
 </head>
-<body class="bg center-block" >
-<div class="container center-block" >
+<body class="bg center-block">
+<div class="container center-block">
     <div class="col-md-6">
         <div class="panel-body">
-            <form id="Form" name="Form" action="/registerUser"  method="get" data-bv-message="This value is not valid"
+            <form id="Form" name="Form" action="/registerUser" method="get" data-bv-message="This value is not valid"
                   data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
                   data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
                   data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
                 <!--<div class="row">-->
                 <div class="form-group ">
-                    <label  for="userAccount">账户名</label>
+                    <label for="userAccount">账户名</label>
                     <input name="userAccount" type="text" class="form-control" id="userAccount" placeholder="登录名"/>
                     <!--<span id="tishi"></span>-->
                 </div>
@@ -164,49 +183,55 @@
                 </div>
                 <div class="form-group">
                     <label for="userPassword">密码</label>
-                    <input type="password" name="userPassword" class="form-control" id="userPassword" placeholder="Password"/>
+                    <input type="password" name="userPassword" class="form-control" id="userPassword"
+                           placeholder="Password"/>
                 </div>
                 <div class="form-group">
                     <label for="userPassword">确认密码</label>
-                    <input type="password" name="userPassword1" class="form-control" id="userPassword1" placeholder="Password"/>
+                    <input type="password" name="userPassword1" class="form-control" id="userPassword1"
+                           placeholder="Password"/>
                 </div>
                 <div class="form-group ">
-                    <label class="control-label col-xs-2" for="userTypeGuidGender" >性别:</label>
+                    <label class="control-label col-xs-2" for="userTypeGuidGender">性别:</label>
                     <div class="col-xs-3">
                         <select name="userTypeGuidGender" id="userTypeGuidGender" class="form-control">
-                            <option th:each="typex:${types}" th:value="${typex.typeGuid}" th:text="${typex.typeTitle}" ></option>
+                            <option th:each="typex:${types}" th:value="${typex.typeGuid}"
+                                    th:text="${typex.typeTitle}"></option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group  ">
+                    <label class="control-label col-lg-2">家庭住址：</label>
+                    <div id="target" class="form-group  col-lg-5" data-toggle="distpicker">
+                        <select class="form-control col-lg-4" id="province"  name="userProvince"  onmouseup="mysub1()"></select>
+                        <select class="form-control col-lg-4" id="city"  name="userCity"  onmouseup="mysub1()"></select>
+                        <select class="form-control col-lg-4" id="district" name="userDistrict"  onmouseup="mysub1()"></select>
+                    </div>
+                </div>
+                <div class="form-group ">
                     <label class="control-label col-lg-3" for="userCommGuid" >所属小区：</label>
+                    <div class="col-lg-9">
+                        <select name="userCommGuid" id="userCommGuid" class="form-control" >
+                            <!--<option th:each="communities:${communities}" th:value="${communities.commGuid}" th:text="${communities.commTitle}" th:selected="${communities.commGuid}==${users.userCommGuid}"></option>-->
+                        </select>
+                    </div>
+                </div><br>
+<!--
+                <div class="form-group">
+                    <label class="control-label col-lg-3" for="userCommGuid">所属小区：</label>
                     <div class="col-lg-4">
                         <select name="userCommGuid" id="userCommGuid" class="form-control">
-                            <option th:each="communities:${communities}" th:value="${communities.commGuid}" th:text="${communities.commTitle}" ></option>
+                            <option th:each="communities:${communities}" th:value="${communities.commGuid}"
+                                    th:text="${communities.commTitle}"></option>
                         </select>
                     </div>
                 </div>
-                <br>
-                <button id="tj" type="submit" class="btn btn-default" disabled="disabled" >提交</button>
+                <br>-->
+                <button id="tj" type="submit" class="btn btn-default" disabled="disabled">提交</button>
             </form>
         </div>
     </div>
 </div>
-<!--<div class="row" th:fragment="contextfooter">
-
-    <font color="#FF0000" >
-        时间银行系统
-    </font>
-
-</div>-->
-<!--<div id="foot">
-    <p style="padding-top: 12px;">
-      &lt;!&ndash;  <a href="/82/20140512103027_38.html" target="_blank">关于南沙时间银行</a>　|　<a href="/71/20140417090646_14.html" target="_blank">客户服务</a>　|　<a href="/72/20140416175619_13.html" target="_blank">帮助中心</a>　|　<a href="/timebank/joinement/front/toCreate.action" target="_blank">爱心合作</a>　|　<a href="/timebank/note/front/toCreate.action" target="_blank">给我留言</a>　|　<a href="/74/20140416165523_1.html" target="_blank">法律声明</a>&ndash;&gt;
-        &lt;!&ndash;<br>&ndash;&gt;
-        <span>版权所有&copy;广州市南沙国际技术合作服务中心 粤ICP备14067686号-2 <a href="http://www.nstimebank.org.cn/timebank/welcome/tologin.action">后台管理</a></span><br />
-        建议在谷歌、360或IE8以上浏览器使用
-    </p>
-</div>-->
 <div>
     <ul>
         <p align="center">2010-2020 山东科技大学 邮箱：sdkd@163.com</p>
@@ -214,6 +239,37 @@
     </ul>
 </div>
 
+<script language="javascript">
+    var communityArry=new Array();
+    function mysub1() {
+        var info1=document.getElementById("province").value;
+        var info2=document.getElementById("city").value;
+        var info3=document.getElementById("district").value;
+        info=info1+info2+info3;
+        var city = info;
+        console.log(city);
+        if(city != "") {
+            var html;
+            $.ajax({
+                type: "post",
+                url: "/css/CummTestAjaxc",
+                data: {province: $('#province').val(), city: $('#city').val(),district:$('#district').val()},
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    console.log(data.total)
+                    //动态处理数据 在下拉选中显示获取的数据/
+                    for (var i = 0; i < data.total; i++) {
+                        communityArry[i]=data.rows[i].commTitle;
+                        $('#userCommGuid').append("<option value='"+communityArry[i]+"'>"+communityArry[i]+"</option>");
+                        html += "<option value=" + communityArry[i]+ ">" + communityArry[i] + "</option>";
+                    }
+                    $("#userCommGuid").html(html);
+                }
+            });
+        }
+    }
+</script>
 
 </body>
 

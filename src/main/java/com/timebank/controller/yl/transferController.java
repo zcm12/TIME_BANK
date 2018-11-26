@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,36 +70,33 @@ public class transferController {
     //汇款服务
     @RequestMapping(value = "/remitServicesView")
     public String remitServicesView(Model model) {
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
         return "transferServices";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //汇款提交
     @RequestMapping(value = "/transferSubmit")
     public String updateREQESTSave(Transfer transfer, Model model) {
-
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
         String role=users1.getUserRole();
         model.addAttribute("role",role);
-
-        //转账ID//转账者
-        /*UUID guid=randomUUID();
-        transfer.setTransGuid(guid.toString());
-        transfer.setTransFromUserGuid(users1.getUserGuid());*/
         String transToUserAccount = transfer.getTransToUserAccount();
         Double currency = transfer.getTransCurrency();
         String transDesp = transfer.getTransDesp();
 
         double transCurrency = Double.parseDouble(String.valueOf(currency));
         double userOwnCurrency = users1.getUserOwnCurrency();
-     /*   if (transCurrency > userOwnCurrency) {
-            return "wrongCurrency";
-        }*/
 
         Integer userTransPassword1 = users1.getUserTransPassword();
         if (userTransPassword1 == null) {
@@ -135,12 +133,16 @@ public class transferController {
         //先不要改变账户的持有的钱数转账(USER表)
         transferMapper.insertSelective(transfer1);
       return "transferPassword2";
-       // return "transferList";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
 
     }
     //第一次转账要设置密码
     @RequestMapping(value="/password")
     public  String transferPassword(Model model,String userTransPassword){
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
@@ -150,10 +152,15 @@ public class transferController {
         users11.setUserTransPassword(Integer.valueOf(userTransPassword));
         usersMapper.updateByPrimaryKeySelective(users11);
         return "transferServices";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //设置过转账密码
     @RequestMapping(value="/password2")
     public  String transferPassword2(Model model,String userTransPassword){
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users1=GetCurrentUsers(message);
@@ -165,26 +172,35 @@ public class transferController {
             return "wrongPassword";
         }
         return "transferList";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //收款按钮
     @RequestMapping(value = "/receiveServicesView")
     public String receiveServicesView(Model model) {
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
         return "receiveServices";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //收款列表请求数据
     @RequestMapping(value="/getTRANSFERListJsonData",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getTRANSFERListJsonData(@RequestParam int offset, int limit, String sortName, String sortOrder, String searchText){
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
-//        model.addAttribute("role",role);
 
         /**10.10添加*/
         if (searchText == "") {
@@ -260,15 +276,9 @@ public class transferController {
         for (int i = offset;i<offset+limit&&i<transferRecordList.size();i++){
             transferReturn.add(transferRecordList.get(i));
         }
-        /**10.10添加*/
-
-
-        //全部符合要求的数据的数量
-//        int total=transfers.size();
         int total=transferRecordList.size();
         //将所得集合打包
         ObjectMapper mapper = new ObjectMapper();
-//        TableRecordsJson tableRecordsJson=new TableRecordsJson(transferRecordList,total);
         TableRecordsJson tableRecordsJson=new TableRecordsJson(transferReturn,total);
         //将实体类转换成json数据并返回
         try {
@@ -276,6 +286,10 @@ public class transferController {
             return json1;
         }catch (Exception e){
             return null;
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
         }
     }
     private String GetDatabaseFileName(String str)
@@ -292,8 +306,10 @@ public class transferController {
         return sb.toString();
     }
     //接受者确认收款
+    @Transactional
     @RequestMapping(value = "/confirmTRANSFER/{transGuid}")
     public String confirmTRANSFER (@PathVariable String transGuid , Model model) {
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
@@ -325,10 +341,16 @@ public class transferController {
         transFromUser.setUserOwnCurrency(endMoneyOfReceive);
         usersMapper.updateByPrimaryKeySelective(transFromUser);
         return "receiveServices";
+        } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //接受者拒绝收款
     @RequestMapping(value = "/refuseTRANSFER/{transGuid}")
     public String refuseTRANSFER (@PathVariable String transGuid , Model model) {
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
@@ -341,23 +363,33 @@ public class transferController {
         transfer.setTransTypeGuidProcessStatus("66666666-94e3-4eb7-aad3-333333333333");
         transferMapper.updateByPrimaryKeySelective(transfer);
         return "transferList";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
     //汇款列表
     @RequestMapping(value = "/remitServicesList")
     public String remitServicesList(Model model)
     {
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
         String role=users11.getUserRole();
         model.addAttribute("role",role);
         return "transferList";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //汇款列表请求数据
     @RequestMapping(value="/getRemitListJsonData",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getRemitListJsonData(@RequestParam int offset, int limit, String sortName,String sortOrder, String searchText){
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
@@ -379,23 +411,6 @@ public class transferController {
             //将排序信息添加到example中
             transferExample.setOrderByClause(order);
         }
-       /* //判断TRANS_FROM_USER_GUID字段中包不包含当前登陆者的ID
-        String fromUserId = users11.getUserGuid();
-        TransferExample transferExample1 = new TransferExample();
-        transferExample1.or().andTransFromUserGuidEqualTo(fromUserId);
-        List<Transfer> transfers1=transferMapper.selectByExample(transferExample1);
-
-        List<Transfer> transferRecordList=new ArrayList<>();
-        for(int i=offset;i< offset+limit&&i < transfers1.size();i++){
-            Transfer transfer1=transfers1.get(i);
-            //处理转账接受者的ID，装换为接受者的账号名
-            Users users2 = usersMapper.selectByPrimaryKey(transfer1.getTransToUserGuid());
-            transfer1.setTransToUserGuid(users2.getUserAccount());
-            //处理转账进程状态
-            Type type = typeMapper.selectByPrimaryKey(transfer1.getTransTypeGuidProcessStatus());
-            transfer1.setTransTypeGuidProcessStatus(type.getTypeTitle());
-            transferRecordList.add(transfer1);
-        }*/
         //判断TRANS_FROM_USER_GUID字段中包不包含当前登陆者的ID
         String fromUserId = users11.getUserGuid();
         TransferExample transferExample1 = new TransferExample();
@@ -450,10 +465,15 @@ public class transferController {
         }catch (Exception e){
             return null;
         }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
     //汇款撤回按钮
     @RequestMapping(value = "/delateRemit/{transGuid}")
     public String delateRemit (@PathVariable String transGuid , Model model) {
+        try{
         Subject account = SecurityUtils.getSubject();
         String message=(String) account.getPrincipal();
         Users users11=GetCurrentUsers(message);
@@ -466,6 +486,10 @@ public class transferController {
         transfer.setTransTypeGuidProcessStatus("66666666-94e3-4eb7-aad3-666666666666");
         transferMapper.updateByPrimaryKeySelective(transfer);
         return "transferList";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
 }
