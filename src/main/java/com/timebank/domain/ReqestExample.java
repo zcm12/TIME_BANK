@@ -1834,6 +1834,76 @@ public class ReqestExample {
             addCriterion("REQ_TARGETS_USER_ACCOUNT not between", value1, value2, "reqTargetsUserAccount");
             return (Criteria) this;
         }
+
+        public Criteria andReqPhoneIsNull() {
+            addCriterion("REQ_PHONE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneIsNotNull() {
+            addCriterion("REQ_PHONE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneEqualTo(String value) {
+            addCriterion("REQ_PHONE =", value, "reqPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneNotEqualTo(String value) {
+            addCriterion("REQ_PHONE <>", value, "reqPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneGreaterThan(String value) {
+            addCriterion("REQ_PHONE >", value, "reqPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneGreaterThanOrEqualTo(String value) {
+            addCriterion("REQ_PHONE >=", value, "reqPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneLessThan(String value) {
+            addCriterion("REQ_PHONE <", value, "reqPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneLessThanOrEqualTo(String value) {
+            addCriterion("REQ_PHONE <=", value, "reqPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneLike(String value) {
+            addCriterion("REQ_PHONE like", value, "reqPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneNotLike(String value) {
+            addCriterion("REQ_PHONE not like", value, "reqPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneIn(List<String> values) {
+            addCriterion("REQ_PHONE in", values, "reqPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneNotIn(List<String> values) {
+            addCriterion("REQ_PHONE not in", values, "reqPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneBetween(String value1, String value2) {
+            addCriterion("REQ_PHONE between", value1, value2, "reqPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andReqPhoneNotBetween(String value1, String value2) {
+            addCriterion("REQ_PHONE not between", value1, value2, "reqPhone");
+            return (Criteria) this;
+        }
     }
 
     /**

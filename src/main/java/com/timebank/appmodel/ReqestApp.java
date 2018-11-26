@@ -23,6 +23,16 @@ public class ReqestApp {
     private String reqConsumeCurrency;
 
     private String reqPersonNum;
+    private String reqPhone;
+
+    public String getReqPhone() {
+        return reqPhone;
+    }
+
+    public void setReqPhone(String reqPhone) {
+        this.reqPhone = reqPhone;
+    }
+
     public String getReqGuid() {
         return reqGuid;
     }
@@ -133,6 +143,7 @@ public class ReqestApp {
                 ", reqRreDurationTime='" + reqRreDurationTime + '\'' +
                 ", reqConsumeCurrency='" + reqConsumeCurrency + '\'' +
                 ", reqPersonNum='" + reqPersonNum + '\'' +
+                ", reqPhone='" + reqPhone + '\'' +
                 '}';
     }
 }

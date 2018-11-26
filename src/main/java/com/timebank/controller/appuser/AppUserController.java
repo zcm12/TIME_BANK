@@ -9,6 +9,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -301,14 +302,22 @@ public class AppUserController {
 //        MultipartHttpServletRequest req = commonsMultipartResolver.resolveMultipart((HttpServletRequest) shiroRequest.getRequest());
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("userAvatar");
-        String realPath = "F:/userAvatar";
+//        String realPath = "E:\\TimeBankA\\TIME_BANK\\src\\main\\resources\\static\\img";
+        //图片的下载与上传
+        ClassPathResource resource;
+        resource = new ClassPathResource("static/img");
+        String absPath = resource.getURL().getPath();
         try {
-            File dir = new File(realPath);
+            File dir = new File(absPath);
             if (!dir.exists()) {
                 dir.mkdir();
             }
-            File file  =  new File(realPath,users1.getUserName()+"_userAvatar.jpg");
+            File file  =  new File(absPath,users1.getUserAccount()+"_userAvatar.jpg");
             multipartFile.transferTo(file);
+            //将图片的相对路径保存到数据库
+            String dboPath = absPath +"/" + users1.getUserAccount()+"_userAvatar.jpg";
+            users1.setUserAvatar(dboPath);
+            usersMapper.updateByPrimaryKeySelective(users1);
         } catch (IOException | IllegalStateException e) {
             e.printStackTrace();
         }
@@ -327,14 +336,22 @@ public class AppUserController {
 //        MultipartHttpServletRequest req = commonsMultipartResolver.resolveMultipart((HttpServletRequest) shiroRequest.getRequest());
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("userIdimage");
-        String realPath = "F:/userIdimage";
+//        String realPath = "F:/userIdimage";
+        //图片的下载与上传
+        ClassPathResource resource;
+        resource = new ClassPathResource("static/img");
+        String absPath = resource.getURL().getPath();
         try {
-            File dir = new File(realPath);
+            File dir = new File(absPath);
             if (!dir.exists()) {
                 dir.mkdir();
             }
-            File file  =  new File(realPath,users1.getUserName()+"_userIdimage.jpg");
+            File file  =  new File(absPath,users1.getUserAccount()+"_userIdimage.jpg");
             multipartFile.transferTo(file);
+            //将图片的相对路径保存到数据库
+            String dboPath = absPath +"/" + users1.getUserAccount()+"_userIdimage.jpg";
+            users1.setUserAvatar(dboPath);
+            usersMapper.updateByPrimaryKeySelective(users1);
         } catch (IOException | IllegalStateException e) {
             e.printStackTrace();
         }

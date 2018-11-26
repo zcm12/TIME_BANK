@@ -83,11 +83,12 @@ public class AppUserRequestController {
         String needFormatAvalEndTime = reqestApp.getReqAvailableEndTime();//转化请求结束时间
 
         Reqest reqest = new Reqest();//获取request对象
-        //设置地址，标题，描述，补充
+        //设置地址，标题，描述，补充,联系方式
         reqest.setReqAddress(reqestApp.getReqAddress());
         reqest.setReqTitle(reqestApp.getReqTitle());
         reqest.setReqDesp(reqestApp.getReqDesp());
         reqest.setReqComment(reqestApp.getReqComment());
+        reqest.setReqPhone(reqestApp.getReqPhone());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //date类型的处理
         //设置请求开始结束时间
@@ -298,6 +299,7 @@ public class AppUserRequestController {
         reqest.setReqTitle(reqestApp.getReqTitle());
         reqest.setReqDesp(reqestApp.getReqDesp());
         reqest.setReqComment(reqestApp.getReqComment());
+        reqest.setReqPhone(reqestApp.getReqPhone());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //date类型的处理
         try {

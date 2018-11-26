@@ -44,8 +44,8 @@
                <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--<table schema="dbo" tableName="GROUP" enableCountByExample="true" enableDeleteByExample="true"-->
                <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--<table schema="dbo" tableName="REQEST" enableCountByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
+        <table schema="dbo" tableName="REQEST" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
         <!--<table schema="dbo" tableName="RESPOND" enableCountByExample="true" enableDeleteByExample="true"-->
                <!--enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--<table schema="dbo" tableName="ROLE" enableCountByExample="true" enableDeleteByExample="true"-->

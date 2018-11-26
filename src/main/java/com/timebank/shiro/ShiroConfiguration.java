@@ -90,6 +90,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/img/**","anon");
         filterChainDefinitionMap.put("/loginUser","anon");
         filterChainDefinitionMap.put("/appLoginUser","anon");
+        filterChainDefinitionMap.put("/appForgetPassword","anon");
         filterChainDefinitionMap.put("/agreementAdress","anon");
         filterChainDefinitionMap.put("/","anon");
         filterChainDefinitionMap.put("/register","anon");

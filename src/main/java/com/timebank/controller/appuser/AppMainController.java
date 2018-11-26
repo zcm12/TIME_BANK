@@ -1,28 +1,38 @@
 package com.timebank.controller.appuser;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timebank.appmodel.ResultModel;
-import com.timebank.domain.Community;
-import com.timebank.domain.Type;
-import com.timebank.domain.Users;
-import com.timebank.domain.UsersExample;
+import com.timebank.domain.*;
 import com.timebank.mapper.CommunityMapper;
+import com.timebank.mapper.ResetMapper;
 import com.timebank.mapper.TypeMapper;
 import com.timebank.mapper.UsersMapper;
 import com.timebank.shiro.ShrioRegister;
+import freemarker.template.Template;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import sun.misc.BASE64Encoder;
 
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 import static java.util.UUID.randomUUID;
 
@@ -40,7 +50,13 @@ public class AppMainController {
     @Autowired
     private TypeMapper typeMapper;
     @Autowired
+    private ResetMapper ResetMapper;
+    @Autowired
     private CommunityMapper communityMapper;
+    @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
+    private FreeMarkerConfigurer freeMarkerConfigurer;
 
     /*------------app api------------------------*/
     @RequestMapping(value = "/appLoginUser")
@@ -137,6 +153,116 @@ public class AppMainController {
         return new ResultModel(insert, "注册成功");
     }
 
+    @RequestMapping(value = "/appForgetPassword")
+    @ResponseBody
+    public ResultModel appForgetPassword(Users users,HttpServletRequest reqest){
+        String userAccount = users.getUserAccount();
+        String userMail = users.getUserMail();
+        System.out.println(userAccount + userMail);
+        //遍历数据库，查找是否有账号
+        UsersExample usersExample = new UsersExample();
+        List<Users> users2 = usersMapper.selectByExample(usersExample);
+        for (Users it : users2){
+
+            if (it.getUserAccount().equals(userAccount)&&it.getUserMail().equals(userMail)){
+                int flag= new Random().nextInt(999999);
+                if (flag < 100000)
+                {
+                    flag += 100000;
+                }
+                String salt=String.valueOf(flag);
+                SimpleHash sid = new SimpleHash("MD5", it.getUserPassword(), salt, 1000);
+                //将证据插入到数据库 方便修改密码连接的校验
+                //生成过期时间
+                Long time = System.currentTimeMillis();//获得系统当前时间的毫秒数
+                time +=30*1000*60;//在当前系统时间的基础上往后加30分钟
+                Date date=new Date(time);
+                System.out.println(date);
+                //判断account是否已经存在reset表单中 若存在直接更新
+                Boolean biaoshi=true;
+                ResetExample resetExample=new ResetExample();
+                resetExample.clear();
+                List<Reset> resets= ResetMapper.selectByExample(resetExample);
+                for(Reset RE:resets){
+                    if(RE.getResetAccount().equals(userAccount)){
+                        RE.setResetOuttime(date);
+                        RE.setResetSid(sid.toString());
+                        ResetMapper.updateByPrimaryKey(RE);
+                        biaoshi=false;
+                    }
+                }
+                //判断account不存在reset表单中 直接插入
+                if(biaoshi) {
+                    Reset reset = new Reset();
+                    UUID guid = randomUUID();
+                    reset.setResetGuid(guid.toString());
+                    reset.setResetAccount(userAccount);
+                    reset.setResetSid(sid.toString());
+                    reset.setResetOuttime(date);
+                    ResetMapper.insert(reset);
+                }
+                //生成url链接  url的拼接
+//                String nowUrl=reqest.getRequestURI();
+//                String nowUrl=reqest.getRequestURI();
+                //base 编码
+                String key=userAccount;
+                byte[] bt = new byte[0];
+                try {
+                    bt = key.getBytes("UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                String newKey=(new BASE64Encoder()).encodeBuffer(bt);
+//                String url="www.chinesetimebank.org.cn"+nowUrl+"reset"+"?"+"sid="+sid+"&&"+"userAcount"+"="+newKey;
+                String url="http://192.168.1.142:8080"+"/jquery/forgetPassword"+"reset"+"?"+"sid="+sid+"&&"+"userAcount"+"="+newKey;
+
+                System.out.println(it.getUserAccount());
+                System.out.println(it.getUserMail());
+                String mail=it.getUserMail();
+                MimeMessage message = null;
+                try {
+                    message = mailSender.createMimeMessage();
+                    MimeMessageHelper helper = new MimeMessageHelper(message, true);
+                    helper.setFrom("18765924730@163.com");
+                    helper.setTo(mail);
+                    helper.setSubject("主题：时间银行密码找回邮件");
+                    Map<String, Object> model = new HashedMap();
+                    model.put("usename", url);
+                    FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
+                    configurer.setTemplateLoaderPath("classpath:templates");
+                    //读取 html 模板                                                                    mailResetPassword.html
+                    Template template = freeMarkerConfigurer.getConfiguration().getTemplate("mailResetPassword.html");
+                    String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+                    helper.setText(html, true);
+                    //发送图片
+                    File file = ResourceUtils.getFile("classpath:static/img/wxgzh.jpg");
+                    helper.addInline("springcloud", file);
+                    mailSender.send(message);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return new ResultModel(0,"用户名和邮箱匹配！");
+            }else {
+//                return new ResultModel(1,"用户名和邮箱不匹配！");
+            }
+        }
+//        usersExample.or().andUserAccountEqualTo(userAccount);
+//        List<Users> usersList = usersMapper.selectByExample(usersExample);
+//        Users users1 = usersList.get(0);
+//        System.out.println("密码加密开始");
+//        //拿出盐值
+//        String salt = users1.getUserSalt();
+//        System.out.println("原始密码为：" + userPassword);//注册密码
+//        System.out.println("盐值为:"+salt);
+//        SimpleHash hash = new SimpleHash(algorithmName, userPassword, salt, hashIterations);
+//        System.out.println("密码加密结束：" + hash);
+//        String encodedPassword = hash.toHex();
+//        users1.setUserPassword(encodedPassword);//设置用户加密后密码
+//        usersMapper.updateByPrimaryKey(users1);
+
+        return new ResultModel(6,"邮件发送成功");
+    }
    /* @RequestMapping(value = "/appUpdateCurrentAddr")
     @ResponseBody
     public int appUpdateCurrentAddr(Users users){
